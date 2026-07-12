@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuna Đi Ngủ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+/* ========================= */
+/* DREAM INTRO */
+/* ========================= */
+
+#dream-intro{
+    position:fixed;
+    inset:0;
+background:linear-gradient(
+160deg,
+#071426 0%,
+#0D2D5F 35%,
+#4C78A8 70%,
+#D9EAF9 100%
+);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    transition:opacity .8s ease,visibility .8s;
+    overflow:hidden;
+}
+
+#dream-intro::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 15% 20%,
+rgba(255,255,255,.10),
+transparent 35%),
+radial-gradient(circle at 80% 30%,
+rgba(170,210,255,.15),
+transparent 45%),
+radial-gradient(circle at 50% 90%,
+rgba(120,170,255,.12),
+transparent 40%);
+animation:introSky 10s ease-in-out infinite;
+pointer-events:none;
+}
+
+@keyframes introSky{
+0%{
+transform:translateX(0);
+}
+50%{
+transform:translateX(20px);
+}
+100%{
+transform:translateX(0);
+}
+}
+
+#dream-intro.hide{
+    opacity:0;
+    visibility:hidden;
+}
+.intro-box{
+position:relative;
+z-index:2;
+text-align:center;
+color:white;
+max-width:700px;
+padding:40px;
+animation:introFloat 3s ease-in-out infinite;
+}
+@keyframes introFloat{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+.intro-moon{
+font-size:58px;
+margin-bottom:20px;
+filter:
+drop-shadow(0 0 8px rgba(255,255,255,.4))
+drop-shadow(0 0 18px rgba(180,220,255,.45));
+animation:moonFloat 5s ease-in-out infinite;
+}
+@keyframes moonFloat{
+0%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-8px);
+}
+100%{
+transform:translateY(0);
+}
+}
+.intro-title{
+    font-family:var(--font-serif);
+    font-size:3rem;
+    color:#F8FBFF;
+    text-shadow:
+        0 0 10px rgba(255,255,255,.15),
+        0 2px 8px rgba(0,0,0,.25);
+}
+.intro-sub{
+    opacity:.8;
+    font-style:italic;
+    margin-bottom:35px;
+}
+
+.begin-btn{
+    position:relative;
+    overflow:hidden;
+    padding:15px 42px;
+    border-radius:50px;
+    border:1px solid rgba(255,255,255,.35);
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(12px);
+    color:#fff;
+    font-size:1rem;
+    font-weight:bold;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:
+        transform .35s,
+        box-shadow .35s,
+        background .35s;
+    box-shadow:
+        0 0 25px rgba(180,220,255,.15);
+}
+
+/* Ánh sáng chạy ngang */
+.begin-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:60%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.8),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+    animation:shine 4s infinite;
+}
+
+.begin-btn:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.18);
+    box-shadow:
+        0 0 35px rgba(255,255,255,.35);
+}
+
+.begin-btn:active{
+    transform:scale(.96);
+}
+
+@keyframes shine{
+    0%{
+        left:-120%;
+    }
+    100%{
+        left:180%;
+    }
+
+}.intro-moon,
+.intro-title,
+.intro-sub,
+.intro-box p,
+.begin-btn{
+    opacity:0;
+    transform:translateY(20px);
+}
+
+.intro-moon{
+    animation:fadeUp 1.2s .2s forwards;
+}
+
+.intro-title{
+    animation:fadeUp 1.2s .8s forwards;
+}
+
+.intro-sub{
+    animation:fadeUp 1.2s 1.5s forwards;
+}
+
+.intro-box p:nth-of-type(1){
+    animation:fadeUp 1.2s 2.2s forwards;
+}
+
+.intro-box p:nth-of-type(2){
+    animation:fadeUp 1.2s 2.8s forwards;
+}
+
+.begin-btn{
+    animation:fadeUp 1s 3.5s forwards;
+}
+
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.intro-snow{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:1;
+}
+
+.intro-flake{
+    position:absolute;
+    color:white;
+    user-select:none;
+    text-shadow:
+        0 0 8px rgba(255,255,255,.7);
+    animation-name:introFall;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+}
+
+@keyframes introFall{
+    from{
+        transform:
+            translateY(-120px)
+            translateX(0)
+            rotate(0deg);
+
+        opacity:0;
+
+    }
+    10%{
+        opacity:.9;
+    }
+    50%{
+
+        transform:
+            translateY(50vh)
+            translateX(25px)
+            rotate(180deg);
+    }
+    to{
+        transform:
+            translateY(110vh)
+            translateX(-30px)
+            rotate(360deg);
+        opacity:0;
+    }
+}
+
+        /* === MÀU SẮC === */
+        :root {
+            --navy-dark: #060E26;
+            --blue-dark: #033E8C;
+            --blue-medium: #023E73;
+            --blue-light: #79ACD9;
+            --blue-pastel: #B3D5F2;
+            --gray-text: #65676b; 
+            --blue-frame: #b3d5f2;
+            --gray-divider: #ced0d4;
+            --bg-white: #ffffff;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Quicksand', sans-serif;
+        }
+        body { 
+            margin: 0; padding: 0; 
+            font-family: var(--font-sans); 
+            color: var(--navy-dark); 
+            overflow-x: hidden;
+            background-color: var(--bg-white);
+            scroll-behavior: smooth; /* Cuộn mượt mà */
+        }
+
+        /* === 1. THANH TOP BAR (MARQUEE) === */
+        .top-bar-solid {
+            background-color: var(--blue-light);
+            color: white;
+            padding: 10px 20px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        /* === 2. HEADER PROFILE === */
+        .fb-header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px 10px 20px;
+            background: var(--bg-white);
+        }
+        .fb-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .fb-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--blue-pastel);
+            object-fit: cover;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .fb-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .fb-name {
+            font-size: 2em;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            color: var(--navy-dark);
+            font-family: var(--font-serif); 
+        }
+        .fb-sub {
+            font-size: 1.1em;
+            color: var(--gray-text);
+            margin: 0 0 10px 0;
+        }
+        .fb-friends {
+            font-size: 0.95em;
+            color: var(--blue-dark);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Divider */
+        .fb-divider {
+            border: 0;
+            height: 1px;
+            background: var(--gray-divider);
+            margin: 0;
+        }
+
+        /* === 3. MENU ĐIỀU HƯỚNG (TABS) === */
+        .fb-nav {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 5px 0;
+            flex-wrap: wrap;
+        }
+        .nav-item {
+            padding: 15px 15px;
+            text-decoration: none;
+            color: var(--gray-text);
+            font-weight: 600;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 3px solid transparent; 
+        }
+        .nav-item:hover, .nav-item.active {
+            color: var(--blue-dark);
+            border-bottom: 3px solid var(--blue-dark);
+        }
+
+        /* Dropdown Lệnh */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 100;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid var(--gray-divider);
+        }
+        .dropdown-content a {
+            color: var(--gray-text);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+        .dropdown-content a:hover {
+            background-color: #f0f2f5;
+            color: var(--blue-dark);
+        }
+        .dropdown:hover .dropdown-content { display: block; } 
+
+        /* === 4. BODY BACKGROUND & HIỆU ỨNG TUYẾT === */
+        .main-background {
+            position: relative;
+            background: linear-gradient(
+            135deg,
+            #d7eaf9 0%,
+            #edf6ff 35%,
+            #c4def5 70%,
+            #b6d4ee 100%
+);
+            background-size: 200% 200%;
+            animation: bg-gradient 10s ease infinite;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+        @keyframes bg-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #snow-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; 
+            z-index: 1;
+        }
+        .snowflake{
+    position:absolute;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,1) 0%,
+            rgba(255,255,255,.85) 55%,
+            rgba(255,255,255,0) 100%
+        );
+    box-shadow:
+        0 0 8px rgba(255,255,255,.4);
+    pointer-events:none;
+    will-change:transform;
+    animation:fall linear infinite;
+}
+ @keyframes fall {
+    0% {
+        transform:
+            translateY(-30px)
+            translateX(0)
+            rotate(0deg);
+        opacity:0;
+    }
+    10%{
+        opacity:.9;
+    }
+    25%{
+        transform:
+            translateY(25vh)
+            translateX(-15px)
+            rotate(90deg);
+    }
+    50%{
+        transform:
+            translateY(50vh)
+            translateX(15px)
+            rotate(180deg);
+    }
+    75%{
+        transform:
+            translateY(75vh)
+            translateX(-10px)
+            rotate(270deg);
+    }
+    100%{
+        transform:
+            translateY(110vh)
+            translateX(20px)
+            rotate(360deg);
+        opacity:0;
+    }
+}
+
+        /* === 5. KHUNG TRẮNG TRONG SUỐT === */
+        .content-box {
+            position: relative;
+            z-index: 10; 
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(3, 62, 140, 0.1);
+        }
+
+        /* === 6. SEARCH & RANDOM === */
+        .search-random-col {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border-radius: 25px;
+            border: 1px solid var(--blue-light);
+            outline: none;
+            background: #fff;
+            color: var(--navy-dark);
+            box-sizing: border-box;
+            font-family: var(--font-sans);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .search-input:focus { border-color: var(--blue-dark); box-shadow: 0 2px 8px rgba(3,62,140,0.2); }
+        
+        .btn-random {
+            background: var(--blue-light);
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 12px 30px;
+            border: none;
+            font-family: var(--font-sans);
+            transition: 0.3s;
+        }
+        .btn-random:hover { background: var(--blue-medium); transform: translateY(-2px); }
+        #reset-filter { background: var(--gray-text); display: none; }
+
+        /* === 7. THẺ NHÂN VẬT === */
+        .menu-title {
+            text-align: center;
+            font-weight: bold;
+            color: var(--blue-dark);
+            margin-bottom: 25px;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+        .char-grid { display: flex; flex-direction: column; gap: 20px; }
+.char-card{
+    position:relative;
+    overflow:hidden;
+    border-radius:22px;
+    padding:22px;
+    background: #fff;
+    border: 1px solid #edf3f8;
+    border-left:5px solid var(--blue-pastel);
+    box-shadow:
+        0 10px 25px rgba(130,170,220,.15);
+    transition:
+        transform .45s cubic-bezier(.22,.61,.36,1),
+        box-shadow .45s ease,
+        border-color .45s ease;
+}
+        .char-card:nth-child(even) { border-left: 5px solid var(--blue-light); }
+.char-card:hover{
+    transform:
+        translateY(-8px)
+        scale(1.015);
+    box-shadow:
+        0 20px 45px rgba(120,170,235,.25);
+    border-color:
+        rgba(255,255,255,.95);
+}
+        
+        .char-name { font-family: var(--font-serif); font-weight: bold; color: var(--navy-dark); font-size: 1.6em; margin: 0 0 5px 0;}
+        .char-tagline { color: var(--gray-text); font-size: 0.95em; margin-bottom: 15px; font-style: italic;}
+        
+        .char-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .tag { border: 1px solid var(--blue-pastel); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; color: var(--blue-medium); background: #f4f8fc; cursor: pointer; transition: 0.2s; }
+       .tag:hover{
+    background:var(--blue-light);
+    color:white;
+    transform:translateY(-2px);
+    box-shadow:
+        0 6px 16px rgba(120,170,235,.3);
+}        
+        .char-links { display: flex; gap: 10px; }
+.char-links{
+    display:flex;
+    gap:10px;
+}
+
+.char-links a,
+.r21-btn{
+
+    flex:1;
+    text-align:center;
+    padding:10px 14px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#fff;
+    font-size:.9em;
+    font-weight:bold;
+    cursor:pointer;
+    border:none;
+    font-family:var(--font-sans);
+    transition:
+        transform .15s ease,
+        box-shadow .2s ease,
+        opacity .2s ease,
+        filter .2s ease;
+    box-shadow:
+        0 6px 16px rgba(120,170,235,.18);
+    -webkit-tap-highlight-color:transparent;
+}
+
+.link-doki{
+    background:var(--blue-light);
+}
+.link-gg{
+    background:var(--blue-medium);
+}
+.link-story{
+    background:var(--blue-frame);
+}
+.r21-btn{
+    background:var(--blue-dark);
+    width:100%;
+}
+
+/* Hover (PC) */
+.char-links a:hover,
+.r21-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 10px 24px rgba(120,170,235,.28);
+}
+
+/* Nhấn (điện thoại + PC) */
+.char-links a:active,
+.r21-btn:active{
+    transform:
+        translateY(2px)
+        scale(.97);
+    box-shadow:
+        0 2px 8px rgba(120,170,235,.18);
+    opacity:.92;
+}
+.char-links a:hover,
+.r21-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(120,170,235,.28);
+}
+        .r21-content { display: none; margin-top: 15px; border-top: 1px dashed var(--gray-divider); padding-top: 15px; }
+
+        /* === 8. CÁC NÚT ĐIỀU HƯỚNG BÊN PHẢI (LÊN, XUỐNG, NHẠC) === */
+        .floating-right { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .float-btn { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            background: #fff;  
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            font-size: 18px; 
+            color: var(--blue-dark); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            user-select: none;
+        }
+        .float-btn:hover { background: var(--blue-pastel); color: #fff; transform: scale(1.1); }
+        
+        /* Hiệu ứng xoay của đĩa nhạc */
+        .music-playing { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* === 9. MODAL POPUP === */
+.custom-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(12,25,45,.35);
+    backdrop-filter:blur(8px);
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    transition:
+        opacity .35s ease;
+    z-index:1000;
+}
+.custom-modal-content{
+    background:rgba(255,255,255,.88);
+    backdrop-filter:blur(18px);
+    padding:35px;
+    width:85%;
+    max-width:460px;
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.6);
+    box-shadow:
+        0 25px 50px rgba(0,0,0,.15);
+    transform:
+        translateY(20px)
+        scale(.94);
+    opacity:0;
+    transition:
+        transform .4s cubic-bezier(.2,.8,.2,1),
+        opacity .35s ease;
+    position:relative;
+    text-align:center;
+}
+.custom-modal.show{
+    display:flex;
+    opacity:1;
+}
+.custom-modal.show .custom-modal-content{
+    opacity:1;
+    transform:
+        translateY(0)
+        scale(1);
+}
+        .close-modal { position: absolute; top: 10px; right: 20px; font-size: 28px; cursor: pointer; color: var(--gray-text); transition: 0.2s;}
+        .close-modal:hover { color: var(--blue-dark); }     
+        .btn-modal { background-color: var(--blue-light); color: #fff; border-radius: 20px; border: none; padding: 10px 25px; font-size: 1em; font-weight: bold; cursor: pointer; font-family: var(--font-sans); transition: 0.3s; margin-top: 5px; }
+        .btn-modal:hover { background-color: var(--blue-medium); }
+        .pass-instructions { text-align: left; color: var(--gray-text); font-size: 0.95em; line-height: 1.6; margin-bottom: 20px; }
+        .pass-instructions b { color: var(--blue-dark); }
+
+/* QR Tách trà */
+.tea-qr{
+    width:220px;
+    max-width:80%;
+    height:auto;
+
+    padding:10px;
+    background:white;
+    border-radius:16px;
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.12);
+    margin-top:15px;
+}
+
+/* ================= FOOTER ================= */
+.dream-footer{
+    text-align:center;
+    padding:45px 25px 30px;
+
+}
+.dream-footer p{
+    margin:0 auto;
+    max-width:700px;
+    color:#123B5D; /* xanh đậm */
+    font-size:.9rem;
+    line-height:1.9;
+    font-style:italic;
+    letter-spacing:.3px;
+}
+
+/* ===== SNOW EFFECT ===== */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:10;
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255,255,255,.5) 2px, transparent 3px),
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 2px);
+    background-size:
+        120px 120px,
+        200px 200px,
+        300px 300px;
+    animation:snow 15s linear infinite;
+}
+
+@keyframes snow{
+    from{
+        background-position:
+        0 0,
+        0 0,
+        0 0;
+    }
+    to{
+        background-position:
+        100px 600px,
+        -100px 800px,
+        200px 1000px;
+    }
+}
+
+@keyframes fadeText{
+
+    from{
+
+        opacity:0;
+        transform:
+            translateY(12px);
+    }
+    to{
+        opacity:1;
+        transform:
+            translateY(0);
+    }
+
+}
+
+/* ===== SHAKE WHEN PASSWORD IS WRONG ===== */
+
+.custom-modal-content.shake{
+    animation: modalShake .45s ease;
+}
+
+@keyframes modalShake{
+    0%{transform:translateX(0);}
+    15%{transform:translateX(-10px);}
+    30%{transform:translateX(10px);}
+    45%{transform:translateX(-8px);}
+    60%{transform:translateX(8px);}
+    75%{transform:translateX(-5px);}
+    90%{transform:translateX(5px);}
+    100%{transform:translateX(0);}
+}
+/* =========================
+   SNOW CLICK EFFECT
+========================= */
+
+.click-snow{
+    position:fixed;
+    left:0;
+    top:0;
+    pointer-events:none;
+    z-index:999999;
+    color:white;
+    font-size:18px;
+    text-shadow:
+        0 0 8px rgba(255,255,255,.8);
+    will-change:
+        transform,
+        opacity;
+}
+@keyframes clickSnow{
+
+    0%{
+        opacity:1;
+        transform:
+            translate(0,0)
+            scale(.4)
+            rotate(0deg);
+    }
+    100%{
+        opacity:0;
+        transform:
+            translate(
+                var(--x),
+                var(--y)
+            )
+            scale(1.4)
+            rotate(360deg);
+    }
+}
+    </style>
+</head>
+<body>
+<div id="dream-intro">
+    <div class="intro-snow"></div>
+    <div class="intro-box">
+        <div class="intro-moon">☾</div>
+        <div class="intro-title">
+            Snowveil Daydream
+        </div>
+        <div class="intro-sub">
+            Mỗi một giấc mơ đều đang chờ đợi một người đến viết tiếp chương cuối.
+        </div>
+        <p>
+            Chào mừng, những Kẻ mộng mơ.
+        </p>
+        <p style="opacity:.85;">
+            Từng linh hồn nơi đây đều đã luôn chờ đợi sự xuất hiện của bạn.
+        </p>
+        <button
+            class="begin-btn"
+            onclick="enterDream()">
+            BƯỚC VÀO GIẤC MƠ
+        </button>
+    </div>
+</div>
+
+    <!-- THANH TOP BAR MỚI -->
+    <div class="top-bar-solid" id="top-anchor">
+        <span class="marquee-text">☃️ Hãy tìm một linh hồn đồng điệu mà bạn muốn đồng hành và bắt đầu chuyến hành trình nhập vai của riêng bạn tại đây...</span>
+    </div>
+
+    <!-- HEADER FACEBOOK STYLE -->
+    <div class="fb-header-container">
+        <div class="fb-profile">
+            <img src="images/avatar.jpg" alt="Avatar" class="fb-avatar">
+            <div class="fb-info">
+                <h1 class="fb-name">Yuna Đi Ngủ</h1>
+                <p class="fb-sub">(Yunazdayy)</p>
+                <!-- Đã thay thế dòng người theo dõi -->
+                <div class="fb-friends">
+                    🪼✮˚.⋆ 𝓽𝓱𝓮 𝓼𝔂𝓶𝓹𝓱𝓸𝓷𝔂 𝓸𝓯 𝓵𝓸𝓿𝓮 ⋆.˚✮🪽
+                </div>
+            </div>
+        </div>
+
+        <hr class="fb-divider">
+
+        <!-- NAV BAR FACEBOOK STYLE -->
+        <div class="fb-nav">
+            <div class="nav-item active" onclick="scrollToList()">List characters</div>
+            <a href="https://www.facebook.com/yuna.zdayy" target="_blank" class="nav-item">Facebook</a>
+            <a href="https://discord.gg/FSU3de4cs6" target="_blank" class="nav-item">Discord</a>
+            <a href="https://www.dokichat.club/en/profile" target="_blank" class="nav-item">Dokichat</a>
+            <div class="nav-item" onclick="openModal('teaModal')">Tách trà</div>
+            <a href="https://forms.gle/ZExm2TnxTKNAApKV7" target="_blank" class="nav-item">Feedback</a>
+            <div class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</div>
+            
+            <!-- Nút Lệnh Dropdown -->
+            <div class="dropdown">
+                <div class="nav-item">Lệnh ▾</div>
+                <div class="dropdown-content">
+                    <a href="https://docs.google.com/document/d/1fNAHcfcI2eJZ3iDHwZ6cjWFvZINnufsbJ5h8jzS8dPU/edit?usp=sharing" target="_blank">Lệnh hỗ trợ</a>
+                    <a href="https://docs.google.com/document/u/0/d/1wtlDGVuUhRbcdiEOrnSmWVYQyMScLhRBCvTPn1xK408/mobilebasic" target="_blank">Lệnh giải trí</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN THÂN -->
+    <div class="main-background">
+        <div id="snow-container"></div>
+
+        <div class="content-box">
+            
+            <div class="search-random-col">
+                <input type="text" id="searchInput" class="search-input" onkeyup="searchChars()" placeholder="❄️ Tìm kiếm tên nhân vật hoặc hashtag">
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-random" onclick="openRandomModal()">🎲 Định mệnh dẫn lối</button>
+                    <button id="reset-filter" class="btn-random" onclick="resetFilter()">❌ Bỏ lọc</button>
+                </div>
+            </div>
+
+            <div class="menu-title">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
+
+            <!-- DANH SÁCH 5 NHÂN VẬT -->
+            <div class="char-grid">
+                
+                <!-- Char 1: Tô Trạch Dương (苏泽阳)-->
+                <div class="char-card">
+                    <h2 class="char-name">Tô Trạch Dương (苏泽阳)</h2>
+                    <div class="char-tagline">"Mẹ kiếp! Là ai suốt ngày thò mông ra đung đưa trước mặt chồng bạn thân thế hả?"</div>
+                    <div class="char-tags">
+                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                        <span class="tag" onclick="filterTag('NTR')">#NTR</span>
+                        <span class="tag" onclick="filterTag('Dark Romance')">#Dark Romance</span>
+                        <span class="tag" onclick="filterTag('R21')">#R21</span>
+                    </div>
+                    <div id="lock-totrachduong">
+                        <button class="r21-btn" onclick="openR21Modal('totrachduong', 'CaMtReNhOdUoI18tUoI')">🔒 Cánh Cửa Bị Phong Ấn</button>
+                    </div>
+                    <div class="char-links r21-content" id="links-totrachduong">
+                        <a href="https://www.dokichat.club/chat/fb1e8c56-7a7a-4a44-9ff4-ac4053460dc1?isShare=true" class="link-doki">Doki chat</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221HgnZAVy8I9veCKa1Vo09btgkXYmOnP0e%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://docs.google.com/document/d/1xxT5VTBuSWspA7Xz9hmG6zRO_2iB5oD9668UQ0ZELzs/edit?usp=sharing" class="link-story">Story</a>
+                    </div>
+                </div>
+
+                <!-- Char 2: Trì Cảnh Ngôn (池景言) -->
+                <div class="char-card">
+                    <h2 class="char-name">Trì Cảnh Ngôn (池景言)</h2>
+                    <div class="char-tagline">"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!"</div>
+                    <div class="char-tags">
+                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                        <span class="tag" onclick="filterTag('Xuyên không')">#Xuyên không</span>
+                        <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
+                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                        <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                        <span class="tag" onclick="filterTag('R17')">#R17</span>
+                    </div>
+                    <div class="char-links">
+                        <a href="https://www.dokichat.club/chat/0f64f08c-4038-43ed-b9bd-177e5a17a16e?isShare=true" class="link-doki">Doki chat</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221eR-bu9Sxm2WWBBQzGWPEzOFNf5RpQV6C%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://docs.google.com/document/d/179SrSBp0P8jOW8BAoD7umDBtgI2aeH4wVAYekEhXVJg/edit?usp=sharing" class="link-story">Story</a>
+                    </div>
+                </div>
+
+                <!-- Char 3: Hạ Thiên Dật (夏天逸) -->
+                <div class="char-card">
+                    <h2 class="char-name">Hạ Thiên Dật (夏天逸)</h2>
+                    <div class="char-tagline">"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ."</div>
+                    <div class="char-tags">
+                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                        <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
+                        <span class="tag" onclick="filterTag('TXVT')">#TXVT</span>
+                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                        <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
+                        <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                    </div>
+                    <div class="char-links">
+                        <a href="https://www.dokichat.club/chat/9746f261-9250-45c7-ba26-6c112bfd586c?isShare=true" class="link-doki">Doki chat</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221QS2HQaDGgW78AkNlMvtXX7wcH4d0zUfJ%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://docs.google.com/document/d/10kqJB0NK6s6CZqEsuVXik7BSz2YuGo8nDbmjS4mHUjs/edit?usp=sharing" class="link-story">Story</a>
+                    </div>
+                </div>
+
+                <!-- Char 4: Trì Duệ Khải (池睿凯) -->
+                <div class="char-card">
+                    <h2 class="char-name">Trì Duệ Khải (池睿凯)</h2>
+                    <div class="char-tagline">"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!"</div>
+                    <div class="char-tags">
+                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                        <span class="tag" onclick="filterTag('Ma x Người')">#Ma x Người</span>
+                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                    </div>
+                    <div class="char-links">
+                        <a href="https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true" class="link-doki">Doki chat</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://docs.google.com/document/d/1LBiaw3IvhGD63K9qN7Vwa6OQe1DQo4-Jnqe8AKQAGPM/edit?usp=sharing" class="link-story">Story</a>
+                    </div>
+                </div>
+
+                <!-- Char 5: Trần Dã (陈野) -->
+                <div class="char-card">
+                    <h2 class="char-name">Trần Dã (陈野)</h2>
+                    <div class="char-tagline">"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?"</div>
+                    <div class="char-tags">
+                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                        <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
+                        <span class="tag" onclick="filterTag('Ngược')">#Ngược</span>
+                        <span class="tag" onclick="filterTag('Xã hội đen')">#Xã hội đen</span>
+                        <span class="tag" onclick="filterTag('Slown-Burn')">#Slown-Burn</span>
+                        <span class="tag" onclick="filterTag('Nuôi từ nhỏ')">#Nuôi từ nhỏ</span>
+                    </div>
+                    <div class="char-links">
+                        <a href="https://www.dokichat.club/chat/25514c37-f627-47d4-bd7c-5c0291876285?isShare=true" class="link-doki">Doki chat</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2215VE7_N8lmyk3XvljicbPYE1OnBOAdiW5%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://docs.google.com/document/d/1RaZVp02n1gTMXik3PKC9tR1hFQ_YB5gveHJ2hlj1KvU/edit?usp=sharing" class="link-story">Story</a>
+                    </div>
+                </div>
+
+                <!-- Char 6: Thẩm Nhất Chu (沈以舟)-->
+                <div class="char-card">
+                    <h2 class="char-name">Thẩm Nhất Chu (沈以舟)</h2>
+                    <div class="char-tagline">"Giáo sư Thẩm “cấm dục” chính là bạn trai qua mạng của tôi!"</div>
+                    <div class="char-tags">
+                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                        <span class="tag" onclick="filterTag('Thầy-Trò')">#Ma x Người</span>
+                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                        <span class="tag" onclick="filterTag('Yêu qua mạng')">#Ngọt sủng</span>
+                        <span class="tag" onclick="filterTag('Bạn thân anh trai')">#Bạn thân anh trai</span>
+                        <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
+                        <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
+                        <span class="tag" onclick="filterTag('R17')">#R17</span>
+                    </div>
+                    <div class="char-links">
+                        <a href="https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true" class="link-doki">Doki chat</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://docs.google.com/document/d/1DZNpofqjDoxsoEIH5tn0_aElLJFYE8sDkCSCTG20EFs/edit?usp=sharing" class="link-story">Story</a>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- ĐIỂM CHỐT CUỐI TRANG -->
+            <div id="bottom-anchor"></div>
+        </div>
+<footer class="dream-footer">
+    <p>
+        Giấc mơ rồi sẽ đến lúc phải thức giấc,
+        nhưng những người bạn đồng hành vẫn sẽ luôn ở đây,
+        chờ đợi lần ghé thăm tiếp theo của bạn...
+    </p>
+</footer>
+    </div>
+
+    <!-- Nút nghe nhạc trôi nổi -->
+    <audio id="bg-music" src="MUSIC/Snow.mp3" loop></audio>
+    
+    <!-- CỤM NÚT ĐIỀU HƯỚNG MỚI (Lên, Xuống, Nhạc) -->
+    <div class="floating-right">
+        <div class="float-btn" onclick="scrollToTop()" title="Lên đầu trang">⬆️</div>
+        <div class="float-btn" onclick="scrollToBottom()" title="Xuống cuối trang">⬇️</div>
+        <div class="float-btn" id="music-toggle" onclick="toggleLocalMusic(event)" title="Bật/Tắt Nhạc">💿</div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- DANH SÁCH CÁC KHUNG MODAL -->
+    <!-- ========================================================================= -->
+
+    <!-- Modal Cách Lấy Pass -->
+    <div id="howToPassModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="close-modal" onclick="closeModal('howToPassModal')">&times;</span>
+            <h2 style="font-family: var(--font-serif); color: var(--blue-dark); margin-top:0;">Cách Lấy Pass</h2>
+            
+            <div class="pass-instructions">
+                <p><b>Bước 1:</b> Kẻ mộng mơ đã đủ trưởng thành (Trên 18 tuổi).</p>
+                <p><b>Bước 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên Facebook và chụp gửi cho Yuna.</p>
+                <hr style="border: 0; border-top: 1px dashed var(--blue-light); margin: 15px 0;">
+                <p style="color: #d9534f; font-size: 0.9em; text-align: justify;">
+                    <u>Lưu ý:</u> Sau khi nhận được câu thần chú, Kẻ mộng mơ vui lòng không gửi lại cho bất kì ai. Nếu bị phát hiện, câu thần chú sẽ được thay đổi.
+                </p>
+            </div>
+            <button class="btn-modal" onclick="closeModal('howToPassModal')">Đã hiểu</button>
+        </div>
+    </div>
+
+    <!-- Modal Tách Trà -->
+    <div id="teaModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="close-modal" onclick="closeModal('teaModal')">&times;</span>
+            <h2 style="font-family: var(--font-serif); color: var(--blue-dark); margin-top:0;">Để lại một tách trà</h2>
+            <p style="font-style: italic; color: var(--gray-text); font-size:0.95em;">"Cảm ơn Kẻ mộng mơ đã ghé thăm và ủ ấm những giấc mộng dài..."</p>
+            <img src="images/qr.jpg" class="tea-qr">
+        </div>
+    </div>
+
+    <!-- Modal Random -->
+    <div id="randomCharModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="close-modal" onclick="closeModal('randomCharModal')">&times;</span>
+            <h2 style="font-family: var(--font-serif); color: var(--blue-medium); margin-top:0;">🎲 Giao Phó Định Mệnh</h2>
+            <div id="random-content">
+                <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Bạn đã sẵn sàng để vũ trụ chọn ngẫu nhiên cho mình một người đồng hành đêm nay chưa?</p>
+                <button class="btn-modal" onclick="rollRandomChar()">✧ Gọi tên định mệnh</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal R21 -->
+    <div id="r21Modal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="close-modal" onclick="closeModal('r21Modal')">&times;</span>
+            <h2 style="font-family: var(--font-serif); color: var(--navy-dark); margin-top:0;">🔒 Cánh Cửa Bị Phong Ấn</h2>
+            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Phía sau cánh cửa này là những ký ức
+chỉ dành cho những Kẻ mộng mơ đã trưởng thành.Nếu bạn đã có câu thần chú, hãy khẽ gọi nó...</p>
+            <input type="password" id="r21-pass-input" placeholder="Nhập câu thần chú..." style="width: 80%; padding: 10px; border-radius: 10px; border: 1px solid var(--blue-light); outline: none; text-align: center;">
+            <p id="r21-error" style="color: #d9534f; font-size: 0.85em; display: none; margin-top: 10px;">Sai mất rồi. Có muốn thử lại không?</p>
+            <br>
+            <button class="btn-modal" onclick="verifyR21Pass()" style="margin-top: 10px;">Mở Cửa</button>
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================================================= -->
+    <script>
+        // --- HIỆU ỨNG TUYẾT ---
+function createIntroSnow(){
+    const container=document.querySelector(".intro-snow");
+    const symbols=[
+        "❄",
+        "❅",
+        "✦",
+        "❆"
+    ];
+
+    for(let i=0;i<45;i++){
+        const flake=document.createElement("div");
+        flake.className="intro-flake";
+        flake.innerHTML=
+            symbols[
+                Math.floor(
+                    Math.random()*symbols.length
+                )
+            ];
+        flake.style.left=
+            Math.random()*100+"vw";
+        flake.style.fontSize=
+            (10+Math.random()*18)+"px";
+        flake.style.opacity=
+            .3+Math.random()*.7;
+        flake.style.animationDuration=
+            (8+Math.random()*10)+"s";
+        flake.style.animationDelay=
+            Math.random()*8+"s";
+        container.appendChild(flake);
+    }
+}
+
+createIntroSnow();
+function createSnow() {
+    const container = document.getElementById("snow-container");
+    const flakeCount = 55;
+    const symbols = ["❄","❅","❆"];
+    for(let i = 0; i < flakeCount; i++){
+        const flake = document.createElement("div");
+        // 15% là bông tuyết thật
+        if(Math.random() < 0.15){
+            flake.className = "snowflake";
+            flake.textContent =
+                symbols[Math.floor(Math.random()*symbols.length)];
+            flake.style.background = "none";
+            flake.style.fontSize =
+                (Math.random()*10+10)+"px";
+            flake.style.color =
+                "rgba(255,255,255,.9)";
+        }else{
+            flake.className = "snowflake";
+            const size =
+                Math.random()*7+2;
+            flake.style.width = size+"px";
+            flake.style.height = size+"px";
+            flake.style.opacity =
+                Math.random()*0.7+0.2;
+            flake.style.filter =
+                `blur(${Math.random()*1.2}px)`;
+        }
+        flake.style.left =
+            Math.random()*100+"vw";
+        flake.style.animationDuration =
+            (Math.random()*8+8)+"s";
+        flake.style.animationDelay =
+            Math.random()*10+"s";
+        container.appendChild(flake);
+    }
+}
+createSnow(); 
+
+const snowSymbols=[
+    "❄",
+    "❅",
+    "❆",
+    "✦",
+    "✧"
+];
+
+function burstSnow(x,y){
+    for(let i=0;i<8;i++){
+        const flake=document.createElement("div");
+        flake.className="click-snow";
+        flake.textContent=
+            snowSymbols[
+                Math.floor(Math.random()*snowSymbols.length)
+            ];
+        flake.style.left=x+"px";
+        flake.style.top=y+"px";
+        const angle=Math.random()*Math.PI*2;
+        const distance=40+Math.random()*60;
+        flake.style.setProperty(
+            "--x",
+            Math.cos(angle)*distance+"px"
+        );
+        flake.style.setProperty(
+            "--y",
+            Math.sin(angle)*distance+"px"
+        );
+        flake.style.animation=
+            "clickSnow .9s ease-out forwards";
+        document.body.appendChild(flake);
+        flake.addEventListener(
+            "animationend",
+            ()=>flake.remove()
+        );
+    }
+}
+
+        // --- ĐIỀU HƯỚNG LÊN/XUỐNG MƯỢT MÀ ---
+        function scrollToTop() {
+            document.getElementById('top-anchor').scrollIntoView({ behavior: 'smooth' });
+        }
+        function scrollToBottom() {
+            document.getElementById('bottom-anchor').scrollIntoView({ behavior: 'smooth' });
+        }
+        function scrollToList() { 
+            document.querySelector('.content-box').scrollIntoView({ behavior: 'smooth' }); 
+        }
+
+        // --- TÌM KIẾM & LỌC ---
+        function filterTag(tagName) {
+            let cards = document.querySelectorAll('.char-card');
+            cards.forEach(card => {
+                if(card.innerText.includes(tagName)) { card.style.display = 'block'; } 
+                else { card.style.display = 'none'; }
+            });
+            document.getElementById('reset-filter').style.display = 'block';
+            scrollToList();
+        }
+        
+        function resetFilter() {
+            document.querySelectorAll('.char-card').forEach(card => card.style.display = 'block');
+            document.getElementById('reset-filter').style.display = 'none';
+            document.getElementById('searchInput').value = "";
+        }
+
+        function searchChars() {
+            let val = document.getElementById('searchInput').value.toLowerCase().trim();
+            let cards = document.querySelectorAll('.char-card');
+            cards.forEach(card => {
+                if(card.textContent.toLowerCase().includes(val)) { card.style.display = 'block'; } 
+                else { card.style.display = 'none'; }
+            });
+            if(val !== "") document.getElementById('reset-filter').style.display = 'block';
+            else document.getElementById('reset-filter').style.display = 'none';
+        }
+
+        // --- R21 PASS ---
+        let currentR21CharId = "", currentR21Pass = "";
+        function openR21Modal(charId, correctPass) {
+            currentR21CharId = charId; currentR21Pass = correctPass;
+            document.getElementById('r21-pass-input').value = ""; 
+            document.getElementById('r21-error').style.display = "none"; 
+            openModal('r21Modal');
+        }
+function verifyR21Pass() {
+    if(document.getElementById("r21-pass-input").value===currentR21Pass){
+        document.getElementById("lock-"+currentR21CharId).style.display="none";
+        document.getElementById("links-"+currentR21CharId).style.display="flex";
+        closeModal("r21Modal");
+    }else{
+        document.getElementById("r21-error").style.display="block";
+        const modalContent=document.querySelector("#r21Modal .custom-modal-content");
+        modalContent.classList.remove("shake");
+        void modalContent.offsetWidth;
+        modalContent.classList.add("shake");
+    }
+}
+        // --- MODAL & RANDOM CHUNG ---
+function openModal(modalId){
+    const modal = document.getElementById(modalId);
+    modal.style.display = "flex";
+
+    // Chờ 1 frame để CSS kịp render
+    requestAnimationFrame(() => {
+        modal.classList.add("show");
+    });
+}
+
+function closeModal(modalId){
+    const modal = document.getElementById(modalId);
+    modal.classList.remove("show");
+    setTimeout(() => {
+        modal.style.display = "none";
+    },350);
+}
+
+window.onclick = function(event){
+    if(event.target.classList.contains("custom-modal")){
+        closeModal(event.target.id);
+    }
+}
+
+        const charsData = [
+            { name: "Tô Trạch Dương (苏泽阳)", tagline: '"Mẹ kiếp! Là ai suốt ngày thò mông ra đung đưa trước mặt chồng bạn thân thế hả?"' },
+            { name: "Trì Cảnh Ngôn (池景言)", tagline: '"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!"' },
+            { name: "Hạ Thiên Dật (夏天逸)", tagline: '"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ."' },
+            { name: "Trì Duệ Khải (池睿凯)", tagline: '"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!"' },
+            { name: "Trần Dã (陈野)", tagline: '"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?"' },
+            { name: "Thẩm Nhất Chu (沈以舟)", tagline: '"Giáo sư Thẩm cấm dục chính là bạn trai qua mạng của tôi!"' }
+        ];
+
+        function openRandomModal() {
+            document.getElementById('random-content').innerHTML = `
+                <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Bạn đã sẵn sàng để vũ trụ chọn ngẫu nhiên cho mình một người đồng hành đêm nay chưa?</p>
+                <button class="btn-modal" onclick="rollRandomChar()">✧ Gọi tên định mệnh</button>
+            `;
+            openModal('randomCharModal');
+        }
+
+function rollRandomChar(){
+
+    const randomContent=document.getElementById("random-content");
+
+    const char=charsData[
+        Math.floor(Math.random()*charsData.length)
+    ];
+
+    randomContent.innerHTML=`
+        <div id="dream-sequence"
+        style="
+        min-height:220px;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        line-height:2;
+        font-size:1rem;
+        color:var(--gray-text);
+        transition:.5s;
+        ">
+        </div>
+    `;
+
+    const box=document.getElementById("dream-sequence");
+
+    const steps=[
+        "Đang lắng nghe...",
+        "...",
+        "Những mảnh ký ức đang trôi...",
+        "...",
+        "Có ai đó...",
+        "đang gọi tên bạn..."
+    ];
+
+    let i=0;
+
+    function nextStep(){
+
+        if(i<steps.length){
+
+            box.innerHTML=`
+                <div style="
+                opacity:0;
+                animation:fadeText .8s forwards;
+                ">
+                    ${steps[i]}
+                </div>
+            `;
+            i++;
+            setTimeout(nextStep,900);
+        }else{
+            setTimeout(showResult,600);
+        }
+    }
+
+    nextStep();
+    function showResult(){
+        box.innerHTML=`
+            <div
+            style="
+            opacity:0;
+            animation:fadeText 1s forwards;
+            ">
+
+                <div
+                style="
+                color:var(--blue-medium);
+                font-size:1rem;
+                margin-bottom:18px;
+                ">
+                ✨ Đêm nay, người được số phận gửi đến chính là...
+                </div>
+
+                <div
+                style="
+                font-family:var(--font-serif);
+                font-size:2rem;
+                font-weight:bold;
+                color:var(--blue-dark);
+                margin-bottom:15px;
+                ">
+                ${char.name}
+                </div>
+
+                <div
+                style="
+                color:var(--gray-text);
+                font-style:italic;
+                margin-bottom:25px;
+                ">
+                ${char.tagline}
+                </div>
+
+                <button
+                class="btn-modal"
+                onclick="rollRandomChar()">
+                    ✦ Gọi lại định mệnh
+                </button>
+            </div>
+        `;
+    }
+}
+
+        // --- SỬA LỖI LOGIC NHẠC ---
+function toggleLocalMusic(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    hasUserInteractedWithMusic = true;
+    if (musicAudio.paused) {
+        musicAudio.play()
+            .then(() => {
+                musicBtn.classList.add("music-playing");
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    } else {
+        musicAudio.pause();
+        musicAudio.currentTime = musicAudio.currentTime;
+        musicBtn.classList.remove("music-playing");
+    }
+}
+
+        let musicAudio = document.getElementById('bg-music');
+        let musicBtn = document.getElementById('music-toggle');
+        let hasUserInteractedWithMusic = false;
+
+        // Nếu bạn muốn auto-play khi click vào vùng bất kỳ (trừ nút nhạc):
+document.body.addEventListener(
+    "click",
+    function (e) {
+        if (e.target.closest("#music-toggle")) return;
+        if (!hasUserInteractedWithMusic) {
+            hasUserInteractedWithMusic = true;
+            musicAudio.play()
+                .then(() => {
+                    musicBtn.classList.add("music-playing");
+                })
+                .catch(() => {});
+        }
+    },
+    { once: true }
+);
+
+document.addEventListener("click",function(e){
+    burstSnow(
+        e.clientX,
+        e.clientY
+    );
+});
+
+document.addEventListener("touchstart",function(e){
+    const touch=e.touches[0];
+    burstSnow(
+        touch.clientX,
+        touch.clientY
+    );
+},{passive:true});
+
+function enterDream(){
+    document
+        .getElementById("dream-intro")
+        .classList
+        .add("hide");
+}
+    </script>
+</body>
+</html>
