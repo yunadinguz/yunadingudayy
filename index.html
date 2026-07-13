@@ -748,25 +748,10 @@ transform:translateY(0);
         .pass-instructions { text-align: left; color: var(--gray-text); font-size: 0.95em; line-height: 1.6; margin-bottom: 20px; }
         .pass-instructions b { color: var(--blue-dark); }
 
-/* QR Tách trà */
-.tea-qr{
-    width:220px;
-    max-width:80%;
-    height:auto;
-
-    padding:10px;
-    background:white;
-    border-radius:16px;
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.12);
-    margin-top:15px;
-}
-
 /* ================= FOOTER ================= */
 .dream-footer{
     text-align:center;
     padding:45px 25px 30px;
-
 }
 .dream-footer p{
     margin:0 auto;
@@ -1103,7 +1088,6 @@ transform:scale(1);
             <a href="https://www.facebook.com/yuna.zdayy" target="_blank" class="nav-item">Facebook</a>
             <a href="https://discord.gg/FSU3de4cs6" target="_blank" class="nav-item">Discord</a>
             <a href="https://www.dokichat.club/en/profile" target="_blank" class="nav-item">Dokichat</a>
-            <div class="nav-item" onclick="openModal('teaModal')">Tách trà</div>
             <a href="https://ngl.link/yunadingu" class="nav-item">Feedback</a>
             <div class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</div>
             
@@ -1352,17 +1336,7 @@ transform:scale(1);
             <button class="btn-modal" onclick="closeModal('howToPassModal')">Đã hiểu</button>
         </div>
     </div>
-
-    <!-- Modal Tách Trà -->
-    <div id="teaModal" class="custom-modal">
-        <div class="custom-modal-content">
-            <span class="close-modal" onclick="closeModal('teaModal')">&times;</span>
-            <h2 style="font-family: var(--font-serif); color: var(--blue-dark); margin-top:0;">Để lại một tách trà</h2>
-            <p style="font-style: italic; color: var(--gray-text); font-size:0.95em;">"Cảm ơn Kẻ mộng mơ đã ghé thăm và ủ ấm những giấc mộng dài...Mong cuộc hành trình phía trước của bạn sẽ luôn hạnh phúc."</p>
-            <img src="images/qr.jpg" class="tea-qr">
-        </div>
-    </div>
-
+    
     <!-- Modal Random -->
     <div id="randomCharModal" class="custom-modal">
         <div class="custom-modal-content">
