@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta property="og:image" content="images/avatar.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="https://yunadinguz.github.io/yunadingudayy/images/avatar.jpg">
     <title>Yuna Đi Ngủ</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -130,6 +130,7 @@ transform:translateY(0);
     color:#fff;
     font-size:1rem;
     font-weight:bold;
+    font-family: 'Playfair Display', serif;
     letter-spacing:2px;
     cursor:pointer;
     transition:
@@ -842,6 +843,7 @@ body::before{
     90%{transform:translateX(5px);}
     100%{transform:translateX(0);}
 }
+
 /* =========================
    SNOW CLICK EFFECT
 ========================= */
@@ -880,6 +882,169 @@ body::before{
             rotate(360deg);
     }
 }
+
+.stats-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(6px);
+    z-index:9999;
+}
+
+.stats-box{
+    width:min(900px,92%);
+    margin:70px auto;
+    background:#fff;
+    border-radius:25px;
+    padding:35px;
+}
+
+.stats-columns{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.close-stats{
+    float:right;
+    cursor:pointer;
+    font-size:30px;
+}
+
+.like-btn{
+    font-size:28px;
+    color:#76ACE6;
+    background:none;
+    border:none;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.like-btn.liked{
+    color:#4F90E8;
+}
+
+.like-btn.pop{
+    animation:heartPop .25s ease;
+}
+
+@keyframes heartPop{
+0%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.35);
+}
+100%{
+transform:scale(1);
+}
+}
+
+/* 1. KHÓA KHUNG THẺ CHARACTER */
+.char-card {
+    position: relative;
+}
+
+/* 2. ĐẨY CỤM TIM VÀ SỐ SANG PHẢI */
+.char-like {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.journey-count{
+    margin-top:14px;
+    font-size:13px;
+    color:#8A96AA;
+    font-style:italic;
+    text-align:left;
+}
+
+.stats-title{
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    margin-bottom:35px;
+    color:#123d86;
+}
+
+.stats-columns{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.stats-columns > div{
+    background:#fff;
+    border:1px solid #dce9ff;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 12px 30px rgba(90,130,200,.08);
+}
+
+/* Trang trí dòng đếm tổng Kẻ mộng mơ */
+.total-visitors {
+    text-align: center;
+    color: var(--gray-text);
+    font-size: 0.9em;
+    font-style: normal;
+    margin-bottom: 30px;
+}
+.total-visitors b {
+    color: var(--blue-dark);
+    font-size: 1.1em;
+}
+
+/* Trang trí các thanh nhân vật trong bảng thống kê Top 5 */
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240, 248, 255, 0.8));
+    border: 1px solid rgba(179, 213, 242, 0.4);
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(120, 170, 235, 0.05);
+}
+.stat-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(120, 170, 235, 0.2);
+    border-color: var(--blue-light);
+}
+.rank-number {
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--gray-text);
+    margin-right: 5px;
+}
+.stat-name {
+    color: var(--navy-dark);
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.stat-value {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.stats-note {
+    text-align: center;
+    color: #888888;
+    font-size: 0.85em; 
+    font-family: sans-serif; 
+    margin-top: 25px; 
+    opacity: 0.8;
+}
     </style>
 </head>
 <body>
@@ -894,10 +1059,10 @@ body::before{
             Mỗi một giấc mơ đều đang chờ đợi một người đến viết tiếp chương cuối.
         </div>
         <p>
-            Chào mừng, những Kẻ mộng mơ.
+            Chào mừng, hỡi những Kẻ mộng mơ.
         </p>
         <p style="opacity:.85;">
-            Từng linh hồn nơi đây đều đã luôn chờ đợi sự xuất hiện của bạn.
+            Mỗi linh hồn nơi đây đều đã luôn chờ đợi sự xuất hiện của bạn.
         </p>
         <button
             class="begin-btn"
@@ -935,7 +1100,7 @@ body::before{
             <a href="https://discord.gg/FSU3de4cs6" target="_blank" class="nav-item">Discord</a>
             <a href="https://www.dokichat.club/en/profile" target="_blank" class="nav-item">Dokichat</a>
             <div class="nav-item" onclick="openModal('teaModal')">Tách trà</div>
-            <a href="https://forms.gle/ZExm2TnxTKNAApKV7" target="_blank" class="nav-item">Feedback</a>
+            <a href="https://ngl.link/yunadingu" class="nav-item">Feedback</a>
             <div class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</div>
             
             <!-- Nút Lệnh Dropdown -->
@@ -958,19 +1123,37 @@ body::before{
             <div class="search-random-col">
                 <input type="text" id="searchInput" class="search-input" onkeyup="searchChars()" placeholder="❄️ Tìm kiếm tên nhân vật hoặc hashtag">
                 
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-random" onclick="openRandomModal()">🎲 Định mệnh dẫn lối</button>
-                    <button id="reset-filter" class="btn-random" onclick="resetFilter()">❌ Bỏ lọc</button>
-                </div>
+                <div style="display: flex; gap: 10px; justify-content:center; flex-wrap:wrap;">
+
+    <button class="btn-random" onclick="openRandomModal()">
+        🎲 Định mệnh dẫn lối
+    </button>
+
+    <button class="btn-random" id="statsBtn">
+        📖 Thống kê Giấc Mơ
+    </button>
+
+    <button id="reset-filter" class="btn-random" onclick="resetFilter()">
+        ❌ Bỏ lọc
+    </button>
+
+</div>
             </div>
 
-            <div class="menu-title">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
+            <div class="menu-title" style="margin-bottom: 5px;">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
+<div class="total-visitors">
+    Đã có <b id="total-visitor-count">...</b> Kẻ mộng mơ đã lưu lại dấu chân
+</div>
 
             <!-- DANH SÁCH 5 NHÂN VẬT -->
             <div class="char-grid">
                 
                 <!-- Char 1: Tô Trạch Dương (苏泽阳)-->
-                <div class="char-card">
+                <div class="char-card" data-char="to-trach-duong">
+<div class="char-like">
+    <button class="like-btn">♡</button>
+    <span class="like-count">0</span>
+</div>
                     <h2 class="char-name">Tô Trạch Dương (苏泽阳)</h2>
                     <div class="char-tagline">"Mẹ kiếp! Là ai suốt ngày thò mông ra đung đưa trước mặt chồng bạn thân thế hả?"</div>
                     <div class="char-tags">
@@ -987,10 +1170,17 @@ body::before{
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221HgnZAVy8I9veCKa1Vo09btgkXYmOnP0e%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://docs.google.com/document/d/1xxT5VTBuSWspA7Xz9hmG6zRO_2iB5oD9668UQ0ZELzs/edit?usp=sharing" class="link-story">Story</a>
                     </div>
+<p class="journey-count">
+    Đang tải...
+</p>
                 </div>
 
                 <!-- Char 2: Trì Cảnh Ngôn (池景言) -->
-                <div class="char-card">
+                <div class="char-card" data-char="tri-canh-ngon">
+<div class="char-like">
+    <button class="like-btn">♡</button>
+    <span class="like-count">0</span>
+</div>
                     <h2 class="char-name">Trì Cảnh Ngôn (池景言)</h2>
                     <div class="char-tagline">"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!"</div>
                     <div class="char-tags">
@@ -1006,10 +1196,17 @@ body::before{
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221eR-bu9Sxm2WWBBQzGWPEzOFNf5RpQV6C%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://docs.google.com/document/d/179SrSBp0P8jOW8BAoD7umDBtgI2aeH4wVAYekEhXVJg/edit?usp=sharing" class="link-story">Story</a>
                     </div>
+<p class="journey-count">
+    Đang tải...
+</p>
                 </div>
 
                 <!-- Char 3: Hạ Thiên Dật (夏天逸) -->
-                <div class="char-card">
+                <div class="char-card" data-char="ha-thien-dat">
+<div class="char-like">
+    <button class="like-btn">♡</button>
+    <span class="like-count">0</span>
+</div>
                     <h2 class="char-name">Hạ Thiên Dật (夏天逸)</h2>
                     <div class="char-tagline">"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ."</div>
                     <div class="char-tags">
@@ -1025,10 +1222,17 @@ body::before{
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221QS2HQaDGgW78AkNlMvtXX7wcH4d0zUfJ%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://docs.google.com/document/d/10kqJB0NK6s6CZqEsuVXik7BSz2YuGo8nDbmjS4mHUjs/edit?usp=sharing" class="link-story">Story</a>
                     </div>
+<p class="journey-count">
+    Đang tải...
+</p>
                 </div>
 
                 <!-- Char 4: Trì Duệ Khải (池睿凯) -->
-                <div class="char-card">
+                <div class="char-card" data-char="tri-due-khai">
+<div class="char-like">
+    <button class="like-btn">♡</button>
+    <span class="like-count">0</span>
+</div>
                     <h2 class="char-name">Trì Duệ Khải (池睿凯)</h2>
                     <div class="char-tagline">"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!"</div>
                     <div class="char-tags">
@@ -1041,10 +1245,17 @@ body::before{
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://docs.google.com/document/d/1LBiaw3IvhGD63K9qN7Vwa6OQe1DQo4-Jnqe8AKQAGPM/edit?usp=sharing" class="link-story">Story</a>
                     </div>
+<p class="journey-count">
+    Đang tải...
+</p>
                 </div>
 
                 <!-- Char 5: Trần Dã (陈野) -->
-                <div class="char-card">
+                <div class="char-card" data-char="tran-da">
+<div class="char-like">
+    <button class="like-btn">♡</button>
+    <span class="like-count">0</span>
+</div>
                     <h2 class="char-name">Trần Dã (陈野)</h2>
                     <div class="char-tagline">"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?"</div>
                     <div class="char-tags">
@@ -1060,15 +1271,22 @@ body::before{
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2215VE7_N8lmyk3XvljicbPYE1OnBOAdiW5%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://docs.google.com/document/d/1RaZVp02n1gTMXik3PKC9tR1hFQ_YB5gveHJ2hlj1KvU/edit?usp=sharing" class="link-story">Story</a>
                     </div>
+<p class="journey-count">
+    Đang tải...
+</p>
                 </div>
 
                 <!-- Char 6: Thẩm Nhất Chu (沈以舟)-->
-                <div class="char-card">
+                <div class="char-card" data-char="tham-nhat-chu">
+<div class="char-like">
+    <button class="like-btn">♡</button>
+    <span class="like-count">0</span>
+</div>
                     <h2 class="char-name">Thẩm Nhất Chu (沈以舟)</h2>
                     <div class="char-tagline">"Giáo sư Thẩm “cấm dục” chính là bạn trai qua mạng của tôi!"</div>
                     <div class="char-tags">
                         <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('Thầy-Trò')">#Ma x Người</span>
+                        <span class="tag" onclick="filterTag('Thầy-Trò')">#Thầy-Trò</span>
                         <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
                         <span class="tag" onclick="filterTag('Yêu qua mạng')">#Yêu qua mạng</span>
                         <span class="tag" onclick="filterTag('Bạn thân anh trai')">#Bạn thân anh trai</span>
@@ -1078,9 +1296,12 @@ body::before{
                     </div>
                     <div class="char-links">
                         <a href="https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true" class="link-doki">Doki chat</a>
-                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B"ids":%5B"1WKA71eGJq11zi40y5_pwFH9HWixewWqh"%5D,"action":"open","userId":"113052263516781120995","resourceKeys":%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://docs.google.com/document/d/1DZNpofqjDoxsoEIH5tn0_aElLJFYE8sDkCSCTG20EFs/edit?usp=sharing" class="link-story">Story</a>
                     </div>
+<p class="journey-count">
+    Đang tải...
+</p>
                 </div>
                 
             </div>
@@ -1133,7 +1354,7 @@ body::before{
         <div class="custom-modal-content">
             <span class="close-modal" onclick="closeModal('teaModal')">&times;</span>
             <h2 style="font-family: var(--font-serif); color: var(--blue-dark); margin-top:0;">Để lại một tách trà</h2>
-            <p style="font-style: italic; color: var(--gray-text); font-size:0.95em;">"Cảm ơn Kẻ mộng mơ đã ghé thăm và ủ ấm những giấc mộng dài..."</p>
+            <p style="font-style: italic; color: var(--gray-text); font-size:0.95em;">"Cảm ơn Kẻ mộng mơ đã ghé thăm và ủ ấm những giấc mộng dài...Mong cuộc hành trình phía trước của bạn sẽ luôn hạnh phúc."</p>
             <img src="images/qr.jpg" class="tea-qr">
         </div>
     </div>
@@ -1155,7 +1376,7 @@ body::before{
         <div class="custom-modal-content">
             <span class="close-modal" onclick="closeModal('r21Modal')">&times;</span>
             <h2 style="font-family: var(--font-serif); color: var(--navy-dark); margin-top:0;">🔒 Cánh Cửa Bị Phong Ấn</h2>
-            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Vui lòng đọc câu thân chú</p>
+            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Câu thần chú của bạn là?</p>
             <input type="password" id="r21-pass-input" placeholder="Nhập câu thần chú..." style="width: 80%; padding: 10px; border-radius: 10px; border: 1px solid var(--blue-light); outline: none; text-align: center;">
             <p id="r21-error" style="color: #d9534f; font-size: 0.85em; display: none; margin-top: 10px;">Sai mất rồi. Có muốn thử lại không?</p>
             <br>
@@ -1163,6 +1384,33 @@ body::before{
         </div>
     </div>
 
+<div class="custom-modal" id="statsModal">
+    <div class="custom-modal-content" style="max-width: 800px; width: 90%; background: rgba(255, 255, 255, 0.92);">
+        <span class="close-modal close-stats">&times;</span>
+        <h2 style="font-family: var(--font-serif); color: var(--blue-medium); margin-top:0; text-align:center;">
+            📖 Thống kê Giấc Mơ
+        </h2>
+        
+        <!-- Khung chứa hiệu ứng chữ chạy -->
+        <div id="stats-sequence" style="min-height: 200px; display: flex; align-items: center; justify-content: center; font-size: 1.1em;">
+        </div>
+
+        <!-- Khung chứa bảng thống kê (Ẩn lúc mới mở) -->
+        <div id="stats-content-wrapper" class="stats-columns" style="display: none; text-align: left; margin-top: 25px;">
+            <div class="stats-section">
+                <h3 style="color: var(--blue-dark); text-align: center; margin-bottom: 15px;">🩵 Top 5 Yêu thích</h3>
+                <div id="topLike"></div>
+            </div>
+            <div class="stats-section">
+                <h3 style="color: var(--blue-dark); text-align: center; margin-bottom: 15px;">🎐 Top 5 Đồng hành</h3>
+                <div id="topClick"></div>
+            </div>
+        </div>
+<div class="stats-note">
+        Hãy giúp người bạn đồng hành của bạn được tỏa sáng hơn nào!
+    </div>
+    </div>
+</div>    
     <!-- ========================================================================= -->
     <!-- JAVASCRIPT -->
     <!-- ========================================================================= -->
@@ -1548,6 +1796,188 @@ function enterDream(){
         .classList
         .add("hide");
 }
+
+window.addEventListener("click",(e)=>{
+    if(e.target.classList.contains("custom-modal")){
+        closeModal(e.target.id);
+    }
+    if(e.target==statsModal){
+        statsModal.style.display="none";
+    }
+});
+
+/* ===========================
+   HỆ THỐNG LIKE, TOP 5 & ĐẾM TRUY CẬP TỔNG
+=========================== */
+console.log("DREAM STATS SYSTEM START");
+
+const LIKE_NAMESPACE = "VanillaDaydream";
+const CLICK_NAMESPACE = "VanillaDaydream_Clicks";
+const VISITOR_NAMESPACE = "VanillaDaydream_Visitors"; 
+const STATS_API = "https://abacus.jasoncameron.dev";
+
+let characterStats = [];
+
+// 1. ĐẾM VÀ HIỂN THỊ TỔNG SỐ KẺ MỘNG MƠ (LƯỢT VÀO WEB)
+fetch(`${STATS_API}/hit/${VISITOR_NAMESPACE}/total_visits`)
+    .then(res => res.json())
+    .then(data => {
+        const visitorEl = document.getElementById("total-visitor-count");
+        if (visitorEl) visitorEl.textContent = data.value;
+    }).catch(err => console.error("Lỗi đếm truy cập:", err));
+
+// 2. KHỞI TẠO DỮ LIỆU NHÂN VẬT
+async function initializeStats() {
+    const cards = document.querySelectorAll(".char-card");
+    const promises = [];
+    characterStats = []; // Reset mảng
+
+    cards.forEach(card => {
+        const id = card.dataset.char;
+        const name = card.querySelector(".char-name").textContent;
+        const likeBtn = card.querySelector(".like-btn");
+        const likeCountEl = card.querySelector(".like-count");
+        const journeyCountEl = card.querySelector(".journey-count");
+        
+        const dokiLink = card.querySelector(".link-doki");
+        const ggLink = card.querySelector(".link-gg");
+
+        if (!id) return;
+
+        // Trạng thái tim cá nhân
+        const localKey = "liked-" + id;
+        if (localStorage.getItem(localKey)) {
+            likeBtn.classList.add("liked");
+            likeBtn.innerHTML = "♥";
+        }
+
+        // Bắt sự kiện click link đồng hành
+        const trackClick = () => fetch(`${STATS_API}/hit/${CLICK_NAMESPACE}/${id}`).catch(() => {});
+        if (dokiLink) dokiLink.addEventListener("click", trackClick);
+        if (ggLink) ggLink.addEventListener("click", trackClick);
+
+        // Bắt sự kiện tim
+        likeBtn.addEventListener("click", () => {
+            if (localStorage.getItem(localKey)) return;
+            
+            likeBtn.classList.add("liked", "pop");
+            likeBtn.innerHTML = "♥";
+            
+            fetch(`${STATS_API}/hit/${LIKE_NAMESPACE}/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    likeCountEl.textContent = data.value;
+                    localStorage.setItem(localKey, "1");
+                });
+            setTimeout(() => likeBtn.classList.remove("pop"), 250);
+        });
+
+        // Lấy số liệu API
+        const fetchStats = async () => {
+            let likes = 0, clicks = 0;
+            try {
+                const likeRes = await fetch(`${STATS_API}/get/${LIKE_NAMESPACE}/${id}`);
+                likes = (await likeRes.json()).value ?? 0;
+            } catch (e) {}
+
+            try {
+                const clickRes = await fetch(`${STATS_API}/get/${CLICK_NAMESPACE}/${id}`);
+                clicks = (await clickRes.json()).value ?? 0;
+            } catch (e) {}
+
+            likeCountEl.textContent = likes;
+            if(journeyCountEl) journeyCountEl.textContent = `${clicks} lượt đồng hành`;
+
+            characterStats.push({ id, name, likes, clicks });
+        };
+        promises.push(fetchStats());
+    });
+
+    await Promise.all(promises);
+    renderTop5();
+}
+
+// 3. RENDER BẢNG XẾP HẠNG VỚI HUY CHƯƠNG & KHUNG GIAO DIỆN MỚI
+function generateTopHTML(sortedArray, isLike) {
+    return sortedArray.map((char, index) => {
+        let medal = "";
+        if (index === 0) medal = "<span style='font-size:1.3em;'>🏆</span>";
+        else if (index === 1) medal = "<span style='font-size:1.3em;'>🥈</span>";
+        else if (index === 2) medal = "<span style='font-size:1.3em;'>🥉</span>";
+        else medal = `<span class="rank-number">${index + 1}.</span>`;
+
+        const iconColor = isLike ? '#4F90E8' : '#d99b22';
+        const value = isLike ? char.likes : char.clicks;
+
+        return `
+            <div class="stat-item">
+                <div class="stat-name">${medal} <b>${char.name.split(' (')[0]}</b></div>
+                <!-- Chỉ giữ lại biến ${value}, đã xóa bỏ icon ở đằng sau -->
+                <div class="stat-value" style="color: ${iconColor}; font-weight: bold;">${value}</div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderTop5() {
+    const topLikeEl = document.getElementById("topLike");
+    const topClickEl = document.getElementById("topClick");
+
+    const sortedByLikes = [...characterStats].sort((a, b) => b.likes - a.likes).slice(0, 5);
+    const sortedByClicks = [...characterStats].sort((a, b) => b.clicks - a.clicks).slice(0, 5);
+
+    if (topLikeEl) topLikeEl.innerHTML = generateTopHTML(sortedByLikes, true);
+    if (topClickEl) topClickEl.innerHTML = generateTopHTML(sortedByClicks, false);
+}
+
+// 4. HIỆU ỨNG MỞ MODAL KIỂU MỘNG MƠ
+const statsBtn = document.getElementById("statsBtn");
+const statsModal = document.getElementById("statsModal");
+const closeStats = document.querySelector(".close-stats");
+
+statsBtn.onclick = function () {
+    // Gọi tải lại dữ liệu mới nhất mỗi khi mở bảng thống kê
+    initializeStats(); 
+
+    statsModal.style.display = "flex";
+    setTimeout(() => statsModal.classList.add("show"), 10);
+
+    const seqContainer = document.getElementById("stats-sequence");
+    const statsContent = document.getElementById("stats-content-wrapper");
+    
+    seqContainer.style.display = "flex";
+    statsContent.style.display = "none";
+
+    const steps = [
+        "Đang mở Cuốn sổ Thiên Hà...",
+        "...",
+        "Đang tổng hợp những mảnh ký ức...",
+        "..."
+    ];
+    
+    let i = 0;
+    function nextStep() {
+        if (i < steps.length) {
+            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:italic; color: var(--blue-medium);">${steps[i]}</div>`;
+            i++;
+            setTimeout(nextStep, 700); // Đổi chữ mỗi 0.7s
+        } else {
+            seqContainer.style.display = "none";
+            statsContent.style.display = "grid";
+            statsContent.style.opacity = "0";
+            statsContent.style.animation = "fadeText 1.2s forwards";
+        }
+    }
+    nextStep();
+};
+
+closeStats.onclick = function () {
+    statsModal.classList.remove("show");
+    setTimeout(() => statsModal.style.display = "none", 350);
+};
+
+// Chạy khởi tạo ngầm ngay khi web vừa load xong để hiện số ngoài màn hình chính
+initializeStats();
     </script>
 </body>
 </html>
