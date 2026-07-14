@@ -443,23 +443,21 @@ transform:translateY(0);
             pointer-events: none; 
             z-index: 1;
         }
-        .snowflake{
+
+.snowflake{
     position:absolute;
-    border-radius:50%;
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,1) 0%,
-            rgba(255,255,255,.85) 55%,
-            rgba(255,255,255,0) 100%
-        );
-    box-shadow:
-        0 0 8px rgba(255,255,255,.4);
+    background:none;
+    border:none;
+    width:auto;
+    height:auto;
+    line-height:1;
     pointer-events:none;
-    will-change:transform;
-    animation:fall linear infinite;
+    user-select:none;
+    animation: fall linear infinite;
+    text-shadow:0 0 6px rgba(160,210,255,.6);
 }
- @keyframes fall {
+
+@keyframes fall {
     0% {
         transform:
             translateY(-30px)
@@ -729,6 +727,7 @@ transform:translateY(0);
         transform .4s cubic-bezier(.2,.8,.2,1),
         opacity .35s ease;
     position:relative;
+    overflow:hidden;
     text-align:center;
 }
 .custom-modal.show{
@@ -741,12 +740,55 @@ transform:translateY(0);
         translateY(0)
         scale(1);
 }
-        .close-modal { position: absolute; top: 10px; right: 20px; font-size: 28px; cursor: pointer; color: var(--gray-text); transition: 0.2s;}
+.close-modal{
+    position:absolute;
+    top:18px;
+    right:20px;
+
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:34px;
+    line-height:1;
+
+    color:#6d6d6d;
+    cursor:pointer;
+
+    z-index:100;
+    transition:.25s;
+}
+
+.close-modal:hover{
+    color:#4F90E8;
+    transform:scale(1.1);
+}
         .close-modal:hover { color: var(--blue-dark); }     
         .btn-modal { background-color: var(--blue-light); color: #fff; border-radius: 20px; border: none; padding: 10px 25px; font-size: 1em; font-weight: bold; cursor: pointer; font-family: var(--font-sans); transition: 0.3s; margin-top: 5px; }
         .btn-modal:hover { background-color: var(--blue-medium); }
         .pass-instructions { text-align: left; color: var(--gray-text); font-size: 0.95em; line-height: 1.6; margin-bottom: 20px; }
         .pass-instructions b { color: var(--blue-dark); }
+
+/* Nội dung nằm trên lớp tuyết */
+#stats-sequence,
+#stats-content-wrapper,
+.stats-tabs,
+.stats-section,
+.custom-modal-content h2,
+.custom-modal-content p{
+    position:relative;
+    z-index:5;
+}
+
+.close-modal{
+    position:absolute;
+    top:18px;
+    right:20px;
+    z-index:999;
+}
 
 /* ================= FOOTER ================= */
 .dream-footer{
@@ -985,7 +1027,7 @@ transform:scale(1);
     font-size: 1.1em;
 }
 
-/* Trang trí các thanh nhân vật trong bảng thống kê Top 5 */
+/* Trang trí các thanh nhân vật trong bảng thống kê */
 .stat-item {
     display: flex;
     justify-content: space-between;
@@ -1031,6 +1073,102 @@ transform:scale(1);
     margin-top: 25px; 
     opacity: 0.8;
 }
+.stats-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.stat-tab-btn {
+    background: #fff;
+    border: 1px solid var(--blue-pastel);
+    color: var(--blue-medium);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 1.05em;
+    font-weight: bold;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.stat-tab-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(120, 170, 235, 0.2);
+}
+
+/* Trạng thái nút khi được chọn */
+.stat-tab-btn.active {
+    background: var(--blue-light);
+    color: #fff;
+    border-color: var(--blue-light);
+    box-shadow: 0 6px 15px rgba(120, 170, 235, 0.4);
+}
+
+/* Hiệu ứng trượt và mờ dần khi chuyển tab */
+.stats-section {
+    animation: fadeInSlideUp 0.5s ease forwards;
+}
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* --- HIỆU ỨNG TUYẾT BAY 2 KHUNG --- */
+.snow-wrapper{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:2;
+}
+
+/* --- HIỆU ỨNG BÔNG TUYẾT XANH RƠI --- */
+/* --- HIỆU ỨNG BÔNG TUYẾT XANH RƠI TRONG MODAL --- */
+.modal-snowflake {
+    position:absolute;
+    display:block;
+    line-height:1;
+    pointer-events:none;
+    user-select:none;
+    animation:snowFall linear infinite;
+    text-shadow: 0 0 4px rgba(180,220,255,.5);
+    filter: drop-shadow(0 0 3px rgba(170,220,255,.35));
+}
+
+/* Hiệu ứng rơi từ trên xuống */
+@keyframes snowFall {
+    0% {
+        transform: translate3d(0, -40px, 0) rotate(0deg);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1; /* Tuyết bắt đầu hiện rõ */
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(var(--drift), 600px, 0) rotate(var(--rotate)); /* Rơi xuyên qua modal */
+        opacity: 0;
+    }
+}
+/* Áp dụng cho các nút bấm và chữ bên trong để chúng nằm trên lớp tuyết */
+.custom-modal-content > h2,
+.custom-modal-content > p,
+.custom-modal-content > button,
+.custom-modal-content > input{
+    position:relative;
+    z-index:10;
+}
     </style>
 </head>
 <body>
@@ -1042,7 +1180,7 @@ transform:scale(1);
             Snowveil Daydream
         </div>
         <div class="intro-sub">
-            Mỗi một giấc mơ đều đang chờ đợi một người đến viết tiếp chương cuối.
+            Mỗi giấc mộng đều vùi mình trong tuyết, chờ đợi một người đến viết tiếp chương cuối.
         </div>
         <p>
             Chào mừng, hỡi những Kẻ mộng mơ.
@@ -1053,7 +1191,7 @@ transform:scale(1);
         <button
             class="begin-btn"
             onclick="enterDream()">
-            BƯỚC VÀO GIẤC MƠ
+            MỞ CỬA GIẤC MƠ
         </button>
     </div>
 </div>
@@ -1085,7 +1223,7 @@ transform:scale(1);
             <a href="https://www.facebook.com/yuna.zdayy" target="_blank" class="nav-item">Facebook</a>
             <a href="https://discord.gg/FSU3de4cs6" target="_blank" class="nav-item">Discord</a>
             <a href="https://www.dokichat.club/en/profile" target="_blank" class="nav-item">Dokichat</a>
-            <a href="https://ngl.link/yunadingu" class="nav-item">Feedback</a>
+            <a href="https://ngl.link/yunadingu" class="nav-item">Lưu bút</a>
             <div class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</div>
             
             <!-- Nút Lệnh Dropdown -->
@@ -1127,7 +1265,7 @@ transform:scale(1);
 
             <div class="menu-title" style="margin-bottom: 5px;">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
 <div class="total-visitors">
-    Đã có <b id="total-visitor-count">...</b> Kẻ mộng mơ đã lưu lại dấu chân
+    Đã có <b id="total-visitor-count">...</b> Kẻ mộng mơ lưu lại dấu chân
 </div>
 
             <!-- DANH SÁCH 5 NHÂN VẬT -->
@@ -1148,7 +1286,7 @@ transform:scale(1);
                         <span class="tag" onclick="filterTag('R21')">#R21</span>
                     </div>
                     <div id="lock-totrachduong">
-                        <button class="r21-btn" onclick="openR21Modal('totrachduong', 'CaMtReNhOdUoI18tUoI')">🔒 Cánh Cửa Bị Phong Ấn</button>
+                        <button class="r21-btn" onclick="openR21Modal('totrachduong', 'CaMtReNhOdUoI18tUoI')">🔐 Giấc Mộng Đóng Băng</button>
                     </div>
                     <div class="char-links r21-content" id="links-totrachduong">
                         <a href="https://www.dokichat.club/chat/fb1e8c56-7a7a-4a44-9ff4-ac4053460dc1?isShare=true" class="link-doki">Doki chat</a>
@@ -1295,9 +1433,9 @@ transform:scale(1);
         </div>
 <footer class="dream-footer">
     <p>
-        Giấc mơ rồi sẽ đến lúc phải thức giấc,
-        nhưng những người bạn đồng hành vẫn sẽ luôn ở đây,
-        chờ đợi lần ghé thăm tiếp theo của bạn...
+        Tuyết rồi sẽ tan, mộng rồi cũng tỉnh.
+        Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, 
+        kiên nhẫn chờ ngày bạn quay về...
     </p>
 </footer>
     </div>
@@ -1337,11 +1475,12 @@ transform:scale(1);
     <!-- Modal Random -->
     <div id="randomCharModal" class="custom-modal">
         <div class="custom-modal-content">
+        <div id="destiny-snow" class="snow-wrapper"></div>
             <span class="close-modal" onclick="closeModal('randomCharModal')">&times;</span>
             <h2 style="font-family: var(--font-serif); color: var(--blue-medium); margin-top:0;">🎲 Giao Phó Định Mệnh</h2>
             <div id="random-content">
-                <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Bạn đã sẵn sàng để vũ trụ chọn ngẫu nhiên cho mình một người đồng hành đêm nay chưa?</p>
-                <button class="btn-modal" onclick="rollRandomChar()">✧ Gọi tên định mệnh</button>
+                <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</p>
+                <button class="btn-modal" onclick="rollRandomChar()">✧ Bắt lấy định mệnh</button>
             </div>
         </div>
     </div>
@@ -1350,17 +1489,18 @@ transform:scale(1);
     <div id="r21Modal" class="custom-modal">
         <div class="custom-modal-content">
             <span class="close-modal" onclick="closeModal('r21Modal')">&times;</span>
-            <h2 style="font-family: var(--font-serif); color: var(--navy-dark); margin-top:0;">🔒 Cánh Cửa Bị Phong Ấn</h2>
-            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Câu thần chú của bạn là?</p>
+            <h2 style="font-family: var(--font-serif); color: var(--navy-dark); margin-top:0;">🔐 Giấc Mộng Đóng Băng</h2>
+            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Lời chú để phá vỡ phong ấn là gì?</p>
             <input type="password" id="r21-pass-input" placeholder="Nhập câu thần chú..." style="width: 80%; padding: 10px; border-radius: 10px; border: 1px solid var(--blue-light); outline: none; text-align: center;">
-            <p id="r21-error" style="color: #d9534f; font-size: 0.85em; display: none; margin-top: 10px;">Sai mất rồi. Có muốn thử lại không?</p>
+            <p id="r21-error" style="color: #d9534f; font-size: 0.85em; display: none; margin-top: 10px;">Băng vẫn chưa tan... Bạn có muốn truyền thêm hơi ấm không?</p>
             <br>
             <button class="btn-modal" onclick="verifyR21Pass()" style="margin-top: 10px;">Mở Cửa</button>
         </div>
     </div>
 
 <div class="custom-modal" id="statsModal">
-    <div class="custom-modal-content" style="max-width: 800px; width: 90%; background: rgba(255, 255, 255, 0.92);">
+    <div class="custom-modal-content" style="max-width: 500px; width: 90%; background: rgba(255, 255, 255, 0.92);">
+        <div id="stats-snow" class="snow-wrapper"></div>
         <span class="close-modal close-stats">&times;</span>
         <h2 style="font-family: var(--font-serif); color: var(--blue-medium); margin-top:0; text-align:center;">
             📖 Thống kê Giấc Mơ
@@ -1371,21 +1511,31 @@ transform:scale(1);
         </div>
 
         <!-- Khung chứa bảng thống kê (Ẩn lúc mới mở) -->
-        <div id="stats-content-wrapper" class="stats-columns" style="display: none; text-align: left; margin-top: 25px;">
-            <div class="stats-section">
-                <h3 style="color: var(--blue-dark); text-align: center; margin-bottom: 15px;">🩵 Top 5 Yêu thích</h3>
+<!-- Khung chứa bảng thống kê (Sau khi qua hiệu ứng chữ chạy) -->
+        <div id="stats-content-wrapper" style="display: none; margin-top: 20px;">
+            
+            <!-- Hai nút bấm chuyển đổi -->
+            <div class="stats-tabs">
+                <button id="btn-top-like" class="stat-tab-btn active" onclick="switchStatTab('like')">🩵 Top yêu thích</button>
+                <button id="btn-top-click" class="stat-tab-btn" onclick="switchStatTab('click')">🎐 Top đồng hành</button>
+            </div>
+            
+            <!-- Dòng chữ nhỏ chú thích dưới nút -->
+            <div style="text-align: center; color: var(--gray-text); font-size: 0.9em; margin-bottom: 25px; font-style: italic;">
+                Hãy giúp người bạn đồng hành của bạn được tỏa sáng hơn nào!
+            </div>
+
+            <!-- Khung danh sách Yêu thích (Mặc định hiện) -->
+            <div id="section-top-like" class="stats-section">
                 <div id="topLike"></div>
             </div>
-            <div class="stats-section">
-                <h3 style="color: var(--blue-dark); text-align: center; margin-bottom: 15px;">🎐 Top 5 Đồng hành</h3>
+
+            <!-- Khung danh sách Đồng hành (Mặc định ẩn) -->
+            <div id="section-top-click" class="stats-section" style="display: none;">
                 <div id="topClick"></div>
             </div>
-        </div>
-<div class="stats-note">
-        Hãy giúp người bạn đồng hành của bạn được tỏa sáng hơn nào!
-    </div>
-    </div>
-</div>    
+        </div>   
+
     <!-- ========================================================================= -->
     <!-- JAVASCRIPT -->
     <!-- ========================================================================= -->
@@ -1596,10 +1746,11 @@ window.onclick = function(event){
 
         function openRandomModal() {
             document.getElementById('random-content').innerHTML = `
-                <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Bạn đã sẵn sàng để vũ trụ chọn ngẫu nhiên cho mình một người đồng hành đêm nay chưa?</p>
-                <button class="btn-modal" onclick="rollRandomChar()">✧ Gọi tên định mệnh</button>
+                <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</p>
+                <button class="btn-modal" onclick="rollRandomChar()">✧ Bắt lấy định mệnh</button>
             `;
             openModal('randomCharModal');
+            spawnSnow("destiny-snow");
         }
 
 function rollRandomChar(){
@@ -1632,10 +1783,10 @@ function rollRandomChar(){
     const steps=[
         "Đang lắng nghe...",
         "...",
-        "Những mảnh ký ức đang trôi...",
+        "Những mảnh ký ức vùi trong tuyết trắng...",
         "...",
-        "Có ai đó...",
-        "đang gọi tên bạn..."
+        "Xuyên qua màn sương lạnh...",
+        "có ai đó đang khẽ gọi tên bạn..."
     ];
 
     let i=0;
@@ -1660,6 +1811,7 @@ function rollRandomChar(){
     }
 
     nextStep();
+
     function showResult(){
         box.innerHTML=`
             <div
@@ -1700,10 +1852,11 @@ function rollRandomChar(){
                 <button
                 class="btn-modal"
                 onclick="rollRandomChar()">
-                    ✦ Gọi lại định mệnh
+                    ✦ Bắt lấy định mệnh
                 </button>
             </div>
         `;
+spawnSnow('destiny-snow');
     }
 }
 
@@ -1881,14 +2034,16 @@ function generateTopHTML(sortedArray, isLike) {
         else if (index === 2) medal = "<span style='font-size:1.3em;'>🥉</span>";
         else medal = `<span class="rank-number">${index + 1}.</span>`;
 
-        const iconColor = isLike ? '#4F90E8' : '#d99b22';
-        const value = isLike ? char.likes : char.clicks;
+        // Chỉnh cả 2 cột đều dùng chung màu xanh 
+        const iconColor = '#4F90E8';
+        
+        // Cài đặt nội dung hiển thị: Yêu thích thêm '♥', Đồng hành thêm chữ 'lượt'
+        const valueText = isLike ? `${char.likes} ♥` : `${char.clicks} lượt`;
 
         return `
             <div class="stat-item">
                 <div class="stat-name">${medal} <b>${char.name.split(' (')[0]}</b></div>
-                <!-- Chỉ giữ lại biến ${value}, đã xóa bỏ icon ở đằng sau -->
-                <div class="stat-value" style="color: ${iconColor}; font-weight: bold;">${value}</div>
+                <div class="stat-value" style="color: ${iconColor}; font-weight: bold;">${valueText}</div>
             </div>
         `;
     }).join("");
@@ -1898,8 +2053,15 @@ function renderTop5() {
     const topLikeEl = document.getElementById("topLike");
     const topClickEl = document.getElementById("topClick");
 
-    const sortedByLikes = [...characterStats].sort((a, b) => b.likes - a.likes).slice(0, 5);
-    const sortedByClicks = [...characterStats].sort((a, b) => b.clicks - a.clicks).slice(0, 5);
+const sortedByLikes =
+[...characterStats]
+.sort((a,b)=>b.likes-a.likes)
+.slice(0,5);
+
+const sortedByClicks =
+[...characterStats]
+.sort((a,b)=>b.clicks-a.clicks)
+.slice(0,5);
 
     if (topLikeEl) topLikeEl.innerHTML = generateTopHTML(sortedByLikes, true);
     if (topClickEl) topClickEl.innerHTML = generateTopHTML(sortedByClicks, false);
@@ -1915,7 +2077,11 @@ statsBtn.onclick = function () {
     initializeStats(); 
 
     statsModal.style.display = "flex";
-    setTimeout(() => statsModal.classList.add("show"), 10);
+
+    requestAnimationFrame(() => {
+        statsModal.classList.add("show");
+        // ĐÃ XÓA spawnSnow ở đây để tránh lỗi chiều rộng 0px khi bảng chưa giãn ra
+    });
 
     const seqContainer = document.getElementById("stats-sequence");
     const statsContent = document.getElementById("stats-content-wrapper");
@@ -1938,9 +2104,13 @@ statsBtn.onclick = function () {
             setTimeout(nextStep, 700); // Đổi chữ mỗi 0.7s
         } else {
             seqContainer.style.display = "none";
-            statsContent.style.display = "grid";
+            statsContent.style.display = "block";
             statsContent.style.opacity = "0";
             statsContent.style.animation = "fadeText 1.2s forwards";
+            
+            // KÍCH HOẠT TẠI ĐÂY: Lúc này bảng đã hiện diện đầy đủ kích thước, tuyết sẽ rơi chuẩn xác
+            spawnSnow("stats-snow"); 
+            switchStatTab('like');
         }
     }
     nextStep();
@@ -1953,6 +2123,77 @@ closeStats.onclick = function () {
 
 // Chạy khởi tạo ngầm ngay khi web vừa load xong để hiện số ngoài màn hình chính
 initializeStats();
-    </script>
+
+// Hàm chuyển đổi Tab Thống Kê kèm hiệu ứng
+function switchStatTab(tabType) {
+    const secLike = document.getElementById('section-top-like');
+    const secClick = document.getElementById('section-top-click');
+    const btnLike = document.getElementById('btn-top-like');
+    const btnClick = document.getElementById('btn-top-click');
+    secLike.style.animation = 'none'; secClick.style.animation = 'none';
+    void secLike.offsetWidth; void secClick.offsetWidth;
+    if (tabType === 'like') {
+        secLike.style.display = 'block'; secClick.style.display = 'none';
+        btnLike.classList.add('active'); btnClick.classList.remove('active');
+        secLike.style.animation = 'fadeInSlideUp 0.5s ease forwards';
+    } else {
+        secLike.style.display = 'none'; secClick.style.display = 'block';
+        btnLike.classList.remove('active'); btnClick.classList.add('active');
+        secClick.style.animation = 'fadeInSlideUp 0.5s ease forwards';
+    }
+    if(document.getElementById("stats-snow").children.length===0){
+    spawnSnow("stats-snow");
+}
+}
+
+// Hàm tạo tuyết xanh
+function spawnSnow(containerId, count = 40) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const icons = ["❄", "❅", "❆"];
+
+    for (let i = 0; i < count; i++) {
+
+        const snow = document.createElement("span");
+        snow.className = "modal-snowflake";
+        snow.textContent = icons[Math.floor(Math.random() * icons.length)];
+
+        // Vị trí bắt đầu
+        snow.style.left = (Math.random() * (container.offsetWidth - 20)) + "px";
+        snow.style.top = (-20 - Math.random() * 150) + "px";
+
+        // Kích thước
+        const size = 8 + Math.random() * 8;
+        snow.style.fontSize = size + "px";
+
+        // Độ trong
+        snow.style.opacity = 0.2 + Math.random() * 0.6;
+
+        // Màu xanh nhạt
+        snow.style.color = `rgba(135,195,255,${0.3 + Math.random()*0.5})`;
+
+        // Tốc độ rơi
+        const duration = 8 + Math.random() * 8;
+        snow.style.animationDuration = duration + "s";
+
+        // Bắt đầu ngay lập tức
+        snow.style.animationDelay = `-${Math.random() * duration}s`;
+
+        // Lắc trái phải
+        snow.style.setProperty("--drift",
+            (Math.random() * 80 - 40) + "px"
+        );
+
+        // Xoay
+        snow.style.setProperty("--rotate",
+            (Math.random() * 360 - 180) + "deg"
+        );
+        container.appendChild(snow);
+    }
+}
+</script>
 </body>
 </html>
