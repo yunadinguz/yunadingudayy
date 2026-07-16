@@ -2100,7 +2100,7 @@ statsBtn.onclick = function () {
     let i = 0;
     function nextStep() {
         if (i < steps.length) {
-            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:italic; color: var(--blue-medium);">${steps[i]}</div>`;
+            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:normal; color: var(--gray-text);">${steps[i]}</div>`;
             i++;
             setTimeout(nextStep, 700); // Đổi chữ mỗi 0.7s
         } else {
