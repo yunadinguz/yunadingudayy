@@ -653,7 +653,7 @@ transform:translateY(0);
 .char-links a:hover,
 .r21-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(120,170,235,.28);
+    box-shadow: 0 10px 20px rgba(120, 170, 235,.28);
 }
         .r21-content { display: none; margin-top: 15px; border-top: 1px dashed var(--gray-divider); padding-top: 15px; }
 
@@ -1210,12 +1210,20 @@ transform:scale(1);
 
         <hr class="fb-divider">
 
-        <!-- NAV BAR FACEBOOK STYLE -->
+        <!-- NAV BAR FACEBOOK STYLE  -->
         <div class="fb-nav">
             <div class="nav-item active" onclick="scrollToList()">List characters</div>
-            <a href="https://www.facebook.com/yuna.zdayy" target="_blank" class="nav-item">Facebook</a>
-            <a href="https://discord.gg/FSU3de4cs6" target="_blank" class="nav-item">Discord</a>
-            <a href="https://www.dokichat.club/en/profile" target="_blank" class="nav-item">Dokichat</a>
+            
+            <!-- Nút Liên hệ Dropdown -->
+            <div class="dropdown">
+                <div class="nav-item">Liên hệ ▾</div>
+                <div class="dropdown-content">
+                    <a href="https://www.facebook.com/yuna.zdayy" target="_blank">Facebook</a>
+                    <a href="https://discord.gg/FSU3de4cs6" target="_blank">Discord</a>
+                    <a href="https://www.dokichat.club/en/profile" target="_blank">Dokichat</a>
+                </div>
+            </div>
+            
             <a href="https://ngl.link/yunadingu" class="nav-item">Lưu bút</a>
             <div class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</div>
             
@@ -1242,7 +1250,7 @@ transform:scale(1);
                 <div style="display: flex; gap: 10px; justify-content:center; flex-wrap:wrap;">
 
     <button class="btn-random" onclick="openRandomModal()">
-        🎲 Theo Dấu Tuyết Rơi
+        🔮 Theo Dấu Tuyết Rơi
     </button>
 
     <button class="btn-random" id="statsBtn">
@@ -1407,7 +1415,7 @@ transform:scale(1);
                         <span class="tag" onclick="filterTag('Yêu qua mạng')">#Yêu qua mạng</span>
                         <span class="tag" onclick="filterTag('Bạn thân anh trai')">#Bạn thân anh trai</span>
                         <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
-                        <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
+                        <span class="tag" onclick="filterTag('Outside lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
                         <span class="tag" onclick="filterTag('R17')">#R17</span>
                     </div>
                     <div class="char-links">
@@ -1470,7 +1478,7 @@ transform:scale(1);
         <div class="custom-modal-content">
         <div id="destiny-snow" class="snow-wrapper"></div>
             <span class="close-modal" onclick="closeModal('randomCharModal')">&times;</span>
-            <h2 style="font-family: var(--font-serif); color: var(--blue-medium); margin-top:0;">🎲 Giao Phó Định Mệnh</h2>
+            <h2 style="font-family: var(--font-serif); color: var(--blue-medium); margin-top:0;">🔮 Giao Phó Định Mệnh</h2>
             <div id="random-content">
                 <p style="color: var(--gray-text); margin-bottom: 10px; line-height: 1.6;">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</p>
                 <button class="btn-modal" onclick="rollRandomChar()">✧ Bắt lấy định mệnh</button>
@@ -1853,7 +1861,7 @@ spawnSnow('destiny-snow');
     }
 }
 
-        // --- SỬA LỖI LOGIC NHẠC ---
+        // --- NHẠC ---
 function toggleLocalMusic(event) {
     if (event) {
         event.preventDefault();
@@ -1879,7 +1887,7 @@ function toggleLocalMusic(event) {
         let musicBtn = document.getElementById('music-toggle');
         let hasUserInteractedWithMusic = false;
 
-        // Nếu bạn muốn auto-play khi click vào vùng bất kỳ (trừ nút nhạc):
+        // Auto-play khi click vào vùng bất kỳ (trừ nút nhạc):
 document.body.addEventListener(
     "click",
     function (e) {
@@ -2066,15 +2074,13 @@ const statsModal = document.getElementById("statsModal");
 const closeStats = document.querySelector(".close-stats");
 
 statsBtn.onclick = function () {
-    // Gọi tải lại dữ liệu mới nhất mỗi khi mở bảng thống kê
+    // Tải lại dữ liệu mới nhất mỗi khi mở bảng thống kê
     initializeStats(); 
 
     statsModal.style.display = "flex";
 
     requestAnimationFrame(() => {
         statsModal.classList.add("show");
-        // ĐÃ XÓA spawnSnow ở đây để tránh lỗi chiều rộng 0px khi bảng chưa giãn ra
-    });
 
     const seqContainer = document.getElementById("stats-sequence");
     const statsContent = document.getElementById("stats-content-wrapper");
@@ -2092,7 +2098,7 @@ statsBtn.onclick = function () {
     let i = 0;
     function nextStep() {
         if (i < steps.length) {
-            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:italic; color: var(--blue-medium);">${steps[i]}</div>`;
+            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:italic; color:(--gray-text);">${steps[i]}</div>`;
             i++;
             setTimeout(nextStep, 700); // Đổi chữ mỗi 0.7s
         } else {
@@ -2100,8 +2106,6 @@ statsBtn.onclick = function () {
             statsContent.style.display = "block";
             statsContent.style.opacity = "0";
             statsContent.style.animation = "fadeText 1.2s forwards";
-            
-            // KÍCH HOẠT TẠI ĐÂY: Lúc này bảng đã hiện diện đầy đủ kích thước, tuyết sẽ rơi chuẩn xác
             spawnSnow("stats-snow"); 
             switchStatTab('like');
         }
