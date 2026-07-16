@@ -1210,7 +1210,7 @@ transform:scale(1);
 
         <hr class="fb-divider">
 
-        <!-- NAV BAR FACEBOOK STYLE  -->
+        <!-- NAV BAR FACEBOOK STYLE (ĐÃ CẬP NHẬT) -->
         <div class="fb-nav">
             <div class="nav-item active" onclick="scrollToList()">List characters</div>
             
@@ -1466,7 +1466,7 @@ transform:scale(1);
                 <p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên TCN Facebook và chụp gửi cho Yuna.</p>
                 <hr style="border: 0; border-top: 1px dashed var(--blue-light); margin: 15px 0;">
                 <p style="color: #d9534f; font-size: 0.9em; text-align: justify;">
-                    <u>Lưu ý:</u> Mọi câu thần chú đều mang theo lời thì thầm của mùa đông. Hãy cất giữ chúng thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.
+                    <u>Lưu ý:</u>Hãy cất giữ thần chú thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.
                 </p>
             </div>
             <button class="btn-modal" onclick="closeModal('howToPassModal')">Đã hiểu</button>
@@ -1491,11 +1491,11 @@ transform:scale(1);
         <div class="custom-modal-content">
             <span class="close-modal" onclick="closeModal('r21Modal')">&times;</span>
             <h2 style="font-family: var(--font-serif); color: var(--navy-dark); margin-top:0;">🔐 Giấc Mộng Đóng Băng</h2>
-            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Lời chú để phá vỡ phong ấn là gì?</p>
+            <p style="color: var(--gray-text); font-size: 0.9em; margin-bottom: 15px;">Thần chú để phá vỡ phong ấn là gì?</p>
             <input type="password" id="r21-pass-input" placeholder="Nhập câu thần chú..." style="width: 80%; padding: 10px; border-radius: 10px; border: 1px solid var(--blue-light); outline: none; text-align: center;">
             <p id="r21-error" style="color: #d9534f; font-size: 0.85em; display: none; margin-top: 10px;">Băng vẫn chưa tan... Bạn có muốn truyền thêm hơi ấm không?</p>
             <br>
-            <button class="btn-modal" onclick="verifyR21Pass()" style="margin-top: 10px;">Mở Cửa</button>
+            <button class="btn-modal" onclick="verifyR21Pass()" style="margin-top: 10px;">Phá băng</button>
         </div>
     </div>
 
@@ -1861,7 +1861,7 @@ spawnSnow('destiny-snow');
     }
 }
 
-        // --- NHẠC ---
+        // --- SỬA LỖI LOGIC NHẠC ---
 function toggleLocalMusic(event) {
     if (event) {
         event.preventDefault();
@@ -1887,7 +1887,7 @@ function toggleLocalMusic(event) {
         let musicBtn = document.getElementById('music-toggle');
         let hasUserInteractedWithMusic = false;
 
-        // Auto-play khi click vào vùng bất kỳ (trừ nút nhạc):
+        // Nếu bạn muốn auto-play khi click vào vùng bất kỳ (trừ nút nhạc):
 document.body.addEventListener(
     "click",
     function (e) {
@@ -2074,13 +2074,15 @@ const statsModal = document.getElementById("statsModal");
 const closeStats = document.querySelector(".close-stats");
 
 statsBtn.onclick = function () {
-    // Tải lại dữ liệu mới nhất mỗi khi mở bảng thống kê
+    // Gọi tải lại dữ liệu mới nhất mỗi khi mở bảng thống kê
     initializeStats(); 
 
     statsModal.style.display = "flex";
 
     requestAnimationFrame(() => {
         statsModal.classList.add("show");
+        // ĐÃ XÓA spawnSnow ở đây để tránh lỗi chiều rộng 0px khi bảng chưa giãn ra
+    });
 
     const seqContainer = document.getElementById("stats-sequence");
     const statsContent = document.getElementById("stats-content-wrapper");
@@ -2098,7 +2100,7 @@ statsBtn.onclick = function () {
     let i = 0;
     function nextStep() {
         if (i < steps.length) {
-            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:italic; color:(--gray-text);">${steps[i]}</div>`;
+            seqContainer.innerHTML = `<div style="opacity:0; animation:fadeText .8s forwards; font-style:italic; color: var(--blue-medium);">${steps[i]}</div>`;
             i++;
             setTimeout(nextStep, 700); // Đổi chữ mỗi 0.7s
         } else {
@@ -2106,6 +2108,8 @@ statsBtn.onclick = function () {
             statsContent.style.display = "block";
             statsContent.style.opacity = "0";
             statsContent.style.animation = "fadeText 1.2s forwards";
+            
+            // KÍCH HOẠT TẠI ĐÂY: Lúc này bảng đã hiện diện đầy đủ kích thước, tuyết sẽ rơi chuẩn xác
             spawnSnow("stats-snow"); 
             switchStatTab('like');
         }
