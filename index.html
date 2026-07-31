@@ -244,8 +244,12 @@
         .btn-random:hover { background: var(--blue-medium); transform: translate3d(0, -2px, 0); }
         #reset-filter { background: var(--gray-text); display: none; }
 
-        /* === 7. THẺ NHÂN VẬT === */
-        .menu-title { text-align: center; font-weight: bold; color: var(--blue-dark); margin-bottom: 25px; font-size: 1.2em; letter-spacing: 1px; }
+        /* === 7. THẺ NHÂN VẬT & PHÂN TRANG === */
+        .menu-title { 
+            text-align: center; font-weight: bold; color: var(--blue-dark); 
+            margin-bottom: 25px; font-size: 1.2em; letter-spacing: 1px;
+            scroll-margin-top: 30px; /* Cách mép trên khi auto cuộn */
+        }
         .char-grid { display: flex; flex-direction: column; gap: 20px; width: 100%; }
         .char-card {
             position: relative; overflow: hidden; border-radius: 20px; width: 100%;
@@ -297,6 +301,23 @@
         .like-count { font-size: 0.85em; font-weight: bold; color: var(--navy-dark); }
         @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.35); } 100% { transform: scale(1); } }
         .journey-count { margin-top: 14px; font-size: 13px; color: #8A96AA; font-style: italic; text-align: left; }
+
+        /* UI Phân trang */
+        .pagination-container {
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            margin-top: 30px; padding-bottom: 10px;
+        }
+        .page-btn {
+            width: 38px; height: 38px; border-radius: 50%;
+            border: 1px solid var(--blue-pastel); background: #fff;
+            color: var(--blue-medium); font-weight: bold; font-family: var(--font-sans);
+            cursor: pointer; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .page-btn:hover { background: var(--blue-light); color: #fff; }
+        .page-btn.active { background: var(--blue-medium); color: #fff; border-color: var(--blue-medium); box-shadow: 0 4px 10px rgba(3,62,140,0.2); }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* === 8. FLOATING BUTTONS === */
         .floating-right { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; gap: 12px; }
@@ -373,6 +394,16 @@
 
         .dream-footer { text-align: center; padding: 45px 25px 30px; }
         .dream-footer p { margin: 0 auto; max-width: 700px; color: #123B5D; font-size: 0.9rem; line-height: 1.9; font-style: italic; letter-spacing: 0.3px; }
+        
+        /* Footer bản quyền */
+        .copyright-text {
+            font-style: normal;
+            margin-top: 15px;
+            color: var(--blue-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
 
         @keyframes fadeText { from { opacity: 0; transform: translate3d(0, 12px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 
@@ -473,7 +504,7 @@
                 </div>
             </div>
 
-            <div class="menu-title" style="margin-bottom: 5px;">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
+            <div class="menu-title" id="list-top-anchor">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
             <div class="total-visitors">Đã có <b id="total-visitor-count">...</b> Kẻ Mộng Mơ lưu lại dấu chân</div>
 
             <div class="char-grid">
@@ -680,11 +711,16 @@
                     <p class="journey-count">Đang tải...</p>
                 </div>
             </div>
+
+            <!-- Vùng chứa thanh điều hướng trang -->
+            <div id="pagination-controls" class="pagination-container"></div>
+            
             <div id="bottom-anchor"></div>
         </div>
         
         <footer class="dream-footer">
             <p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p>
+            <div class="copyright-text">@Yuna đi ngủ 2026</div>
         </footer>
     </div>
 
@@ -762,7 +798,7 @@
             const fragment = document.createDocumentFragment();
             const symbols = ["❄", "❅", "✦", "❆"];
             const isMobile = window.innerWidth < 768;
-            const flakeCount = isMobile ? 20 : 45; // Giảm tải trên điện thoại
+            const flakeCount = isMobile ? 20 : 45; 
             for(let i=0; i<flakeCount; i++){
                 const flake = document.createElement("div");
                 flake.className = "intro-flake";
@@ -784,7 +820,7 @@
             const fragment = document.createDocumentFragment();
             const symbols = ["❄","❅","❆"];
             const isMobile = window.innerWidth < 768;
-            const flakeCount = isMobile ? 25 : 55; // Giảm tải trên điện thoại
+            const flakeCount = isMobile ? 25 : 55;
             for(let i=0; i<flakeCount; i++){
                 const flake = document.createElement("div");
                 if(Math.random() < 0.15){
@@ -812,7 +848,7 @@
         const snowSymbols = ["❄", "❅", "❆", "✦", "✧"];
         function burstSnow(x,y){
             const fragment = document.createDocumentFragment();
-            for(let i=0; i<6; i++){ // Giảm số hạt vỡ ra để mượt hơn
+            for(let i=0; i<6; i++){ 
                 const flake = document.createElement("div");
                 flake.className = "click-snow";
                 flake.textContent = snowSymbols[Math.floor(Math.random()*snowSymbols.length)];
@@ -829,29 +865,101 @@
             document.body.appendChild(fragment);
         }
 
-        // --- ĐIỀU HƯỚNG ---
+        // --- ĐIỀU HƯỚNG CƠ BẢN ---
         function scrollToTop() { document.getElementById('top-anchor').scrollIntoView({ behavior: 'smooth' }); }
         function scrollToBottom() { document.getElementById('bottom-anchor').scrollIntoView({ behavior: 'smooth' }); }
         function scrollToList() { document.querySelector('.content-box').scrollIntoView({ behavior: 'smooth' }); }
 
-        // --- TÌM KIẾM ---
-        function filterTag(tagName) {
-            document.querySelectorAll('.char-card').forEach(card => {
-                card.style.display = card.innerText.includes(tagName) ? 'block' : 'none';
+        // --- HỆ THỐNG PHÂN TRANG & TÌM KIẾM ---
+        let allCards = [];
+        let activeCards = [];
+        let currentPage = 1;
+        const itemsPerPage = 5; // Số nhân vật trên mỗi trang
+
+        document.addEventListener("DOMContentLoaded", () => {
+            allCards = Array.from(document.querySelectorAll('.char-card'));
+            activeCards = [...allCards];
+            renderPagination();
+        });
+
+        function renderPagination() {
+            const totalPages = Math.ceil(activeCards.length / itemsPerPage);
+            
+            // Ẩn toàn bộ thẻ trước
+            allCards.forEach(card => card.style.display = 'none');
+            
+            // Hiển thị thẻ của trang hiện tại
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            activeCards.slice(start, end).forEach(card => {
+                card.style.display = 'block';
             });
-            document.getElementById('reset-filter').style.display = 'block';
-            scrollToList();
+
+            // Tạo nút phân trang
+            const paginationContainer = document.getElementById('pagination-controls');
+            if (!paginationContainer) return;
+            paginationContainer.innerHTML = '';
+
+            if (totalPages <= 1) return; // Nếu <= 5 nhân vật thì không hiện nút phân trang
+
+            // Nút "Lùi"
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn';
+            prevBtn.innerHTML = '❮';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => changePage(currentPage - 1);
+            paginationContainer.appendChild(prevBtn);
+
+            // Các số trang
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.innerText = i;
+                pageBtn.onclick = () => changePage(i);
+                paginationContainer.appendChild(pageBtn);
+            }
+
+            // Nút "Tiến"
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn';
+            nextBtn.innerHTML = '❯';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => changePage(currentPage + 1);
+            paginationContainer.appendChild(nextBtn);
         }
+
+        function changePage(page) {
+            currentPage = page;
+            renderPagination();
+            // Tự động cuộn lên vị trí chữ "Thư viện giấc mơ"
+            const anchor = document.getElementById('list-top-anchor');
+            if(anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Thay đổi Logic Lọc/Tìm kiếm để phù hợp với Phân trang
+        function filterTag(tagName) {
+            activeCards = allCards.filter(card => card.innerText.includes(tagName));
+            currentPage = 1;
+            renderPagination();
+            document.getElementById('reset-filter').style.display = 'block';
+            
+            const anchor = document.getElementById('list-top-anchor');
+            if(anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         function resetFilter() {
-            document.querySelectorAll('.char-card').forEach(card => card.style.display = 'block');
+            activeCards = [...allCards];
+            currentPage = 1;
+            renderPagination();
             document.getElementById('reset-filter').style.display = 'none';
             document.getElementById('searchInput').value = "";
         }
+
         function searchChars() {
             let val = document.getElementById('searchInput').value.toLowerCase().trim();
-            document.querySelectorAll('.char-card').forEach(card => {
-                card.style.display = card.textContent.toLowerCase().includes(val) ? 'block' : 'none';
-            });
+            activeCards = allCards.filter(card => card.textContent.toLowerCase().includes(val));
+            currentPage = 1;
+            renderPagination();
             document.getElementById('reset-filter').style.display = val !== "" ? 'block' : 'none';
         }
 
@@ -872,7 +980,7 @@
                 document.getElementById("r21-error").style.display="block";
                 const modalContent = document.querySelector("#r21Modal .custom-modal-content");
                 modalContent.classList.remove("shake");
-                void modalContent.offsetWidth; // Force reflow
+                void modalContent.offsetWidth;
                 modalContent.classList.add("shake");
             }
         }
@@ -906,7 +1014,7 @@
                 <button class="btn-modal" onclick="rollRandomChar()">✧ Bắt lấy định mệnh</button>
             `;
             openModal('randomCharModal');
-            spawnSnow("destiny-snow", 20); // Ít tuyết hơn ở modal
+            spawnSnow("destiny-snow", 20); 
         }
 
         function rollRandomChar(){
@@ -965,7 +1073,6 @@
             }
         }, { once: true });
 
-        // Tối ưu chống lag spam click
         let lastClickTime = 0;
         document.addEventListener("click", function(e){
             if(Date.now() - lastClickTime < 150) return; 
@@ -986,7 +1093,7 @@
             if(e.target === document.getElementById("statsModal")) document.getElementById("statsModal").style.display="none";
         });
 
-        // --- STATS SYSTEM CẢI TIẾN ---
+        // --- STATS SYSTEM ---
         const LIKE_NAMESPACE = "VanillaDaydream";
         const CLICK_NAMESPACE = "VanillaDaydream_Clicks";
         const VISITOR_NAMESPACE = "VanillaDaydream_Visitors"; 
