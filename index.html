@@ -39,7 +39,6 @@
             text-align: center; color: white;
             max-width: 700px; padding: 40px;
             animation: introFloat 3s ease-in-out infinite;
-            will-change: transform;
         }
         @keyframes introFloat {
             0% { transform: translate3d(0, 0px, 0); }
@@ -51,7 +50,6 @@
             font-size: 58px; margin-bottom: 20px;
             filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)) drop-shadow(0 0 18px rgba(180,220,255,0.45));
             animation: moonFloat 5s ease-in-out infinite;
-            will-change: transform;
         }
         @keyframes moonFloat {
             0% { transform: translate3d(0, 0, 0); }
@@ -83,7 +81,7 @@
             width: 60%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
             transform: skewX(-25deg);
-            animation: shine 4s infinite; will-change: left;
+            animation: shine 4s infinite;
         }
         .begin-btn:hover {
             transform: translate3d(0, -4px, 0);
@@ -110,7 +108,7 @@
             position: absolute; color: white; user-select: none;
             text-shadow: 0 0 8px rgba(255,255,255,0.7);
             animation-name: introFall; animation-timing-function: linear;
-            animation-iteration-count: infinite; will-change: transform, opacity;
+            animation-iteration-count: infinite;
         }
         @keyframes introFall {
             from { transform: translate3d(0, -120px, 0) rotate(0deg); opacity: 0; }
@@ -151,7 +149,7 @@
             display: flex; align-items: center;
         }
         .marquee-text {
-            display: inline-block; animation: marquee 15s linear infinite; will-change: transform;
+            display: inline-block; animation: marquee 15s linear infinite;
         }
         @keyframes marquee { 
             0% { transform: translate3d(100vw, 0, 0); } 
@@ -201,7 +199,6 @@
             background-size: 200% 200%;
             animation: bg-gradient 10s ease infinite;
             min-height: 100vh; padding: 40px 20px; overflow: hidden;
-            will-change: background-position;
         }
         @keyframes bg-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
@@ -210,7 +207,6 @@
             position: absolute; background: none; border: none; width: auto; height: auto;
             line-height: 1; pointer-events: none; user-select: none;
             animation: fall linear infinite; text-shadow: 0 0 6px rgba(160,210,255,0.6);
-            will-change: transform, opacity;
         }
         @keyframes fall {
             0% { transform: translate3d(0, -30px, 0) rotate(0deg); opacity: 0; }
@@ -257,7 +253,6 @@
             border-left: 5px solid var(--blue-pastel);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.45s cubic-bezier(0.22,0.61,0.36,1), box-shadow 0.45s ease, border-color 0.45s ease;
-            will-change: transform, box-shadow;
         }
         .char-card:nth-child(even) { border-left: 5px solid var(--blue-light); }
         .char-card:hover { transform: translate3d(0, -8px, 0) scale(1.015); box-shadow: 0 20px 45px rgba(120,170,235,0.25); border-color: rgba(255,255,255,0.95); }
@@ -379,22 +374,11 @@
         .dream-footer { text-align: center; padding: 45px 25px 30px; }
         .dream-footer p { margin: 0 auto; max-width: 700px; color: #123B5D; font-size: 0.9rem; line-height: 1.9; font-style: italic; letter-spacing: 0.3px; }
 
-        /* BODY BACKGROUND SNOW EFFECT */
-        body::before {
-            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 10;
-            background-image:
-                radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 2px),
-                radial-gradient(circle, rgba(255,255,255,0.5) 2px, transparent 3px),
-                radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 2px);
-            background-size: 120px 120px, 200px 200px, 300px 300px;
-            animation: snow 15s linear infinite; will-change: background-position;
-        }
-        @keyframes snow { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 100px 600px, -100px 800px, 200px 1000px; } }
         @keyframes fadeText { from { opacity: 0; transform: translate3d(0, 12px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 
         .click-snow {
             position: fixed; left: 0; top: 0; pointer-events: none; z-index: 999999; color: white;
-            font-size: 18px; text-shadow: 0 0 8px rgba(255,255,255,0.8); will-change: transform, opacity;
+            font-size: 18px; text-shadow: 0 0 8px rgba(255,255,255,0.8);
         }
         @keyframes clickSnow {
             0% { opacity: 1; transform: translate3d(0,0,0) scale(0.4) rotate(0deg); }
@@ -405,7 +389,7 @@
         .modal-snowflake {
             position: absolute; display: block; line-height: 1; pointer-events: none; user-select: none;
             animation: snowFall linear infinite; text-shadow: 0 0 4px rgba(180,220,255,0.5);
-            filter: drop-shadow(0 0 3px rgba(170,220,255,0.35)); will-change: transform, opacity;
+            filter: drop-shadow(0 0 3px rgba(170,220,255,0.35));
         }
         @keyframes snowFall {
             0% { transform: translate3d(0, -40px, 0) rotate(0deg); opacity: 0; }
@@ -416,9 +400,8 @@
 
         /* === TỐI ƯU MOBILE === */
         @media (max-width: 768px) {
-            .char-card { height: auto; }
-            .char-top { position: relative; flex-direction: column; align-items: stretch; }
-            .char-img { position: relative; width: 100%; height: 260px; margin-bottom: 6px; }
+            .char-top { position: relative; flex-direction: column; align-items: stretch; gap: 8px; }
+            .char-img { width: 100%; height: auto; aspect-ratio: 4/5; margin-bottom: 0; }
             .char-info { width: 100%; align-items: flex-start; text-align: left; padding-top: 0; }
             .char-name { padding-right: 0; margin-top: 0; }
             .char-tags { justify-content: flex-start; }
@@ -778,7 +761,9 @@
             const container = document.getElementById("intro-snow-container");
             const fragment = document.createDocumentFragment();
             const symbols = ["❄", "❅", "✦", "❆"];
-            for(let i=0; i<45; i++){
+            const isMobile = window.innerWidth < 768;
+            const flakeCount = isMobile ? 20 : 45; // Giảm tải trên điện thoại
+            for(let i=0; i<flakeCount; i++){
                 const flake = document.createElement("div");
                 flake.className = "intro-flake";
                 flake.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
@@ -798,7 +783,9 @@
             const container = document.getElementById("snow-container");
             const fragment = document.createDocumentFragment();
             const symbols = ["❄","❅","❆"];
-            for(let i=0; i<55; i++){
+            const isMobile = window.innerWidth < 768;
+            const flakeCount = isMobile ? 25 : 55; // Giảm tải trên điện thoại
+            for(let i=0; i<flakeCount; i++){
                 const flake = document.createElement("div");
                 if(Math.random() < 0.15){
                     flake.className = "snowflake";
@@ -825,7 +812,7 @@
         const snowSymbols = ["❄", "❅", "❆", "✦", "✧"];
         function burstSnow(x,y){
             const fragment = document.createDocumentFragment();
-            for(let i=0; i<8; i++){
+            for(let i=0; i<6; i++){ // Giảm số hạt vỡ ra để mượt hơn
                 const flake = document.createElement("div");
                 flake.className = "click-snow";
                 flake.textContent = snowSymbols[Math.floor(Math.random()*snowSymbols.length)];
@@ -919,7 +906,7 @@
                 <button class="btn-modal" onclick="rollRandomChar()">✧ Bắt lấy định mệnh</button>
             `;
             openModal('randomCharModal');
-            spawnSnow("destiny-snow");
+            spawnSnow("destiny-snow", 20); // Ít tuyết hơn ở modal
         }
 
         function rollRandomChar(){
@@ -950,7 +937,7 @@
                         <div style="color:var(--gray-text); font-style:italic; margin-bottom:25px;">${char.tagline}</div>
                         <button class="btn-modal" onclick="rollRandomChar()">✦ Bắt lấy định mệnh</button>
                     </div>`;
-                spawnSnow('destiny-snow');
+                spawnSnow('destiny-snow', 20);
             }
         }
 
@@ -1104,7 +1091,7 @@
             statsModal.style.display = "flex";
             requestAnimationFrame(() => statsModal.classList.add("show"));
 
-            spawnSnow("stats-snow");
+            spawnSnow("stats-snow", 20);
 
             const seqContainer = document.getElementById("stats-sequence");
             const statsContent = document.getElementById("stats-content-wrapper");
@@ -1152,10 +1139,10 @@
                 btnLike.classList.remove('active'); btnClick.classList.add('active');
                 secClick.style.animation = 'fadeInSlideUp 0.5s ease forwards';
             }
-            if(document.getElementById("stats-snow").children.length===0) spawnSnow("stats-snow");
+            if(document.getElementById("stats-snow").children.length===0) spawnSnow("stats-snow", 20);
         }
 
-        function spawnSnow(containerId, count = 40) {
+        function spawnSnow(containerId, count = 20) {
             const container = document.getElementById(containerId);
             if (!container) return;
             container.innerHTML = "";
