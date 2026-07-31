@@ -1646,6 +1646,36 @@
             }
             container.appendChild(fragment);
         }
+
+        /* =========================================
+   TỐI ƯU GIAO DIỆN CHO ĐIỆN THOẠI (MOBILE) 
+   ========================================= */
+@media (max-width: 768px) {
+  
+  /* Đổi từ xếp ngang sang xếp dọc */
+  .char-top {
+    flex-direction: column; 
+    align-items: center; /* Căn giữa ảnh */
+  }
+
+  /* Chỉnh lại kích thước ảnh cho bự ra và đẹp hơn trên mobile */
+  .char-top img {
+    width: 100%;         /* Cho ảnh chiếm hết chiều ngang thẻ */
+    max-width: 320px;    /* Giới hạn độ to tối đa để không bị tràn */
+    height: 350px;       /* Tăng chiều cao để ảnh ra form dọc giống web mẫu */
+    margin-bottom: 15px; /* Tạo khoảng trống giữa ảnh và phần tên ở dưới */
+  }
+
+  /* Đảm bảo khung chứa chữ dàn đều 100% chiều ngang */
+  .char-info {
+    width: 100%;
+  }
+
+  /* Tránh việc nút tim bị rớt dòng xấu xí */
+  .char-header {
+    width: 100%;
+  }
+}
     </script>
 </body>
 </html>
