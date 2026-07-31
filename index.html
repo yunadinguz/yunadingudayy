@@ -426,7 +426,7 @@
         .btn-random:hover { background: var(--blue-medium); transform: translate3d(0, -2px, 0); }
         #reset-filter { background: var(--gray-text); display: none; }
 
-        /* === 7. THẺ NHÂN VẬT === */
+        /* === 7. THẺ NHÂN VẬT ĐÃ ĐƯỢC CHỈNH SỬA === */
         .menu-title {
             text-align: center;
             font-weight: bold;
@@ -436,68 +436,120 @@
             letter-spacing: 1px;
         }
         .char-grid { display: flex; flex-direction: column; gap: 20px; }
-.char-card{
-    position:relative;
-    overflow:hidden;
-    border-radius:22px;
-    padding:22px;
-    background: #fff;
-    border: 1px solid #edf3f8;
-    border-left:5px solid var(--blue-pastel);
-    box-shadow: 0 10px 25px rgba(130,170,220,.15);
-    transition: transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .45s ease, border-color .45s ease;
-    will-change: transform, box-shadow;
-}
+        
+        .char-card {
+            position:relative;
+            overflow:hidden;
+            border-radius:22px;
+            padding:22px;
+            background: #fff;
+            border: 1px solid #edf3f8;
+            border-left:5px solid var(--blue-pastel);
+            box-shadow: 0 10px 25px rgba(130,170,220,.15);
+            transition: transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .45s ease, border-color .45s ease;
+            will-change: transform, box-shadow;
+        }
         .char-card:nth-child(even) { border-left: 5px solid var(--blue-light); }
-.char-card:hover{
-    transform: translate3d(0, -8px, 0) scale(1.015);
-    box-shadow: 0 20px 45px rgba(120,170,235,.25);
-    border-color: rgba(255,255,255,.95);
-}
+        .char-card:hover {
+            transform: translate3d(0, -8px, 0) scale(1.015);
+            box-shadow: 0 20px 45px rgba(120,170,235,.25);
+            border-color: rgba(255,255,255,.95);
+        }
         
-        .char-name { font-family: var(--font-serif); font-weight: bold; color: var(--navy-dark); font-size: 1.6em; margin: 0 0 5px 0;padding-right: 60px; word-wrap: break-word; line-height: 1.3;}
-        .char-tagline { color: var(--gray-text); font-size: 0.95em; margin-bottom: 15px; font-style: italic;}
+        /* Cấu trúc chia cột ảnh và chữ cho mượt trên điện thoại */
+        .char-top {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .char-img {
+            width: 85px; 
+            height: 85px;
+            border-radius: 16px; /* Bo góc như mẫu */
+            object-fit: cover;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(120, 170, 235, 0.2);
+            background-color: #f0f4f8; /* Màu nền chờ nếu ảnh lỗi */
+        }
+
+        .char-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
         
-        .char-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-        .tag { border: 1px solid var(--blue-pastel); padding: 5px 12px; border-radius: 20px; font-size: 0.8em; color: var(--blue-medium); background: #f4f8fc; cursor: pointer; transition: 0.2s; }
-       .tag:hover{
-    background:var(--blue-light);
-    color:white;
-    transform:translate3d(0, -2px, 0);
-    box-shadow: 0 6px 16px rgba(120,170,235,.3);
-}        
+        /* Font chữ được thu nhỏ lại gọn gàng */
+        .char-name { 
+            font-family: var(--font-serif); 
+            font-weight: bold; 
+            color: var(--navy-dark); 
+            font-size: 1.2em; /* Nhỏ lại so với cũ */
+            margin: 0 0 5px 0;
+            padding-right: 45px; /* Tránh đè nút tim */
+            word-wrap: break-word; 
+            line-height: 1.25;
+        }
+        
+        .char-tagline { 
+            color: var(--gray-text); 
+            font-size: 0.75em; /* Kích thước bằng ~2/3 lúc trước */
+            margin-bottom: 8px; 
+            font-style: italic;
+            line-height: 1.4;
+        }
+        
+        .char-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0; }
+        .tag { 
+            border: 1px solid var(--blue-pastel); 
+            padding: 4px 10px; 
+            border-radius: 15px; 
+            font-size: 0.7em; /* Nhỏ lại xíu cho xinh */
+            color: var(--blue-medium); 
+            background: #f4f8fc; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        .tag:hover{
+            background:var(--blue-light);
+            color:white;
+            transform:translate3d(0, -2px, 0);
+            box-shadow: 0 6px 16px rgba(120,170,235,.3);
+        }        
+        
         .char-links { display: flex; gap: 10px; }
-.char-links a, .r21-btn{
-    flex:1;
-    text-align:center;
-    padding:10px 14px;
-    border-radius:12px;
-    text-decoration:none;
-    color:#fff;
-    font-size:.9em;
-    font-weight:bold;
-    cursor:pointer;
-    border:none;
-    font-family:var(--font-sans);
-    transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease, filter .2s ease;
-    box-shadow: 0 6px 16px rgba(120,170,235,.18);
-    -webkit-tap-highlight-color:transparent;
-}
+        .char-links a, .r21-btn{
+            flex:1;
+            text-align:center;
+            padding:10px 14px;
+            border-radius:12px;
+            text-decoration:none;
+            color:#fff;
+            font-size:.9em;
+            font-weight:bold;
+            cursor:pointer;
+            border:none;
+            font-family:var(--font-sans);
+            transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease, filter .2s ease;
+            box-shadow: 0 6px 16px rgba(120,170,235,.18);
+            -webkit-tap-highlight-color:transparent;
+        }
 
-.link-doki{ background:var(--blue-light); }
-.link-gg{ background:var(--blue-medium); }
-.link-story{ background:var(--blue-frame); }
-.r21-btn{ background:var(--blue-dark); width:100%; }
+        .link-doki{ background:var(--blue-light); }
+        .link-gg{ background:var(--blue-medium); }
+        .link-story{ background:var(--blue-frame); }
+        .r21-btn{ background:var(--blue-dark); width:100%; }
 
-.char-links a:hover, .r21-btn:hover{
-    transform:translate3d(0, -3px, 0);
-    box-shadow: 0 10px 24px rgba(120,170,235,.28);
-}
-.char-links a:active, .r21-btn:active{
-    transform: translate3d(0, 2px, 0) scale(.97);
-    box-shadow: 0 2px 8px rgba(120,170,235,.18);
-    opacity:.92;
-}
+        .char-links a:hover, .r21-btn:hover{
+            transform:translate3d(0, -3px, 0);
+            box-shadow: 0 10px 24px rgba(120,170,235,.28);
+        }
+        .char-links a:active, .r21-btn:active{
+            transform: translate3d(0, 2px, 0) scale(.97);
+            box-shadow: 0 2px 8px rgba(120,170,235,.18);
+            opacity:.92;
+        }
         .r21-content { display: none; margin-top: 15px; border-top: 1px dashed var(--gray-divider); padding-top: 15px; }
 
         /* === 8. NÚT NỔI BÊN PHẢI === */
@@ -531,286 +583,287 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* === 9. MODAL POPUP === */
-.custom-modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(12,25,45,.35);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    transition: opacity .35s ease;
-    z-index:1000;
-}
-.custom-modal-content{
-    background:rgba(255,255,255,.88);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-    padding:35px;
-    width:85%;
-    max-width:460px;
-    border-radius:24px;
-    border:1px solid rgba(255,255,255,.6);
-    box-shadow: 0 25px 50px rgba(0,0,0,.15);
-    transform: translate3d(0, 20px, 0) scale(.94);
-    opacity:0;
-    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
-    position:relative;
-    overflow:hidden;
-    text-align:center;
-}
-.custom-modal.show{ display:flex; opacity:1; }
-.custom-modal.show .custom-modal-content{
-    opacity:1;
-    transform: translate3d(0, 0, 0) scale(1);
-}
-.close-modal{
-    position:absolute;
-    top:18px;
-    right:20px;
-    width:38px;
-    height:38px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:34px;
-    line-height:1;
-    color:#6d6d6d;
-    cursor:pointer;
-    z-index:100;
-    transition:.25s;
-}
+        .custom-modal{
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(12,25,45,.35);
+            backdrop-filter:blur(8px);
+            -webkit-backdrop-filter:blur(8px);
+            justify-content:center;
+            align-items:center;
+            opacity:0;
+            transition: opacity .35s ease;
+            z-index:1000;
+        }
+        .custom-modal-content{
+            background:rgba(255,255,255,.88);
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+            padding:35px;
+            width:85%;
+            max-width:460px;
+            border-radius:24px;
+            border:1px solid rgba(255,255,255,.6);
+            box-shadow: 0 25px 50px rgba(0,0,0,.15);
+            transform: translate3d(0, 20px, 0) scale(.94);
+            opacity:0;
+            transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+            position:relative;
+            overflow:hidden;
+            text-align:center;
+        }
+        .custom-modal.show{ display:flex; opacity:1; }
+        .custom-modal.show .custom-modal-content{
+            opacity:1;
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+        .close-modal{
+            position:absolute;
+            top:18px;
+            right:20px;
+            width:38px;
+            height:38px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:34px;
+            line-height:1;
+            color:#6d6d6d;
+            cursor:pointer;
+            z-index:100;
+            transition:.25s;
+        }
 
-.close-modal:hover{ color:#4F90E8; transform:scale(1.1); }
-.btn-modal { background-color: var(--blue-light); color: #fff; border-radius: 20px; border: none; padding: 10px 25px; font-size: 1em; font-weight: bold; cursor: pointer; font-family: var(--font-sans); transition: 0.3s; margin-top: 5px; }
-.btn-modal:hover { background-color: var(--blue-medium); }
-.pass-instructions { text-align: left; color: var(--gray-text); font-size: 0.95em; line-height: 1.6; margin-bottom: 20px; }
-.pass-instructions b { color: var(--blue-dark); }
+        .close-modal:hover{ color:#4F90E8; transform:scale(1.1); }
+        .btn-modal { background-color: var(--blue-light); color: #fff; border-radius: 20px; border: none; padding: 10px 25px; font-size: 1em; font-weight: bold; cursor: pointer; font-family: var(--font-sans); transition: 0.3s; margin-top: 5px; }
+        .btn-modal:hover { background-color: var(--blue-medium); }
+        .pass-instructions { text-align: left; color: var(--gray-text); font-size: 0.95em; line-height: 1.6; margin-bottom: 20px; }
+        .pass-instructions b { color: var(--blue-dark); }
 
-#stats-sequence, #stats-content-wrapper, .stats-tabs, .stats-section, .custom-modal-content h2, .custom-modal-content p{
-    position:relative;
-    z-index:5;
-}
+        #stats-sequence, #stats-content-wrapper, .stats-tabs, .stats-section, .custom-modal-content h2, .custom-modal-content p{
+            position:relative;
+            z-index:5;
+        }
 
-.dream-footer{ text-align:center; padding:45px 25px 30px; }
-.dream-footer p{
-    margin:0 auto;
-    max-width:700px;
-    color:#123B5D; 
-    font-size:.9rem;
-    line-height:1.9;
-    font-style:italic;
-    letter-spacing:.3px;
-}
+        .dream-footer{ text-align:center; padding:45px 25px 30px; }
+        .dream-footer p{
+            margin:0 auto;
+            max-width:700px;
+            color:#123B5D; 
+            font-size:.9rem;
+            line-height:1.9;
+            font-style:italic;
+            letter-spacing:.3px;
+        }
 
-/* ===== SNOW EFFECT ===== */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:10;
-    background-image:
-        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 2px),
-        radial-gradient(circle, rgba(255,255,255,.5) 2px, transparent 3px),
-        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 2px);
-    background-size: 120px 120px, 200px 200px, 300px 300px;
-    animation:snow 15s linear infinite;
-    will-change: background-position;
-}
+        /* ===== SNOW EFFECT ===== */
+        body::before{
+            content:"";
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            z-index:10;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 2px),
+                radial-gradient(circle, rgba(255,255,255,.5) 2px, transparent 3px),
+                radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 2px);
+            background-size: 120px 120px, 200px 200px, 300px 300px;
+            animation:snow 15s linear infinite;
+            will-change: background-position;
+        }
 
-@keyframes snow{
-    from{ background-position: 0 0, 0 0, 0 0; }
-    to{ background-position: 100px 600px, -100px 800px, 200px 1000px; }
-}
+        @keyframes snow{
+            from{ background-position: 0 0, 0 0, 0 0; }
+            to{ background-position: 100px 600px, -100px 800px, 200px 1000px; }
+        }
 
-@keyframes fadeText{
-    from{ opacity:0; transform: translate3d(0, 12px, 0); }
-    to{ opacity:1; transform: translate3d(0, 0, 0); }
-}
+        @keyframes fadeText{
+            from{ opacity:0; transform: translate3d(0, 12px, 0); }
+            to{ opacity:1; transform: translate3d(0, 0, 0); }
+        }
 
-.custom-modal-content.shake{ animation: modalShake .45s ease; }
+        .custom-modal-content.shake{ animation: modalShake .45s ease; }
 
-@keyframes modalShake{
-    0%{transform:translate3d(0,0,0);}
-    15%{transform:translate3d(-10px,0,0);}
-    30%{transform:translate3d(10px,0,0);}
-    45%{transform:translate3d(-8px,0,0);}
-    60%{transform:translate3d(8px,0,0);}
-    75%{transform:translate3d(-5px,0,0);}
-    90%{transform:translate3d(5px,0,0);}
-    100%{transform:translate3d(0,0,0);}
-}
+        @keyframes modalShake{
+            0%{transform:translate3d(0,0,0);}
+            15%{transform:translate3d(-10px,0,0);}
+            30%{transform:translate3d(10px,0,0);}
+            45%{transform:translate3d(-8px,0,0);}
+            60%{transform:translate3d(8px,0,0);}
+            75%{transform:translate3d(-5px,0,0);}
+            90%{transform:translate3d(5px,0,0);}
+            100%{transform:translate3d(0,0,0);}
+        }
 
-/* SNOW CLICK EFFECT */
-.click-snow{
-    position:fixed;
-    left:0;
-    top:0;
-    pointer-events:none;
-    z-index:999999;
-    color:white;
-    font-size:18px;
-    text-shadow: 0 0 8px rgba(255,255,255,.8);
-    will-change: transform, opacity;
-}
-@keyframes clickSnow{
-    0%{ opacity:1; transform: translate3d(0,0,0) scale(.4) rotate(0deg); }
-    100%{ opacity:0; transform: translate3d(var(--x), var(--y), 0) scale(1.4) rotate(360deg); }
-}
+        /* SNOW CLICK EFFECT */
+        .click-snow{
+            position:fixed;
+            left:0;
+            top:0;
+            pointer-events:none;
+            z-index:999999;
+            color:white;
+            font-size:18px;
+            text-shadow: 0 0 8px rgba(255,255,255,.8);
+            will-change: transform, opacity;
+        }
+        @keyframes clickSnow{
+            0%{ opacity:1; transform: translate3d(0,0,0) scale(.4) rotate(0deg); }
+            100%{ opacity:0; transform: translate3d(var(--x), var(--y), 0) scale(1.4) rotate(360deg); }
+        }
 
-.stats-modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    backdrop-filter:blur(6px);
-    z-index:9999;
-}
+        .stats-modal{
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.45);
+            backdrop-filter:blur(6px);
+            z-index:9999;
+        }
 
-.stats-box{
-    width:min(900px,92%);
-    margin:70px auto;
-    background:#fff;
-    border-radius:25px;
-    padding:35px;
-}
+        .stats-box{
+            width:min(900px,92%);
+            margin:70px auto;
+            background:#fff;
+            border-radius:25px;
+            padding:35px;
+        }
 
-.char-like {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+        .char-like {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-.like-btn{
-    font-size:28px;
-    color:#76ACE6;
-    background:none;
-    border:none;
-    cursor:pointer;
-    transition:.25s;
-}
-.like-btn.liked{ color:#4F90E8; }
-.like-btn.pop{ animation:heartPop .25s ease; }
-@keyframes heartPop{
-    0%{ transform:scale(1); }
-    50%{ transform:scale(1.35); }
-    100%{ transform:scale(1); }
-}
+        .like-btn{
+            font-size:26px;
+            color:#76ACE6;
+            background:none;
+            border:none;
+            cursor:pointer;
+            transition:.25s;
+            padding: 0;
+        }
+        .like-btn.liked{ color:#4F90E8; }
+        .like-btn.pop{ animation:heartPop .25s ease; }
+        @keyframes heartPop{
+            0%{ transform:scale(1); }
+            50%{ transform:scale(1.35); }
+            100%{ transform:scale(1); }
+        }
 
-.journey-count{
-    margin-top:14px;
-    font-size:13px;
-    color:#8A96AA;
-    font-style:italic;
-    text-align:left;
-}
+        .journey-count{
+            margin-top:14px;
+            font-size:13px;
+            color:#8A96AA;
+            font-style:italic;
+            text-align:left;
+        }
 
-.total-visitors {
-    text-align: center;
-    color: var(--gray-text);
-    font-size: 0.9em;
-    font-style: normal;
-    margin-bottom: 30px;
-}
-.total-visitors b { color: var(--blue-dark); font-size: 1.1em; }
+        .total-visitors {
+            text-align: center;
+            color: var(--gray-text);
+            font-size: 0.9em;
+            font-style: normal;
+            margin-bottom: 30px;
+        }
+        .total-visitors b { color: var(--blue-dark); font-size: 1.1em; }
 
-.stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 18px;
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240, 248, 255, 0.8));
-    border: 1px solid rgba(179, 213, 242, 0.4);
-    border-radius: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(120, 170, 235, 0.05);
-}
-.stat-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(120, 170, 235, 0.2);
-    border-color: var(--blue-light);
-}
-.rank-number {
-    display: inline-block;
-    width: 24px;
-    text-align: center;
-    font-weight: bold;
-    color: var(--gray-text);
-    margin-right: 5px;
-}
-.stat-name { color: var(--navy-dark); font-size: 0.95em; display: flex; align-items: center; gap: 5px; }
-.stat-value { font-weight: bold; font-size: 1.1em; }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240, 248, 255, 0.8));
+            border: 1px solid rgba(179, 213, 242, 0.4);
+            border-radius: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(120, 170, 235, 0.05);
+        }
+        .stat-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(120, 170, 235, 0.2);
+            border-color: var(--blue-light);
+        }
+        .rank-number {
+            display: inline-block;
+            width: 24px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--gray-text);
+            margin-right: 5px;
+        }
+        .stat-name { color: var(--navy-dark); font-size: 0.95em; display: flex; align-items: center; gap: 5px; }
+        .stat-value { font-weight: bold; font-size: 1.1em; }
 
-.stats-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
-.stat-tab-btn {
-    background: #fff;
-    border: 1px solid var(--blue-pastel);
-    color: var(--blue-medium);
-    padding: 10px 22px;
-    border-radius: 30px;
-    font-size: 1.05em;
-    font-weight: bold;
-    font-family: var(--font-sans);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-.stat-tab-btn:hover {
-    transform: translate3d(0, -2px, 0);
-    box-shadow: 0 6px 15px rgba(120, 170, 235, 0.2);
-}
-.stat-tab-btn.active {
-    background: var(--blue-light);
-    color: #fff;
-    border-color: var(--blue-light);
-    box-shadow: 0 6px 15px rgba(120, 170, 235, 0.4);
-}
-.stats-section { animation: fadeInSlideUp 0.5s ease forwards; }
+        .stats-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .stat-tab-btn {
+            background: #fff;
+            border: 1px solid var(--blue-pastel);
+            color: var(--blue-medium);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 1.05em;
+            font-weight: bold;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .stat-tab-btn:hover {
+            transform: translate3d(0, -2px, 0);
+            box-shadow: 0 6px 15px rgba(120, 170, 235, 0.2);
+        }
+        .stat-tab-btn.active {
+            background: var(--blue-light);
+            color: #fff;
+            border-color: var(--blue-light);
+            box-shadow: 0 6px 15px rgba(120, 170, 235, 0.4);
+        }
+        .stats-section { animation: fadeInSlideUp 0.5s ease forwards; }
 
-@keyframes fadeInSlideUp {
-    from { opacity: 0; transform: translate3d(0, 15px, 0); }
-    to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translate3d(0, 15px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
 
-.snow-wrapper{
-    position:absolute;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:2;
-}
+        .snow-wrapper{
+            position:absolute;
+            inset:0;
+            overflow:hidden;
+            pointer-events:none;
+            z-index:2;
+        }
 
-.modal-snowflake {
-    position:absolute;
-    display:block;
-    line-height:1;
-    pointer-events:none;
-    user-select:none;
-    animation:snowFall linear infinite;
-    text-shadow: 0 0 4px rgba(180,220,255,.5);
-    filter: drop-shadow(0 0 3px rgba(170,220,255,.35));
-    will-change: transform, opacity;
-}
+        .modal-snowflake {
+            position:absolute;
+            display:block;
+            line-height:1;
+            pointer-events:none;
+            user-select:none;
+            animation:snowFall linear infinite;
+            text-shadow: 0 0 4px rgba(180,220,255,.5);
+            filter: drop-shadow(0 0 3px rgba(170,220,255,.35));
+            will-change: transform, opacity;
+        }
 
-@keyframes snowFall {
-    0% { transform: translate3d(0, -40px, 0) rotate(0deg); opacity: 0; }
-    15% { opacity: 1; }
-    85% { opacity: 1; }
-    100% { transform: translate3d(var(--drift), 600px, 0) rotate(var(--rotate)); opacity: 0; }
-}
+        @keyframes snowFall {
+            0% { transform: translate3d(0, -40px, 0) rotate(0deg); opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translate3d(var(--drift), 600px, 0) rotate(var(--rotate)); opacity: 0; }
+        }
 
-.custom-modal-content > h2, .custom-modal-content > p, .custom-modal-content > button, .custom-modal-content > input{
-    position:relative;
-    z-index:10;
-}
+        .custom-modal-content > h2, .custom-modal-content > p, .custom-modal-content > button, .custom-modal-content > input{
+            position:relative;
+            z-index:10;
+        }
     </style>
 </head>
 <body>
@@ -832,7 +885,6 @@ body::before{
 
     <div class="fb-header-container">
         <div class="fb-profile">
-            <!-- Thêm Lazy load cho ảnh -->
             <img src="images/avatar.jpg" alt="Avatar" class="fb-avatar" loading="lazy" decoding="async">
             <div class="fb-info">
                 <h1 class="fb-name">Yuna Đi Ngủ</h1>
@@ -886,14 +938,22 @@ body::before{
                 <!-- Char 1 -->
                 <div class="char-card" data-char="to-trach-duong">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Tô Trạch Dương (苏泽阳)</h2>
-                    <div class="char-tagline">"Mẹ kiếp! Là ai suốt ngày thò mông ra đung đưa trước mặt chồng bạn thân thế hả?"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('NTR')">#NTR</span>
-                        <span class="tag" onclick="filterTag('Dark Romance')">#Dark Romance</span>
-                        <span class="tag" onclick="filterTag('R21')">#R21</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Tô Trạch Dương" class="images/totrachduong.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Tô Trạch Dương (苏泽阳)</h2>
+                            <div class="char-tagline">"Mẹ kiếp! Là ai suốt ngày thò mông ra đung đưa trước mặt chồng bạn thân thế hả?"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('NTR')">#NTR</span>
+                                <span class="tag" onclick="filterTag('Dark Romance')">#Dark Romance</span>
+                                <span class="tag" onclick="filterTag('R21')">#R21</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div id="lock-totrachduong">
                         <button class="r21-btn" onclick="openR21Modal('totrachduong', 'CaMtReNhOdUoI18tUoI')">🔐 Giấc Mộng Đóng Băng</button>
                     </div>
@@ -908,16 +968,24 @@ body::before{
                 <!-- Char 2 -->
                 <div class="char-card" data-char="tri-canh-ngon">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Trì Cảnh Ngôn (池景言)</h2>
-                    <div class="char-tagline">"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('Xuyên sách')">#Xuyên sách</span>
-                        <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
-                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
-                        <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
-                        <span class="tag" onclick="filterTag('R17')">#R17</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Trì Cảnh Ngôn" class="images/tricanhngon.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Trì Cảnh Ngôn (池景言)</h2>
+                            <div class="char-tagline">"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('Xuyên sách')">#Xuyên sách</span>
+                                <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
+                                <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                                <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                                <span class="tag" onclick="filterTag('R17')">#R17</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://www.dokichat.club/chat/0f64f08c-4038-43ed-b9bd-177e5a17a16e?isShare=true" class="link-doki">Doki chat</a>
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221eR-bu9Sxm2WWBBQzGWPEzOFNf5RpQV6C%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
@@ -929,16 +997,24 @@ body::before{
                 <!-- Char 3 -->
                 <div class="char-card" data-char="ha-thien-dat">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Hạ Thiên Dật (夏天逸)</h2>
-                    <div class="char-tagline">"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ."</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
-                        <span class="tag" onclick="filterTag('TXVT')">#TXVT</span>
-                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
-                        <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
-                        <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Hạ Thiên Dật" class="images/hathiendat.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Hạ Thiên Dật (夏天逸)</h2>
+                            <div class="char-tagline">"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ."</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
+                                <span class="tag" onclick="filterTag('TXVT')">#TXVT</span>
+                                <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                                <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
+                                <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://www.dokichat.club/chat/9746f261-9250-45c7-ba26-6c112bfd586c?isShare=true" class="link-doki">Doki chat</a>
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221QS2HQaDGgW78AkNlMvtXX7wcH4d0zUfJ%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
@@ -950,13 +1026,21 @@ body::before{
                 <!-- Char 4 -->
                 <div class="char-card" data-char="tri-due-khai">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Trì Duệ Khải (池睿凯)</h2>
-                    <div class="char-tagline">"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('Ma-Người')">#Ma-Người</span>
-                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Trì Duệ Khải" class="images/triduekhai.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Trì Duệ Khải (池睿凯)</h2>
+                            <div class="char-tagline">"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('Ma-Người')">#Ma-Người</span>
+                                <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true" class="link-doki">Doki chat</a>
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
@@ -968,16 +1052,24 @@ body::before{
                 <!-- Char 5 -->
                 <div class="char-card" data-char="tran-da">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Trần Dã (陈野)</h2>
-                    <div class="char-tagline">"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
-                        <span class="tag" onclick="filterTag('Ngược Tâm')">#Ngược Tâm</span>
-                        <span class="tag" onclick="filterTag('Xã hội đen')">#Xã hội đen</span>
-                        <span class="tag" onclick="filterTag('Slow-Burn')">#Slow-Burn</span>
-                        <span class="tag" onclick="filterTag('Nuôi từ nhỏ')">#Nuôi từ nhỏ</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Trần Dã" class="images/tranda.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Trần Dã (陈野)</h2>
+                            <div class="char-tagline">"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
+                                <span class="tag" onclick="filterTag('Ngược Tâm')">#Ngược Tâm</span>
+                                <span class="tag" onclick="filterTag('Xã hội đen')">#Xã hội đen</span>
+                                <span class="tag" onclick="filterTag('Slow-Burn')">#Slow-Burn</span>
+                                <span class="tag" onclick="filterTag('Nuôi từ nhỏ')">#Nuôi từ nhỏ</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://www.dokichat.club/chat/25514c37-f627-47d4-bd7c-5c0291876285?isShare=true" class="link-doki">Doki chat</a>
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2215VE7_N8lmyk3XvljicbPYE1OnBOAdiW5%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
@@ -989,18 +1081,26 @@ body::before{
                 <!-- Char 6 -->
                 <div class="char-card" data-char="tham-nhat-chu">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Thẩm Nhất Chu (沈以舟)</h2>
-                    <div class="char-tagline">"Giáo sư Thẩm “cấm dục” chính là bạn trai qua mạng của tôi!"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('Thầy-Trò')">#Thầy-Trò</span>
-                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
-                        <span class="tag" onclick="filterTag('Yêu qua mạng')">#Yêu qua mạng</span>
-                        <span class="tag" onclick="filterTag('Bạn thân anh trai')">#Bạn thân anh trai</span>
-                        <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
-                        <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
-                        <span class="tag" onclick="filterTag('R17')">#R17</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Thẩm Nhất Chu" class="images/thamnhatchu.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Thẩm Nhất Chu (沈以舟)</h2>
+                            <div class="char-tagline">"Giáo sư Thẩm “cấm dục” chính là bạn trai qua mạng của tôi!"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('Thầy-Trò')">#Thầy-Trò</span>
+                                <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                                <span class="tag" onclick="filterTag('Yêu qua mạng')">#Yêu qua mạng</span>
+                                <span class="tag" onclick="filterTag('Bạn thân anh trai')">#Bạn thân anh trai</span>
+                                <span class="tag" onclick="filterTag('TMTM')">#TMTM</span>
+                                <span class="tag" onclick="filterTag('Ngoài lạnh trong nóng')">#Ngoài lạnh trong nóng</span>
+                                <span class="tag" onclick="filterTag('R17')">#R17</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true" class="link-doki">Doki chat</a>
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221WKA71eGJq11zi40y5_pwFH9HWixewWqh%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
@@ -1012,15 +1112,23 @@ body::before{
                 <!-- Char 7 -->
                 <div class="char-card" data-char="tri-triet-minh">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Trì Triệt Minh (池彻明)</h2>
-                    <div class="char-tagline">"Nhật ký cua đổ người 'Out meta': Sếp tổng 40 tuổi thật thơm!"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('Sếp-Nhân Viên')">#Sếp-Nhân Viên</span>
-                        <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
-                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
-                        <span class="tag" onclick="filterTag('Slow-Burn')">#Slow-Burn</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Trì Triệt Minh" class="images/tritrietminh.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Trì Triệt Minh (池彻明)</h2>
+                            <div class="char-tagline">"Nhật ký cua đổ người 'Out meta': Sếp tổng 40 tuổi thật thơm!"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('Sếp-Nhân Viên')">#Sếp-Nhân Viên</span>
+                                <span class="tag" onclick="filterTag('Age-gap')">#Age-gap</span>
+                                <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                                <span class="tag" onclick="filterTag('Slow-Burn')">#Slow-Burn</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221VMQV4GWygOnBGHQLMijBp9F8ZmmR8gMb%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://ellipsus.com/read/56NlG1HqQmltgSGuVd6BIk/Tr-Trit-Minh-?theme=icicle" class="link-story">Story</a>
@@ -1031,15 +1139,23 @@ body::before{
                 <!-- Char 8 -->
                 <div class="char-card" data-char="tri-tieu-han">
                     <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
-                    <h2 class="char-name">Trì Tiêu Hàn (池萧寒)</h2>
-                    <div class="char-tagline">"Đàn em của tôi hình như biết yêu rồi...!?"</div>
-                    <div class="char-tags">
-                        <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
-                        <span class="tag" onclick="filterTag('TXVT')">#TXVT</span>
-                        <span class="tag" onclick="filterTag('Hồng Hài Nhi')">#Hồng Hài Nhi</span>
-                        <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
-                        <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                    
+                    <div class="char-top">
+                        <!-- THÊM LINK ẢNH CỦA BẠN VÀO TRONG SRC BÊN DƯỚI -->
+                        <img src="" alt="Trì Tiêu Hàn" class="images/tritieuhan.jpg"> 
+                        <div class="char-info">
+                            <h2 class="char-name">Trì Tiêu Hàn (池萧寒)</h2>
+                            <div class="char-tagline">"Đàn em của tôi hình như biết yêu rồi...!?"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('TXVT')">#TXVT</span>
+                                <span class="tag" onclick="filterTag('Hồng Hài Nhi')">#Hồng Hài Nhi</span>
+                                <span class="tag" onclick="filterTag('Ngọt sủng')">#Ngọt sủng</span>
+                                <span class="tag" onclick="filterTag('Yêu thầm')">#Yêu thầm</span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="char-links">
                         <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221xPmo_REdZ8OtY4MzS3cL3HLboatoF3pg%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg">ggAI</a>
                         <a href="https://ellipsus.com/read/741JfoCGXFzR9Xy0V8JARe/Tr-Tiu-Hn-?theme=icicle" class="link-story">Story</a>
@@ -1138,7 +1254,6 @@ body::before{
                 flake.style.fontSize = (10+Math.random()*18) + "px";
                 flake.style.opacity = .3 + Math.random()*.7;
                 
-                // Cài đặt duration và delay ÂM để tuyết xuất hiện rải rác rơi ngay lập tức
                 const duration = 8 + Math.random()*10;
                 flake.style.animationDuration = duration + "s";
                 flake.style.animationDelay = -Math.random()*duration + "s";
@@ -1340,7 +1455,7 @@ body::before{
         // Tối ưu chống lag spam click (Throttling)
         let lastClickTime = 0;
         document.addEventListener("click", function(e){
-            if(Date.now() - lastClickTime < 150) return; // Chặn nhấp quá nhanh
+            if(Date.now() - lastClickTime < 150) return; 
             lastClickTime = Date.now();
             burstSnow(e.clientX, e.clientY);
         });
@@ -1419,7 +1534,7 @@ body::before{
                 })());
             });
 
-            await Promise.allSettled(promises); // Tránh 1 lỗi làm treo toàn bộ
+            await Promise.allSettled(promises); 
             renderTop5();
         }
 
@@ -1450,7 +1565,6 @@ body::before{
             statsModal.style.display = "flex";
             requestAnimationFrame(() => statsModal.classList.add("show"));
 
-            // KÍCH HOẠT TUYẾT RƠI NGAY LÚC VỪA MỞ MODAL
             spawnSnow("stats-snow");
 
             const seqContainer = document.getElementById("stats-sequence");
