@@ -710,6 +710,31 @@
                     </div>
                     <p class="journey-count">Đang tải...</p>
                 </div>
+
+                <!-- Char 9 -->
+                <div class="char-card" data-char="tri-diec-than">
+                    <div class="char-top">
+                        <img src="images/tridiecthan.jpg" alt="Trì Diệc Thần" class="char-img"> 
+                        <div class="char-like"><button class="like-btn">♡</button><span class="like-count">0</span></div>
+                        <div class="char-info">
+                            <h2 class="char-name">Trì Diệc Thần (池亦辰)</h2>
+                            <div class="char-tagline">"Em thư ký lẳng lơ bị gã Sếp phát hiện ra rồi!"</div>
+                            <div class="char-tags">
+                                <span class="tag" onclick="filterTag('Hiện Đại')">#Hiện Đại</span>
+                                <span class="tag" onclick="filterTag('Sếp-Nhân Viên')">#Sếp-Nhân Viên</span>
+                                <span class="tag" onclick="filterTag('R21')">#R21</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lock-tridiecthan">
+                        <button class="r21-btn" onclick="openR21Modal('tridiecthan', 'eMthuKYdAmDANG')">🔐 Giấc Mộng Đóng Băng</button>
+                    </div>
+                    <div class="char-links r21-content" id="links-tridiecthan">
+                        <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221hxxK-xvEy6ZOhmhbC6lMURoLvXwH43Yk%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" class="link-gg" target="_blank">ggAI</a>
+                        <a href="https://ellipsus.com/read/44i0Co5wcdCZLCtz6iGOg7/Tr-Dic-Thn-?theme=icicle" class="link-story" target="_blank">Story</a>
+                    </div>
+                    <p class="journey-count">Đang tải...</p>
+                </div>
             </div>
 
             <!-- Vùng chứa thanh điều hướng trang -->
@@ -720,7 +745,7 @@
         
         <footer class="dream-footer">
             <p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p>
-            <div class="copyright-text">@Yuna đi ngủ 2026</div>
+            <div class="copyright-text">Yuna đi ngủ © 2026</div>
         </footer>
     </div>
 
@@ -739,8 +764,8 @@
             <span class="close-modal" onclick="closeModal('howToPassModal')">&times;</span>
             <h2 style="font-family: var(--font-serif); color: var(--blue-dark); margin-top:0;">🗝️ Cách Lấy Pass</h2>
             <div class="pass-instructions">
-                <p><b>Thử thách 1:</b> Kẻ Mộng Mơ đã đủ trưởng thành (18+).</p>
-                <p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên TCN Facebook và chụp gửi cho Yuna.</p>
+                <p><b>Thử thách 1:</b> Lời xác nhận Kẻ Mộng Mơ đã đủ trưởng thành (18+).</p>
+                <p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên page Bản tình ca ngày đông. (Không phải WEB) và chụp gửi cho Yuna.</p>
                 <hr style="border: 0; border-top: 1px dashed var(--blue-light); margin: 15px 0;">
                 <p style="color: #d9534f; font-size: 0.9em; text-align: justify;"><u>Lưu ý:</u> Hãy cất giữ thần chú thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.</p>
             </div>
@@ -1005,6 +1030,7 @@
             { name: "Trần Dã (陈野)", tagline: '"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?"' },
             { name: "Trì Triệt Minh (池彻明)", tagline: '"Nhật ký cua đổ người "Out meta": Sếp tổng 40 tuổi thật thơm!"' },
             { name: "Trì Tiêu Hàn (池萧寒)", tagline: '"Đàn em của tôi hình như biết yêu rồi...!?"' },
+            { name: "Trì Diệc Thần (池亦辰)", tagline: '"Em thư ký lẳng lơ bị gã Sếp phát hiện ra rồi!"' },
             { name: "Thẩm Nhất Chu (沈以舟)", tagline: '"Giáo sư Thẩm cấm dục chính là bạn trai qua mạng của tôi!"' }  
         ];
 
