@@ -14,7 +14,7 @@
 :root{--navy:#060E26;--blue:#033E8C;--mid:#023E73;--light:#79ACD9;--pale:#B3D5F2;--ice:#EAF5FF;--text:#68778C;--line:#E1EDF7;--white:#fff;--shadow:0 8px 28px rgba(3,62,140,.10);--serif:"Playfair Display",serif;--sans:"Quicksand",sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef7ff;color:var(--navy);font-family:var(--sans);overflow-x:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
 
-/* 1. DREAM INTRO (Đã chỉnh TRONG TRẺO VỪA PHẢI) */
+/* 1. DREAM INTRO */
 #dream-intro{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:url('images/introdaydream.jpg') center/cover no-repeat, url('introdaydream.jpg') center/cover no-repeat, #071426;overflow:hidden;transition:opacity .8s ease,visibility .8s ease}
 #dream-intro::before{content:"";position:absolute;left:0;top:0;width:calc(100% + 60px);height:calc(100% + 60px);background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.15),transparent 35%),radial-gradient(circle at 80% 30%,rgba(170,210,255,.18),transparent 45%),radial-gradient(circle at 50% 90%,rgba(120,170,255,.15),transparent 40%);pointer-events:none}
 #dream-intro.hide{opacity:0;visibility:hidden;pointer-events:none}
@@ -22,7 +22,6 @@
 .intro-flake{position:absolute;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.7);animation:introFall linear infinite}
 @keyframes introFall{from{transform:translate3d(0,-120px,0) rotate(0deg);opacity:0}10%{opacity:.9}50%{transform:translate3d(25px,50vh,0) rotate(180deg)}to{transform:translate3d(-30px,110vh,0) rotate(360deg);opacity:0}}
 
-/* Khung Intro TRONG TRẺO (Translucent Glass) */
 .intro-box{position:relative;z-index:2;text-align:center;color:#ffffff;width:min(480px, 88vw);padding:40px 26px;background:rgba(255, 255, 255, 0.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:32px;border:1px solid rgba(255,255,255,.35);box-shadow:0 20px 50px rgba(0,20,50,.25), inset 0 0 20px rgba(255,255,255,.15);animation:introFloat 3s ease-in-out infinite}
 @keyframes introFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-8px,0)}}
 
@@ -47,18 +46,25 @@
 #snow-container{position:fixed;inset:0;pointer-events:none;z-index:20}.snowflake{position:absolute;color:#fff;opacity:.5;animation:fall linear infinite}@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(360deg);opacity:0}}
 .top-bar-solid{height:36px;display:flex;align-items:center;overflow:hidden;background:#6ea9d5;color:#fff;white-space:nowrap}.marquee-text{display:inline-block;padding-left:100%;animation:marquee 20s linear infinite}@keyframes marquee{to{transform:translateX(-100%)}}
 
-/* HEADER */
-.fb-header-container{max-width:100%;background:#ffffff;margin:auto;padding:20px 16px 12px;text-align:center;box-shadow:0 4px 15px rgba(3,62,140,.05)}
-.fb-profile{display:flex;flex-direction:column;align-items:center;gap:10px}
-.fb-avatar{width:100px;height:100px;border-radius:50%;object-fit:cover;border:4px solid var(--pale);box-shadow:0 4px 16px rgba(3,62,140,.18)}
-.fb-info{min-width:0}.fb-name{font:700 2rem var(--serif);margin:0;color:var(--navy)}.fb-sub{display:none}.fb-friends{font:italic 0.95rem var(--serif);color:#143d66;margin-top:4px}
-.fb-divider{border:0;border-top:1px solid rgba(3,62,140,.12);margin:14px auto;max-width:980px}
-.fb-nav{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;max-width:980px;margin:auto}
-.nav-item,.nav-link{border:0;background:rgba(121,172,217,.12);color:#16456f;padding:8px 14px;border-radius:999px;font-weight:700;font-size:0.88rem;transition:.25s;white-space:nowrap}.nav-item:hover,.nav-item.active,.nav-link.active{background:linear-gradient(135deg,#e8f5ff,#8fc1e9);color:#073c70}
+/* HEADER TWITTER / X STYLE - SỬA LỖI ĐIỀU HƯỚNG BỊ CHE */
+.x-header-container{max-width:100%;background:#ffffff;margin:auto;box-shadow:0 4px 15px rgba(3,62,140,.05);position:relative;overflow:visible;z-index:800}
+.x-banner{width:100%;height:150px;object-fit:cover;display:block;background:#79acd9}
+.x-profile-row{display:flex;align-items:flex-end;gap:14px;padding:0 20px 14px;margin-top:-32px;position:relative;z-index:2}
+.x-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--light);box-shadow:0 4px 16px rgba(3,62,140,.18);background:#fff;flex-shrink:0}
+.x-info{display:flex;flex-direction:column;justify-content:center;padding-bottom:2px;min-width:0}
+.x-name{font:700 1.5rem var(--serif);margin:0;color:var(--navy);line-height:1.2;display:flex;align-items:center;gap:6px}
+.x-friends{font:italic 0.88rem var(--sans);color:#143d66;margin-top:4px;word-break:break-word}
 
-/* DROPDOWNS & SUB-ITEMS */
-.dropdown{position:relative;display:inline-block}
-.dropdown-content{display:none;position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 4px);min-width:160px;background:#fff;border-radius:18px;padding:8px;box-shadow:var(--shadow);z-index:900;border:1px solid #dceaf5}
+/* NAV BAR CUỘN NGANG */
+.fb-divider{border:0;border-top:1px solid rgba(3,62,140,.12);margin:10px auto 4px;max-width:980px}
+.fb-nav{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 12px;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-wrap:nowrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900}
+.fb-nav::-webkit-scrollbar{display:none}
+.nav-item,.nav-link{border:0;background:rgba(121,172,217,.12);color:#16456f;padding:8px 16px;border-radius:999px;font-weight:700;font-size:0.88rem;transition:.25s;white-space:nowrap;flex-shrink:0}
+.nav-item:hover,.nav-item.active,.nav-link.active{background:linear-gradient(135deg,#e8f5ff,#8fc1e9);color:#073c70}
+
+/* DROPDOWNS SỬA TỐI ĐA Z-INDEX KHÔNG BỊ CHE */
+.dropdown{position:relative;display:inline-block;flex-shrink:0}
+.dropdown-content{display:none;position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 4px);min-width:160px;background:#fff;border-radius:18px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,0.18);z-index:99999;border:1px solid #dceaf5}
 .dropdown:hover .dropdown-content{display:block}
 .dropdown-content a{display:block;padding:9px 12px;border-radius:12px;color:#64748b !important;font-weight:600;text-align:center;transition:.2s;white-space:nowrap;text-transform:none !important;font-size:0.88rem}
 .dropdown-content a:hover{background:var(--ice);color:var(--blue) !important}
@@ -92,15 +98,17 @@
 .char-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;cursor:pointer;transition:transform .35s ease}
 .char-img:hover{transform:scale(1.02)}
 
-.char-like{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);padding:6px 12px;border-radius:30px;box-shadow:0 4px 12px rgba(0,0,0,.12);z-index:5}
-.like-btn{border:0;background:transparent;font-size:18px;line-height:1;color:#3880c9;padding:0;cursor:pointer}.like-btn.liked{color:#2563eb}
-.like-count{font-size:.88rem;font-weight:700;color:#1e3a8a}
+.char-like, .app-like{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.8);box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:5;cursor:pointer;user-select:none;transition:transform .2s, background .2s}
+.char-like:hover, .app-like:hover{transform:scale(1.05);background:rgba(255,255,255,.9)}
+.like-btn{border:0;background:transparent;font-size:15px;line-height:1;color:#2563eb;padding:0;cursor:pointer;pointer-events:none}
+.like-count{font-size:.82rem;font-weight:700;color:#1e3a8a;pointer-events:none}
 
 .char-info{display:flex;flex-direction:column;gap:8px}
 .char-name{font:700 1.4rem var(--serif);line-height:1.35;margin:2px 0 0;color:var(--navy);cursor:pointer;word-break:break-word}
 .char-tagline{font-style:italic;color:#5f6e80;font-size:.88rem;line-height:1.5}
-.char-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
-.tag{display:inline-block;padding:6px 14px;border-radius:20px;border:1px solid #d0e4f5;background:#f0f7ff;color:#3b6d9a;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s}
+
+.char-tags, .app-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.tag{display:inline-block;padding:5px 13px;border-radius:20px;border:1px solid #d0e4f5;background:#f0f7ff;color:#3b6d9a;font-size:.82rem;font-weight:500;font-family:var(--sans);cursor:pointer;transition:.2s}
 .tag:hover{background:var(--light);color:#fff}
 
 .card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px}
@@ -116,12 +124,16 @@
 .page-btn:hover,.page-btn.active{background:var(--mid);color:#fff;border-color:var(--mid)}
 .page-btn:disabled{opacity:.4;cursor:not-allowed}
 
-/* COMMENTS */
+/* COMMENTS & INPUTS */
 .comment-mini{display:none;margin-top:10px;background:#f5faff;border:1px solid #dcebf6;border-radius:20px;padding:12px}.comment-mini.open{display:block}
 .comment-scroll{max-height:280px;overflow-y:auto;padding-right:3px}
-.comment-input{width:100%;border:1px solid #cfe2f1;background:#fff;border-radius:16px;padding:10px 12px;outline:0;resize:none;margin-bottom:6px;font-size:0.88rem}
-.comment-actions{display:flex;justify-content:flex-end;margin-top:4px}
+.comment-input,.nickname-input{width:100%;border:1px solid #cfe2f1;background:#fff;border-radius:16px;padding:10px 12px;outline:0;resize:none;margin-bottom:6px;font-size:0.88rem;font-family:var(--sans);color:var(--navy)}
+.nickname-input::placeholder,.comment-input::placeholder{color:#8aa0b8;font-size:0.88rem}
+.comment-actions{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .send-btn{border:0;border-radius:18px;padding:8px 18px;background:#8aadd0;color:#fff;font-weight:700;transition:.2s}.send-btn:hover{background:var(--mid)}
+.file-upload-btn{border:1px solid #c2dcf0;border-radius:18px;background:#fff;color:#3b6d9a;padding:6px 12px;font-size:.78rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+.comment-img{max-width:180px;max-height:180px;border-radius:12px;margin-top:6px;object-fit:cover;border:1px solid #dceaf5;display:block}
+
 .comment{display:flex;gap:10px;margin:10px 0}
 .avatar-letter,.comment-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none;object-fit:cover;border:2px solid #fff}
 .comment-body{background:#fff;border:1px solid #e1edf6;border-radius:17px;padding:9px 12px;min-width:0;flex:1}
@@ -132,14 +144,8 @@
 .comment-tools{display:flex;gap:12px;margin-top:6px}.comment-tools button{border:0;background:none;color:#7190ac;padding:0;font-size:.72rem;cursor:pointer;font-weight:600}.comment-tools button:hover{color:var(--blue)}
 .reply-list{margin-left:36px}
 
-/* DANH HIỆU USER & MỘNG CHỦ */
-.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:12px;background:#eef7ff;color:#396486;font-size:.68rem;font-weight:700;border:1px solid transparent}
-.badge.glow{border:1px solid #3b82f6;box-shadow:0 0 10px rgba(59,130,246,.45);background:#eff6ff;color:#1d4ed8}
-.badge.love{border:1px solid #3b82f6;box-shadow:0 0 14px rgba(59,130,246,.6);background:linear-gradient(135deg,#e0f2fe,#dbeafe);color:#1e40af;animation:sparklePulse 2.2s infinite alternate}
-@keyframes sparklePulse{0%{filter:brightness(1);box-shadow:0 0 10px rgba(59,130,246,.5)}100%{filter:brightness(1.18);box-shadow:0 0 18px rgba(96,165,250,.85)}}
-.badge.partner,.comment-badge{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(186,230,253,.85));border:1px solid rgba(56,189,248,.8);color:#0369a1;font-weight:700;box-shadow:inset 0 0 8px rgba(255,255,255,.9),0 0 12px rgba(56,189,248,.4)}
-.badge.partner::after,.comment-badge::after{content:"";position:absolute;inset:-50%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.95) 50%,transparent 60%);animation:glassShine 3.6s infinite}
-@keyframes glassShine{0%{transform:translateX(-100%) rotate(10deg)}30%,100%{transform:translateX(100%) rotate(10deg)}}
+/* LOANG MÀU XANH CHO TIÊU ĐỀ */
+.gradient-title{background:linear-gradient(135deg, #2b6cb0, #6aa5d7, #3182ce);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
 
 /* APP VIEW MODAL */
 .app-view{position:fixed;inset:0;z-index:9000;background:rgba(7,22,43,.48);backdrop-filter:blur(7px);display:none;align-items:flex-end;opacity:0;transition:opacity .35s ease}
@@ -149,11 +155,18 @@
 .app-scroll{overflow-y:auto;flex:1;padding-bottom:90px}
 .app-close{position:absolute;z-index:20;top:12px;left:12px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.9);font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .app-hero{position:relative}.app-hero img{display:block;width:100%;height:310px;object-fit:cover;border-radius:0 0 28px 28px}
-.app-like{position:absolute;top:15px;right:15px;background:#fff;border-radius:22px;padding:6px 12px;display:flex;align-items:center;gap:4px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+
+/* YÊU CẦU 3: BẰNG NỬA CHIỀU CAO CHỮ */
+.app-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.voice-btn{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e0f2fe,#bae6fd);border:1px solid #7dd3fc;color:#0284c7;display:inline-flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;box-shadow:0 2px 6px rgba(2,132,199,.18);transition:transform .2s;vertical-align:middle}
+.voice-btn:hover{transform:scale(1.1)}
+.voice-btn.playing{animation:voicePulse 0.8s ease-in-out infinite alternate;background:linear-gradient(135deg,#0284c7,#38bdf8);color:#fff;border-color:#0284c7}
+@keyframes voicePulse{0%{transform:scale(1)}100%{transform:scale(1.15) translateY(-1px)}}
+
 .app-meta{padding:16px 20px 4px}.app-name{font:700 1.6rem var(--serif);margin:0 0 3px}.app-created{color:#9aa7b6;font-size:.75rem;font-style:italic}
 .app-section{background:#fff;margin:12px 16px;border-radius:23px;padding:16px;box-shadow:0 4px 15px rgba(3,62,140,.05);animation:fadeInView .35s ease forwards}
 .app-section h3{color:var(--blue);font:600 1.05rem var(--serif);margin:0 0 10px}
-.app-tagline-full{font-style:italic;color:#68778c;line-height:1.55}
+.app-tagline-full{font-style:italic;color:#5f6e80;line-height:1.5;font-size:0.85rem}
 .public-info{color:#5f6f83;line-height:1.6;font-size:.9rem;min-height:24px}
 
 .recommend-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}
@@ -164,13 +177,13 @@
 .recommend-card .rec-tagline{font-size:.7rem;color:#7d8998;font-style:italic;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:3px}
 .recommend-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 
-/* AFFINITY BOX */
+/* THANH HẢO CẢM */
 .affinity-box{margin:12px 0 0;border:1px solid #e1edf7;background:#f4f9ff;border-radius:22px;padding:16px;box-shadow:0 4px 15px rgba(3,62,140,.04)}
 .affinity-btn{width:100%;border:0;border-radius:999px;padding:12px;background:linear-gradient(90deg,#0e4c82,#6aa5d7);color:#fff;font-weight:700;font-size:0.95rem;margin-bottom:12px;transition:filter .25s, transform .2s;box-shadow:0 4px 12px rgba(14,76,130,.2);display:flex;align-items:center;justify-content:center;gap:6px}
 .affinity-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .affinity-head{display:flex;justify-content:space-between;align-items:center;color:#0c3866;font-weight:700;font-size:0.92rem;margin-bottom:8px}
 .affinity-bar{height:18px;border-radius:999px;background:#ffffff;border:1px solid #d8e7f5;overflow:hidden;position:relative;padding:2px}
-.affinity-fill{height:100%;width:0%;background:linear-gradient(90deg,#4f96e2,#6cb2f7);border-radius:999px;transition:width 0.8s cubic-bezier(.2,.8,.2,1);position:relative;display:flex;align-items:center;justify-content:flex-end}
+.affinity-fill{height:100%;width:0%;background:linear-gradient(90deg, #1d609b, #4b92d8, #6cb2f7);border-radius:999px;transition:width 0.8s cubic-bezier(.2,.8,.2,1);position:relative;display:flex;align-items:center;justify-content:flex-end}
 .affinity-fill::after{content:"♥";font-size:9px;color:#ffffff;margin-right:4px;line-height:1;text-shadow:0 0 2px rgba(0,0,0,0.2)}
 
 .sticky-links{position:absolute;bottom:0;left:0;right:0;display:flex;gap:10px;padding:12px 16px;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-top:1px solid #dceaf5}
@@ -179,13 +192,13 @@
 
 /* PAGES */
 .journal-page,.auth-page{width:min(580px,calc(100% - 16px));margin:15px auto 50px;background:rgba(255,255,255,.86);border-radius:28px;padding:20px;box-shadow:var(--shadow)}
-.page-title{text-align:center;font:700 1.65rem var(--serif);color:var(--blue);margin:5px 0}
+.page-title{text-align:center;font:700 1.65rem var(--serif);color:var(--blue);margin:12px 0 6px}
 .page-sub{text-align:center;color:var(--text);font-style:italic;font-size:.85rem}
 .back-library{border:0;border-radius:22px;background:#eaf5ff;color:#25587f;padding:9px 16px;font-weight:700;margin-bottom:12px}
 .journal-form{background:#f5faff;border:1px solid #dcebf5;border-radius:23px;padding:15px;margin:18px 0}
-.journal-send{width:100%;border:0;border-radius:21px;padding:11px;background:#8aaed2;color:#fff;font-weight:700}
 
-.auth-brand{text-align:center;font:700 clamp(2rem,8vw,2.8rem) var(--serif);color:var(--blue);margin:10px 0}
+/* YÊU CẦU 2: CĂN GIỮA TIÊU ĐỀ SNOWVEIL DAYDREAM SANG TRỌNG */
+.auth-brand{text-align:center;font:700 clamp(1.8rem,6vw,2.5rem) var(--serif);margin:10px auto 4px;display:block}
 .auth-tabs{display:flex;gap:8px;background:#eef7ff;border-radius:22px;padding:4px}
 .auth-tab{flex:1;border:0;border-radius:18px;padding:10px;background:transparent;color:#356488;font-weight:700;transition:.25s}
 .auth-tab.active{background:#fff;color:var(--blue);box-shadow:0 3px 9px rgba(3,62,140,.08)}
@@ -208,12 +221,12 @@
 
 .toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);opacity:0;z-index:20000;background:rgba(6,14,38,.9);color:#fff;padding:10px 18px;border-radius:18px;font-size:.82rem;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* MODALS WITH ANIMATION & SHAKE EFFECT */
+/* YÊU CẦU 9: KHÔI PHỤC HIỆU ỨNG CHUYỂN ĐỘNG MODAL BẤM VÀO MỞ RA */
 .custom-modal{display:none;position:fixed;inset:0;z-index:12000;background:rgba(5,18,35,.45);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
 .custom-modal.show{display:flex;opacity:1}
-.modal-box{width:min(400px,94%);max-height:90vh;overflow:auto;background:rgba(255,255,255,.96);border-radius:26px;padding:22px;box-shadow:0 25px 60px rgba(0,0,0,.22);position:relative;text-align:center;transform:scale(.92) translateY(12px);transition:transform .35s cubic-bezier(.175,.885,.32,1.275)}
+.modal-box{width:min(400px,94%);max-height:90vh;overflow:auto;background:rgba(255,255,255,.96);border-radius:26px;padding:22px;box-shadow:0 25px 60px rgba(0,0,0,.22);position:relative;text-align:center;transform:scale(.88) translateY(15px);transition:transform .35s cubic-bezier(.175,.885,.32,1.275)}
 .custom-modal.show .modal-box{transform:scale(1) translateY(0);animation:modalPop .35s cubic-bezier(.175,.885,.32,1.275) forwards}
-@keyframes modalPop{from{opacity:0;transform:scale(.9) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes modalPop{from{opacity:0;transform:scale(.88) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
 
 @keyframes shakeError{
   0%,100%{transform:translateX(0)}
@@ -245,35 +258,72 @@
 .destiny-result p{font-size:.78rem;color:var(--text);font-style:italic;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px}
 @keyframes fadeInResult{from{opacity:0;transform:translateY(15px) scale(.95)}to{opacity:1;transform:none}}
 
-/* FLOATING BUTTONS */
-.floating-left{position:fixed;left:16px;bottom:110px;z-index:11000}
-.notif-btn{width:48px;height:48px;border-radius:50%;background:#ffffff;color:#0c4f86;box-shadow:0 4px 18px rgba(3,62,140,.18);border:0;outline:0;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s,box-shadow .25s}
-.notif-btn:hover{transform:scale(1.12);box-shadow:0 6px 22px rgba(3,62,140,.25)}
-.notif-badge{position:absolute;top:-2px;right:-2px;background:#e0245e;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+/* YÊU CẦU 4: NÚT ÂM THANH & CHUÔNG THU NHỎ NHẸ NHÀNG */
+.floating-left{position:fixed;left:14px;top:90px;z-index:11000}
+.notif-btn{width:38px;height:38px;border-radius:50%;background:#ffffff;color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:0;outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
+.notif-btn:hover{transform:scale(1.1)}
+.notif-badge{position:absolute;top:-2px;right:-2px;background:#e0245e;color:#fff;font-size:9px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .notif-btn.ring{animation:ringBell .8s ease infinite}
 @keyframes ringBell{0%{transform:rotate(0)}15%{transform:rotate(18deg)}30%{transform:rotate(-18deg)}45%{transform:rotate(12deg)}60%{transform:rotate(-12deg)}75%{transform:rotate(6deg)}100%{transform:rotate(0)}}
 
-.floating-right{position:fixed;right:16px;bottom:16px;z-index:11000;display:flex;flex-direction:column;gap:10px}
-.float-btn{width:42px;height:42px;border-radius:50%;background:#ffffff;color:var(--mid);box-shadow:0 4px 15px rgba(0,0,0,.12);border:0;outline:0;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s,box-shadow .25s}
-.float-btn:hover{background:#f0f7ff;transform:scale(1.12);box-shadow:0 6px 20px rgba(3,62,140,.2)}
+.floating-right{position:fixed;right:14px;bottom:14px;z-index:11000;display:flex;flex-direction:column;gap:8px}
+.float-btn{width:36px;height:36px;border-radius:50%;background:#ffffff;color:var(--mid);box-shadow:0 3px 12px rgba(0,0,0,.12);border:0;outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
+.float-btn:hover{background:#f0f7ff;transform:scale(1.1)}
 .music-playing{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 
-/* SMARTPHONE NOTIFICATION BOX STYLING */
-.phone-notif-box{background:#fdfeff;border:1px solid #d4e5f2;border-radius:24px;padding:16px;text-align:left;box-shadow:0 12px 35px rgba(3,62,140,.12);animation:fadeInView .35s ease forwards}
-.phone-notif-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;border-bottom:1px solid #edf4fa;padding-bottom:10px}
-.phone-notif-avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--pale)}
-.phone-notif-info{flex:1;min-width:0}
-.phone-notif-name{font-weight:700;color:var(--navy);font-size:.95rem}
-.phone-notif-time{font-size:.72rem;color:#8a99aa;margin-top:2px}
-.phone-notif-call{background:#ffebee;border:1px solid #ffcdd2;color:#c62828;padding:8px 12px;border-radius:14px;font-size:.8rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.phone-notif-extra{background:#e8f5e9;border:1px solid #c8e6c9;color:#2e7d32;padding:6px 10px;border-radius:12px;font-size:.76rem;font-weight:700;margin-bottom:8px;display:inline-block}
-.phone-notif-body{background:#f4f9fd;border-radius:16px;padding:12px;font-size:.85rem;color:#2c3e50;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+/* YÊU CẦU 6: SPOTIFY TONE TRẮNG - XANH BIỂN */
+.spotify-modal{display:none;position:fixed;inset:0;z-index:15000;background:rgba(5,18,35,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
+.spotify-modal.show{display:flex;opacity:1}
+.spotify-card{width:min(420px,94%);background:#ffffff;color:var(--navy);border-radius:24px;padding:22px;box-shadow:0 20px 50px rgba(3,62,140,.18);border:1px solid #dceaf5;position:relative;transform:scale(.92);transition:transform .3s ease}
+.spotify-modal.show .spotify-card{transform:scale(1)}
+.spotify-close{position:absolute;top:14px;right:16px;border:0;background:transparent;color:#748293;font-size:22px;cursor:pointer;transition:.2s}
+.spotify-close:hover{color:var(--navy)}
+.spotify-now-playing{background:#f0f7ff;border-radius:18px;padding:14px;display:flex;align-items:center;gap:12px;margin-top:10px;border:1px solid #d0e4f5}
+.spotify-cover{width:56px;height:56px;border-radius:12px;object-fit:cover;box-shadow:0 4px 12px rgba(3,62,140,.15)}
+.spotify-info{flex:1;min-width:0;text-align:left}
+.spotify-title{font-weight:700;font-size:.95rem;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spotify-artist{font-size:.8rem;color:#5f6e80;margin-top:3px;font-weight:500}
+.spotify-artist-dot{color:#8aa0b8;margin:0 4px;font-weight:bold}
+.spotify-play-btn{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg, #1d609b, #5ba4e5);border:0;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s;flex-shrink:0;box-shadow:0 4px 12px rgba(29,96,155,.3)}
+.spotify-play-btn:hover{transform:scale(1.08)}
+
+.spotify-list-title{font-size:.82rem;font-weight:700;color:#3b6d9a;text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px;text-align:left}
+.spotify-playlist{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding-right:4px}
+.spotify-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:12px;cursor:pointer;transition:background .2s;text-align:left}
+.spotify-item:hover{background:#f0f7ff}
+.spotify-item.active{background:#e6f2fc;border-left:3px solid #1d609b}
+.spotify-item-num{font-size:.8rem;color:#78889b;width:16px;text-align:center}
+.spotify-item-info{flex:1;min-width:0}
+.spotify-item-title{font-weight:700;font-size:.86rem;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spotify-item-sub{font-size:.76rem;color:#68778c;margin-top:2px;font-weight:400}
+
+/* WECHAT GIAO DIỆN CHÂN THỰC */
+.wechat-box{background:#ededed;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;height:430px;text-align:left;box-shadow:0 12px 35px rgba(0,0,0,.15)}
+.wechat-header{background:#f3f3f3;padding:12px 16px;font-weight:700;color:#111;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e0e0e0;font-size:0.95rem}
+.wechat-header-avatar{width:34px;height:38px;border-radius:6px;object-fit:cover}
+.wechat-body{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:#f3f3f3}
+
+.wechat-msg-row{display:flex;align-items:flex-start;gap:8px;max-width:88%}
+.wechat-msg-row.left{align-self:flex-start}
+.wechat-msg-row.right{align-self:flex-end;flex-direction:row-reverse}
+
+.wechat-msg-avatar{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+
+.msg-bubble{padding:10px 13px;border-radius:8px;font-size:0.88rem;line-height:1.45;word-break:break-word;position:relative;animation:popMsg 0.25s ease forwards}
+@keyframes popMsg{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.msg-left{background:#ffffff;color:#111;border:1px solid #e5e5e5;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.msg-right{background:#95ec69;color:#000;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+
+.wechat-meta-box{background:#fefefe;border:1px solid #e5e5e5;border-radius:10px;padding:8px 12px;font-size:0.8rem;color:#e53e3e;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.wechat-typing{align-self:flex-start;background:rgba(0,0,0,0.05);color:#777;padding:6px 12px;border-radius:12px;font-size:.78rem;font-style:italic;margin-left:46px}
+
+.wechat-choices{display:flex;flex-direction:column;gap:8px;padding:12px;background:#f9f9f9;border-top:1px solid #e0e0e0}
+.wechat-choice-btn{border:1px solid #dcdcdc;background:#ffffff;color:#1e293b;padding:11px 14px;border-radius:12px;font-weight:600;font-size:0.85rem;cursor:pointer;transition:.2s;text-align:left;box-shadow:0 2px 6px rgba(0,0,0,.03)}
+.wechat-choice-btn:hover{background:#07c160;color:#fff;border-color:#07c160}
 
 .dream-footer{text-align:center;padding:30px 20px 50px;color:#315978}.dream-footer p{max-width:700px;margin:auto;font-size:.82rem;line-height:1.8;font-style:italic}.copyright-text{margin-top:10px;font-weight:700}
 
 @media(max-width:600px){
-.fb-avatar{width:82px;height:82px}
-.fb-name{font-size:1.65rem}
 .content-box{padding:12px;border-radius:24px}
 .char-card{padding:12px;border-radius:24px}
 .char-name{font-size:1.25rem}
@@ -297,10 +347,14 @@
 <div class="main-background"><div id="snow-container"></div>
 <div class="top-bar-solid" id="top-anchor"><span class="marquee-text">☃️ Hãy tìm một linh hồn đồng điệu mà bạn muốn đồng hành và bắt đầu chuyến hành trình nhập vai của riêng bạn tại đây...</span></div>
 
-<header class="fb-header-container">
-<div class="fb-profile">
-<img src="images/avatar.jpg" class="fb-avatar" alt="Yuna Đi Ngủ">
-<div class="fb-info"><h1 class="fb-name">Yuna Đi Ngủ</h1><div class="fb-friends">🪼✮˚.⋆ 𝓽𝓱𝓮 𝓼𝔂𝓶𝓹𝓸𝓷𝔂 𝓸𝓯 𝓵𝓸𝓿𝓮 ⋆.˚✮🪽</div></div>
+<header class="x-header-container">
+<img class="x-banner" src="images/snow.gif" alt="Snow Banner">
+<div class="x-profile-row">
+<img src="images/avatar.jpg" class="x-avatar" alt="Yuna Đi Ngủ">
+<div class="x-info">
+<h1 class="x-name">Yuna Đi Ngủ</h1>
+<div class="x-friends">🪼✮˚.⋆ 𝓽𝓱𝓮 𝓼𝔂𝓶𝓹𝓸𝓷𝔂 𝓸𝓯 𝓵𝓸𝓿𝓮 ⋆.˚✮🪽</div>
+</div>
 </div>
 <hr class="fb-divider">
 <nav class="fb-nav">
@@ -352,15 +406,20 @@
 <div class="pagination-container" id="pagination-controls"></div>
 </div></section>
 
+<!-- YÊU CẦU 1: CĂN GIỮA TIÊU ĐỀ LƯU BÚT TRÁNH BỊ ĐÈ NÚT -->
 <section id="journal" class="view"><div class="journal-page">
 <button class="back-library" onclick="showView('library')">‹ Về thư viện giấc mơ</button>
-<h2 class="page-title">Lưu bút &amp; Góp Ideas</h2><p class="page-sub">Viết cảm nghĩ, những điều bạn muốn nói, hoặc một ý tưởng để chúng ta cùng dệt thêm một giấc mộng.</p>
-<div class="journal-form"><input id="journalNickname" placeholder="Biệt danh (không ghi sẽ là Kẻ Mộng Mơ Vô Danh)" style="width:100%;border:1px solid #cfe2f1;border-radius:18px;padding:10px 12px;outline:0;margin-bottom:8px"><textarea id="journalText" class="comment-input" rows="3" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea><button class="journal-send" onclick="postComment(null)">Gửi lưu bút</button></div>
+<h2 class="page-title gradient-title" style="display:block;text-align:center">Lưu bút &amp; Góp Ideas</h2>
+<p class="page-sub">Viết cảm nghĩ, những điều bạn muốn nói, hoặc một ý tưởng để chúng ta cùng dệt thêm một giấc mộng.</p>
+<div class="journal-form" id="journalFormBox"></div>
 <div id="journalComments" class="journal-comments"></div></div></section>
 
 <section id="auth" class="view"><div class="auth-page">
 <button class="back-library" onclick="showView('library')">‹ Về thư viện giấc mơ</button>
-<div class="auth-brand">Snowveil Daydream</div>
+<!-- YÊU CẦU 2: CĂN GIỮA TIÊU ĐỀ CHUẨN ĐỒNG BỘ -->
+<h2 class="auth-brand gradient-title">Snowveil Daydream</h2>
+<div style="text-align:center;color:#708095;font-size:0.85rem;font-style:italic;margin-bottom:15px">Tài khoản riêng để bình luận, yêu thích và tăng hảo cảm cùng những linh hồn nơi đây.</div>
+
 <div id="authGuest">
 <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuth('login')">Đăng nhập</button><button class="auth-tab" onclick="switchAuth('register')">Đăng ký</button></div>
 
@@ -382,7 +441,7 @@
 <footer class="dream-footer"><p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p><div class="copyright-text">Yuna đi ngủ © 2026</div></footer>
 </div>
 
-<div id="appView" class="app-view"><div class="app-shell"><button class="app-close" onclick="closeAppDetail()">×</button><div class="app-scroll" id="appScroll"><div id="appHero" class="app-hero"></div><div class="app-meta"><h2 id="appName" class="app-name"></h2><div id="appCreated" class="app-created"></div></div><div class="app-section"><h3>✦ Chi tiết nhân vật</h3><div id="appTagline" class="app-tagline-full"></div><div id="appTags" class="app-tags"></div><div id="appAffinity"></div></div><div class="app-section"><h3>Thông tin công khai</h3><div id="appProfile" class="public-info"></div></div><div class="app-section app-comments"><h3>💬 Bình luận</h3><div id="appCommentForm"></div><div id="appComments"></div></div><div class="app-section"><h3>Những người bạn có thể thích...</h3><div id="recommendRow" class="recommend-row"></div></div></div><div id="appLinks" class="sticky-links"></div></div></div>
+<div id="appView" class="app-view"><div class="app-shell"><button class="app-close" onclick="closeAppDetail()">×</button><div class="app-scroll" id="appScroll"><div id="appHero" class="app-hero"></div><div class="app-meta"><div class="app-title-row"><h2 id="appName" class="app-name"></h2><div id="voiceBtnWrap"></div></div><div id="appCreated" class="app-created"></div></div><div class="app-section"><h3>✦ Chi tiết nhân vật</h3><div id="appTagline" class="app-tagline-full"></div><div id="appTags" class="app-tags"></div><div id="appAffinity"></div></div><div class="app-section"><h3>Thông tin công khai</h3><div id="appProfile" class="public-info"></div></div><div class="app-section app-comments"><h3>💬 Bình luận</h3><div id="appCommentForm"></div><div id="appComments"></div></div><div class="app-section"><h3>Những người bạn có thể thích...</h3><div id="recommendRow" class="recommend-row"></div></div></div><div id="appLinks" class="sticky-links"></div></div></div>
 
 <div id="howToPassModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('howToPassModal')">×</button><h2>🗝️ Cách Lấy Pass</h2><div style="color:var(--text);line-height:1.6;font-size:.86rem;text-align:left"><p><b>Thử thách 1:</b> Kẻ Mộng Mơ đã đủ trưởng thành (18+).</p><p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên page Bản tình ca ngày đông. (Không phải WEB) và chụp gửi cho Yuna.</p><hr style="border:0;border-top:1px dashed var(--pale);margin:10px 0"><p style="color:#c85b64"><u>Lưu ý:</u> Hãy cất giữ thần chú thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.</p></div><button class="modal-primary" style="margin-top:10px" onclick="closeModal('howToPassModal')">Đã hiểu</button></div></div>
 
@@ -391,29 +450,50 @@
 <div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2>🔮 Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
 
 <div class="floating-left">
-<button class="notif-btn" id="notifBtn" onclick="openNotifModal()">🔔<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
+<button class="notif-btn" id="notifBtn" onclick="openWeChatModal()">🔔<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
 </div>
 
-<div id="notifModal" class="custom-modal">
-<div class="modal-box" style="width:min(420px,94%);padding:18px">
-<button class="close-modal" onclick="closeModal('notifModal')">×</button>
-<h2 style="font-size:1.1rem;margin-bottom:12px">💬 Thông Báo Mới</h2>
-<div id="notifContainer"></div>
-<div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
-<button class="modal-primary" id="notifReplyBtn">Trả lời ngay</button>
-<button class="pill-btn reset" onclick="closeModal('notifModal')">Đóng</button>
+<div id="wechatModal" class="custom-modal">
+<div class="modal-box" style="width:min(440px,94%);padding:10px;background:#ededed">
+<button class="close-modal" style="top:6px;right:10px;z-index:10" onclick="closeModal('wechatModal')">×</button>
+<div class="wechat-box">
+  <div class="wechat-header">
+    <img id="wcHeaderAvatar" class="wechat-header-avatar" src="" alt="">
+    <span id="wcHeaderName">Trì Triệt Minh</span>
+  </div>
+  <div class="wechat-body" id="wcBody"></div>
+  <div class="wechat-choices" id="wcChoices"></div>
 </div>
+</div>
+</div>
+
+<!-- SPOTIFY GIAO DIỆN LIGHT THEME XANH BIỂN CỰC ĐẸP -->
+<div id="spotifyModal" class="spotify-modal">
+<div class="spotify-card">
+  <button class="spotify-close" onclick="closeSpotify()">×</button>
+  <div style="font-size:0.8rem;font-weight:700;color:#1d609b;text-align:left">PLAYING FROM PLAYLIST</div>
+  <div class="spotify-now-playing">
+    <img id="spCover" class="spotify-cover" src="images/avatar.jpg" alt="">
+    <div class="spotify-info">
+      <div id="spTitle" class="spotify-title">Dracula</div>
+      <div class="spotify-artist"><span id="spArtist" style="font-weight:700;color:var(--navy)">Tame Impala</span><span class="spotify-artist-dot">•</span><span id="spSub">Dracula</span></div>
+    </div>
+    <button class="spotify-play-btn" id="spPlayBtn" onclick="toggleSpotifyPlay()">▶</button>
+  </div>
+  <div class="spotify-list-title">Danh sách bài hát</div>
+  <div class="spotify-playlist" id="spPlaylist"></div>
 </div>
 </div>
 
 <div class="floating-right">
 <button class="float-btn" onclick="scrollToTop()">⬆️</button>
 <button class="float-btn" onclick="scrollToBottom()">⬇️</button>
-<button class="float-btn" id="music-toggle" onclick="toggleLocalMusic(event)">💿</button>
+<button class="float-btn" id="music-toggle" onclick="openSpotify()">💿</button>
 </div>
 
 <div id="toast" class="toast"></div>
-<audio id="bg-music" src="MUSIC/Snow.mp3" loop preload="auto"></audio>
+<audio id="bg-music" preload="auto"></audio>
+<audio id="voice-player" preload="auto"></audio>
 
 <script>
 const SUPABASE_URL="https://lpunpnlrkrserxvurzdh.supabase.co";
@@ -437,17 +517,38 @@ const CHARS=[
 {id:"tri-diec-than",name:"Trì Diệc Thần (池亦辰)",img:"images/tridiecthan.jpg",tagline:"Em thư ký lẳng lơ bị gã Sếp phát hiện ra rồi!",tags:["Hiện Đại","Sếp-Nhân Viên","R21"],profile:"",pass:"eMthuKYdAmDANG",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221hxxK-xvEy6ZOhmhbC6lMURoLvXwH43Yk%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/44i0Co5wcdCZLCtz6iGOg7/Tr-Dic-Thn-?theme=icicle",created:"2026-08-03T12:00:00Z"}
 ];
 
-const NOTIFICATIONS=[
-{charId:"tri-triet-minh",name:"Trì Triệt Minh",time:"06:15",text:"Chào buổi sáng. Không biết em đã dậy hay chưa nên tôi không gọi, sợ làm phiền giấc ngủ của em. Hôm nay dự báo thời tiết trời sẽ trở lạnh, em đi làm nhớ quàng thêm chiếc khăn len tôi đưa hôm trước. Lúc nào dậy thì nhắn tôi một tiếng nhé."},
-{charId:"tri-triet-minh",name:"Trì Triệt Minh",time:"06:55",missedCall:"☎️ Đã nhỡ cuộc gọi thoại (1)",extraMeta:"Wechat: +100 tệ.",text:"Tôi vừa đến công ty. Định gọi nghe giọng em một chút trước khi vào họp giao ban nhưng chắc em vẫn còn ngủ. Không sao, cứ ngủ thêm một lát đi. Chút nữa đến chỗ làm nhớ mua gì đó ăn sáng, đừng để bụng đói."},
-{charId:"tri-tieu-han",name:"Trì Tiêu Hàn",time:"06:45",text:"Chị dậy chưa? Em vừa chạy bộ ngang qua, gửi sẵn sữa đậu nành với sủi cảo nóng ở chú bảo vệ rồi ạ. Dậy thì nhắn em một câu cho em có năng lượng lên lớp nha! Yêu chị béee❤️"},
-{charId:"tri-diec-than",name:"Trì Diệc Thần",time:"07:45",text:"8 giờ kém 15. Espresso không đường, mang vào phòng tôi cùng với báo cáo tài chính quý 3 để lên bàn."},
-{charId:"tri-due-khai",name:"Trì Duệ Khải",time:"07:30",text:"Nãi Cầu hôm nay dậy sớm cào cửa đòi ăn. Anh vừa pha xong ly cà phê, nếu em ở đây chắc lại nhăn mặt chê đắng rồi đòi uống trà sữa cho xem."},
-{charId:"tri-canh-ngon",name:"Trì Cảnh Ngôn",time:"06:30",text:"Chào buổi sáng, bé con. Tôi phải ra ngoài sớm để giải quyết chút chuyện nên không gọi em dậy. Bữa sáng tôi đã dặn đầu bếp chuẩn bị sẵn rồi."},
-{charId:"tham-nhat-chu",name:"Thẩm Nhất Chu",time:"06:15",text:"Chữa bài muộn tối qua không có nghĩa là được nướng bỏ bữa sáng. 15 phút nữa anh ghé dưới lầu, ngoan ngoãn xuống nhận đồ ăn rồi đi học."},
-{charId:"tran-da",name:"Trần Dã",time:"06:30",text:"Tôi mua sữa đậu nành với há cảo để trên bàn bếp, dậy thì hâm nóng lại rồi hẵng ăn. Hôm nay tôi không về sớm đâu, đừng đợi."},
-{charId:"ha-thien-dat",name:"Hạ Thiên Dật",time:"06:35",text:"Dậy chưa đồ đần? Đúng 5 phút nữa không mò xuống thì tự mà lết đi học."},
-{charId:"to-trach-duong",name:"Tô Trạch Dương",time:"08:00",text:"Tôi đang ở bãi đỗ xe của công ty, hôm nay cô muốn giao dịch lúc mấy giờ thì nhắn sớm một chút đi."}
+const PLAYLIST = [
+  { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/avatar.jpg" },
+  { title: "snow flower feat peakboy", artist: "V", file: "MUSIC/snowflower.mp3", cover: "images/avatar.jpg" },
+  { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/avatar.jpg" },
+  { title: "giáng sinh chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/avatar.jpg" },
+  { title: "snowman", artist: "sia", file: "MUSIC/snowman.mp3", cover: "images/avatar.jpg" },
+  { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/avatar.jpg" }
+];
+
+const VOICE_MAP = {
+  "tri-triet-minh": "MUSIC/tritrietminh (1).mp3",
+  "tri-tieu-han": "MUSIC/tritieuhan.mp3",
+  "to-trach-duong": "MUSIC/totrachduong (1).mp3",
+  "tri-canh-ngon": "MUSIC/tricanhngon (1).mp3"
+};
+
+const WECHAT_DATABASE = [
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
+    msg1: "Chào buổi sáng. Không biết em đã dậy hay chưa nên tôi không gọi, sợ làm phiền giấc ngủ của em. Hôm nay dự báo thời tiết trời sẽ trở lạnh, em đi làm nhớ quàng thêm chiếc khăn len tôi đưa hôm trước. Lúc nào dậy thì nhắn tôi một tiếng nhé.",
+    optA: "Em vừa dậy đây ạ, khăn len anh cho em quàng sẵn rồi nè.", optB: "Hôm nay em hơi mệt nên định xin nghỉ làm ở nhà một hôm...",
+    msg2: "Tốt rồi. Dù đi làm hay ở nhà nghỉ ngơi thì cũng nhớ ăn sáng đầy đủ. Trưa nay tôi bận chút việc, chiều xong sớm tôi qua với em."
+  },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị dậy chưa? Em vừa chạy bộ ngang qua, gửi sẵn sữa đậu nành với sủi cảo nóng ở chú bảo vệ rồi ạ. Dậy thì nhắn em một câu cho em có năng lượng lên lớp nha! Yêu chị béee❤️",
+    optA: "Chị vừa dậy, cảm ơn em nhé.", optB: "Trời ơi sáng ra đã nạp ngọt thế này rồi, cún bự đi học ngoan nhé.",
+    msg2: "Hi hi chị thích là em vui rồi! Nhớ ăn hết đấy nhé, tí lên lớp em nhắn tin cho chị tiếp nhaaa~ ❤️"
+  },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
+    msg1: "8 giờ kém 10. Espresso không đường, mang vào phòng tôi cùng với báo cáo tài chính quý 3 để lên bàn. Còn nữa, nếu em thật sự muốn che thì tôi khuyên em, nên dặm thêm phấn ở cổ đi. Đêm qua cắn môi cởi đồ trước ống kính sung sức lắm cơ mà, sao hôm nay đứng báo cáo trước mặt tôi, chân em lại run rồi?",
+    optA: "Em mang cà phê và báo cáo vào ngay đây ạ~", optB: "Cái đó… Sếp Trì để ý kỹ thế ạ?",
+    msg2: "…Mau lên, đừng nói nhiều nữa. Tính kiên nhẫn của tôi có hạn đấy."
+  }
 ];
 
 let currentUser=null,currentProfile=null,isAdmin=false,currentChar=null,currentR21=null;
@@ -455,7 +556,9 @@ let filteredChars=[...CHARS]; let currentSortMode="normal";
 let currentPage=1; const PER_PAGE=5;
 const profileCache=new Map();
 const charLikesMap={}; const charJourneyMap={};
-let currentNotif=null;
+let currentTrackIdx = Math.floor(Math.random() * PLAYLIST.length);
+let wasMusicPlaying = false;
+let currentFeedbackImg = null;
 
 function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>x.classList.remove("show"),2600)}
 function escapeHtml(s=""){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
@@ -495,29 +598,62 @@ renderAuth();refreshUserBadges();
 
 async function initAuth(){
 const {data}=await db.auth.getSession();currentUser=data.session?.user||null;
-if(currentUser){
-  document.getElementById("dream-intro").classList.add("hide");
-}
 await loadProfile();
 db.auth.onAuthStateChange(async(_e,s)=>{
   currentUser=s?.user||null;
-  if(currentUser){
-    document.getElementById("dream-intro").classList.add("hide");
-  }
   await loadProfile();loadJournal();if(currentChar)loadAppComments(currentChar.id)
 });
 }
 
 function renderAuth(){
 const g=document.getElementById("authGuest"),u=document.getElementById("authUser");
-if(!currentUser){g.style.display="block";u.style.display="none";return}
-g.style.display="none";u.style.display="block";
-const p=currentProfile||{};
-const av=p.avatar_url?`<img class="profile-avatar" src="${escapeHtml(p.avatar_url)}">`:`<div class="profile-avatar" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
-const adminBadge = isAdmin ? '<span class="comment-badge" style="font-size:.68rem;padding:3px 8px;margin-left:6px;border-radius:10px;font-weight:700">Mộng chủ</span>' : '';
+if(!currentUser){
+  g.style.display="block";
+  u.style.display="none";
+} else {
+  g.style.display="none";
+  u.style.display="block";
+  const p=currentProfile||{};
+  const av=p.avatar_url?`<img class="profile-avatar" src="${escapeHtml(p.avatar_url)}">`:`<div class="profile-avatar" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
+  const adminBadge = isAdmin ? '<span class="comment-badge" style="font-size:.68rem;padding:3px 8px;margin-left:6px;border-radius:10px;font-weight:700">Mộng chủ</span>' : '';
 
-u.innerHTML=`<div class="profile-panel"><div class="profile-head"><div class="profile-avatar-wrap">${av}<button class="edit-icon" onclick="document.getElementById('profileAvatarFile').click()">✎</button><input id="profileAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="changeProfileAvatar(event)"></div><div style="flex:1"><div class="profile-name-row"><span class="profile-name">${escapeHtml(p.display_name||"Kẻ Mộng Mơ Vô Danh")}</span>${adminBadge}<button class="edit-icon" style="position:static;margin-left:4px" onclick="editDisplayName()">✎</button></div><div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div><div id="globalBadge" style="margin-top:6px"></div></div><button class="logout-btn" onclick="logout()">Đăng xuất</button></div><div id="profileAffinityList" style="margin-top:12px"></div></div>`;
+  u.innerHTML=`<div class="profile-panel"><div class="profile-head"><div class="profile-avatar-wrap">${av}<button class="edit-icon" onclick="document.getElementById('profileAvatarFile').click()">✎</button><input id="profileAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="changeProfileAvatar(event)"></div><div style="flex:1"><div class="profile-name-row"><span class="profile-name">${escapeHtml(p.display_name||"Kẻ Mộng Mơ Vô Danh")}</span>${adminBadge}<button class="edit-icon" style="position:static;margin-left:4px" onclick="editDisplayName()">✎</button></div><div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div><div id="globalBadge" style="margin-top:6px"></div></div><button class="logout-btn" onclick="logout()">Đăng xuất</button></div><div id="profileAffinityList" style="margin-top:12px"></div></div>`;
+}
+updateJournalInput();
 refreshUserBadges();
+}
+
+/* YÊU CẦU 1: THÊM MỤC TẢI ẢNH FEEDBACK TRONG LƯU BÚT */
+function updateJournalInput(){
+  const box = document.getElementById("journalFormBox");
+  if(!box) return;
+  const nickHtml = !currentUser ? `<input id="journalNickname" class="nickname-input" placeholder="Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh)">` : '';
+  box.innerHTML = `
+    ${nickHtml}
+    <textarea id="journalText" class="comment-input" rows="3" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea>
+    <div id="journalImgPreview" style="margin-bottom:6px"></div>
+    <div class="comment-actions">
+      <label class="file-upload-btn">
+        📷 Thêm ảnh
+        <input type="file" id="journalImageInput" accept="image/*" class="hidden-file" onchange="previewFeedbackImage(event)">
+      </label>
+      <button class="journal-send" style="width:auto;padding:8px 20px" onclick="postComment(null)">Gửi lưu bút</button>
+    </div>
+  `;
+}
+
+function previewFeedbackImage(e){
+  const file = e.target.files[0];
+  if(file){
+    currentFeedbackImg = file;
+    const url = URL.createObjectURL(file);
+    document.getElementById("journalImgPreview").innerHTML = `<img src="${url}" class="comment-img"><button style="border:0;background:none;color:#e53e3e;font-size:0.75rem;cursor:pointer" onclick="removeFeedbackImage()">✕ Xóa ảnh</button>`;
+  }
+}
+
+function removeFeedbackImage(){
+  currentFeedbackImg = null;
+  document.getElementById("journalImgPreview").innerHTML = "";
 }
 
 async function editDisplayName(){
@@ -565,15 +701,41 @@ lForm.style.display=mode==="login"?"block":"none";
 rForm.style.display=mode==="register"?"block":"none";
 }
 
-async function registerEmail(e){e.preventDefault();const email=document.getElementById("registerEmail").value.trim(),password=document.getElementById("registerPassword").value,display=document.getElementById("registerDisplay").value.trim();try{const {data,error}=await db.auth.signUp({email,password,options:{data:{display_name:display}}});if(error)throw error;if(data.user){currentUser=data.user;let avatar=null;const f=document.getElementById("registerAvatar").files[0];if(f&&data.session)avatar=await uploadAvatar(f);if(data.session){await db.from("profiles").upsert({id:data.user.id,display_name:display,avatar_url:avatar});await loadProfile()}else toast("Đăng ký xong. Hãy kiểm tra email.")}}catch(err){toast(err.message)}}
-async function loginEmail(e){e.preventDefault();const email=document.getElementById("loginEmail").value.trim(),password=document.getElementById("loginPassword").value;const {data,error}=await db.auth.signInWithPassword({email,password});if(error){toast(error.message);return}currentUser=data.user;await loadProfile();toast("Chào mừng bạn trở lại.")}
+async function registerEmail(e){
+  e.preventDefault();
+  const email=document.getElementById("registerEmail").value.trim(),password=document.getElementById("registerPassword").value,display=document.getElementById("registerDisplay").value.trim();
+  try{
+    const {data,error}=await db.auth.signUp({email,password,options:{data:{display_name:display}}});
+    if(error)throw error;
+    if(data.user){
+      currentUser=data.user;
+      let avatar=null;
+      const f=document.getElementById("registerAvatar").files[0];
+      if(f&&data.session)avatar=await uploadAvatar(f);
+      if(data.session){
+        await db.from("profiles").upsert({id:data.user.id,display_name:display,avatar_url:avatar});
+        await loadProfile();
+      }else toast("Đăng ký xong. Hãy kiểm tra email.");
+    }
+  }catch(err){toast(err.message)}
+}
+
+async function loginEmail(e){
+  e.preventDefault();
+  const email=document.getElementById("loginEmail").value.trim(),password=document.getElementById("loginPassword").value;
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error){toast(error.message);return}
+  currentUser=data.user;
+  await loadProfile();
+  toast("Chào mừng bạn trở lại.");
+}
 
 async function loginGoogle(){
-const {error}=await db.auth.signInWithOAuth({
-provider:"google",
-options:{redirectTo:window.location.origin+window.location.pathname}
-});
-if(error)toast("Lỗi Google Auth: "+error.message);
+  const {error}=await db.auth.signInWithOAuth({
+    provider:"google",
+    options:{redirectTo:window.location.origin+window.location.pathname}
+  });
+  if(error)toast("Lỗi Google Auth: "+error.message);
 }
 
 async function logout(){await db.auth.signOut();toast("Đã đăng xuất.")}
@@ -591,16 +753,121 @@ window.scrollTo({top:0,behavior:"smooth"})
 function enterDream(){
   sessionStorage.setItem("dream_entered","true");
   document.getElementById("dream-intro").classList.add("hide");
-  try{musicAudio.play().then(()=>musicBtn.classList.add("music-playing")).catch(()=>{})}catch{}
+  playSpotifyTrack(currentTrackIdx);
 }
 
 function scrollToTop(){document.getElementById("top-anchor").scrollIntoView({behavior:"smooth"})}
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
 
-const musicAudio=document.getElementById("bg-music"),musicBtn=document.getElementById("music-toggle");
-function toggleLocalMusic(e){e?.preventDefault();e?.stopPropagation();if(musicAudio.paused){musicAudio.play().then(()=>musicBtn.classList.add("music-playing")).catch(()=>{})}else{musicAudio.pause();musicBtn.classList.remove("music-playing")}}
+/* YÊU CẦU 7: PHÁT XONG BÀI NÀY TỰ ĐỘNG CHUYỂN SANG BÀI KHÁC */
+const audioEl = document.getElementById("bg-music");
+const cdBtn = document.getElementById("music-toggle");
 
-/* RENDER CARD NHÂN VẬT Instant (Không lag) */
+function initSpotify(){
+  loadTrackInfo(currentTrackIdx);
+  audioEl.onplay = () => { cdBtn.classList.add("music-playing"); updateSpotifyPlayBtn(true); };
+  audioEl.onpause = () => { cdBtn.classList.remove("music-playing"); updateSpotifyPlayBtn(false); };
+  audioEl.onended = () => {
+    nextSpotifyTrack();
+  };
+}
+
+function loadTrackInfo(idx){
+  const item = PLAYLIST[idx];
+  audioEl.src = item.file;
+  document.getElementById("spTitle").textContent = item.title;
+  document.getElementById("spArtist").textContent = item.artist;
+  document.getElementById("spSub").textContent = item.title;
+  document.getElementById("spCover").src = item.cover;
+  renderSpotifyPlaylist();
+}
+
+function playSpotifyTrack(idx){
+  currentTrackIdx = idx;
+  loadTrackInfo(idx);
+  audioEl.play().catch(()=>{});
+}
+
+function toggleSpotifyPlay(){
+  if(audioEl.paused) audioEl.play().catch(()=>{});
+  else audioEl.pause();
+}
+
+function updateSpotifyPlayBtn(isPlaying){
+  const btn = document.getElementById("spPlayBtn");
+  if(btn) btn.textContent = isPlaying ? "❚❚" : "▶";
+}
+
+function nextSpotifyTrack(){
+  currentTrackIdx = (currentTrackIdx + 1) % PLAYLIST.length;
+  playSpotifyTrack(currentTrackIdx);
+}
+
+function openSpotify(){
+  renderSpotifyPlaylist();
+  openModal('spotifyModal');
+}
+
+function closeSpotify(){
+  closeModal('spotifyModal');
+}
+
+function renderSpotifyPlaylist(){
+  const container = document.getElementById("spPlaylist");
+  if(!container) return;
+  container.innerHTML = PLAYLIST.map((t, idx) => {
+    const isActive = idx === currentTrackIdx;
+    return `<div class="spotify-item ${isActive?'active':''}" onclick="playSpotifyTrack(${idx})">
+      <span class="spotify-item-num">${isActive ? '♫' : (idx + 1)}</span>
+      <div class="spotify-item-info">
+        <div class="spotify-item-title">${escapeHtml(t.title)}</div>
+        <div class="spotify-item-sub"><b style="color:var(--navy)">${escapeHtml(t.artist)}</b> • ${escapeHtml(t.title)}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* YÊU CẦU 5: BẬT VOICE THÌ TẮT NHẠC, NÓI XONG BẬT TỰ ĐỘNG PHÁT TIẾP NHẠC DANG DỞ */
+function playCharVoice(charId, btn){
+  const voiceFile = VOICE_MAP[charId];
+  if(!voiceFile){
+    return toast("Giọng nói của nhân vật này đang được cập nhật...");
+  }
+  const player = document.getElementById("voice-player");
+
+  if(player.src.endsWith(encodeURI(voiceFile)) && !player.paused){
+    player.pause();
+    btn.classList.remove("playing");
+    if(wasMusicPlaying){
+      audioEl.play().catch(()=>{});
+      wasMusicPlaying = false;
+    }
+    return;
+  }
+
+  if(!audioEl.paused){
+    wasMusicPlaying = true;
+    audioEl.pause();
+  }
+
+  player.src = voiceFile;
+  player.play().then(()=>{
+    document.querySelectorAll(".voice-btn").forEach(b => b.classList.remove("playing"));
+    btn.classList.add("playing");
+  }).catch(()=>{
+    toast("Không thể phát file voice.");
+  });
+
+  player.onended = () => {
+    btn.classList.remove("playing");
+    if(wasMusicPlaying){
+      audioEl.play().catch(()=>{});
+      wasMusicPlaying = false;
+    }
+  };
+}
+
+/* RENDER CARD NHÂN VẬT */
 function renderCards(){
 const grid=document.getElementById("charGrid");
 const start=(currentPage-1)*PER_PAGE;
@@ -609,13 +876,14 @@ const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 grid.innerHTML=pagedChars.map(c=>{
 const pass=c.pass?`<button class="r21-btn" onclick="openR21Modal('${c.id}')">🔐 Giấc Mộng Đóng Băng</button>`:`<button class="btn-see-more" onclick="openAppDetail('${c.id}')">✦ Xem thêm</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
-const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="comment-input" style="margin-bottom:6px" placeholder="Biệt danh (không ghi sẽ là Kẻ Mộng Mơ Vô Danh)">`:"";
+
+const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh)">`:"";
 
 return `<article class="char-card" data-id="${c.id}">
 <div class="char-media-wrap">
   <img class="char-img" src="${c.img}" alt="${escapeHtml(c.name)}" onclick="openAppDetail('${c.id}')">
-  <div class="char-like">
-    <button class="like-btn ${isLiked?'liked':''}" onclick="likeChar('${c.id}',this)">🩵</button>
+  <div class="char-like" onclick="likeChar('${c.id}', this)">
+    <button class="like-btn ${isLiked?'liked':''}">💙</button>
     <span class="like-count" id="like-${c.id}">${charLikesMap[c.id]||0}</span>
   </div>
 </div>
@@ -676,7 +944,6 @@ renderCards();
 document.getElementById("list-top-anchor")?.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-/* TẢI BỘ ĐẾM SONG SONG (Không Chặn Giao Diện) */
 async function loadPublicStats(){
   const promises = CHARS.map(async (c) => {
     try {
@@ -698,9 +965,10 @@ async function loadPublicStats(){
   await Promise.all(promises);
 }
 
-async function likeChar(id,btn){
+async function likeChar(id, containerEl){
 const localKey="liked-"+id;
 if(localStorage.getItem(localKey)) return toast("Bạn đã thả tim nhân vật này rồi.");
+const btn = containerEl.querySelector('.like-btn') || containerEl;
 btn.classList.add("liked");
 localStorage.setItem(localKey,"1");
 try{
@@ -741,6 +1009,7 @@ const bestBadge=c.user_id?`<span class="badge" data-user="${c.user_id}">Đã bi�
 const avatar=av?`<img class="comment-avatar" src="${escapeHtml(av)}">`:`<div class="avatar-letter">${escapeHtml((name||"K")[0].toUpperCase())}</div>`;
 const replies=all.filter(r=>r.parent_id===c.id).map(r=>commentHTML(r,all)).join("");
 const adminBadge=c.is_admin?'<span class="comment-badge" style="font-size:.65rem;border-radius:10px;padding:3px 8px;font-weight:700">Mộng chủ</span>':"";
+const imgHtml=c.image_url?`<img src="${escapeHtml(c.image_url)}" class="comment-img">`:'';
 
 return `<div class="comment">
 <div>${avatar}</div>
@@ -748,6 +1017,7 @@ return `<div class="comment">
 <div class="comment-body">
 <div class="comment-head"><span class="comment-name">${escapeHtml(name)}</span>${bestBadge}${adminBadge}</div>
 <div class="comment-text">${escapeHtml(c.content)}</div>
+${imgHtml}
 <div class="comment-time">${formatDate(c.created_at)}</div>
 <div class="comment-tools">
 <button onclick="reactComment('${c.id}')">❤️ Bày tỏ</button>
@@ -775,7 +1045,7 @@ function replyTo(id){const t=prompt("Nhập câu trả lời:");if(!t?.trim())re
 
 async function postReply(parent,content){
 let guestName=null;
-if(!currentUser) guestName=prompt("Biệt danh (không ghi sẽ là Kẻ Mộng Mơ Vô Danh):")||"Kẻ Mộng Mơ Vô Danh";
+if(!currentUser) guestName=prompt("Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
 const {error}=await db.from("comments").insert({parent_id:parent,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
 if(error)toast(error.message);
 else{
@@ -802,15 +1072,25 @@ if(currentChar)loadAppComments(currentChar.id);
 
 async function postComment(charId){
 const textarea=charId?document.getElementById("mini-input-"+charId):document.getElementById("journalText");
-const content=textarea?.value.trim();if(!content)return toast("Hãy viết gì đó trước nhé.");
+const content=textarea?.value.trim();if(!content && !currentFeedbackImg)return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
 let guestName=null;
 if(!currentUser){
 if(charId){ guestName=document.getElementById("mini-nick-"+charId)?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
 else{ guestName=document.getElementById("journalNickname")?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
 }
-const {error}=await db.from("comments").insert({char_id:charId||null,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
+
+let uploadedImgUrl = null;
+if(currentFeedbackImg && !charId){
+  try{
+    uploadedImgUrl = await uploadAvatar(currentFeedbackImg);
+  }catch(e){}
+}
+
+const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
 if(error){toast(error.message);return}
-textarea.value=""; toast("Đã gửi bình luận.");
+textarea.value=""; 
+removeFeedbackImage();
+toast("Đã gửi lưu bút.");
 if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
 }
 
@@ -859,7 +1139,7 @@ filteredChars.sort((a,b)=>(charJourneyMap[b.id]||0)-(charJourneyMap[a.id]||0));
 }else if(currentSortMode==="newest"){
 filteredChars.sort((a,b)=>new Date(b.created)-new Date(a.created));
 }else if(currentSortMode==="oldest"){
-filteredChars.sort((a,b)=>new Date(a.created)-new Date(b.created));
+filteredChars.sort((a,b)=>new Date(a.created)-new Date(a.created));
 }
 
 currentPage=1;
@@ -921,8 +1201,11 @@ if(g) g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
 async function openAppDetail(id){
 const c=CHARS.find(x=>x.id===id);if(!c)return;currentChar=c;
 const isLiked=localStorage.getItem("liked-"+id);
-document.getElementById("appHero").innerHTML=`<img src="${c.img}" alt="${escapeHtml(c.name)}"><div class="app-like"><button class="like-btn ${isLiked?'liked':''}" onclick="likeChar('${id}',this)">🩵</button><span id="appLikeCount">${charLikesMap[id]||0}</span></div>`;
+document.getElementById("appHero").innerHTML=`<img src="${c.img}" alt="${escapeHtml(c.name)}"><div class="app-like" onclick="likeChar('${id}', this)"><button class="like-btn ${isLiked?'liked':''}">💙</button><span class="like-count" id="appLikeCount">${charLikesMap[id]||0}</span></div>`;
 document.getElementById("appName").textContent=c.name;
+
+document.getElementById("voiceBtnWrap").innerHTML = `<button class="voice-btn" title="Phát giọng nói nhân vật" onclick="playCharVoice('${id}', this)">🔊</button>`;
+
 document.getElementById("appCreated").textContent="Ngày tạo: "+formatDate(c.created);
 document.getElementById("appTagline").textContent='"'+c.tagline+'"';
 document.getElementById("appTags").innerHTML=c.tags.map(t=>`<span class="tag" onclick="closeAppDetail();filterTag('${escapeHtml(t)}')">#${escapeHtml(t)}</span>`).join("");
@@ -941,7 +1224,7 @@ return `<div class="recommend-card" onclick="${clickAction}">
 
 document.getElementById("appLinks").innerHTML=[["Doki",c.doki,"link-doki"],["ggAI",c.gg,"link-gg"],["Story",c.story,"link-story"]].filter(x=>x[1]).map(x=>`<a class="${x[2]}" href="${x[1]}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">${x[0]}</a>`).join("");
 
-const nickFieldApp=!currentUser?`<input id="appNickname" class="comment-input" style="margin-bottom:6px" placeholder="Biệt danh (không ghi sẽ là Kẻ Mộng Mơ Vô Danh)">`:"";
+const nickFieldApp=!currentUser?`<input id="appNickname" class="nickname-input" placeholder="Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh)">`:"";
 document.getElementById("appCommentForm").innerHTML=`${nickFieldApp}<textarea id="appInput" class="comment-input" rows="2" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea><div class="comment-actions"><button class="send-btn" onclick="postAppComment()">Gửi</button></div>`;
 
 await refreshAffinity(id);
@@ -958,7 +1241,16 @@ document.querySelectorAll(".app-section").forEach(sec=>{
 await loadAppComments(id);
 }
 
-function closeAppDetail(){document.getElementById("appView").classList.remove("show");currentChar=null}
+function closeAppDetail(){
+  document.getElementById("appView").classList.remove("show");
+  currentChar=null;
+  const player = document.getElementById("voice-player");
+  player.pause();
+  if(wasMusicPlaying){
+    audioEl.play().catch(()=>{});
+    wasMusicPlaying = false;
+  }
+}
 
 async function postAppComment(){
 if(!currentChar)return;
@@ -1008,10 +1300,11 @@ function verifyR21(){
 
 function toggleMiniComments(id){const el=document.getElementById("mini-"+id);el.classList.toggle("open");if(el.classList.contains("open"))loadMiniComments(id)}
 
+/* YÊU CẦU 9: KHÔI PHỤC HIỆU ỨNG MỞ MODAL NẨY NẨY MƯỢT MÀ */
 function openModal(id){
   const m = document.getElementById(id);
   m.classList.add("show");
-  const box = m.querySelector(".modal-box");
+  const box = m.querySelector(".modal-box") || m.querySelector(".spotify-card");
   if(box) {
     box.style.animation = "none";
     void box.offsetWidth;
@@ -1041,7 +1334,6 @@ document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"
 }
 
 function initRandomNotification(){
-currentNotif=NOTIFICATIONS[Math.floor(Math.random()*NOTIFICATIONS.length)];
 setTimeout(()=>{
 const b=document.getElementById("notifBtn");
 const bg=document.getElementById("notifBadge");
@@ -1049,53 +1341,82 @@ if(b&&bg){
 b.classList.add("ring");
 bg.style.display="flex";
 }
-},10000);
+},6000);
 }
 
-function openNotifModal(){
-const b=document.getElementById("notifBtn");
-const bg=document.getElementById("notifBadge");
-if(b) b.classList.remove("ring");
-if(bg) bg.style.display="none";
+function openWeChatModal(){
+  const b=document.getElementById("notifBtn");
+  const bg=document.getElementById("notifBadge");
+  if(b) b.classList.remove("ring");
+  if(bg) bg.style.display="none";
 
-if(!currentNotif) currentNotif=NOTIFICATIONS[Math.floor(Math.random()*NOTIFICATIONS.length)];
-const cObj=CHARS.find(x=>x.id===currentNotif.charId);
+  const script = WECHAT_DATABASE[Math.floor(Math.random()*WECHAT_DATABASE.length)];
+  document.getElementById("wcHeaderAvatar").src = script.avatar;
+  document.getElementById("wcHeaderName").textContent = script.name;
+  
+  const body = document.getElementById("wcBody");
+  const choices = document.getElementById("wcChoices");
+  
+  body.innerHTML = `<div class="wechat-typing" id="wcTyping">... ${script.name} đang gõ ...</div>`;
+  choices.innerHTML = "";
 
-let callHtml="";
-if(currentNotif.missedCall){
-callHtml=`<div class="phone-notif-call"><span>${currentNotif.missedCall}</span></div>`;
+  openModal('wechatModal');
+
+  setTimeout(()=>{
+    document.getElementById("wcTyping")?.remove();
+    
+    let callHtml = script.call ? `<div class="wechat-meta-box">📞 ${escapeHtml(script.call)}</div>` : '';
+    let extraHtml = script.extra ? `<div class="wechat-meta-box">🧧 ${escapeHtml(script.extra)}</div>` : '';
+
+    body.innerHTML += `
+      <div class="wechat-msg-row left">
+        <img class="wechat-msg-avatar" src="${script.avatar}" alt="">
+        <div style="display:flex;flex-direction:column;gap:4px;max-width:100%">
+          ${callHtml}
+          ${extraHtml}
+          <div class="msg-bubble msg-left">${escapeHtml(script.msg1)}</div>
+        </div>
+      </div>`;
+    body.scrollTop = body.scrollHeight;
+
+    choices.innerHTML = `
+      <button class="wechat-choice-btn" onclick="sendWeChatReply('${script.charId}', '${script.avatar}', '${escapeHtml(script.optA)}', '${escapeHtml(script.msg2)}')">• ${escapeHtml(script.optA)}</button>
+      <button class="wechat-choice-btn" onclick="sendWeChatReply('${script.charId}', '${script.avatar}', '${escapeHtml(script.optB)}', '${escapeHtml(script.msg2)}')">• ${escapeHtml(script.optB)}</button>
+    `;
+  }, 1000);
 }
-let extraHtml="";
-if(currentNotif.extraMeta){
-extraHtml=`<div class="phone-notif-extra">${escapeHtml(currentNotif.extraMeta)}</div>`;
-}
 
-document.getElementById("notifContainer").innerHTML=`
-<div class="phone-notif-box">
-<div class="phone-notif-header">
-<img class="phone-notif-avatar" src="${cObj?.img||'images/avatar.jpg'}" alt="">
-<div class="phone-notif-info">
-<div class="phone-notif-name">${escapeHtml(currentNotif.name)}</div>
-<div class="phone-notif-time">Tin nhắn mới • ${currentNotif.time}</div>
-</div>
-</div>
-${callHtml}
-${extraHtml}
-<div class="phone-notif-body">${escapeHtml(currentNotif.text)}</div>
-</div>`;
+async function sendWeChatReply(charId, charAvatar, userReplyText, msg2Text){
+  const body = document.getElementById("wcBody");
+  const choices = document.getElementById("wcChoices");
+  
+  choices.innerHTML = "";
 
-const rBtn=document.getElementById("notifReplyBtn");
-if(rBtn){
-rBtn.onclick=()=>{
-closeModal('notifModal');
-if(cObj){
-if(cObj.pass) openR21Modal(cObj.id);
-else openAppDetail(cObj.id);
-}
-};
-}
+  const userAvatar = currentProfile?.avatar_url || "images/avatar.jpg";
 
-openModal('notifModal');
+  body.innerHTML += `
+    <div class="wechat-msg-row right">
+      <img class="wechat-msg-avatar" src="${userAvatar}" alt="">
+      <div class="msg-bubble msg-right">${escapeHtml(userReplyText)}</div>
+    </div>`;
+  
+  body.innerHTML += `<div class="wechat-typing" id="wcTyping">... Đang gõ ...</div>`;
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(async ()=>{
+    document.getElementById("wcTyping")?.remove();
+    body.innerHTML += `
+      <div class="wechat-msg-row left">
+        <img class="wechat-msg-avatar" src="${charAvatar}" alt="">
+        <div class="msg-bubble msg-left">${escapeHtml(msg2Text)}</div>
+      </div>`;
+    body.scrollTop = body.scrollHeight;
+
+    if(currentUser){
+      await addAffinity(charId, 5, "wechat_chat");
+      toast("✦ Đã nhắn tin cùng nhân vật (+5 Hảo cảm)");
+    }
+  }, 1200);
 }
 
 function initRealtimeSubscriptions(){
@@ -1114,14 +1435,15 @@ function createIntroSnow(){const box=document.getElementById("intro-snow-contain
 async function setup(){
   createSnow(); 
   createIntroSnow(); 
-  
+
   if (sessionStorage.getItem("dream_entered") === "true") {
     document.getElementById("dream-intro").classList.add("hide");
   }
 
-  renderCards(); // Khởi tạo danh sách lập tức không chờ đợi
+  renderCards();
 
   initAuth();
+  initSpotify();
   loadJournal();
   initRandomNotification();
   initRealtimeSubscriptions();
