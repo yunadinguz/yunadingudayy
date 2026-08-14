@@ -1196,6 +1196,25 @@ let jEl=document.getElementById("journey-"+charId); if(jEl) jEl.textContent=`${d
 if(currentUser){ await addAffinity(charId,20,"link"); }
 }
 
+async function attachProfiles(data) {
+  if (!data || data.length === 0) return data;
+  const userIds = [...new Set(data.map(c => c.user_id).filter(Boolean))];
+  if (userIds.length === 0) return data;
+  
+  const { data: profiles } = await db.from("profiles").select("*").in("id", userIds);
+  const { data: affinities } = await db.from("affinities").select("*").in("user_id", userIds);
+  
+  return data.map(c => {
+    const profile = profiles?.find(p => p.id === c.user_id) || {};
+    const userAffinities = affinities?.filter(a => a.user_id === c.user_id) || [];
+    let best = null;
+    if (userAffinities.length > 0) {
+      best = userAffinities.sort((a, b) => b.points - a.points)[0];
+    }
+    return { ...c, _profile: { ...profile, bestAffinity: best } };
+  });
+}
+
 async function loadMiniComments(id){
 let {data}=await db.from("comments").select("*").eq("char_id",id).order("created_at",{ascending:true});
 data=await attachProfiles(data);
@@ -1243,7 +1262,16 @@ setTimeout(() => {
 const replies=all.filter(r=>r.parent_id===c.id).map(r=>commentHTML(r,all)).join("");
 const imgHtml=c.image_url?`<img src="${escapeHtml(c.image_url)}" class="comment-img">`:'';
 
-const safeCharId = c.char_id ? `'${c.char_id}'` : 'null';
+// Tìm char_id gốc để đảm bảo các reply cấp 2, cấp 3 vẫn giữ được char_id của nhân vật
+let rootCharId = c.char_id;
+if (!rootCharId && c.parent_id) {
+    let p = all.find(x => x.id === c.parent_id);
+    while (p && !rootCharId) {
+        rootCharId = p.char_id;
+        p = all.find(x => x.id === p.parent_id);
+    }
+}
+const safeCharId = rootCharId ? `'${rootCharId}'` : 'null';
 
 return `<div class="comment">
 <div>${avatarHtml}</div>
@@ -1637,7 +1665,7 @@ function openWeChatModal(){
     document.getElementById("wcTyping")?.remove();
     
     let callHtml = script.call ? `<div class="wechat-meta-box">📞 ${escapeHtml(script.call)}</div>` : '';
-    let extraHtml = script.extra ? `<div class="wechat-meta-box">🧧 ${escapeHtml(script.extra)}</div>` : '';
+    let extraHtml = script.extra ? `<div class="wechat-meta-box" style="color: #07c160; background: #f2fbf4; border-color: #d1ebd8;">🧧 ${escapeHtml(script.extra)}</div>` : '';
 
     body.innerHTML += `
       <div class="wechat-msg-row left">
