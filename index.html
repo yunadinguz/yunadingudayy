@@ -1656,7 +1656,7 @@ function openWeChatModal(){
   const body = document.getElementById("wcBody");
   const choices = document.getElementById("wcChoices");
   
-  body.innerHTML = `<div class="wechat-typing" id="wcTyping">... ${script.name} đang gõ ...</div>`;
+  body.innerHTML = `<div class="wechat-typing" id="wcTyping">... ${script.name} đang nhập ...</div>`;
   choices.innerHTML = "";
 
   openModal('wechatModal');
@@ -1744,6 +1744,12 @@ function createIntroSnow(){const box=document.getElementById("intro-snow-contain
 async function setup(){
   createSnow(); 
   createIntroSnow(); 
+
+  const urlStr = window.location.hash + window.location.search;
+  if (urlStr.includes("access_token") || urlStr.includes("code=") || urlStr.includes("error_description")) {
+    sessionStorage.setItem("dream_entered", "true"); // Tự động xác nhận đã qua intro
+    showView('auth'); // Mở sẵn thẻ Đăng nhập / Profile
+  }
 
   if (sessionStorage.getItem("dream_entered") === "true") {
     document.getElementById("dream-intro").classList.add("hide");
