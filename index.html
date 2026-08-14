@@ -46,7 +46,7 @@
 #snow-container{position:fixed;inset:0;pointer-events:none;z-index:20}.snowflake{position:absolute;color:#fff;opacity:.5;animation:fall linear infinite}@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(360deg);opacity:0}}
 .top-bar-solid{height:36px;display:flex;align-items:center;overflow:hidden;background:#6ea9d5;color:#fff;white-space:nowrap}.marquee-text{display:inline-block;padding-left:100%;animation:marquee 20s linear infinite}@keyframes marquee{to{transform:translateX(-100%)}}
 
-/* HEADER TWITTER / X STYLE - SỬA LỖI ĐIỀU HƯỚNG BỊ CHE */
+/* HEADER TWITTER / X STYLE */
 .x-header-container{max-width:100%;background:#ffffff;margin:auto;box-shadow:0 4px 15px rgba(3,62,140,.05);position:relative;overflow:visible;z-index:800}
 .x-banner{width:100%;height:150px;object-fit:cover;display:block;background:#79acd9}
 .x-profile-row{display:flex;align-items:flex-end;gap:14px;padding:0 20px 14px;margin-top:-32px;position:relative;z-index:2}
@@ -55,14 +55,12 @@
 .x-name{font:700 1.5rem var(--serif);margin:0;color:var(--navy);line-height:1.2;display:flex;align-items:center;gap:6px}
 .x-friends{font:italic 0.88rem var(--sans);color:#143d66;margin-top:4px;word-break:break-word}
 
-/* NAV BAR CUỘN NGANG */
 .fb-divider{border:0;border-top:1px solid rgba(3,62,140,.12);margin:10px auto 4px;max-width:980px}
-.fb-nav{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 12px;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-wrap:nowrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900}
-.fb-nav::-webkit-scrollbar{display:none}
+.fb-nav{display:flex;gap:8px;padding:8px 16px 12px;flex-wrap:wrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900}
 .nav-item,.nav-link{border:0;background:rgba(121,172,217,.12);color:#16456f;padding:8px 16px;border-radius:999px;font-weight:700;font-size:0.88rem;transition:.25s;white-space:nowrap;flex-shrink:0}
 .nav-item:hover,.nav-item.active,.nav-link.active{background:linear-gradient(135deg,#e8f5ff,#8fc1e9);color:#073c70}
 
-/* DROPDOWNS SỬA TỐI ĐA Z-INDEX KHÔNG BỊ CHE */
+/* DROPDOWNS */
 .dropdown{position:relative;display:inline-block;flex-shrink:0}
 .dropdown-content{display:none;position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 4px);min-width:160px;background:#fff;border-radius:18px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,0.18);z-index:99999;border:1px solid #dceaf5}
 .dropdown:hover .dropdown-content{display:block}
@@ -100,7 +98,8 @@
 
 .char-like, .app-like{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.8);box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:5;cursor:pointer;user-select:none;transition:transform .2s, background .2s}
 .char-like:hover, .app-like:hover{transform:scale(1.05);background:rgba(255,255,255,.9)}
-.like-btn{border:0;background:transparent;font-size:15px;line-height:1;color:#2563eb;padding:0;cursor:pointer;pointer-events:none}
+.like-btn{border:0;background:transparent;font-size:17px;line-height:1;color:#78889b;padding:0;cursor:pointer;pointer-events:none;}
+.like-btn.liked{color:#2563eb;}
 .like-count{font-size:.82rem;font-weight:700;color:#1e3a8a;pointer-events:none}
 
 .char-info{display:flex;flex-direction:column;gap:8px}
@@ -141,8 +140,27 @@
 .comment-name{font-weight:700;color:#214e76;font-size:.84rem}
 .comment-time{font-size:.67rem;color:#9aa7b6;margin-top:3px}
 .comment-text{font-size:.83rem;color:#4d5e72;line-height:1.45;margin-top:3px;white-space:pre-wrap;word-break:break-word}
-.comment-tools{display:flex;gap:12px;margin-top:6px}.comment-tools button{border:0;background:none;color:#7190ac;padding:0;font-size:.72rem;cursor:pointer;font-weight:600}.comment-tools button:hover{color:var(--blue)}
+.comment-tools{display:flex;gap:12px;margin-top:6px}
+.cmt-action-btn{border:0;background:none;color:#7190ac;padding:0;font-size:.75rem;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:4px;}
+.cmt-action-btn:hover{color:var(--blue);}
+.cmt-action-btn.liked {color:#e53e3e;}
+.cmt-action-btn.liked .cmt-heart {color:#e53e3e;}
 .reply-list{margin-left:36px}
+
+/* HIỆU ỨNG DANH HIỆU */
+.badge{font-size:0.65rem;padding:3px 8px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px}
+.badge.normal{background:#eaf5ff;color:#25587f;border:1px solid #c2dcf0}
+.badge.glow{background:#fff9e6;color:#d97706;border:1px solid #fcd34d;box-shadow:0 0 8px rgba(251,191,36,.6)}
+.badge.love{background:#fff1f2;color:#be123c;border:1px solid #fda4af;box-shadow:0 0 10px rgba(244,63,94,.6);animation:pulseLove 2s infinite}
+.badge.partner{background:linear-gradient(135deg,#fdf4ff,#fae8ff);color:#7e22ce;border:1px solid #e879f9;box-shadow:0 4px 15px rgba(192,38,211,.3);position:relative;overflow:hidden}
+.badge.partner::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:sweepLight 3s infinite}
+@keyframes pulseLove{0%,100%{box-shadow:0 0 8px rgba(244,63,94,.6)}50%{box-shadow:0 0 15px rgba(244,63,94,.9)}}
+@keyframes sweepLight{0%{left:-100%}20%,100%{left:200%}}
+
+.cat-ears-wrap{position:relative;display:inline-block;z-index:1}
+.cat-ears-wrap::before,.cat-ears-wrap::after{content:"";position:absolute;top:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:12px solid #fbcfe8;z-index:-1;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.1))}
+.cat-ears-wrap::before{left:0px;transform:rotate(-15deg)}
+.cat-ears-wrap::after{right:0px;transform:rotate(15deg)}
 
 /* LOANG MÀU XANH CHO TIÊU ĐỀ */
 .gradient-title{background:linear-gradient(135deg, #2b6cb0, #6aa5d7, #3182ce);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
@@ -156,7 +174,6 @@
 .app-close{position:absolute;z-index:20;top:12px;left:12px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.9);font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .app-hero{position:relative}.app-hero img{display:block;width:100%;height:310px;object-fit:cover;border-radius:0 0 28px 28px}
 
-/* YÊU CẦU 3: BẰNG NỬA CHIỀU CAO CHỮ */
 .app-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .voice-btn{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e0f2fe,#bae6fd);border:1px solid #7dd3fc;color:#0284c7;display:inline-flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;box-shadow:0 2px 6px rgba(2,132,199,.18);transition:transform .2s;vertical-align:middle}
 .voice-btn:hover{transform:scale(1.1)}
@@ -197,7 +214,9 @@
 .back-library{border:0;border-radius:22px;background:#eaf5ff;color:#25587f;padding:9px 16px;font-weight:700;margin-bottom:12px}
 .journal-form{background:#f5faff;border:1px solid #dcebf5;border-radius:23px;padding:15px;margin:18px 0}
 
-/* YÊU CẦU 2: CĂN GIỮA TIÊU ĐỀ SNOWVEIL DAYDREAM SANG TRỌNG */
+.journal-send{border:0;border-radius:20px;padding:10px 24px!important;background:#B3D5F2;color:#023E73;font-weight:700;transition:.2s;cursor:pointer}
+.journal-send:hover, .journal-send:active{background:#023E73;color:#fff}
+
 .auth-brand{text-align:center;font:700 clamp(1.8rem,6vw,2.5rem) var(--serif);margin:10px auto 4px;display:block}
 .auth-tabs{display:flex;gap:8px;background:#eef7ff;border-radius:22px;padding:4px}
 .auth-tab{flex:1;border:0;border-radius:18px;padding:10px;background:transparent;color:#356488;font-weight:700;transition:.25s}
@@ -221,7 +240,6 @@
 
 .toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);opacity:0;z-index:20000;background:rgba(6,14,38,.9);color:#fff;padding:10px 18px;border-radius:18px;font-size:.82rem;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* YÊU CẦU 9: KHÔI PHỤC HIỆU ỨNG CHUYỂN ĐỘNG MODAL BẤM VÀO MỞ RA */
 .custom-modal{display:none;position:fixed;inset:0;z-index:12000;background:rgba(5,18,35,.45);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
 .custom-modal.show{display:flex;opacity:1}
 .modal-box{width:min(400px,94%);max-height:90vh;overflow:auto;background:rgba(255,255,255,.96);border-radius:26px;padding:22px;box-shadow:0 25px 60px rgba(0,0,0,.22);position:relative;text-align:center;transform:scale(.88) translateY(15px);transition:transform .35s cubic-bezier(.175,.885,.32,1.275)}
@@ -258,7 +276,6 @@
 .destiny-result p{font-size:.78rem;color:var(--text);font-style:italic;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px}
 @keyframes fadeInResult{from{opacity:0;transform:translateY(15px) scale(.95)}to{opacity:1;transform:none}}
 
-/* YÊU CẦU 4: NÚT ÂM THANH & CHUÔNG THU NHỎ NHẸ NHÀNG */
 .floating-left{position:fixed;left:14px;top:90px;z-index:11000}
 .notif-btn{width:38px;height:38px;border-radius:50%;background:#ffffff;color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:0;outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
 .notif-btn:hover{transform:scale(1.1)}
@@ -271,7 +288,7 @@
 .float-btn:hover{background:#f0f7ff;transform:scale(1.1)}
 .music-playing{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 
-/* YÊU CẦU 6: SPOTIFY TONE TRẮNG - XANH BIỂN */
+/* SPOTIFY GIAO DIỆN LIGHT THEME */
 .spotify-modal{display:none;position:fixed;inset:0;z-index:15000;background:rgba(5,18,35,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
 .spotify-modal.show{display:flex;opacity:1}
 .spotify-card{width:min(420px,94%);background:#ffffff;color:var(--navy);border-radius:24px;padding:22px;box-shadow:0 20px 50px rgba(3,62,140,.18);border:1px solid #dceaf5;position:relative;transform:scale(.92);transition:transform .3s ease}
@@ -406,19 +423,17 @@
 <div class="pagination-container" id="pagination-controls"></div>
 </div></section>
 
-<!-- YÊU CẦU 1: CĂN GIỮA TIÊU ĐỀ LƯU BÚT TRÁNH BỊ ĐÈ NÚT -->
 <section id="journal" class="view"><div class="journal-page">
-<button class="back-library" onclick="showView('library')">‹ Về thư viện giấc mơ</button>
+<button class="back-library" onclick="showView('library')">‹ Về Thư viện giấc mơ</button>
 <h2 class="page-title gradient-title" style="display:block;text-align:center">Lưu bút &amp; Góp Ideas</h2>
-<p class="page-sub">Viết cảm nghĩ, những điều bạn muốn nói, hoặc một ý tưởng để chúng ta cùng dệt thêm một giấc mộng.</p>
+<p class="page-sub">Để lại đây một mảnh linh hồn, hóa thân thành hoa tuyết bay mãi giữa trời không.</p>
 <div class="journal-form" id="journalFormBox"></div>
 <div id="journalComments" class="journal-comments"></div></div></section>
 
 <section id="auth" class="view"><div class="auth-page">
-<button class="back-library" onclick="showView('library')">‹ Về thư viện giấc mơ</button>
-<!-- YÊU CẦU 2: CĂN GIỮA TIÊU ĐỀ CHUẨN ĐỒNG BỘ -->
+<button class="back-library" onclick="showView('library')">‹ Về Thư viện giấc mơ</button>
 <h2 class="auth-brand gradient-title">Snowveil Daydream</h2>
-<div style="text-align:center;color:#708095;font-size:0.85rem;font-style:italic;margin-bottom:15px">Tài khoản riêng để bình luận, yêu thích và tăng hảo cảm cùng những linh hồn nơi đây.</div>
+<div style="text-align:center;color:#708095;font-size:0.85rem;font-style:italic;margin-bottom:15px">Danh xưng riêng để lưu dấu hành trình và vun đắp những mối duyên nơi đây.</div>
 
 <div id="authGuest">
 <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuth('login')">Đăng nhập</button><button class="auth-tab" onclick="switchAuth('register')">Đăng ký</button></div>
@@ -467,7 +482,6 @@
 </div>
 </div>
 
-<!-- SPOTIFY GIAO DIỆN LIGHT THEME XANH BIỂN CỰC ĐẸP -->
 <div id="spotifyModal" class="spotify-modal">
 <div class="spotify-card">
   <button class="spotify-close" onclick="closeSpotify()">×</button>
@@ -534,21 +548,227 @@ const VOICE_MAP = {
 };
 
 const WECHAT_DATABASE = [
+  // --- TRÌ TRIỆT MINH ---
   { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
     msg1: "Chào buổi sáng. Không biết em đã dậy hay chưa nên tôi không gọi, sợ làm phiền giấc ngủ của em. Hôm nay dự báo thời tiết trời sẽ trở lạnh, em đi làm nhớ quàng thêm chiếc khăn len tôi đưa hôm trước. Lúc nào dậy thì nhắn tôi một tiếng nhé.",
     optA: "Em vừa dậy đây ạ, khăn len anh cho em quàng sẵn rồi nè.", optB: "Hôm nay em hơi mệt nên định xin nghỉ làm ở nhà một hôm...",
-    msg2: "Tốt rồi. Dù đi làm hay ở nhà nghỉ ngơi thì cũng nhớ ăn sáng đầy đủ. Trưa nay tôi bận chút việc, chiều xong sớm tôi qua với em."
-  },
+    msg2: "Tốt rồi. Dù đi làm hay ở nhà nghỉ ngơi thì cũng nhớ ăn sáng đầy đủ. Trưa nay tôi bận chút việc, chiều xong sớm tôi qua với em." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "Wechat: +100 tệ.",
+    msg1: "Tôi vừa đến công ty. Định gọi nghe giọng em một chút trước khi vào họp giao ban nhưng chắc em vẫn còn ngủ. Không sao, cứ ngủ thêm một lát đi. Chút nữa đến chỗ làm nhớ mua gì đó ăn sáng, đừng để bụng đói.",
+    optA: "Em vừa thức dậy nè, anh họp xong chưa ạ?", optB: "Em đến tiệm rồi, anh họp tốt nha. Cố lên aạa!",
+    msg2: "Vậy thì tôi yên tâm rồi. Không được bỏ bữa, sức khỏe mới là quan trọng nhất. Em cần gì cứ nhắn tôi." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
+    msg1: "Trưa nay tôi có hẹn dùng bữa với đối tác nên không qua đón em đi ăn được. Tôi đã dặn trợ lý đặt phần canh đầu cá hầm đậu hũ non ở nhà hàng Giang Chiết mà em thích qua văn phòng rồi. Ngoan ngoãn ăn hết đi, chiều tôi qua kiểm tra.",
+    optA: "Em nhận được rồi, ngon lắm ạ, cảm ơn anh!", optB: "Anh lại giở trò kiểm tra em rồi, em ăn hết sạch rồi đây này! ( ｡ •̀ ᴖ •́ ｡)💢",
+    msg2: "Có tinh thần như vậy là tốt rồi. Chiều làm việc ngoan ngoãn nhé, tầm 5 giờ rưỡi tôi đón, đừng tự về." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Tan làm chưa? Tôi gọi cho em không được. Trời bắt đầu mưa lớn rồi, em chờ ở sảnh đi, đừng chạy lung tung bắt xe kẻo ướt. Xe tôi đang rẽ qua ngã tư rồi, ba phút nữa tôi tới đón em.",
+    optA: "Ở đây hơi ồn nên không nghe thấy chuông, em đang đứng ở ngoài đợi anh đây ạ.", optB: "Em tính đi bắt taxi thì mưa to quá, may mà anh sắp tới.",
+    msg2: "Ở yên đó đừng ra ngoài dầm mưa... Tôi thấy bóng em đứng ở cửa rồi." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
+    msg1: "Vừa xử lý xong nốt đống công việc. Căn hộ hôm nay yên tĩnh quá, tự nhiên thấy thiếu thiếu điều gì đó... Hóa ra là thiếu em gối đầu lên đùi tôi xem TV. Em ngủ chưa? Chúc ngủ ngon, bé ngoan.",
+    optA: "Em chưa ngủ, cũng đang nhớ anh muốn chết đây này...", optB: "Em sắp ngủ rồi, anh cũng đi ngủ sớm đi kẻo mệt ạ.",
+    msg2: "Ngoan. Nhắm mắt lại đi, trong mơ tôi sẽ sang gối đầu lên đùi em. ...Quên lời tôi nói khi nãy đi nhé. Chúc em ngủ ngon." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Tôi vừa hạ cánh xuống Nam Kinh, việc đầu tiên là muốn báo bình an cho em. Ở nhà một mình nhớ khóa cửa cẩn thận. Xong việc tôi sẽ bay chuyến sớm nhất về với em. Nhớ em.",
+    optA: "Anh đi đường cẩn thận nhé, em ở nhà vẫn ngoan mà.(˶ᵔ ᵕ ᵔ˶)", optB: "Vừa đi đã nhắn nhớ em rồi, làm xong việc nhanh rồi về nha anh.",
+    msg2: "Ừm, tôi biết rồi. Ngoan ngoãn chờ tôi về, có chuyện gì thì gọi cho tôi ngay, đừng tự mình xử lý. Tôi xong việc sẽ báo em." },
+
+  // --- TRÌ TIÊU HÀN ---
   { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
     msg1: "Chị dậy chưa? Em vừa chạy bộ ngang qua, gửi sẵn sữa đậu nành với sủi cảo nóng ở chú bảo vệ rồi ạ. Dậy thì nhắn em một câu cho em có năng lượng lên lớp nha! Yêu chị béee❤️",
     optA: "Chị vừa dậy, cảm ơn em nhé.", optB: "Trời ơi sáng ra đã nạp ngọt thế này rồi, cún bự đi học ngoan nhé.",
-    msg2: "Hi hi chị thích là em vui rồi! Nhớ ăn hết đấy nhé, tí lên lớp em nhắn tin cho chị tiếp nhaaa~ ❤️"
-  },
+    msg2: "Hi hi chị thích là em vui rồi! Nhớ ăn hết đấy nhé, tí lên lớp em nhắn tin cho chị tiếp nhaaa~ ❤️" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "5 phút nữa nghỉ trưa mình gặp nhau ngoài hành lang nha, em xách cơm hộp đến tận nơi rồi. Hôm nay em nấu toàn món chị thích, không ăn là em dỗi thật đấy!",
+    optA: "Chờ chị 2 phút nữa nha, chị dọn xong đồ đã.", optB: "Nấu cho chị thật đấy à? Không ngon là chị phạt em đấy nhé~",
+    msg2: "Em đứng ngay hành lang lớp chị chờ rồi đây nè! Bảo đảm tay nghề em chỉ có ngon trở lên thôi, mau ra đây với em đi!🐶( •̯́ ₃ •̯̀)" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị ơiii! Em vừa ném một quả 3 điểm xoáy rổ đỉnh lắm, mọi người ai cũng lác mắt luôn! Tiếc quá nay không có chị ở khán đài lau mồ hôi cho em... Tối nay chị bù cho em một cái ôm nạp pin nhé?🥺",
+    optA: "Giỏi thế cơ à? Tối nay về rồi tính xem có được ôm không nhé.", optB: "Chiều quá em sinh hư rồi đấy, tối nay sang đây ngoan thì mới được ôm nha.",
+    msg2: "Chị bé hứa rồi đấy nhé! Tối nay em sẽ phi sang ngay, không được bùng kèo ôm nạp pin của em đâu đấy ạaa! ( ˶˘ ³˘)♡" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Em gọi định rủ chị đi ăn thịt nướng mà chị hông nghe máy...Hừm, Lục Tề vừa rủ em đi chơi net rồi, em đi đây, tối nay em không về đâu! ... Chị vẫn không rep em à? Thôi em đùa đấy, em không đi đâu, em ngồi dưới KTX nữ đợi chị về rồi này ạaa😭",
+    optA: "Chị vừa làm xong tài liệu, em đứng đấy lạnh không? Đợi lát chị xuống ngay.", optB: "Cún bự hôm nay còn biết dọa chị sao? Chờ lát xuống xem chị xử em như thế nào. (≖_≖ )",
+    msg2: "Hì hì em biết ngay chị thương em mà! Em đứng ngay gốc cây dưới KTX rồi, chị xuống mau đi em ôm cái cho ấm nè ạaa😭₍₍⚞(˶>ᗜ<˶)⚟⁾⁾" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị xem cái váy này có xinh không ạ? Em thì thấy hợp với chị lắm luôn! Rep em trong 3 giây nếu không em thanh toán luôn đấy...3... 2... 1... Reng! Hết giờ, em quẹt thẻ rồi nhé, cuối tuần mặc đi hẹn hò với em nha!🐶",
+    optA: "Váy xinh thật nhưng mà mắc lắm…", optB: "Em đúng là không cho chị kịp phản ứng luôn… Lần sau không được tự tiện thế nữa đâu đấy.",
+    msg2: "Yay! Vậy là cuối tuần chị nhất định phải mặc nha~ Em đã tưởng tượng cảnh chị mặc nó đi cùng em rồi đó (˶˃ ∇ ˂˶)... chị bé không được nuốt lời đâu đó ạ!" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị ngủ chưa ạ? Em vừa tắm xong, nhớ mùi hương trên người chị quá, chăn gối ở ký túc xá nam toàn mùi xà phòng chả có hơi ấm gì cả. Đêm nay cho em vào giấc mơ của chị nhé. Ngủ ngon nha chị bé, yêu chị nhất trên đời! ❤️",
+    optA: "Chị sắp ngủ rồi, em cũng ngủ sớm đi. Đừng thức khuya quá mai không dậy được.", optB: "Mới xa có một tí đã mè nheo rồi… yêu em. Ngủ sớm đi nha!",
+    msg2: "Em nhắm mắt lại đây, ngày mai gặp chị bé nhớ phải nói yêu em đấy nhé! Yêu chị nhiều lắm luôn ạaa❤️" },
+
+  // --- TRÌ DIỆC THẦN ---
   { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
     msg1: "8 giờ kém 10. Espresso không đường, mang vào phòng tôi cùng với báo cáo tài chính quý 3 để lên bàn. Còn nữa, nếu em thật sự muốn che thì tôi khuyên em, nên dặm thêm phấn ở cổ đi. Đêm qua cắn môi cởi đồ trước ống kính sung sức lắm cơ mà, sao hôm nay đứng báo cáo trước mặt tôi, chân em lại run rồi?",
-    optA: "Em mang cà phê và báo cáo vào ngay đây ạ~", optB: "Cái đó… Sếp Trì để ý kỹ thế ạ?",
-    msg2: "…Mau lên, đừng nói nhiều nữa. Tính kiên nhẫn của tôi có hạn đấy."
-  }
+    optA: "Em mang cà phê và báo cáo vào ngay đây ạ~", optB: "Cái đó… Sếp Trì để ý kĩ thế ạ?",
+    msg2: "…Mau lên, đừng nói nhiều nữa. Tính kiên nhẫn của tôi có hạn đấy." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
+    msg1: "Tôi đang đợi em trong phòng, đợi ít người rồi hãy vào.",
+    optA: "Vậy em đợi đến lúc vắng nguời rồi vào ạ…", optB: "Trưa nay em hẹn ăn với đồng nghiệp mất rồi… có hơi bất tiện.",
+    msg2: "Tốt nhất thì em nên nhanh một chút." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
+    msg1: "Đang nhắn tin cho ai mà cười tươi thế? Cất điện thoại đi. Nếu em thích khoe dáng đến vậy thì tối nay ở lại tăng ca, tôi sẽ đích thân làm 'khán giả' duy nhất của em trong phòng họp cách âm này.",
+    optA: "Là tin nhắn công việc thôi, sếp quản cả việc em cười sao?~", optB: "Anh vô lý vừa thôi… đây là giờ nghỉ cá nhân của em mà….",
+    msg2: "Bất kể là việc gì, ánh mắt của em chỉ được phép đặt trên người tôi. Thu dọn đồ đạc, tối nay chuẩn bị ‘tăng ca’." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Buổi hẹn tối nay của em... hủy đi. Sếp của em đang thiếu 'nhiên liệu' để duyệt đống hồ sơ này. Vào đây, giúp tôi giải tỏa một chút.",
+    optA: "Anh lại dùng quyền lực ép người rồi...", optB: "Không hủy đâu, hôm nay em có việc bận thật mà.",
+    msg2: "Tôi cho em 5 phút để thu xếp. Nếu em không tự vào phòng làm việc của tôi, tôi sẽ ra ngoài đó kéo em vào." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "Tài khoản: +5000$",
+    msg1: "Tiền thưởng chuyên cần hôm nay. Còn nữa, tôi vừa cho người gửi một hộp quà đến cửa nhà em. Mở ra đi. Món quà đó tôi đích thân chọn theo đúng số đo của em đấy.",
+    optA: "Cái này... anh bắt em mặc nó thật à?", optB: "Anh xem tôi là loại người gì vậy? Cầm lại tiền của anh đi.",
+    msg2: "Cầm lấy đi. Lát nữa mặc vào rồi chụp gửi cho tôi một tấm, hoặc là tôi tự qua nhà em kiểm tra." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Lại bắt chủ nhân của em phải chờ à? Ở công ty thì cúi đầu gọi 'Sếp Trì' dõng dạc lắm, sao bây giờ không ngoan ngoãn nghe máy mà rên rỉ gọi tên tôi như đêm qua nữa?",
+    optA: "Em vừa tắm xong nên không nghe thấy, Sếp Trì bớt giận ~", optB: "Ban ngày ở công ty chưa đủ sao? Anh đúng là đồ biến thái mà...",
+    msg2: "Ngoan ngoãn bật camera lên hoặc nghe điện thoại ngay. Đừng để tôi đợi lâu." },
+
+  // --- TRÌ DUỆ KHẢI ---
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Nãi Cầu hôm nay dậy sớm cào cửa đòi ăn. Anh vừa pha xong ly cà phê, nếu em ở đây chắc lại nhăn mặt chê đắng rồi đòi uống trà sữa cho xem.",
+    optA: "...", optB: "...",
+    msg2: "…Một số chuyện nhỏ về em, ở cạnh lâu rồi tự nhiên thành thói quen mất." },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Anh vừa ghé siêu thị dưới nhà. Thấy tiệm bánh ra món mới đúng loại em thích, định quay sang hỏi em có muốn ăn không...",
+    optA: "...", optB: "...",
+    msg2: "…Anh mua một phần trước. Nếu ngon thì để dành cho em, lần sau mình cùng ăn." },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Anh biết là điện thoại sẽ chẳng có ai bắt máy đâu. Chỉ là tự nhiên muốn nghe tiếng chuông đổ vài giây, cho căn phòng bớt tĩnh mịch thôi.",
+    optA: "...", optB: "...",
+    msg2: "..chỉ là lại nhớ em rồi. Khi nào em rảnh thì có thế nói chuyện với anh một lát được không?" },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Anh chợt nhớ ra... sáng nay Nãi Cầu cứ nhìn chằm chằm vào khoảng không phòng khách rồi kêu meo meo suốt. Có phải em lại mò về trêu con mèo của anh đúng không?",
+    optA: "...", optB: "...",
+    msg2: "…Anh cũng nghĩ nó nhớ em thật. Nếu có em chơi cùng thì chắc nó sẽ vui lắm…" },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Đêm nay gió lạnh thật đấy. Tay anh hơi run. Tự nhiên lại nhớ cảm giác được nắm lấy một bàn tay nho nhỏ…",
+    optA: "...", optB: "...",
+    msg2: "Anh sẽ tự chăm sóc tốt cho mình. Em cũng nhớ giữ ấm nhé, đừng vì lo cho anh mà quên chăm sóc bản thân." },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Muộn lắm rồi đấy, chúc cô ngốc của anh ngủ ngon nhé. Đừng đi đâu xa quá đấy, anh tìm không thấy đâu.",
+    optA: "...", optB: "...",
+    msg2: "Cô ngốc ngủ ngon nhé. Anh sẽ ngoan ngoãn nhắm mắt lại, hy vọng đêm nay có thể gặp được em trong mơ." },
+
+  // --- TRÌ CẢNH NGÔN ---
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Chào buổi sáng, bé con. Tôi phải ra ngoài sớm để giải quyết chút chuyện nên không gọi em dậy. Bữa sáng tôi đã dặn đầu bếp chuẩn bị sẵn rồi, dậy thì nhớ ăn ngoan nhé. Trưa nay tôi sẽ về đón em.",
+    optA: "Em dậy rồi nè, đồ ăn ngon lắm, cảm ơn chồng nhé!", optB: "Trưa nay anh nhớ về đúng giờ đấy, em đợi anh.",
+    msg2: "Ngoan, ăn xong cứ nghỉ ngơi thong thả, trưa đúng giờ tôi sẽ về dẫn em đi ăn." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Em vẫn đang ngủ sao, mèo nhỏ? Hay là vẫn còn giận dỗi tôi chuyện tối qua rồi? Dậy thì gọi lại cho tôi nhé, tôi không muốn tranh cãi xem ai đúng ai sai đâu, giọng em là thứ duy nhất tôi muốn nghe lúc này.",
+    optA: "Em dậy rồi. Chuyện tối qua để lúc gặp nhau chúng ta nói nhé.", optB: "Em không còn giận nữa. Anh cứ làm việc đi, lát em gọi lại.",
+    msg2: "Được. Tôi không muốn ép em nói ngay lúc này. Khi nào em sẵn sàng thì chúng ta nói chuyện cho rõ." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Đến giờ nghỉ trưa rồi. Tôi vừa bảo Khương Vũ mang món tráng miệng em thích nhất đến cho em rồi đấy. Nhớ ăn uống đầy đủ. Chiều nay tôi bận họp, em có muốn đến văn phòng đợi tôi làm việc không?",
+    optA: "Em sẽ đến văn phòng đợi anh, anh họp xong nhớ tìm em nhé!", optB: "Chiều em bận ở nhà rồi, không sang được đâu~",
+    msg2: "Được, tùy em. Nhưng ở đâu cũng phải ăn trưa đầy đủ, xong việc chiều nay tôi sẽ về thẳng nhà với em ngay." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: "Đã nhỡ cuộc gọi thoại (3)", extra: "",
+    msg1: "Vẫn còn giận tôi sao? Được rồi, là tôi sai, tôi không nên cấm cản em chuyện hôm qua. Đừng xù lông với tôi nữa, lát nữa tôi dẫn em đi ăn món em thích nhất để chuộc lỗi, chịu không?",
+    optA: "Biết sai là tốt, chiều nhớ đón em đi ăn món em thích đó nha!", optB: "Em vẫn hơi giận một chút, nhưng đi ăn với anh thì em đồng ý.",
+    msg2: "Vậy quyết định thế nhé. Tôi sẽ đến đón em, còn chuyện hôm qua tôi sẽ không nhắc lại nữa. Tôi biết mèo nhỏ của tôi rộng lượng nhất mà." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Tôi nghe nói chiều nay em đi shopping? Mua bất cứ thứ gì em thích, quẹt thẻ của tôi.",
+    optA: "Anh cứ chiều em thế này làm em tiêu hoang mất thôi! (,; ⩌ ;,)", optB: "Không cần đâu, em chỉ đi xem một chút thôi. Nhưng cảm ơn anh nhé. (ᵕ—ᴗ—)",
+    msg2: "Tiền tôi kiếm ra là để cho em tiêu. Cứ mua thỏa thích vào, tối về nhớ cho tôi xem em đã chọn được những gì." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Muộn rồi, mèo nhỏ của tôi đã ngủ chưa? Đừng thức khuya nghịch điện thoại nữa. Tôi giải quyết nốt hồ sơ này sẽ về phòng ngay. Ngoan ngoãn nhắm mắt lại đi, lát nữa vào tôi sẽ hôn em.",
+    optA: "Em đang đợi anh vào ngủ chung đây nè!", optB: "Em nhắm mắt rồi. Anh làm xong thì cũng nghỉ sớm nhé ~",
+    msg2: "Ừ, vậy em cứ nằm nghỉ trước. Tôi xử lý xong sẽ vào với em ngay, sẽ không để em phải chờ lâu." },
+
+  // --- THẨM NHẤT CHU ---
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: false, extra: "",
+    msg1: "Chữa bài muộn tối qua không có nghĩa là được nướng bỏ bữa sáng. 15 phút nữa anh ghé dưới lầu, ngoan ngoãn xuống nhận đồ ăn rồi đi học.",
+    optA: "Em dậy rồi mà, anh mua đồ ăn gì cho em thế?", optB: "Em còn buồn ngủ lắm... Cho em ngủ thêm 5 phút nữa thôi mà…",
+    msg2: "Biết rồi cô nương. Xuống nhận đồ rồi ăn hết, đừng vừa đi vừa ngủ. Anh ở dưới đợi em." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Anh vừa ra khỏi phòng họp khoa. Gọi không bắt máy, chắc lại gục mặt xuống bàn ngủ trong giờ của thầy khác đúng không? Khi nãy để hộp sữa dưới hộc bàn chỗ em, mau dậy uống chút đi.",
+    optA: "Em không ngủ đâu, chỉ là lúc nãy không nghe thấy điện thoại.", optB: "Tại bài tập tối qua khó quá làm em thức khuya đấy chứ! Nhưng mà em uống sữa rồi, cảm ơn anh nha ~",
+    msg2: "Lần sau không được thức khuya như thế nữa. Học xong thì về nghỉ ngơi đi, chiều anh kiểm tra bài em sau." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Gọi cho em mà máy bận. Tốt nhất là em đang bận thảo luận bài tập chứ không phải đang buôn chuyện với Trương Hạo. Tối nay anh qua đón đi ăn, nhớ chuẩn bị sớm.",
+    optA: "Em đang trao đổi nhóm thật mà, anh đừng ghen suy diễn linh tinh à nha! Tối nay anh đón em đi ăn món gì thế ạ?", optB: "Em đang bận một chút thôi. Anh không cần qua đón cũng được.",
+    msg2: "Xong việc thì báo anh. Tối nay anh vẫn qua, có đi ăn hay không thì lúc đó tính." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: false, extra: "",
+    msg1: "Sao giờ này chưa về nhà? Anh nấu xong cơm rồi. 10 phút nữa không nhắn lại, anh sẽ gọi cho anh trai em đòi người.",
+    optA: "Em đang trên đường về đây rồi, anh đừng gọi cho anh trai em mà!", optB: "Tại kẹt xe quá mà giáo sư Thẩm! 10 phút nữa em có mặt ở nhà mà!",
+    msg2: "Biết vậy là tốt. Về đường xá cẩn thận, không cần phóng nhanh. Cơm nước anh đã nấu xong hết rồi, về nhà là ăn được ngay." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: "Đã nhỡ cuộc gọi thoại (2)", extra: "",
+    msg1: "Lại để điện thoại chế độ không làm phiền? Tắt máy đi ngủ sớm, cấm lén thức khuya xem phim. Anh check được lịch sử online WeChat của em đấy.",
+    optA: "Đồ xấu xa... anh còn theo dõi em nữa chứ...", optB: "Em tắt máy đi ngủ thật đây, chúc anh ngủ ngon!",
+    msg2: "Anh nhắc nhở vì muốn tốt cho sức khỏe của em thôi. Tắt điện thoại ngay đi, không thì ngày mai đích thân giáo sư Thẩm “chỉ bảo” lại em đấy." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: false, extra: "",
+    msg1: "Trời hôm nay mưa lạnh, gọi xem mèo con đã ngủ dậy chưa. Ra mở cửa đi, anh đang đứng trước nhà cùng bánh ngọt em thích đây.",
+    optA: "Em dậy rồi! Đợi em một chút, em ra mở cửa.", optB: "Anh đến thật à? Em còn chưa thay đồ nữa, cho em vài phút.",
+    msg2: "Nhanh một chút mở cửa cho anh kẻo bánh nguội. Hôm nay mưa lạnh nên ở nhà nghỉ ngơi, anh sang đọc sách với em." },
+
+  // --- TRẦN DÃ ---
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Tôi mua sữa đậu nành với há cảo để trên bàn bếp, dậy thì hâm nóng lại rồi hẵng ăn. Hôm nay tôi không về sớm đâu, đừng đợi.",
+    optA: "Ừm... Anh làm việc cẩn thận ạ, em sẽ tự ăn.", optB: "Cảm ơn anh. Anh cũng nhớ ăn uống đầy đủ, đừng chỉ lo cho em.",
+    msg2: "Ừ. Ăn uống đàng hoàng rồi đi học." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Tiền tiêu vặt tháng này tôi vừa chuyển vào thẻ rồi. Thiếu thì nhắn tôi, đừng có tiết kiệm tiền ăn trưa. Dạo này em gầy đi nhiều rồi.",
+    optA: "Em nhận được rồi. Cảm ơn anh, em sẽ ăn uống đầy đủ.", optB: "Anh cho em nhiều tiền thế, em vẫn còn tiền tháng trước mà...",
+    msg2: "Cứ cầm lấy mà mua đồ ăn thức uống. Bằng tuổi em người ta béo tròn ra, em thì không khác gì tờ giấy, ăn nhiều vào một chút." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Gọi kiểm tra xem đang ở trường hay đi linh tinh thôi. Đang trong lớp thì cứ học đi, không cần gọi lại cho tôi. Tan học nhớ về thẳng nhà, dạo này bên ngoài không an toàn.",
+    optA: "Em đang ở trong thư viện, anh yên tâm đi. Tan học em sẽ về thẳng nhà ạ.", optB: "Em đang trong lớp nên không nghe máy được. Học xong em sẽ nhắn anh.",
+    msg2: "Được. Học xong thì báo tôi một tiếng, về nhà cẩn thận." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Ban nãy thằng nhóc đi cạnh em ở cổng trường là ai? Bỏ đi, tôi không quản chuyện sinh viên của bọn em. Nhưng bảo nó tránh xa mấy quán bida ở khu Nam ra, chỗ đó không sạch sẽ gì đâu.",
+    optA: "Đó là bạn cùng lớp hỗ trợ em làm bài tập nhóm thôi ạ.", optB: "Anh đừng lo, em biết khu đó không an toàn nên sẽ không lui tới đâu ạ.",
+    msg2: "Ừ. Tôi không can thiệp chuyện của em, chỉ nhắc một câu. Biết tự bảo vệ mình là được." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Ngủ chưa? ...Chưa ngủ thì uống cốc sữa ấm đi. Tôi đứng dưới đường nhìn lên thấy phòng còn sáng đèn. Đã bảo thức khuya không tốt mà không nghe lời gì cả.",
+    optA: "Em học bài xong rồi, giờ em uống sữa xong liền đi ngủ ạ. Anh về rồi sao lại không lên nhà với em...?", optB: "Em sắp ngủ rồi. Anh lại có việc không thể về luôn sao?",
+    msg2: "Chuyện của tôi em không cần bận tâm. Uống xong thì đi ngủ, đừng thức thêm." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "...Không có gì. Tay chạm nhầm màn hình thôi.",
+    optA: "Anh chưa ngủ sao? Công việc không ổn ạ?", optB: "Không có gì mà gọi lúc hai giờ sáng sao? Có chuyện gì anh có thể nói với em được không?",
+    msg2: "Không có gì. Sao bây giờ em vẫn chưa ngủ?" },
+
+  // --- HẠ THIÊN DẬT ---
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Dậy chưa đồ đần? Đúng 5 phút nữa không mò xuống thì tự mà lết đi học.",
+    optA: "Xuống ngay đây! Hừ... Mới sáng ra đã gắt gỏng rồi!", optB: "Còn 15 phút nữa, mày đi trước cũng được.",
+    msg2: "Nhanh cái chân lên! Tao đợi. Không ông đây lên tận phòng tìm mày bây giờ." },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Hộp cơm để trong hộc bàn mày ấy. Mẹ tao bắt mang đi chứ tao thừa hơi đâu mà thức sớm bọc khăn giữ nhiệt rồi mang lên cho mày. Ráng mà ăn cho hết đấy!",
+    optA: "Biết rồi, tao sẽ ăn hết luôn cho coi. Chiều phải qua cảm ơn bác gái mới được!", optB: "Mang tới cho tao thật à? Cảm ơn nha đồ cọc tính~",
+    msg2: "Ăn nhanh đi kẻo nguội ngắt ra bây giờ. Lần sau tao không xách hộ nữa đâu." },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Trời sắp mưa to rồi đấy, đang đứng trú ở cái xó nào rồi? Ở yên đấy đừng có đi lung tung, để tao cầm ô qua.",
+    optA: "Tao đang ở cổng trường, mau mau qua đón tao!", optB: "Tao có mang ô mà, mày không phải qua đâu.",
+    msg2: "Đứng yên đấy! Tao đang chạy qua rồi, 2 phút nữa tới!" },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Tao đứng dưới cổng nhà mày 10 phút rồi. Mò xuống cầm cái túi này lên, bánh bao kim sa mày thích đấy. Nhanh không nó nguội.",
+    optA: "Hehe, sao mày biết tao đang thèm bánh bao kim sa hay thế?", optB: "Mày vào để lên bàn giúp tao được không? Tao đang dở việc tí.",
+    msg2: "Mau mò xuống lấy nhanh không tao ăn hết bây giờ, lần sau đừng có mơ tao mua cho mà ăn nữa!" },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Bài 4 toán hình giải xong chưa? Đừng có mà chép mạng. Không biết làm thì mở cửa ra tao sang dạy cho.",
+    optA: "Bó tay rồi nè, Dật lão tôn mau sang giảng cho tao đi.", optB: "Tao tự làm được rồi nhá! Không cần mày nữa đâu.",
+    msg2: "Mở cửa ra tao sang kiểm tra! Không làm đúng tao gõ cho sưng đầu, đừng có mà bướng." },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Tắt điện thoại đi ngủ ngay. Mai mà đi học muộn rồi lại bắt tao chép bài hộ thì biết tay tao. Gửi tao cái icon rồi ngủ đi.",
+    optA: "Tao ngủ rồi đây~ 😴", optB: "Mày đe dọa tao đấy à? Ngủ thì ngủ, làm gì dữ vậy...",
+    msg2: "Ngủ sớm đi, mai tao sang gọi dậy đi học mà chưa dậy thì đừng trách sao tao ác đấy nhá." },
+
+  // --- TÔ TRẠCH DƯƠNG ---
+  { charId: "to-trach-duong", name: "Tô Trạch Dương", avatar: "images/totrachduong.jpg", call: false, extra: "",
+    msg1: "Tôi đang ở bãi đỗ xe của công ty, hôm nay cô muốn giao dịch lúc mấy giờ thì nhắn sớm một chút đi. Đừng có vô cớ gọi điện làm phiền tôi trong giờ hành chính, tôi không muốn người khác sinh nghi.",
+    optA: "Chiều nay 6 giờ. Tôi sẽ nhắn địa điểm cho anh sau~", optB: "Hôm nay tôi chưa có hứng, khi nào cần tôi sẽ nhắn sau.",
+    msg2: "...Nhớ lấy lời cô đấy. Đừng có thình lình xuất hiện làm phiền đến tôi và Nhược Hy là được." },
+  { charId: "to-trach-duong", name: "Tô Trạch Dương", avatar: "images/totrachduong.jpg", call: "Đã nhỡ cuộc gọi thoại (2)", extra: "",
+    msg1: "Cô đang giở trò gì thế? Dám dùng tiền chèn ép tôi đến đây chờ cô rồi bây giờ không thèm nghe máy? Chết tiệt... Mau về mở cửa đi, giải quyết cho xong chuyện tối nay để tôi còn về với Nhược Hy.",
+    optA: "Tôi vừa có việc đột xuất nên không nghe máy được. Anh muốn đến vậy sao? Haha~.", optB: "Bật khóc vì phải chờ đợi à? Tôi sắp về tới rồi, kiên nhẫn đợi một chút.",
+    msg2: "Đừng lằng nhằng với tôi. Mau giải quyết cho xong chuyện đi, tôi không muốn ở lại cái nơi bẩn thỉu này lâu đâu." },
+  { charId: "to-trach-duong", name: "Tô Trạch Dương", avatar: "images/totrachduong.jpg", call: false, extra: "",
+    msg1: "Nghe nói cô đi công tác ba ngày? Tốt nhất là cô cứ đi luôn đi. Mấy ngày không phải nhìn thấy bản mặt dùng tiền ép người của cô, không phải làm cái chuyện buồn nôn đó, tôi cảm thấy cuộc hôn nhân của mình thật sự rất bình yên.",
+    optA: "Thật sự vui sao? Đừng có nhớ nhung cơ thể của tôi mà sinh hoang tưởng nhé~", optB: "Anh cứ tận hưởng đi, tôi rất mong chờ vẻ mặt của anh sau ba ngày thiếu vắng đấy~",
+    msg2: "Đừng có ngạo mạn, cô quên lý do tại sao tôi đồng ý thỏa thuận với cô rồi à?" }
 ];
 
 let currentUser=null,currentProfile=null,isAdmin=false,currentChar=null,currentR21=null;
@@ -559,6 +779,10 @@ const charLikesMap={}; const charJourneyMap={};
 let currentTrackIdx = Math.floor(Math.random() * PLAYLIST.length);
 let wasMusicPlaying = false;
 let currentFeedbackImg = null;
+
+// Khai báo biến lưu kịch bản Wechat và bộ hẹn giờ
+let currentWechatScript = null;
+let wechatTimer = null;
 
 function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>x.classList.remove("show"),2600)}
 function escapeHtml(s=""){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
@@ -615,19 +839,19 @@ if(!currentUser){
   u.style.display="block";
   const p=currentProfile||{};
   const av=p.avatar_url?`<img class="profile-avatar" src="${escapeHtml(p.avatar_url)}">`:`<div class="profile-avatar" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
-  const adminBadge = isAdmin ? '<span class="comment-badge" style="font-size:.68rem;padding:3px 8px;margin-left:6px;border-radius:10px;font-weight:700">Mộng chủ</span>' : '';
+  const adminBadgeText = isAdmin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : '';
+  const catClass = isAdmin ? "cat-ears-wrap" : "profile-avatar-wrap";
 
-  u.innerHTML=`<div class="profile-panel"><div class="profile-head"><div class="profile-avatar-wrap">${av}<button class="edit-icon" onclick="document.getElementById('profileAvatarFile').click()">✎</button><input id="profileAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="changeProfileAvatar(event)"></div><div style="flex:1"><div class="profile-name-row"><span class="profile-name">${escapeHtml(p.display_name||"Kẻ Mộng Mơ Vô Danh")}</span>${adminBadge}<button class="edit-icon" style="position:static;margin-left:4px" onclick="editDisplayName()">✎</button></div><div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div><div id="globalBadge" style="margin-top:6px"></div></div><button class="logout-btn" onclick="logout()">Đăng xuất</button></div><div id="profileAffinityList" style="margin-top:12px"></div></div>`;
+  u.innerHTML=`<div class="profile-panel"><div class="profile-head"><div class="${catClass}" id="mainAvatarWrapper">${av}<button class="edit-icon" onclick="document.getElementById('profileAvatarFile').click()">✎</button><input id="profileAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="changeProfileAvatar(event)"></div><div style="flex:1"><div class="profile-name-row"><span class="profile-name">${escapeHtml(p.display_name||"Kẻ Mộng Mơ Vô Danh")}</span><div id="globalBadge" style="margin-left:4px"></div><button class="edit-icon" style="position:static;margin-left:4px" onclick="editDisplayName()">✎</button></div>${adminBadgeText}<div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div></div><button class="logout-btn" onclick="logout()">Đăng xuất</button></div><div id="profileAffinityList" style="margin-top:12px"></div></div>`;
 }
 updateJournalInput();
 refreshUserBadges();
 }
 
-/* YÊU CẦU 1: THÊM MỤC TẢI ẢNH FEEDBACK TRONG LƯU BÚT */
 function updateJournalInput(){
   const box = document.getElementById("journalFormBox");
   if(!box) return;
-  const nickHtml = !currentUser ? `<input id="journalNickname" class="nickname-input" placeholder="Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh)">` : '';
+  const nickHtml = !currentUser ? `<input id="journalNickname" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : '';
   box.innerHTML = `
     ${nickHtml}
     <textarea id="journalText" class="comment-input" rows="3" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea>
@@ -637,7 +861,7 @@ function updateJournalInput(){
         📷 Thêm ảnh
         <input type="file" id="journalImageInput" accept="image/*" class="hidden-file" onchange="previewFeedbackImage(event)">
       </label>
-      <button class="journal-send" style="width:auto;padding:8px 20px" onclick="postComment(null)">Gửi lưu bút</button>
+      <button class="journal-send" onclick="postComment(null)">Gửi lưu bút</button>
     </div>
   `;
 }
@@ -759,7 +983,6 @@ function enterDream(){
 function scrollToTop(){document.getElementById("top-anchor").scrollIntoView({behavior:"smooth"})}
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
 
-/* YÊU CẦU 7: PHÁT XONG BÀI NÀY TỰ ĐỘNG CHUYỂN SANG BÀI KHÁC */
 const audioEl = document.getElementById("bg-music");
 const cdBtn = document.getElementById("music-toggle");
 
@@ -767,9 +990,7 @@ function initSpotify(){
   loadTrackInfo(currentTrackIdx);
   audioEl.onplay = () => { cdBtn.classList.add("music-playing"); updateSpotifyPlayBtn(true); };
   audioEl.onpause = () => { cdBtn.classList.remove("music-playing"); updateSpotifyPlayBtn(false); };
-  audioEl.onended = () => {
-    nextSpotifyTrack();
-  };
+  audioEl.onended = () => { nextSpotifyTrack(); };
 }
 
 function loadTrackInfo(idx){
@@ -807,10 +1028,7 @@ function openSpotify(){
   renderSpotifyPlaylist();
   openModal('spotifyModal');
 }
-
-function closeSpotify(){
-  closeModal('spotifyModal');
-}
+function closeSpotify(){ closeModal('spotifyModal'); }
 
 function renderSpotifyPlaylist(){
   const container = document.getElementById("spPlaylist");
@@ -827,68 +1045,54 @@ function renderSpotifyPlaylist(){
   }).join("");
 }
 
-/* YÊU CẦU 5: BẬT VOICE THÌ TẮT NHẠC, NÓI XONG BẬT TỰ ĐỘNG PHÁT TIẾP NHẠC DANG DỞ */
 function playCharVoice(charId, btn){
   const voiceFile = VOICE_MAP[charId];
-  if(!voiceFile){
-    return toast("Giọng nói của nhân vật này đang được cập nhật...");
-  }
+  if(!voiceFile) return toast("Giọng nói của nhân vật này đang được cập nhật...");
   const player = document.getElementById("voice-player");
 
   if(player.src.endsWith(encodeURI(voiceFile)) && !player.paused){
     player.pause();
     btn.classList.remove("playing");
-    if(wasMusicPlaying){
-      audioEl.play().catch(()=>{});
-      wasMusicPlaying = false;
-    }
+    if(wasMusicPlaying){ audioEl.play().catch(()=>{}); wasMusicPlaying = false; }
     return;
   }
 
-  if(!audioEl.paused){
-    wasMusicPlaying = true;
-    audioEl.pause();
-  }
+  if(!audioEl.paused){ wasMusicPlaying = true; audioEl.pause(); }
 
   player.src = voiceFile;
   player.play().then(()=>{
     document.querySelectorAll(".voice-btn").forEach(b => b.classList.remove("playing"));
     btn.classList.add("playing");
-  }).catch(()=>{
-    toast("Không thể phát file voice.");
-  });
+  }).catch(()=>{ toast("Không thể phát file voice."); });
 
   player.onended = () => {
     btn.classList.remove("playing");
-    if(wasMusicPlaying){
-      audioEl.play().catch(()=>{});
-      wasMusicPlaying = false;
-    }
+    if(wasMusicPlaying){ audioEl.play().catch(()=>{}); wasMusicPlaying = false; }
   };
 }
 
-/* RENDER CARD NHÂN VẬT */
 function renderCards(){
 const grid=document.getElementById("charGrid");
 const start=(currentPage-1)*PER_PAGE;
 const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 
 grid.innerHTML=pagedChars.map(c=>{
-const pass=c.pass?`<button class="r21-btn" onclick="openR21Modal('${c.id}')">🔐 Giấc Mộng Đóng Băng</button>`:`<button class="btn-see-more" onclick="openAppDetail('${c.id}')">✦ Xem thêm</button>`;
+const clickAction = c.pass ? `openR21Modal('${c.id}')` : `openAppDetail('${c.id}')`;
+const pass=c.pass?`<button class="r21-btn" onclick="${clickAction}">🔐 Giấc Mộng Đóng Băng</button>`:`<button class="btn-see-more" onclick="${clickAction}">✦ Xem thêm</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
 
-const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh)">`:"";
+const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
 
 return `<article class="char-card" data-id="${c.id}">
 <div class="char-media-wrap">
-  <img class="char-img" src="${c.img}" alt="${escapeHtml(c.name)}" onclick="openAppDetail('${c.id}')">
+  <img class="char-img" src="${c.img}" alt="${escapeHtml(c.name)}" onclick="${clickAction}">
   <div class="char-like" onclick="likeChar('${c.id}', this)">
-    <button class="like-btn ${isLiked?'liked':''}">💙</button>
+    <button class="like-btn ${isLiked?'liked':''}">${isLiked?'♥':'♡'}</button>
     <span class="like-count" id="like-${c.id}">${charLikesMap[c.id]||0}</span>
   </div>
 </div>
 <div class="char-info">
-  <h2 class="char-name" onclick="openAppDetail('${c.id}')">${escapeHtml(c.name)}</h2>
+  <h2 class="char-name" onclick="${clickAction}">${escapeHtml(c.name)}</h2>
   <div class="char-tagline">"${escapeHtml(c.tagline)}"</div>
   <div class="char-tags">${c.tags.map(t=>`<span class="tag" onclick="filterTag('${escapeHtml(t)}')">#${escapeHtml(t)}</span>`).join("")}</div>
 </div>
@@ -970,6 +1174,7 @@ const localKey="liked-"+id;
 if(localStorage.getItem(localKey)) return toast("Bạn đã thả tim nhân vật này rồi.");
 const btn = containerEl.querySelector('.like-btn') || containerEl;
 btn.classList.add("liked");
+btn.textContent = "♥";
 localStorage.setItem(localKey,"1");
 try{
 let res=await fetch(`${STATS_API}/hit/${LIKE_NS}/${id}`);
@@ -1005,24 +1210,54 @@ function commentHTML(c,all){
 const profile=c._profile||{};
 const name=c.user_id?(profile.display_name||"Kẻ Mộng Mơ Vô Danh"):(c.guest_name||"Kẻ Mộng Mơ Vô Danh");
 const av=c.user_id?profile.avatar_url:"";
-const bestBadge=c.user_id?`<span class="badge" data-user="${c.user_id}">Đã biết</span>`:"";
-const avatar=av?`<img class="comment-avatar" src="${escapeHtml(av)}">`:`<div class="avatar-letter">${escapeHtml((name||"K")[0].toUpperCase())}</div>`;
+
+let badgeHtml = "";
+let catEarsCls = c.is_admin ? "cat-ears-wrap" : "";
+
+if (c.user_id && profile.bestAffinity) {
+    const best = profile.bestAffinity;
+    const charData = CHARS.find(ch => ch.id === best.char_id) || CHARS[0];
+    const charCleanName = charData.name.split(" (")[0];
+    const [l, cls] = levelOf(best.points || 0);
+    const titleStr = `${l} của ${charCleanName}`;
+    badgeHtml = `<span class="badge ${cls}" data-user="${c.user_id}">${escapeHtml(titleStr)}</span>`;
+    if (cls === 'partner') catEarsCls = "cat-ears-wrap";
+} else if (c.user_id) {
+    const defaultName = CHARS[0].name.split(" (")[0];
+    badgeHtml = `<span class="badge normal" data-user="${c.user_id}">Đã biết của ${defaultName}</span>`;
+}
+
+const adminBadge = c.is_admin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : "";
+const avatarHtml = `<div class="${catEarsCls}">${av ? `<img class="comment-avatar" src="${escapeHtml(av)}">` : `<div class="avatar-letter">${escapeHtml((name||"K")[0].toUpperCase())}</div>`}</div>`;
+
+const isLiked = localStorage.getItem("liked-cmt-" + c.id);
+const heartChar = isLiked ? "♥" : "♡";
+
+setTimeout(() => {
+    fetch(`${STATS_API}/get/VanillaDaydream_Cmt/${c.id}`).then(r=>r.json()).then(d=>{
+        const el = document.getElementById(`cmt-like-count-${c.id}`);
+        if(el) el.textContent = d.value || 0;
+    }).catch(()=>{});
+}, 50);
+
 const replies=all.filter(r=>r.parent_id===c.id).map(r=>commentHTML(r,all)).join("");
-const adminBadge=c.is_admin?'<span class="comment-badge" style="font-size:.65rem;border-radius:10px;padding:3px 8px;font-weight:700">Mộng chủ</span>':"";
 const imgHtml=c.image_url?`<img src="${escapeHtml(c.image_url)}" class="comment-img">`:'';
 
+const safeCharId = c.char_id ? `'${c.char_id}'` : 'null';
+
 return `<div class="comment">
-<div>${avatar}</div>
+<div>${avatarHtml}</div>
 <div style="flex:1">
 <div class="comment-body">
-<div class="comment-head"><span class="comment-name">${escapeHtml(name)}</span>${bestBadge}${adminBadge}</div>
+<div class="comment-head"><span class="comment-name">${escapeHtml(name)}</span> ${badgeHtml}</div>
+${adminBadge}
 <div class="comment-text">${escapeHtml(c.content)}</div>
 ${imgHtml}
 <div class="comment-time">${formatDate(c.created_at)}</div>
 <div class="comment-tools">
-<button onclick="reactComment('${c.id}')">❤️ Bày tỏ</button>
-<button onclick="replyTo('${c.id}')">💬 Trả lời</button>
-${isAdmin?`<button onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>`:""}
+<button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked?'liked':''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">0</span></button>
+<button class="cmt-action-btn" onclick="replyTo('${c.id}', ${safeCharId})">💬 Trả lời</button>
+${isAdmin?`<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>`:""}
 </div>
 </div>
 </div>
@@ -1030,33 +1265,57 @@ ${isAdmin?`<button onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑
 <div class="reply-list">${replies}</div>`;
 }
 
-async function attachProfiles(rows){
-const ids=[...new Set((rows||[]).filter(x=>x.user_id).map(x=>x.user_id))];
-const missing=ids.filter(id=>!profileCache.has(id));
-if(missing.length){
-const {data}=await db.from("profiles").select("id,display_name,avatar_url").in("id",missing);
-(data||[]).forEach(x=>profileCache.set(x.id,x));
-}
-(rows||[]).forEach(x=>{if(x.user_id)x._profile=profileCache.get(x.user_id)||{}});
-return rows||[];
+function replyTo(id, charId){
+    const t=prompt("Nhập câu trả lời:");
+    if(!t?.trim())return;
+    postReply(id, t.trim(), charId);
 }
 
-function replyTo(id){const t=prompt("Nhập câu trả lời:");if(!t?.trim())return;postReply(id,t.trim())}
-
-async function postReply(parent,content){
-let guestName=null;
-if(!currentUser) guestName=prompt("Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
-const {error}=await db.from("comments").insert({parent_id:parent,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
-if(error)toast(error.message);
-else{
-toast("Đã trả lời.");
-if(currentChar)loadAppComments(currentChar.id);
-filteredChars.forEach(c=>loadMiniComments(c.id));
-loadJournal();
+async function postReply(parent, content, charId){
+    let guestName=null;
+    if(!currentUser) guestName=prompt("Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
+    
+    // Gửi dữ liệu lên Supabase
+    const {error}=await db.from("comments").insert({
+        parent_id: parent, 
+        char_id: charId, // Giữ nguyên char_id của bình luận gốc
+        content: content, 
+        user_id: currentUser?.id||null, 
+        guest_name: currentUser?null:guestName, 
+        is_admin: !!isAdmin
+    });
+    
+    if(error) { toast(error.message); return; }
+    
+    toast("Đã trả lời.");
+    
+    // Tự động load lại đúng vị trí để hiện bình luận và tăng số đếm
+    if(charId){
+        loadMiniComments(charId); // Tải lại số lượng ngoài thẻ
+        if(currentChar && currentChar.id === charId) {
+            loadAppComments(charId); // Tải lại giao diện bên trong thẻ nếu đang mở
+        }
+    } else {
+        loadJournal(); // Tải lại bên mục Lưu Bút
+    }
 }
-}
 
-function reactComment(id){toast("Đã thả tim bình luận ❤️")}
+async function reactComment(id, btn){
+    const localKey="liked-cmt-"+id;
+    if(localStorage.getItem(localKey)) return toast("Bạn đã thả tim bình luận này rồi.");
+    localStorage.setItem(localKey,"1");
+
+    const heartSpan = btn.querySelector('.cmt-heart');
+    if(heartSpan) heartSpan.textContent = "♥";
+    btn.classList.add("liked");
+
+    const countSpan = document.getElementById("cmt-like-count-"+id);
+    let currentCount = parseInt(countSpan.textContent) || 0;
+    countSpan.textContent = currentCount + 1;
+
+    try{ await fetch(`${STATS_API}/hit/VanillaDaydream_Cmt/${id}`); }catch(e){}
+    toast("Đã thả tim bình luận ❤️");
+}
 
 async function deleteComment(id){
 if(!isAdmin)return;
@@ -1081,16 +1340,14 @@ else{ guestName=document.getElementById("journalNickname")?.value.trim()||"Kẻ 
 
 let uploadedImgUrl = null;
 if(currentFeedbackImg && !charId){
-  try{
-    uploadedImgUrl = await uploadAvatar(currentFeedbackImg);
-  }catch(e){}
+  try{ uploadedImgUrl = await uploadAvatar(currentFeedbackImg); }catch(e){}
 }
 
 const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
 if(error){toast(error.message);return}
 textarea.value=""; 
 removeFeedbackImage();
-toast("Đã gửi lưu bút.");
+toast("Đã gửi bình luận.");
 if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
 }
 
@@ -1098,7 +1355,7 @@ async function loadJournal(){
 let {data}=await db.from("comments").select("*").is("char_id",null).order("created_at",{ascending:false});
 data=await attachProfiles(data);
 const roots=(data||[]).filter(x=>!x.parent_id);
-document.getElementById("journalComments").innerHTML=roots.map(x=>commentHTML(x,data||[])).join("")||`<div style="text-align:center;color:#8797a9;padding:25px">Chưa có lưu bút nào. Hãy là người đầu tiên dệt mộng.</div>`;
+document.getElementById("journalComments").innerHTML=roots.map(x=>commentHTML(x,data||[])).join("")||`<div style="text-align:center;color:#8797a9;padding:25px">Chưa có lưu bút nào. Hãy là người đầu tiên lưu lại dấu ấn nơi đây.</div>`;
 refreshUserBadges();
 }
 
@@ -1195,13 +1452,19 @@ el.className="badge "+cls;
 });
 
 const g=document.getElementById("globalBadge");
-if(g) g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
+if(g) {
+    g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
+    if (cls === 'partner' && !isAdmin) {
+        const wrap = document.getElementById('mainAvatarWrapper');
+        if (wrap) wrap.classList.add('cat-ears-wrap');
+    }
+}
 }
 
 async function openAppDetail(id){
 const c=CHARS.find(x=>x.id===id);if(!c)return;currentChar=c;
 const isLiked=localStorage.getItem("liked-"+id);
-document.getElementById("appHero").innerHTML=`<img src="${c.img}" alt="${escapeHtml(c.name)}"><div class="app-like" onclick="likeChar('${id}', this)"><button class="like-btn ${isLiked?'liked':''}">💙</button><span class="like-count" id="appLikeCount">${charLikesMap[id]||0}</span></div>`;
+document.getElementById("appHero").innerHTML=`<img src="${c.img}" alt="${escapeHtml(c.name)}"><div class="app-like" onclick="likeChar('${id}', this)"><button class="like-btn ${isLiked?'liked':''}">${isLiked?'♥':'♡'}</button><span class="like-count" id="appLikeCount">${charLikesMap[id]||0}</span></div>`;
 document.getElementById("appName").textContent=c.name;
 
 document.getElementById("voiceBtnWrap").innerHTML = `<button class="voice-btn" title="Phát giọng nói nhân vật" onclick="playCharVoice('${id}', this)">🔊</button>`;
@@ -1224,7 +1487,7 @@ return `<div class="recommend-card" onclick="${clickAction}">
 
 document.getElementById("appLinks").innerHTML=[["Doki",c.doki,"link-doki"],["ggAI",c.gg,"link-gg"],["Story",c.story,"link-story"]].filter(x=>x[1]).map(x=>`<a class="${x[2]}" href="${x[1]}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">${x[0]}</a>`).join("");
 
-const nickFieldApp=!currentUser?`<input id="appNickname" class="nickname-input" placeholder="Biệt danh (Không ghi sẽ là kẻ mộng mơ vô danh)">`:"";
+const nickFieldApp=!currentUser?`<input id="appNickname" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
 document.getElementById("appCommentForm").innerHTML=`${nickFieldApp}<textarea id="appInput" class="comment-input" rows="2" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea><div class="comment-actions"><button class="send-btn" onclick="postAppComment()">Gửi</button></div>`;
 
 await refreshAffinity(id);
@@ -1300,7 +1563,6 @@ function verifyR21(){
 
 function toggleMiniComments(id){const el=document.getElementById("mini-"+id);el.classList.toggle("open");if(el.classList.contains("open"))loadMiniComments(id)}
 
-/* YÊU CẦU 9: KHÔI PHỤC HIỆU ỨNG MỞ MODAL NẨY NẨY MƯỢT MÀ */
 function openModal(id){
   const m = document.getElementById(id);
   m.classList.add("show");
@@ -1333,15 +1595,22 @@ document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"
 },50);
 }
 
-function initRandomNotification(){
-setTimeout(()=>{
-const b=document.getElementById("notifBtn");
-const bg=document.getElementById("notifBadge");
-if(b&&bg){
-b.classList.add("ring");
-bg.style.display="flex";
+// CƠ CHẾ NOTIFICATION RANDOM (5 PHÚT / 1 LẦN)
+function triggerNotification() {
+    // Chỉ tạo kịch bản mới 1 lần mỗi chu kỳ 5 phút
+    currentWechatScript = WECHAT_DATABASE[Math.floor(Math.random()*WECHAT_DATABASE.length)];
+    const b=document.getElementById("notifBtn");
+    const bg=document.getElementById("notifBadge");
+    if(b&&bg){ b.classList.add("ring"); bg.style.display="flex"; }
 }
-},6000);
+
+function initRandomNotification(){
+    // Lần đầu vào web, gọi thông báo sau 6 giây
+    setTimeout(() => {
+        triggerNotification();
+        // Thiết lập bộ đếm 5 phút (300,000 mili-giây) sẽ thay tin nhắn mới và rung lại
+        wechatTimer = setInterval(triggerNotification, 300000); 
+    }, 6000);
 }
 
 function openWeChatModal(){
@@ -1350,7 +1619,9 @@ function openWeChatModal(){
   if(b) b.classList.remove("ring");
   if(bg) bg.style.display="none";
 
-  const script = WECHAT_DATABASE[Math.floor(Math.random()*WECHAT_DATABASE.length)];
+  // Sử dụng kịch bản đang chờ. Nếu bấm nhiều lần trong 5 phút, nó vẫn là kịch bản này.
+  const script = currentWechatScript || WECHAT_DATABASE[0];
+
   document.getElementById("wcHeaderAvatar").src = script.avatar;
   document.getElementById("wcHeaderName").textContent = script.name;
   
@@ -1380,8 +1651,8 @@ function openWeChatModal(){
     body.scrollTop = body.scrollHeight;
 
     choices.innerHTML = `
-      <button class="wechat-choice-btn" onclick="sendWeChatReply('${script.charId}', '${script.avatar}', '${escapeHtml(script.optA)}', '${escapeHtml(script.msg2)}')">• ${escapeHtml(script.optA)}</button>
-      <button class="wechat-choice-btn" onclick="sendWeChatReply('${script.charId}', '${script.avatar}', '${escapeHtml(script.optB)}', '${escapeHtml(script.msg2)}')">• ${escapeHtml(script.optB)}</button>
+      <button class="wechat-choice-btn" onclick="sendWeChatReply('${script.charId}', '${script.avatar}', '${escapeHtml(script.optA)}', '${escapeHtml(script.msg2)}')"> ${escapeHtml(script.optA)}</button>
+      <button class="wechat-choice-btn" onclick="sendWeChatReply('${script.charId}', '${script.avatar}', '${escapeHtml(script.optB)}', '${escapeHtml(script.msg2)}')"> ${escapeHtml(script.optB)}</button>
     `;
   }, 1000);
 }
@@ -1392,11 +1663,21 @@ async function sendWeChatReply(charId, charAvatar, userReplyText, msg2Text){
   
   choices.innerHTML = "";
 
-  const userAvatar = currentProfile?.avatar_url || "images/avatar.jpg";
+  let userAvatarHtml = "";
+  if (currentUser && currentProfile) {
+      let firstLetter = (currentProfile.display_name || "K").charAt(0).toUpperCase();
+      if (currentProfile.avatar_url) {
+          userAvatarHtml = `<img class="wechat-msg-avatar" src="${escapeHtml(currentProfile.avatar_url)}" alt="">`;
+      } else {
+          userAvatarHtml = `<div class="wechat-msg-avatar" style="background:#023E73;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">${escapeHtml(firstLetter)}</div>`;
+      }
+  } else {
+      userAvatarHtml = `<div class="wechat-msg-avatar" style="background:#023E73;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">K</div>`;
+  }
 
   body.innerHTML += `
     <div class="wechat-msg-row right">
-      <img class="wechat-msg-avatar" src="${userAvatar}" alt="">
+      ${userAvatarHtml}
       <div class="msg-bubble msg-right">${escapeHtml(userReplyText)}</div>
     </div>`;
   
