@@ -46,18 +46,20 @@
 #snow-container{position:fixed;inset:0;pointer-events:none;z-index:20}.snowflake{position:absolute;color:#fff;opacity:.5;animation:fall linear infinite}@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(360deg);opacity:0}}
 .top-bar-solid{height:36px;display:flex;align-items:center;overflow:hidden;background:#6ea9d5;color:#fff;white-space:nowrap}.marquee-text{display:inline-block;padding-left:100%;animation:marquee 20s linear infinite}@keyframes marquee{to{transform:translateX(-100%)}}
 
-/* HEADER TWITTER / X STYLE */
-.x-header-container{max-width:100%;background:#ffffff;margin:auto;box-shadow:0 4px 15px rgba(3,62,140,.05);position:relative;overflow:visible;z-index:800}
+/* HEADER STYLE */
+.x-header-container{max-width:100%;background:transparent;margin:auto;box-shadow:none;position:relative;overflow:visible;z-index:800}
+.x-header-container::before{content:'';position:absolute;top:0;left:0;width:100%;height:calc(100% - 200px);background:#ffffff;box-shadow:0 4px 15px rgba(3,62,140,.05);z-index:-1}
 .x-banner{width:100%;height:150px;object-fit:cover;display:block;background:#79acd9}
 .x-profile-row{display:flex;align-items:flex-end;gap:14px;padding:0 20px 14px;margin-top:-32px;position:relative;z-index:2}
-.x-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 4px 16px rgba(3,62,140,.18);background:#fff;flex-shrink:0}
+.x-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--light);box-shadow:0 4px 16px rgba(3,62,140,.18);background:#fff;flex-shrink:0}
 .x-info{display:flex;flex-direction:column;justify-content:center;padding-bottom:2px;min-width:0}
 .x-name{font:700 1.5rem var(--serif);margin:0;color:var(--navy);line-height:1.2;display:flex;align-items:center;gap:6px}
 .x-friends{font:italic 0.88rem var(--sans);color:#143d66;margin-top:4px;word-break:break-word}
 
 .fb-divider{border:0;border-top:1px solid rgba(3,62,140,.12);margin:10px auto 4px;max-width:980px}
-.fb-nav{display:flex;gap:8px;padding:8px 16px 12px;flex-wrap:nowrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900;overflow-x:auto;scrollbar-width:none}
+.fb-nav{display:flex;gap:8px;padding:8px 16px 212px;margin-bottom:-200px;flex-wrap:nowrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900;overflow-x:auto;scrollbar-width:none;pointer-events:none}
 .fb-nav::-webkit-scrollbar{display:none}
+.fb-nav > *{pointer-events:auto}
 .nav-item,.nav-link{border:0;background:rgba(121,172,217,.12);color:#16456f;padding:8px 16px;border-radius:999px;font-weight:700;font-size:0.88rem;transition:.25s;white-space:nowrap;flex-shrink:0}
 .nav-item:hover,.nav-item.active,.nav-link.active{background:linear-gradient(135deg,#e8f5ff,#8fc1e9);color:#073c70}
 
