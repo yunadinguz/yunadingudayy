@@ -50,13 +50,14 @@
 .x-header-container{max-width:100%;background:#ffffff;margin:auto;box-shadow:0 4px 15px rgba(3,62,140,.05);position:relative;overflow:visible;z-index:800}
 .x-banner{width:100%;height:150px;object-fit:cover;display:block;background:#79acd9}
 .x-profile-row{display:flex;align-items:flex-end;gap:14px;padding:0 20px 14px;margin-top:-32px;position:relative;z-index:2}
-.x-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--light);box-shadow:0 4px 16px rgba(3,62,140,.18);background:#fff;flex-shrink:0}
+.x-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 4px 16px rgba(3,62,140,.18);background:#fff;flex-shrink:0}
 .x-info{display:flex;flex-direction:column;justify-content:center;padding-bottom:2px;min-width:0}
 .x-name{font:700 1.5rem var(--serif);margin:0;color:var(--navy);line-height:1.2;display:flex;align-items:center;gap:6px}
 .x-friends{font:italic 0.88rem var(--sans);color:#143d66;margin-top:4px;word-break:break-word}
 
 .fb-divider{border:0;border-top:1px solid rgba(3,62,140,.12);margin:10px auto 4px;max-width:980px}
-.fb-nav{display:flex;gap:8px;padding:8px 16px 12px;flex-wrap:wrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900}
+.fb-nav{display:flex;gap:8px;padding:8px 16px 12px;flex-wrap:nowrap;justify-content:flex-start;max-width:100%;position:relative;z-index:900;overflow-x:auto;scrollbar-width:none}
+.fb-nav::-webkit-scrollbar{display:none}
 .nav-item,.nav-link{border:0;background:rgba(121,172,217,.12);color:#16456f;padding:8px 16px;border-radius:999px;font-weight:700;font-size:0.88rem;transition:.25s;white-space:nowrap;flex-shrink:0}
 .nav-item:hover,.nav-item.active,.nav-link.active{background:linear-gradient(135deg,#e8f5ff,#8fc1e9);color:#073c70}
 
@@ -277,15 +278,16 @@
 @keyframes fadeInResult{from{opacity:0;transform:translateY(15px) scale(.95)}to{opacity:1;transform:none}}
 
 .floating-left{position:fixed;left:14px;top:90px;z-index:11000}
-.notif-btn{width:38px;height:38px;border-radius:50%;background:#ffffff;color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:0;outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
+.notif-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:1px solid rgba(255,255,255,.8);outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
 .notif-btn:hover{transform:scale(1.1)}
 .notif-badge{position:absolute;top:-2px;right:-2px;background:#e0245e;color:#fff;font-size:9px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .notif-btn.ring{animation:ringBell .8s ease infinite}
 @keyframes ringBell{0%{transform:rotate(0)}15%{transform:rotate(18deg)}30%{transform:rotate(-18deg)}45%{transform:rotate(12deg)}60%{transform:rotate(-12deg)}75%{transform:rotate(6deg)}100%{transform:rotate(0)}}
 
 .floating-right{position:fixed;right:14px;bottom:14px;z-index:11000;display:flex;flex-direction:column;gap:8px}
-.float-btn{width:36px;height:36px;border-radius:50%;background:#ffffff;color:var(--mid);box-shadow:0 3px 12px rgba(0,0,0,.12);border:0;outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
-.float-btn:hover{background:#f0f7ff;transform:scale(1.1)}
+.float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--mid);box-shadow:0 3px 12px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.8);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
+
+.float-btn:hover, .notif-btn:hover{background:rgba(255,255,255,.95);transform:scale(1.1)}
 .music-playing{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 
 /* SPOTIFY GIAO DIỆN LIGHT THEME */
@@ -369,7 +371,7 @@
 <div class="x-profile-row">
 <img src="images/avatar.jpg" class="x-avatar" alt="Yuna Đi Ngủ">
 <div class="x-info">
-<h1 class="x-name">Yuna Đi Ngủ</h1>
+<h1 class="x-name gradient-title">Yuna Đi Ngủ</h1>
 <div class="x-friends">🪼✮˚.⋆ 𝓽𝓱𝓮 𝓼𝔂𝓶𝓹𝓸𝓷𝔂 𝓸𝓯 𝓵𝓸𝓿𝓮 ⋆.˚✮🪽</div>
 </div>
 </div>
@@ -465,7 +467,7 @@
 <div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2>🔮 Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
 
 <div class="floating-left">
-<button class="notif-btn" id="notifBtn" onclick="openWeChatModal()">🔔<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
+<button class="notif-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
 </div>
 
 <div id="wechatModal" class="custom-modal">
@@ -490,7 +492,7 @@
     <img id="spCover" class="spotify-cover" src="images/avatar.jpg" alt="">
     <div class="spotify-info">
       <div id="spTitle" class="spotify-title">Dracula</div>
-      <div class="spotify-artist"><span id="spArtist" style="font-weight:700;color:var(--navy)">Tame Impala</span><span class="spotify-artist-dot">•</span><span id="spSub">Dracula</span></div>
+      <div class="spotify-artist"><span id="spArtist">Tame Impala</span></div>
     </div>
     <button class="spotify-play-btn" id="spPlayBtn" onclick="toggleSpotifyPlay()">▶</button>
   </div>
@@ -533,10 +535,12 @@ const CHARS=[
 
 const PLAYLIST = [
   { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/avatar.jpg" },
-  { title: "snow flower feat peakboy", artist: "V", file: "MUSIC/snowflower.mp3", cover: "images/avatar.jpg" },
+  { title: "snow flower", artist: "V feat peakboy", file: "MUSIC/snowflower.mp3", cover: "images/avatar.jpg" },
   { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/avatar.jpg" },
-  { title: "giáng sinh chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/avatar.jpg" },
+  { title: "chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/avatar.jpg" },
   { title: "snowman", artist: "sia", file: "MUSIC/snowman.mp3", cover: "images/avatar.jpg" },
+  { title: "đợi", artist: "52Hz", file: "MUSIC/doi.mp3", cover: "images/avatar.jpg" },
+  { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/avatar.jpg" },
   { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/avatar.jpg" }
 ];
 
@@ -568,7 +572,7 @@ const WECHAT_DATABASE = [
   { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
     msg1: "Vừa xử lý xong nốt đống công việc. Căn hộ hôm nay yên tĩnh quá, tự nhiên thấy thiếu thiếu điều gì đó... Hóa ra là thiếu em gối đầu lên đùi tôi xem TV. Em ngủ chưa? Chúc ngủ ngon, bé ngoan.",
     optA: "Em chưa ngủ, cũng đang nhớ anh muốn chết đây này...", optB: "Em sắp ngủ rồi, anh cũng đi ngủ sớm đi kẻo mệt ạ.",
-    msg2: "Ngoan. Nhắm mắt lại đi, trong mơ tôi sẽ sang gối đầu lên đùi em. ...Quên lời tôi nói khi nãy đi nhé. Chúc em ngủ ngon." },
+    msg2: "Ngoan. Nhắm mắt lại đi, trong mơ tôi sẽ sang gối đầu lên đùi em...Quên lời tôi nói khi nãy đi nhé. Chúc em ngủ ngon." },
   { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
     msg1: "Tôi vừa hạ cánh xuống Nam Kinh, việc đầu tiên là muốn báo bình an cho em. Ở nhà một mình nhớ khóa cửa cẩn thận. Xong việc tôi sẽ bay chuyến sớm nhất về với em. Nhớ em.",
     optA: "Anh đi đường cẩn thận nhé, em ở nhà vẫn ngoan mà.(˶ᵔ ᵕ ᵔ˶)", optB: "Vừa đi đã nhắn nhớ em rồi, làm xong việc nhanh rồi về nha anh.",
@@ -578,7 +582,7 @@ const WECHAT_DATABASE = [
   { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
     msg1: "Chị dậy chưa? Em vừa chạy bộ ngang qua, gửi sẵn sữa đậu nành với sủi cảo nóng ở chú bảo vệ rồi ạ. Dậy thì nhắn em một câu cho em có năng lượng lên lớp nha! Yêu chị béee❤️",
     optA: "Chị vừa dậy, cảm ơn em nhé.", optB: "Trời ơi sáng ra đã nạp ngọt thế này rồi, cún bự đi học ngoan nhé.",
-    msg2: "Hi hi chị thích là em vui rồi! Nhớ ăn hết đấy nhé, tí lên lớp em nhắn tin cho chị tiếp nhaaa~ ❤️" },
+    msg2: "Hi hi chị thích là em vui rồi! Nhớ ăn hết đấy nhé, tí lên lớp em nhắn tin cho chị tiếp nhaaa~❤️" },
   { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
     msg1: "5 phút nữa nghỉ trưa mình gặp nhau ngoài hành lang nha, em xách cơm hộp đến tận nơi rồi. Hôm nay em nấu toàn món chị thích, không ăn là em dỗi thật đấy!",
     optA: "Chờ chị 2 phút nữa nha, chị dọn xong đồ đã.", optB: "Nấu cho chị thật đấy à? Không ngon là chị phạt em đấy nhé~",
@@ -588,9 +592,9 @@ const WECHAT_DATABASE = [
     optA: "Giỏi thế cơ à? Tối nay về rồi tính xem có được ôm không nhé.", optB: "Chiều quá em sinh hư rồi đấy, tối nay sang đây ngoan thì mới được ôm nha.",
     msg2: "Chị bé hứa rồi đấy nhé! Tối nay em sẽ phi sang ngay, không được bùng kèo ôm nạp pin của em đâu đấy ạaa! ( ˶˘ ³˘)♡" },
   { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
-    msg1: "Em gọi định rủ chị đi ăn thịt nướng mà chị hông nghe máy...Hừm, Lục Tề vừa rủ em đi chơi net rồi, em đi đây, tối nay em không về đâu! ... Chị vẫn không rep em à? Thôi em đùa đấy, em không đi đâu, em ngồi dưới KTX nữ đợi chị về rồi này ạaa😭",
+    msg1: "Em gọi định rủ chị đi ăn thịt nướng mà chị hông nghe máy...Hừm, Lục Tề vừa rủ em đi chơi net rồi, em đi đây, tối nay em không về đâu! ... Chị vẫn không rep em à? Thôi em đùa đấy, em không đi đâu, em ngồi dưới KTX nữ đợi chị về rồi này ạaa 😭",
     optA: "Chị vừa làm xong tài liệu, em đứng đấy lạnh không? Đợi lát chị xuống ngay.", optB: "Cún bự hôm nay còn biết dọa chị sao? Chờ lát xuống xem chị xử em như thế nào. (≖_≖ )",
-    msg2: "Hì hì em biết ngay chị thương em mà! Em đứng ngay gốc cây dưới KTX rồi, chị xuống mau đi em ôm cái cho ấm nè ạaa😭₍₍⚞(˶>ᗜ<˶)⚟⁾⁾" },
+    msg2: "Hì hì em biết ngay chị thương em mà! Em đứng ngay gốc cây dưới KTX rồi, chị xuống mau đi em ôm cái cho ấm nè ạaa ₍₍⚞(˶>ᗜ<˶)⚟⁾⁾" },
   { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
     msg1: "Chị xem cái váy này có xinh không ạ? Em thì thấy hợp với chị lắm luôn! Rep em trong 3 giây nếu không em thanh toán luôn đấy...3... 2... 1... Reng! Hết giờ, em quẹt thẻ rồi nhé, cuối tuần mặc đi hẹn hò với em nha!🐶",
     optA: "Váy xinh thật nhưng mà mắc lắm…", optB: "Em đúng là không cho chị kịp phản ứng luôn… Lần sau không được tự tiện thế nữa đâu đấy.",
@@ -998,7 +1002,6 @@ function loadTrackInfo(idx){
   audioEl.src = item.file;
   document.getElementById("spTitle").textContent = item.title;
   document.getElementById("spArtist").textContent = item.artist;
-  document.getElementById("spSub").textContent = item.title;
   document.getElementById("spCover").src = item.cover;
   renderSpotifyPlaylist();
 }
@@ -1039,7 +1042,7 @@ function renderSpotifyPlaylist(){
       <span class="spotify-item-num">${isActive ? '♫' : (idx + 1)}</span>
       <div class="spotify-item-info">
         <div class="spotify-item-title">${escapeHtml(t.title)}</div>
-        <div class="spotify-item-sub"><b style="color:var(--navy)">${escapeHtml(t.artist)}</b> • ${escapeHtml(t.title)}</div>
+        <div class="spotify-item-sub">${escapeHtml(t.artist)}</div>
       </div>
     </div>`;
   }).join("");
