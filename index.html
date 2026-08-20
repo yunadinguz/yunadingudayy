@@ -377,6 +377,45 @@
 .menu-scrollbar-thumb:active {
   cursor: grabbing;
 }
+
+/* CSS CHO TÍNH NĂNG MỚI (SHOP, CHECK-IN, KHUNG AVATAR) */
+/* Cửa hàng */
+.shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 20px; }
+.shop-item { background: #fff; border: 1px solid #dcebf5; border-radius: 20px; padding: 12px; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center;}
+.shop-item.owned { opacity: 0.6; pointer-events: none; }
+.shop-item-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; }
+.shop-btn { border: 0; background: #79ACD9; color: #fff; border-radius: 12px; padding: 6px 12px; font-weight: 600; font-size: 0.85rem; width: 100%; margin-top: auto; }
+.owned-tag { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: #fff; font-weight: bold; padding: 8px 16px; border-radius: 12px; z-index: 2; font-size: 1.1rem; display: none; }
+.shop-item.owned .owned-tag { display: block; }
+.shop-item.owned .shop-btn { display: none; }
+
+/* Điểm danh */
+.checkin-wrap { background: #f4faff; border: 1px solid #dbeaf5; border-radius: 24px; padding: 16px; margin-top: 14px; text-align: center; }
+.checkin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 700; color: var(--navy); font-size: 0.9rem;}
+.checkin-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.checkin-day { background: #fff; border: 1px solid #dceaf5; border-radius: 12px; padding: 10px 5px; font-size: 0.75rem; color: var(--text); position: relative; }
+.checkin-day.claimed { background: #e6f7eb; border-color: #a3d9b1; color: #2e7d32; }
+.checkin-day.claimed::after { content: "✓"; position: absolute; top: 2px; right: 4px; font-weight: bold; }
+.checkin-btn { width: 100%; border: 0; background: linear-gradient(135deg,#0c4f86,#76add9); color: #fff; border-radius: 12px; padding: 10px; font-weight: 700; margin-top: 12px; }
+.checkin-btn:disabled { background: #cbd5e1; color: #64748b; cursor: not-allowed; }
+
+/* Khung Avatar Overlays */
+.avatar-wrapper-relative { position: relative; display: inline-block; flex-shrink: 0; }
+.frame-overlay { position: absolute; top: -18%; left: -18%; width: 136%; height: 136%; pointer-events: none; z-index: 2; }
+.edit-profile-btn { background: #eaf5ff; color: #25587f; border: 1px solid #c2dcf0; border-radius: 12px; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; cursor: pointer; margin-top: 8px; }
+
+/* Chúc mừng nhận được Modal */
+#congratsModal { align-items: center; justify-content: center; flex-direction: column; text-align: center; cursor: pointer; background: rgba(0,0,0,0.8); }
+.congrats-text { font-family: var(--serif); font-size: 2rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); margin-bottom: 20px; animation: modalPop 0.5s ease; }
+.congrats-img-wrap { position: relative; width: 150px; height: 150px; animation: modalPop 0.6s ease; }
+.congrats-light { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%); z-index: 1; pointer-events: none; animation: spin 5s linear infinite; }
+.congrats-img { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: contain; }
+
+/* Modal Chỉnh sửa thông tin */
+.edit-frames-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-height: 200px; overflow-y: auto; margin: 15px 0; padding: 5px; }
+.edit-frame-item { border: 2px solid transparent; border-radius: 12px; padding: 4px; cursor: pointer; text-align: center; }
+.edit-frame-item.selected { border-color: var(--blue); background: #f0f7ff; }
+.edit-frame-item img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 </style>
 </head>
 <body>
@@ -425,6 +464,7 @@
 <a href="https://docs.google.com/document/u/0/d/1wtlDGVuUhRbcdiEOrnSmWVYQyMScLhRBCvTPn1xK408/mobilebasic" target="_blank">Lệnh giải trí</a>
 </div>
 </div>
+<button class="nav-item" id="nav-shop" onclick="showView('shop')">Cửa hàng</button>
 <button class="nav-item" id="nav-auth" onclick="showView('auth')">Đăng nhập / Đăng ký</button>
 </nav>
 <div class="menu-scrollbar-track"><div class="menu-scrollbar-thumb" id="menuScrollThumb"></div></div>
@@ -483,6 +523,16 @@
 <label class="auth-check"><input type="checkbox" id="rememberRegister" checked> Lưu thông tin đăng nhập cho lần sau</label><button class="auth-submit">Đăng ký</button></form></div>
 <div id="authUser" style="display:none"></div>
 </div></section>
+
+<section id="shop" class="view">
+  <div class="content-box">
+    <div style="text-align: center;">
+  <div class="menu-title gradient-title">⊹ CỬA HÀNG BÔNG TUYẾT ⊹</div>
+</div>
+    <div class="total-visitors" style="margin-bottom: 5px;">Hiện đang có: <b id="shop-snowflakes">0</b> ❄️ Bông tuyết</div>
+    <div class="shop-grid" id="shopGrid"></div>
+  </div>
+</section>
 </main>
 
 <footer class="dream-footer"><p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p><div class="copyright-text">Yuna đi ngủ © 2026</div></footer>
@@ -540,6 +590,47 @@
 <div id="toast" class="toast"></div>
 <audio id="bg-music" preload="auto"></audio>
 <audio id="voice-player" preload="auto"></audio>
+
+<!-- Modal Chúc Mừng -->
+<div id="congratsModal" class="custom-modal" onclick="closeModal('congratsModal')">
+  <div class="congrats-text">Chúc Mừng ✦ Nhận Được</div>
+  <div class="congrats-img-wrap">
+    <div class="congrats-light"></div>
+    <img id="congratsImg" class="congrats-img" src="" alt="">
+  </div>
+  <div style="color: #ccc; margin-top: 20px; font-size: 0.85rem;">(Nhấn vào bất cứ đâu để đóng)</div>
+</div>
+
+<!-- Modal Chỉnh sửa thông tin -->
+<div id="editProfileModal" class="custom-modal">
+  <div class="modal-box" style="text-align: left;">
+    <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 20px;">
+      <button style="border:0; background:none; font-size:1.5rem; color:var(--navy); cursor:pointer;" onclick="closeModal('editProfileModal')">←</button>
+      <h2 style="margin:0; text-align:left;">Thông Tin Cá Nhân</h2>
+    </div>
+    
+    <div style="text-align:center; margin-bottom:20px;">
+      <div class="avatar-wrapper-relative" style="width: 100px; height: 100px;">
+        <img id="editPreviewAvatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" src="" alt="">
+        <img id="editPreviewFrame" class="frame-overlay" src="" style="display:none;" alt="">
+      </div>
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:12px;">
+        <button class="pill-btn" onclick="document.getElementById('editAvatarFile').click()">Đổi ảnh</button>
+        <input id="editAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="previewNewAvatar(event)">
+      </div>
+    </div>
+
+    <div class="field-wrap">
+      <div style="font-size:0.85rem; color:var(--text); margin-bottom:4px; font-weight:600;">Nickname</div>
+      <input id="editDisplayName" placeholder="Nhập tên của bạn">
+    </div>
+
+    <div style="font-size:0.85rem; color:var(--text); margin:15px 0 5px; font-weight:600;">Đổi Khung Đại Diện (Đang sở hữu)</div>
+    <div class="edit-frames-grid" id="editFramesGrid"></div>
+
+    <button class="auth-submit" style="margin-top:20px;" onclick="saveEditProfile()">Lưu Thông Tin</button>
+  </div>
+</div>
 
 <script>
 
@@ -935,22 +1026,41 @@ db.auth.onAuthStateChange(async(_e,s)=>{
 }
 
 function renderAuth(){
-const g=document.getElementById("authGuest"),u=document.getElementById("authUser");
-if(!currentUser){
-  g.style.display="block";
-  u.style.display="none";
-} else {
-  g.style.display="none";
-  u.style.display="block";
-  const p=currentProfile||{};
-  const av=p.avatar_url?`<img class="profile-avatar" src="${escapeHtml(p.avatar_url)}">`:`<div class="profile-avatar" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
-  const adminBadgeText = isAdmin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : '';
-  const catClass = isAdmin ? "cat-ears-wrap" : "profile-avatar-wrap";
+  const g=document.getElementById("authGuest"), u=document.getElementById("authUser");
+  if(!currentUser){
+    g.style.display="block"; u.style.display="none";
+  } else {
+    g.style.display="none"; u.style.display="block";
+    const p=currentProfile||{};
+    const av=p.avatar_url?`<img class="profile-avatar" style="width:100%;height:100%" src="${escapeHtml(p.avatar_url)}">`:`<div class="profile-avatar" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
+    const adminBadgeText = isAdmin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : '';
+    const frameHtml = p.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(p.equipped_frame)}">` : '';
 
-  u.innerHTML=`<div class="profile-panel"><div class="profile-head"><div class="${catClass}" id="mainAvatarWrapper">${av}<button class="edit-icon" onclick="document.getElementById('profileAvatarFile').click()">✎</button><input id="profileAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="changeProfileAvatar(event)"></div><div style="flex:1"><div class="profile-name-row"><span class="profile-name">${escapeHtml(p.display_name||"Kẻ Mộng Mơ Vô Danh")}</span><div id="globalBadge" style="margin-left:4px"></div><button class="edit-icon" style="position:static;margin-left:4px" onclick="editDisplayName()">✎</button></div>${adminBadgeText}<div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div></div><button class="logout-btn" onclick="logout()">Đăng xuất</button></div><div id="profileAffinityList" style="margin-top:12px"></div></div>`;
-}
-updateJournalInput();
-refreshUserBadges();
+    u.innerHTML=`
+      <div class="profile-panel">
+        <div class="profile-head">
+          <div class="avatar-wrapper-relative" style="width:76px; height:76px;">
+            ${av}
+            ${frameHtml}
+          </div>
+          <div style="flex:1">
+            <div class="profile-name-row">
+              <span class="profile-name">${escapeHtml(p.display_name||"Kẻ Mộng Mơ Vô Danh")}</span>
+              <div id="globalBadge" style="margin-left:4px"></div>
+            </div>
+            ${adminBadgeText}
+            <div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div>
+            <button class="edit-profile-btn" onclick="openEditProfile()">Chỉnh sửa</button>
+          </div>
+        </div>
+        <div id="profileAffinityList" style="margin-top:12px"></div>
+      </div>
+      <div class="checkin-wrap" id="checkinWrap"></div>
+      <button class="logout-btn" style="width:100%; margin-top:15px; padding:12px; background:#fee2e2; color:#dc2626; border-radius:22px; font-size:1rem;" onclick="logout()">Đăng xuất</button>
+    `;
+    renderCheckin();
+  }
+  updateJournalInput(); refreshUserBadges();
 }
 
 function updateJournalInput(){
@@ -985,19 +1095,6 @@ function removeFeedbackImage(){
   document.getElementById("journalImgPreview").innerHTML = "";
 }
 
-async function editDisplayName(){
-const n=prompt("Tên hiển thị mới:",currentProfile?.display_name||"");if(n===null)return;
-const name=n.trim()||"Kẻ Mộng Mơ Vô Danh";
-const {error}=await db.from("profiles").upsert({id:currentUser.id,display_name:name});
-if(error){toast(error.message);return}
-currentProfile.display_name=name;
-profileCache.set(currentUser.id,{...profileCache.get(currentUser.id),display_name:name});
-renderAuth();refreshUserBadges();loadJournal();
-filteredChars.forEach(c=>loadMiniComments(c.id));
-if(currentChar)loadAppComments(currentChar.id);
-toast("Đã cập nhật tên!");
-}
-
 async function uploadAvatar(file){
 if(!file||!currentUser)return null;
 const ext=file.name.split(".").pop().toLowerCase()||"jpg";
@@ -1005,19 +1102,6 @@ const path=`${currentUser.id}/${Date.now()}.${ext}`;
 const up=await db.storage.from("avatars").upload(path,file,{upsert:true,contentType:file.type});
 if(up.error)throw up.error;
 return db.storage.from("avatars").getPublicUrl(path).data.publicUrl;
-}
-
-async function changeProfileAvatar(e){
-try{
-const url=await uploadAvatar(e.target.files[0]);
-await db.from("profiles").upsert({id:currentUser.id,avatar_url:url,display_name:currentProfile.display_name});
-currentProfile.avatar_url=url;
-profileCache.set(currentUser.id,{...profileCache.get(currentUser.id),avatar_url:url});
-renderAuth();loadJournal();
-filteredChars.forEach(c=>loadMiniComments(c.id));
-if(currentChar)loadAppComments(currentChar.id);
-toast("Đã đổi avatar!");
-}catch(err){toast(err.message)}
 }
 
 function previewAvatar(e,id){const f=e.target.files[0];if(f)document.getElementById(id).src=URL.createObjectURL(f)}
@@ -1076,6 +1160,7 @@ document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
 if(id==="library")document.getElementById("nav-library").classList.add("active");
 if(id==="journal"){document.getElementById("nav-journal").classList.add("active");loadJournal()}
 if(id==="auth")document.getElementById("nav-auth").classList.add("active");
+if(id==="shop") { document.getElementById("nav-shop").classList.add("active"); renderShop(); }
 window.scrollTo({top:0,behavior:"smooth"})
 }
 
@@ -1351,7 +1436,9 @@ if (c.user_id && profile.bestAffinity) {
 }
 
 const adminBadge = c.is_admin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : "";
-const avatarHtml = `<div class="${catEarsCls}">${av ? `<img class="comment-avatar" src="${escapeHtml(av)}">` : `<div class="avatar-letter">${escapeHtml((name||"K")[0].toUpperCase())}</div>`}</div>`;
+const frameHtml = profile.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(profile.equipped_frame)}">` : '';
+const avatarInner = av ? `<img class="comment-avatar" style="width:100%;height:100%;" src="${escapeHtml(av)}">` : `<div class="avatar-letter" style="width:100%;height:100%;">${escapeHtml((name||"K")[0].toUpperCase())}</div>`;
+const avatarHtml = `<div class="avatar-wrapper-relative" style="width:36px; height:36px;">${avatarInner}${frameHtml}</div>`;
 
 const isLiked = localStorage.getItem("liked-cmt-" + c.id);
 const heartChar = isLiked ? "♥" : "♡";
@@ -1844,6 +1931,205 @@ db.channel('public-realtime')
 
 function createSnow(){const box=document.getElementById("snow-container");for(let i=0;i<30;i++){const s=document.createElement("span");s.className="snowflake";s.textContent=["❄","❅","❆"][Math.floor(Math.random()*3)];s.style.left=Math.random()*100+"vw";s.style.fontSize=8+Math.random()*10+"px";s.style.animationDuration=8+Math.random()*9+"s";s.style.animationDelay=-Math.random()*10+"s";s.style.setProperty("--x",(Math.random()*60-30)+"px");box.appendChild(s)}}
 function createIntroSnow(){const box=document.getElementById("intro-snow-container");for(let i=0;i<25;i++){const s=document.createElement("span");s.className="intro-flake";s.textContent=["❄","❅","✦","❆"][Math.floor(Math.random()*4)];s.style.left=Math.random()*100+"%";s.style.top=(-10-Math.random()*100)+"px";s.style.fontSize=10+Math.random()*16+"px";s.style.animationDuration=8+Math.random()*10+"s";s.style.animationDelay=-Math.random()*10+"s";s.style.setProperty("--drift",(Math.random()*80-40)+"px");box.appendChild(s)}}
+
+/* === LOGIC SHOP, ĐIỂM DANH & CHỈNH SỬA === */
+const FRAMES = Array.from({length: 16}, (_, i) => ({ id: `khung${i+1}`, src: `images/khung${i+1}.png`, price: 60 }));
+
+function renderShop() {
+  if(!currentProfile) { document.getElementById("shop-snowflakes").textContent = "0"; }
+  else { document.getElementById("shop-snowflakes").textContent = currentProfile.snowflakes || 0; }
+  
+  const grid = document.getElementById("shopGrid");
+  const owned = isAdmin ? FRAMES.map(f => f.id) : (currentProfile?.owned_frames || []);
+  
+  grid.innerHTML = FRAMES.map(f => {
+    const isOwned = owned.includes(f.id);
+    return `
+      <div class="shop-item ${isOwned ? 'owned' : ''}">
+        <div class="owned-tag">Đã có</div>
+        <img src="${f.src}" class="shop-item-img">
+        <div style="font-size:0.8rem; font-weight:bold; color:var(--blue); margin-bottom:8px;">${f.price} ❄️</div>
+        <button class="shop-btn" onclick="buyFrame('${f.id}', ${f.price}, '${f.src}')">Đổi</button>
+      </div>
+    `;
+  }).join("");
+}
+
+async function buyFrame(id, price, src) {
+  if(!currentUser) { toast("Vui lòng đăng nhập để mua khung!"); return showView('auth'); }
+  if(isAdmin) return toast("Mộng chủ đã có tất cả khung rồi!");
+  let currentSnowflakes = currentProfile.snowflakes || 0;
+  if(currentSnowflakes < price) return toast("Bạn không đủ Bông tuyết!");
+  
+  // Trừ tiền và thêm item
+  currentSnowflakes -= price;
+  let newOwned = [...(currentProfile.owned_frames || []), id];
+  
+  const {error} = await db.from("profiles").update({ snowflakes: currentSnowflakes, owned_frames: newOwned }).eq("id", currentUser.id);
+  if(error) return toast("Lỗi khi đổi khung: " + error.message);
+  
+  currentProfile.snowflakes = currentSnowflakes;
+  currentProfile.owned_frames = newOwned;
+  
+  // Hiển thị modal chúc mừng
+  document.getElementById("congratsImg").src = src;
+  document.getElementById("congratsModal").style.display = "flex"; // Hiện thay vì add class để override
+  
+  renderShop(); renderAuth();
+}
+
+// Logic Điểm danh
+function getWeekNumber(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+}
+
+function renderCheckin() {
+  const wrap = document.getElementById("checkinWrap");
+  if(!wrap || !currentProfile) return;
+  
+  const todayStr = new Date().toISOString().slice(0,10);
+  const currentWeek = getWeekNumber(new Date());
+  
+  // Ktra reset tuần
+  let lastCheckinDate = currentProfile.last_checkin_date;
+  let progress = currentProfile.checkin_progress || 0;
+  
+  let lastWeek = lastCheckinDate ? getWeekNumber(new Date(lastCheckinDate)) : -1;
+  if(lastWeek !== currentWeek && lastWeek !== -1) { progress = 0; } // Qua tuần mới -> reset
+  
+  const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
+  let gridHtml = days.map((day, idx) => {
+    const isClaimed = idx < progress;
+    return `<div class="checkin-day ${isClaimed ? 'claimed' : ''}">${day}<br><b style="font-size:12px">10 ❄️</b></div>`;
+  }).join("");
+
+  const canCheckin = lastCheckinDate !== todayStr && progress < 7;
+  
+  wrap.innerHTML = `
+    <div class="checkin-header">
+      <span>Tuần này đã điểm danh: <b style="color:var(--blue)">${progress}/7</b></span>
+      <span>Đã có: <b style="color:var(--blue)">${currentProfile.snowflakes || 0} ❄️</b></span>
+    </div>
+    <div class="checkin-grid">${gridHtml}</div>
+    <button class="checkin-btn" ${!canCheckin ? 'disabled' : ''} onclick="doCheckin()">
+      ${canCheckin ? 'Nhận 10 ❄️ Hôm Nay' : 'Đã điểm danh hôm nay'}
+    </button>
+  `;
+}
+
+async function doCheckin() {
+  if(!currentUser) return;
+  const todayStr = new Date().toISOString().slice(0,10);
+  let progress = (currentProfile.checkin_progress || 0) + 1;
+  let newSnowflakes = (currentProfile.snowflakes || 0) + 10;
+
+  const {error} = await db.from("profiles").update({
+    last_checkin_date: todayStr, checkin_progress: progress, snowflakes: newSnowflakes
+  }).eq("id", currentUser.id);
+
+  if(error) return toast("Lỗi điểm danh: " + error.message);
+  
+  currentProfile.last_checkin_date = todayStr;
+  currentProfile.checkin_progress = progress;
+  currentProfile.snowflakes = newSnowflakes;
+  
+  toast("Điểm danh thành công! Nhận 10 ❄️");
+  renderCheckin();
+}
+
+// Logic Chỉnh sửa Profile
+let tempAvatarFile = null;
+let tempEquippedFrame = null;
+
+function openEditProfile() {
+  if(!currentProfile) return;
+  tempAvatarFile = null;
+  tempEquippedFrame = currentProfile.equipped_frame;
+  
+  const av = currentProfile.avatar_url || "";
+  document.getElementById("editPreviewAvatar").src = av ? av : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+  document.getElementById("editDisplayName").value = currentProfile.display_name || "";
+  
+  const previewFrame = document.getElementById("editPreviewFrame");
+  if(tempEquippedFrame) { previewFrame.src = tempEquippedFrame; previewFrame.style.display = "block"; }
+  else { previewFrame.style.display = "none"; }
+
+  const owned = isAdmin ? FRAMES.map(f => f.id) : (currentProfile.owned_frames || []);
+  const grid = document.getElementById("editFramesGrid");
+  
+  // Frame rỗng (tháo khung)
+  let framesHtml = `
+    <div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this)">
+      <div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Tháo</div>
+    </div>`;
+    
+  framesHtml += FRAMES.filter(f => owned.includes(f.id)).map(f => `
+    <div class="edit-frame-item ${tempEquippedFrame === f.src ? 'selected' : ''}" onclick="selectFrame('${f.src}', this)">
+      <img src="${f.src}">
+    </div>
+  `).join("");
+  
+  grid.innerHTML = framesHtml;
+  openModal("editProfileModal");
+}
+
+function selectFrame(src, el) {
+  tempEquippedFrame = src;
+  document.querySelectorAll(".edit-frame-item").forEach(item => item.classList.remove("selected"));
+  el.classList.add("selected");
+  
+  const preview = document.getElementById("editPreviewFrame");
+  if(src) { preview.src = src; preview.style.display = "block"; }
+  else { preview.style.display = "none"; }
+}
+
+function previewNewAvatar(e) {
+  const file = e.target.files[0];
+  if(file) {
+    tempAvatarFile = file;
+    document.getElementById("editPreviewAvatar").src = URL.createObjectURL(file);
+  }
+}
+
+async function saveEditProfile() {
+  const newName = document.getElementById("editDisplayName").value.trim() || "Kẻ Mộng Mơ Vô Danh";
+  document.getElementById("editProfileModal").querySelector(".auth-submit").textContent = "Đang lưu...";
+  
+  try {
+    let finalAvatar = currentProfile.avatar_url;
+    if(tempAvatarFile) { finalAvatar = await uploadAvatar(tempAvatarFile); }
+    
+    const {error} = await db.from("profiles").update({
+      display_name: newName, avatar_url: finalAvatar, equipped_frame: tempEquippedFrame
+    }).eq("id", currentUser.id);
+    
+    if(error) throw error;
+    
+    // Cập nhật local
+    currentProfile.display_name = newName;
+    currentProfile.avatar_url = finalAvatar;
+    currentProfile.equipped_frame = tempEquippedFrame;
+    profileCache.set(currentUser.id, currentProfile);
+    
+    toast("Lưu thông tin thành công!");
+    closeModal("editProfileModal");
+    renderAuth(); loadJournal();
+    filteredChars.forEach(c => loadMiniComments(c.id));
+    if(currentChar) loadAppComments(currentChar.id);
+    
+  } catch(e) { toast("Lỗi: " + e.message); }
+  
+  document.getElementById("editProfileModal").querySelector(".auth-submit").textContent = "Lưu Thông Tin";
+}
+
+// Ghi đè lại để fix click ngoài của modal chúc mừng
+window.addEventListener('click', function(e) {
+  const cm = document.getElementById('congratsModal');
+  if (e.target === cm) cm.style.display = 'none';
+});
 
 async function setup(){
   createSnow(); 
