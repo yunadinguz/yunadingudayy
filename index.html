@@ -351,6 +351,32 @@
 .char-name{font-size:1.25rem}
 .char-img{aspect-ratio:16/10}
 }
+
+/* GIAO DIỆN THANH CUỘN MENU */
+.menu-scrollbar-track {
+  position: absolute;
+  /* Đặt vị trí chính xác ngay dưới các nút, né khoảng tàng hình */
+  bottom: 152px; 
+  left: 16px;
+  width: calc(100% - 32px);
+  height: 6px; /* Dày 6px để ngón tay dễ chạm trên điện thoại */
+  background: rgba(121, 172, 217, 0.2);
+  border-radius: 4px;
+  z-index: 901; 
+}
+.menu-scrollbar-thumb {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 4px;
+  width: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: grab; /* Hiển thị biểu tượng bàn tay khi dùng PC */
+}
+.menu-scrollbar-thumb:active {
+  cursor: grabbing;
+}
 </style>
 </head>
 <body>
@@ -401,6 +427,7 @@
 </div>
 <button class="nav-item" id="nav-auth" onclick="showView('auth')">Đăng nhập / Đăng ký</button>
 </nav>
+<div class="menu-scrollbar-track"><div class="menu-scrollbar-thumb" id="menuScrollThumb"></div></div>
 </header>
 
 <main>
@@ -515,6 +542,77 @@
 <audio id="voice-player" preload="auto"></audio>
 
 <script>
+
+// --- LOGIC THANH CUỘN MENU NGANG ---
+document.addEventListener("DOMContentLoaded", () => {
+  const nav = document.querySelector(".fb-nav");
+  const thumb = document.getElementById("menuScrollThumb");
+  const track = document.querySelector(".menu-scrollbar-track");
+  
+  if (!nav || !thumb || !track) return;
+
+  // 1. Hàm đồng bộ khi người dùng vuốt/cuộn menu
+  function syncScrollbar() {
+    if (nav.scrollWidth <= nav.clientWidth) {
+      track.style.display = "none"; // Ẩn nếu menu ngắn không cần cuộn
+      return;
+    }
+    track.style.display = "block";
+
+    // Tính chiều dài của thanh màu xanh
+    const ratio = nav.clientWidth / nav.scrollWidth;
+    const thumbWidth = Math.max(ratio * 100, 15); // Tối thiểu dài 15%
+    thumb.style.width = thumbWidth + "%";
+
+    // Tính vị trí trượt
+    const maxScroll = nav.scrollWidth - nav.clientWidth;
+    const scrollPercent = nav.scrollLeft / maxScroll;
+    const maxLeft = 100 - thumbWidth;
+    
+    thumb.style.left = (scrollPercent * maxLeft) + "%";
+  }
+
+  nav.addEventListener("scroll", syncScrollbar);
+  window.addEventListener("resize", syncScrollbar);
+  setTimeout(syncScrollbar, 300);
+
+  // 2. Chức năng cho phép người dùng CẦM THANH XANH ĐỂ KÉO (Drag & Touch)
+  let isDragging = false;
+  let startX, startScrollLeft;
+
+  function startDrag(e) {
+    isDragging = true;
+    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+    startScrollLeft = nav.scrollLeft;
+    thumb.style.transition = "none"; // Bỏ độ trễ khi đang kéo
+  }
+
+  function onDrag(e) {
+    if (!isDragging) return;
+    e.preventDefault(); // Tránh bị cuộn cả trang web
+    const x = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+    const walk = x - startX;
+    
+    const ratio = nav.scrollWidth / nav.clientWidth;
+    nav.scrollLeft = startScrollLeft + (walk * ratio);
+  }
+
+  function stopDrag() {
+    isDragging = false;
+  }
+
+  // Dành cho PC
+  thumb.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', stopDrag);
+
+  // Dành cho Điện thoại
+  thumb.addEventListener('touchstart', startDrag, {passive: false});
+  document.addEventListener('touchmove', onDrag, {passive: false});
+  document.addEventListener('touchend', stopDrag);
+});
+// ------------------------------------
+
 const SUPABASE_URL="https://lpunpnlrkrserxvurzdh.supabase.co";
 const SUPABASE_KEY="sb_publishable_FUSFfGcDAikSqslajXAlKg_CLZAvMim";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
