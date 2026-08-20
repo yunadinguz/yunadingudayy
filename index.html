@@ -426,6 +426,23 @@
 .edit-frame-item { border: 2px solid transparent; border-radius: 12px; padding: 4px; cursor: pointer; text-align: center; }
 .edit-frame-item.selected { border-color: var(--blue); background: #f0f7ff; }
 .edit-frame-item img { width: 100%; aspect-ratio: 1; object-fit: contain; }
+  /* Ép ảnh avatar bên trong khung không được có viền trắng cũ gây lệch tâm */
+.avatar-wrapper-relative img:not(.frame-overlay),
+.avatar-wrapper-relative .avatar-letter {
+    border: none !important; 
+    box-shadow: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    object-fit: cover;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Đảm bảo khung chứa luôn tròn */
+.avatar-wrapper-relative {
+    border-radius: 50%;
+}
 </style>
 </head>
 <body>
