@@ -1522,24 +1522,29 @@ async function postReply(parent, content, charId){
     if(!currentUser) guestName=prompt("Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
     
     // Gửi dữ liệu lên Supabase
-const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
-if(error){toast(error.message);return}
-textarea.value=""; 
-removeFeedbackImage();
-
-// --- Logic cộng bông tuyết ---
-if (currentUser && currentProfile) {
-    let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
-    await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
-    currentProfile.snowflakes = newSnowflakes; // Cập nhật local
-    if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin(); // Cập nhật số hiển thị UI nếu đang mở profile
-    toast("Đã gửi bình luận (+5 ❄️)");
-} else {
-    toast("Đã gửi bình luận.");
+    const {error}=await db.from("comments").insert({
+        parent_id: parent, 
+        char_id: charId, // Giữ nguyên char_id của bình luận gốc
+        content: content, 
+        user_id: currentUser?.id||null, 
+        guest_name: currentUser?null:guestName, 
+        is_admin: !!isAdmin
+    });
+    
+    if(error) { toast(error.message); return; }
+    
+    toast("Đã trả lời.");
+    
+    // Tự động load lại đúng vị trí để hiện bình luận và tăng số đếm
+    if(charId){
+        loadMiniComments(charId); // Tải lại số lượng ngoài thẻ
+        if(currentChar && currentChar.id === charId) {
+            loadAppComments(charId); // Tải lại giao diện bên trong thẻ nếu đang mở
+        }
+    } else {
+        loadJournal(); // Tải lại bên mục Lưu Bút
+    }
 }
-// -----------------------------
-
-if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
 
 async function reactComment(id, btn){
     const localKey="liked-cmt-"+id;
@@ -2112,7 +2117,7 @@ function openEditProfile() {
   // Frame rỗng (tháo khung)
   let framesHtml = `
     <div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this)">
-      <div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Gỡ bỏ</div>
+      <div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Tháo</div>
     </div>`;
     
   framesHtml += FRAMES.filter(f => owned.includes(f.id)).map(f => `
