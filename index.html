@@ -426,7 +426,7 @@
 .edit-frame-item { border: 2px solid transparent; border-radius: 12px; padding: 4px; cursor: pointer; text-align: center; }
 .edit-frame-item.selected { border-color: var(--blue); background: #f0f7ff; }
 .edit-frame-item img { width: 100%; aspect-ratio: 1; object-fit: contain; }
-  /* Ép ảnh avatar bên trong khung không được có viền trắng cũ gây lệch tâm */
+  /* Ép ảnh avatar bên trong khung */
 .avatar-wrapper-relative img:not(.frame-overlay),
 .avatar-wrapper-relative .avatar-letter {
     border: none !important; 
@@ -554,7 +554,7 @@
 <section id="shop" class="view">
   <div class="content-box">
     <div style="text-align: center;">
-  <div class="menu-title gradient-title">⊹ CỬA HÀNG BÔNG TUYẾT ⊹</div>
+  <div class="menu-title gradient-title">⊹ TIỆM KÝ GỬI TUYẾT TRẮNG ⊹</div>
 </div>
     <div class="total-visitors" style="margin-bottom: 5px;">Hiện đang có: <b id="shop-snowflakes">0</b> ❄️ Bông tuyết</div>
     <div class="shop-grid" id="shopGrid"></div>
@@ -632,7 +632,7 @@
 <div id="editProfileModal" class="custom-modal">
   <div class="modal-box" style="text-align: left;">
     <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 20px;">
-      <button style="border:0; background:none; font-size:1.5rem; color:var(--navy); cursor:pointer;" onclick="closeModal('editProfileModal')">←</button>
+      <button style="border:0; background:rgba(121, 172, 217, 0.15); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:var(--blue); font-weight:bold; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);" onclick="closeModal('editProfileModal')">←</button>
       <h2 style="margin:0; text-align:left;">Thông Tin Cá Nhân</h2>
     </div>
     
@@ -655,7 +655,7 @@
     <div style="font-size:0.85rem; color:var(--text); margin:15px 0 5px; font-weight:600;">Đổi Khung Đại Diện (Đang sở hữu)</div>
     <div class="edit-frames-grid" id="editFramesGrid"></div>
 
-    <button class="auth-submit" style="margin-top:20px;" onclick="saveEditProfile()">Lưu Thông Tin</button>
+    <button class="auth-submit" style="margin-top:20px;" onclick="saveEditProfile()">Lưu</button>
   </div>
 </div>
 
@@ -1960,7 +1960,7 @@ function createSnow(){const box=document.getElementById("snow-container");for(le
 function createIntroSnow(){const box=document.getElementById("intro-snow-container");for(let i=0;i<25;i++){const s=document.createElement("span");s.className="intro-flake";s.textContent=["❄","❅","✦","❆"][Math.floor(Math.random()*4)];s.style.left=Math.random()*100+"%";s.style.top=(-10-Math.random()*100)+"px";s.style.fontSize=10+Math.random()*16+"px";s.style.animationDuration=8+Math.random()*10+"s";s.style.animationDelay=-Math.random()*10+"s";s.style.setProperty("--drift",(Math.random()*80-40)+"px");box.appendChild(s)}}
 
 /* === LOGIC SHOP, ĐIỂM DANH & CHỈNH SỬA === */
-const FRAMES = Array.from({length: 16}, (_, i) => ({ id: `khung${i+1}`, src: `images/khung${i+1}.png`, price: 60 }));
+const FRAMES = Array.from({length: 10}, (_, i) => ({ id: `khung${i+1}`, src: `images/khung${i+1}.png`, price: 60 }));
 
 function renderShop() {
   if(!currentProfile) { document.getElementById("shop-snowflakes").textContent = "0"; }
@@ -2027,13 +2027,27 @@ function renderCheckin() {
   let lastWeek = lastCheckinDate ? getWeekNumber(new Date(lastCheckinDate)) : -1;
   if(lastWeek !== currentWeek && lastWeek !== -1) { progress = 0; } // Qua tuần mới -> reset
   
+  // Lấy ra index của ngày hôm nay theo thời gian thực (0: Thứ 2, ..., 6: Chủ nhật)
+  const todayIdx = (new Date().getDay() + 6) % 7;
+
   const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
   let gridHtml = days.map((day, idx) => {
-    const isClaimed = idx < progress;
-    return `<div class="checkin-day ${isClaimed ? 'claimed' : ''}">${day}<br><b style="font-size:12px">10 ❄️</b></div>`;
+    // Dùng phép toán bit (bitmask) để kiểm tra ngày hôm đó đã bấm chưa
+    const isClaimed = (progress & (1 << idx)) !== 0;
+    const isMissed = idx < todayIdx && !isClaimed; // Đã qua ngày nhưng chưa điểm danh
+
+    let extraStyle = '';
+    if (isMissed) {
+        extraStyle = 'background: #e2e8f0; color: #94a3b8; border-color: #cbd5e1; opacity: 0.7;'; // Làm xám nhạt ô bỏ lỡ
+    } else if (idx === todayIdx && !isClaimed) {
+        extraStyle = 'border-color: var(--blue); box-shadow: 0 0 6px rgba(3,62,140,0.25);'; // Nổi bật ô của ngày hôm nay
+    }
+
+    return `<div class="checkin-day ${isClaimed ? 'claimed' : ''}" style="${extraStyle}">${day}<br><b style="font-size:12px">10 ❄️</b></div>`;
   }).join("");
 
-  const canCheckin = lastCheckinDate !== todayStr && progress < 7;
+  // Chỉ cho phép điểm danh nếu ô của ngày hôm nay chưa được đánh dấu
+  const canCheckin = (progress & (1 << todayIdx)) === 0;
   
   wrap.innerHTML = `
     <div class="checkin-header">
@@ -2050,7 +2064,20 @@ function renderCheckin() {
 async function doCheckin() {
   if(!currentUser) return;
   const todayStr = new Date().toISOString().slice(0,10);
-  let progress = (currentProfile.checkin_progress || 0) + 1;
+  
+  // Tính toán lại progress phòng khi user để treo tab qua tuần mới
+  const currentWeek = getWeekNumber(new Date());
+  let lastWeek = currentProfile.last_checkin_date ? getWeekNumber(new Date(currentProfile.last_checkin_date)) : -1;
+  let currentProgress = currentProfile.checkin_progress || 0;
+  if (lastWeek !== currentWeek && lastWeek !== -1) { currentProgress = 0; }
+
+  // Hôm nay là thứ mấy
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  
+  if ((currentProgress & (1 << todayIdx)) !== 0) return toast("Bạn đã điểm danh hôm nay rồi!");
+
+  // Lưu vị trí ngày hôm nay
+  let progress = currentProgress | (1 << todayIdx);
   let newSnowflakes = (currentProfile.snowflakes || 0) + 10;
 
   const {error} = await db.from("profiles").update({
