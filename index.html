@@ -537,14 +537,14 @@
 <div id="authGuest">
 <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuth('login')">Đăng nhập</button><button class="auth-tab" onclick="switchAuth('register')">Đăng ký</button></div>
 
-<form id="loginForm" class="auth-form" onsubmit="loginEmail(event); return false;">
+<form id="loginForm" class="auth-form" onsubmit="loginEmail(event)">
 <div class="field-wrap"><span>📧</span><input id="loginEmail" type="email" placeholder="Email" required></div>
 <div class="field-wrap"><span>🔒︎</span><input id="loginPassword" type="password" placeholder="Mật khẩu" required><button type="button" class="password-toggle" onclick="togglePassword('loginPassword',this)">◉</button></div>
 <label class="auth-check"><input type="checkbox" id="rememberLogin" checked> Lưu đăng nhập cho lần sau</label>
 <button class="auth-submit">Đăng nhập</button><button type="button" class="google-btn" onclick="loginGoogle()">Tiếp tục với Google</button>
 </form>
 
-<form id="registerForm" class="auth-form" style="display:none" onsubmit="event.preventDefault(); registerEmail(event); return false;">
+<form id="registerForm" class="auth-form" style="display:none" onsubmit="registerEmail(event)">
 <div style="text-align:center"><label class="profile-avatar-wrap"><img id="registerPreview" class="profile-avatar" src="" alt=""><button type="button" class="edit-icon" onclick="document.getElementById('registerAvatar').click()">＋</button><input id="registerAvatar" class="hidden-file" type="file" accept="image/*" onchange="previewAvatar(event,'registerPreview')"></label><div style="color:#66809a;font-size:.78rem;margin:5px">Ảnh đại diện</div></div>
 <div class="field-wrap"><span>👤</span><input id="registerDisplay" placeholder="Tên hiển thị" required></div><div class="field-wrap"><span>📧</span><input id="registerEmail" type="email" placeholder="Email" required></div><div class="field-wrap"><span>🔒︎</span><input id="registerPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" minlength="6" required><button type="button" class="password-toggle" onclick="togglePassword('registerPassword',this)">◉</button></div>
 <label class="auth-check"><input type="checkbox" id="rememberRegister" checked> Lưu thông tin đăng nhập cho lần sau</label><button class="auth-submit">Đăng ký</button></form></div>
@@ -1090,17 +1090,6 @@ function renderAuth(){
   updateJournalInput(); refreshUserBadges();
 }
 
-async function loadJournal(){
-  try {
-    let {data}=await db.from("comments").select("*").is("char_id",null).order("created_at",{ascending:false});
-    data = await attachProfiles(data);
-    const roots=(data||[]).filter(x=>!x.parent_id);
-    const el=document.getElementById("journalComments");
-    if(el) el.innerHTML=roots.map(x=>commentHTML(x,data||[])).join("")||`<div style="text-align:center;color:#99a7b6;padding:15px">Chưa có lưu bút nào. Hãy là người đầu tiên lưu lại nhật ký nơi đây!</div>`;
-    refreshUserBadges();
-  } catch(e) { console.log("Lỗi load journal:", e); }
-}
-  
 function updateJournalInput(){
   const box = document.getElementById("journalFormBox");
   if(!box) return;
@@ -1159,29 +1148,25 @@ async function registerEmail(e){
     const {data,error}=await db.auth.signUp({email,password,options:{data:{display_name:display}}});
     if(error)throw error;
     if(data.user){
+      currentUser=data.user;
       let avatar=null;
       const f=document.getElementById("registerAvatar").files[0];
       if(f&&data.session)avatar=await uploadAvatar(f);
-      
       if(data.session){
         await db.from("profiles").upsert({id:data.user.id,display_name:display,avatar_url:avatar});
-        toast("Đăng ký thành công!");
+        await loadProfile();
       }else toast("Đăng ký xong. Hãy kiểm tra email.");
     }
   }catch(err){toast(err.message)}
 }
 
 async function loginEmail(e){
-  if(e) e.preventDefault();
-  const email=document.getElementById("loginEmail").value.trim();
-  const password=document.getElementById("loginPassword").value;
-  
-  const {error}=await db.auth.signInWithPassword({email, password});
-  
-  if(error){
-    toast("Lỗi đăng nhập: " + error.message);
-    return;
-  }
+  e.preventDefault();
+  const email=document.getElementById("loginEmail").value.trim(),password=document.getElementById("loginPassword").value;
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error){toast(error.message);return}
+  currentUser=data.user;
+  await loadProfile();
   toast("Chào mừng bạn trở lại.");
 }
 
@@ -1536,28 +1521,25 @@ async function postReply(parent, content, charId){
     let guestName=null;
     if(!currentUser) guestName=prompt("Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
     
-    const {error}=await db.from("comments").insert({
-        parent_id: parent, 
-        char_id: charId, 
-        content: content, 
-        user_id: currentUser?.id||null, 
-        guest_name: currentUser?null:guestName, 
-        is_admin: !!isAdmin
-    });
-    
-    if(error) { toast(error.message); return; }
-    
-    toast("Đã trả lời.");
-    
-    if(charId){
-        loadMiniComments(charId); 
-        if(currentChar && currentChar.id === charId) {
-            loadAppComments(charId); 
-        }
-    } else {
-        loadJournal(); 
-    }
+    // Gửi dữ liệu lên Supabase
+const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
+if(error){toast(error.message);return}
+textarea.value=""; 
+removeFeedbackImage();
+
+// --- Logic cộng bông tuyết ---
+if (currentUser && currentProfile) {
+    let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
+    await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
+    currentProfile.snowflakes = newSnowflakes; // Cập nhật local
+    if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin(); // Cập nhật số hiển thị UI nếu đang mở profile
+    toast("Đã gửi bình luận (+5 ❄️)");
+} else {
+    toast("Đã gửi bình luận.");
 }
+// -----------------------------
+
+if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
 
 async function reactComment(id, btn){
     const localKey="liked-cmt-"+id;
@@ -1577,49 +1559,45 @@ async function reactComment(id, btn){
 }
 
 async function deleteComment(id){
-    if(!isAdmin)return;
-    const {error}=await db.from("comments").delete().eq("id",id);
-    if(error)toast(error.message);
-    else{
-        toast("Đã xóa bình luận.");
-        loadJournal();
-        filteredChars.forEach(c=>loadMiniComments(c.id));
-        if(currentChar)loadAppComments(currentChar.id);
-    }
+if(!isAdmin)return;
+const {error}=await db.from("comments").delete().eq("id",id);
+if(error)toast(error.message);
+else{
+toast("Đã xóa bình luận.");
+loadJournal();
+filteredChars.forEach(c=>loadMiniComments(c.id));
+if(currentChar)loadAppComments(currentChar.id);
+}
 }
 
 async function postComment(charId){
-    const textarea=charId?document.getElementById("mini-input-"+charId):document.getElementById("journalText");
-    const content=textarea?.value.trim();if(!content && !currentFeedbackImg)return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
-    let guestName=null;
-    if(!currentUser){
-        if(charId){ guestName=document.getElementById("mini-nick-"+charId)?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
-        else{ guestName=document.getElementById("journalNickname")?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
-    }
+const textarea=charId?document.getElementById("mini-input-"+charId):document.getElementById("journalText");
+const content=textarea?.value.trim();if(!content && !currentFeedbackImg)return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
+let guestName=null;
+if(!currentUser){
+if(charId){ guestName=document.getElementById("mini-nick-"+charId)?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
+else{ guestName=document.getElementById("journalNickname")?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
+}
 
-    let uploadedImgUrl = null;
-    if(currentFeedbackImg && !charId){
-      try{ uploadedImgUrl = await uploadAvatar(currentFeedbackImg); }catch(e){}
-    }
+let uploadedImgUrl = null;
+if(currentFeedbackImg && !charId){
+  try{ uploadedImgUrl = await uploadAvatar(currentFeedbackImg); }catch(e){}
+}
 
-    const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
-    if(error){toast(error.message);return}
-    textarea.value=""; 
-    removeFeedbackImage();
+const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
+if(error){toast(error.message);return}
+textarea.value=""; 
+removeFeedbackImage();
+toast("Đã gửi bình luận.");
+if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
+}
 
-    // --- Logic cộng bông tuyết ---
-    if (currentUser && currentProfile) {
-        let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
-        await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
-        currentProfile.snowflakes = newSnowflakes; 
-        if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin(); 
-        toast("Đã gửi bình luận (+5 ❄️)");
-    } else {
-        toast("Đã gửi bình luận.");
-    }
-    // -----------------------------
-
-    if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
+async function loadJournal(){
+let {data}=await db.from("comments").select("*").is("char_id",null).order("created_at",{ascending:false});
+data=await attachProfiles(data);
+const roots=(data||[]).filter(x=>!x.parent_id);
+document.getElementById("journalComments").innerHTML=roots.map(x=>commentHTML(x,data||[])).join("")||`<div style="text-align:center;color:#8797a9;padding:25px">Chưa có lưu bút nào. Hãy là người đầu tiên lưu lại dấu ấn nơi đây.</div>`;
+refreshUserBadges();
 }
 
 function filterTag(tag){
@@ -1786,22 +1764,8 @@ if(!currentUser) guestName=document.getElementById("appNickname")?.value.trim()|
 const {error}=await db.from("comments").insert({char_id:currentChar.id,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
 if(error)return toast(error.message);
 ta.value="";
-
-if(currentUser) {
-    await addAffinity(currentChar.id,20,"comment");
-    // --- Logic cộng bông tuyết ---
-    if (currentProfile) {
-        let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
-        await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
-        currentProfile.snowflakes = newSnowflakes; // Cập nhật local
-        if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin();
-    }
-    toast("Đã lưu bình luận (+5 ❄️).");
-} else {
-    toast("Đã lưu bình luận.");
-}
-
-await loadAppComments(currentChar.id); loadMiniComments(currentChar.id); 
+if(currentUser)await addAffinity(currentChar.id,20,"comment");
+await loadAppComments(currentChar.id); loadMiniComments(currentChar.id); toast("Đã lưu bình luận.");
 }
 
 async function loadAppComments(id){
