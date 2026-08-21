@@ -1522,24 +1522,92 @@ async function postReply(parent, content, charId){
     if(!currentUser) guestName=prompt("Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
     
     // Gửi dữ liệu lên Supabase
-const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
-if(error){toast(error.message);return}
-textarea.value=""; 
-removeFeedbackImage();
-
-// --- Logic cộng bông tuyết ---
-if (currentUser && currentProfile) {
-    let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
-    await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
-    currentProfile.snowflakes = newSnowflakes; // Cập nhật local
-    if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin(); // Cập nhật số hiển thị UI nếu đang mở profile
-    toast("Đã gửi bình luận (+5 ❄️)");
-} else {
-    toast("Đã gửi bình luận.");
+    const {error}=await db.from("comments").insert({
+        parent_id: parent, 
+        char_id: charId, // Giữ nguyên char_id của bình luận gốc
+        content: content, 
+        user_id: currentUser?.id||null, 
+        guest_name: currentUser?null:guestName, 
+        is_admin: !!isAdmin
+    });
+    
+    if(error) { toast(error.message); return; }
+    
+    toast("Đã trả lời.");
+    
+    // Tự động load lại đúng vị trí để hiện bình luận và tăng số đếm
+    if(charId){
+        loadMiniComments(charId); // Tải lại số lượng ngoài thẻ
+        if(currentChar && currentChar.id === charId) {
+            loadAppComments(charId); // Tải lại giao diện bên trong thẻ nếu đang mở
+        }
+    } else {
+        loadJournal(); // Tải lại bên mục Lưu Bút
+    }
 }
-// -----------------------------
 
-if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
+async function reactComment(id, btn){
+    const localKey="liked-cmt-"+id;
+    if(localStorage.getItem(localKey)) return toast("Bạn đã thả tim bình luận này rồi.");
+    localStorage.setItem(localKey,"1");
+
+    const heartSpan = btn.querySelector('.cmt-heart');
+    if(heartSpan) heartSpan.textContent = "♥";
+    btn.classList.add("liked");
+
+    const countSpan = document.getElementById("cmt-like-count-"+id);
+    let currentCount = parseInt(countSpan.textContent) || 0;
+    countSpan.textContent = currentCount + 1;
+
+    try{ await fetch(`${STATS_API}/hit/VanillaDaydream_Cmt/${id}`); }catch(e){}
+    toast("Đã thả tim bình luận ❤️");
+}
+
+async function deleteComment(id){
+    if(!isAdmin)return;
+    const {error}=await db.from("comments").delete().eq("id",id);
+    if(error)toast(error.message);
+    else{
+        toast("Đã xóa bình luận.");
+        loadJournal();
+        filteredChars.forEach(c=>loadMiniComments(c.id));
+        if(currentChar)loadAppComments(currentChar.id);
+    }
+}
+
+async function postComment(charId){
+    const textarea=charId?document.getElementById("mini-input-"+charId):document.getElementById("journalText");
+    const content=textarea?.value.trim();if(!content && !currentFeedbackImg)return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
+    let guestName=null;
+    if(!currentUser){
+        if(charId){ guestName=document.getElementById("mini-nick-"+charId)?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
+        else{ guestName=document.getElementById("journalNickname")?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
+    }
+
+    let uploadedImgUrl = null;
+    if(currentFeedbackImg && !charId){
+      try{ uploadedImgUrl = await uploadAvatar(currentFeedbackImg); }catch(e){}
+    }
+
+    const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
+    if(error){toast(error.message);return}
+    textarea.value=""; 
+    removeFeedbackImage();
+
+    // --- Logic cộng bông tuyết ---
+    if (currentUser && currentProfile) {
+        let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
+        await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
+        currentProfile.snowflakes = newSnowflakes; // Cập nhật local
+        if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin(); // Cập nhật số hiển thị UI nếu đang mở profile
+        toast("Đã gửi bình luận (+5 ❄️)");
+    } else {
+        toast("Đã gửi bình luận.");
+    }
+    // -----------------------------
+
+    if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
+}
 
 async function reactComment(id, btn){
     const localKey="liked-cmt-"+id;
@@ -1764,8 +1832,22 @@ if(!currentUser) guestName=document.getElementById("appNickname")?.value.trim()|
 const {error}=await db.from("comments").insert({char_id:currentChar.id,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
 if(error)return toast(error.message);
 ta.value="";
-if(currentUser)await addAffinity(currentChar.id,20,"comment");
-await loadAppComments(currentChar.id); loadMiniComments(currentChar.id); toast("Đã lưu bình luận.");
+
+if(currentUser) {
+    await addAffinity(currentChar.id,20,"comment");
+    // --- Logic cộng bông tuyết ---
+    if (currentProfile) {
+        let newSnowflakes = (currentProfile.snowflakes || 0) + 5;
+        await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
+        currentProfile.snowflakes = newSnowflakes; // Cập nhật local
+        if(document.getElementById("checkinWrap")?.innerHTML !== "") renderCheckin();
+    }
+    toast("Đã lưu bình luận (+5 ❄️).");
+} else {
+    toast("Đã lưu bình luận.");
+}
+
+await loadAppComments(currentChar.id); loadMiniComments(currentChar.id); 
 }
 
 async function loadAppComments(id){
