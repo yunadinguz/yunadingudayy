@@ -1090,6 +1090,17 @@ function renderAuth(){
   updateJournalInput(); refreshUserBadges();
 }
 
+async function loadJournal(){
+  try {
+    let {data}=await db.from("comments").select("*").is("char_id",null).order("created_at",{ascending:false});
+    data = await attachProfiles(data);
+    const roots=(data||[]).filter(x=>!x.parent_id);
+    const el=document.getElementById("journalComments");
+    if(el) el.innerHTML=roots.map(x=>commentHTML(x,data||[])).join("")||`<div style="text-align:center;color:#99a7b6;padding:15px">Chưa có lưu bút nào. Hãy là người đầu tiên lưu lại nhật ký nơi đây!</div>`;
+    refreshUserBadges();
+  } catch(e) { console.log("Lỗi load journal:", e); }
+}
+  
 function updateJournalInput(){
   const box = document.getElementById("journalFormBox");
   if(!box) return;
