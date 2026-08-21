@@ -1531,9 +1531,14 @@ async function postReply(parent, content, charId){
         is_admin: !!isAdmin
     });
     
-    if(error) { toast(error.message); return; }
+if(error) { toast(error.message); return; }
     
-    toast("Đã trả lời.");
+    if (currentUser) {
+        await rewardSnowflakes(5);
+        toast("Đã trả lời. Nhận được +5 ❄️");
+    } else {
+        toast("Đã trả lời.");
+    }
     
     // Tự động load lại đúng vị trí để hiện bình luận và tăng số đếm
     if(charId){
@@ -1575,6 +1580,17 @@ if(currentChar)loadAppComments(currentChar.id);
 }
 }
 
+async function rewardSnowflakes(amount) {
+  if (!currentUser || !currentProfile) return;
+  let newSnowflakes = (currentProfile.snowflakes || 0) + amount;
+  const {error} = await db.from("profiles").update({ snowflakes: newSnowflakes }).eq("id", currentUser.id);
+  if (!error) {
+    currentProfile.snowflakes = newSnowflakes;
+    const shopSnowText = document.getElementById("shop-snowflakes");
+    if(shopSnowText) shopSnowText.textContent = newSnowflakes;
+  }
+}
+
 async function postComment(charId){
 const textarea=charId?document.getElementById("mini-input-"+charId):document.getElementById("journalText");
 const content=textarea?.value.trim();if(!content && !currentFeedbackImg)return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
@@ -1593,7 +1609,14 @@ const {error}=await db.from("comments").insert({char_id:charId||null,content,ima
 if(error){toast(error.message);return}
 textarea.value=""; 
 removeFeedbackImage();
-toast("Đã gửi bình luận.");
+
+if (currentUser) {
+    await rewardSnowflakes(5);
+    toast("Đã gửi bình luận. Nhận được +5 ❄️");
+} else {
+    toast("Đã gửi bình luận.");
+}
+
 if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
 }
 
@@ -1769,8 +1792,14 @@ if(!currentUser) guestName=document.getElementById("appNickname")?.value.trim()|
 const {error}=await db.from("comments").insert({char_id:currentChar.id,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
 if(error)return toast(error.message);
 ta.value="";
-if(currentUser)await addAffinity(currentChar.id,20,"comment");
-await loadAppComments(currentChar.id); loadMiniComments(currentChar.id); toast("Đã lưu bình luận.");
+if(currentUser){
+    await addAffinity(currentChar.id,20,"comment");
+    await rewardSnowflakes(5);
+    toast("Đã lưu bình luận. Nhận được +5 ❄️");
+} else {
+    toast("Đã lưu bình luận.");
+}
+await loadAppComments(currentChar.id); loadMiniComments(currentChar.id);
 }
 
 async function loadAppComments(id){
