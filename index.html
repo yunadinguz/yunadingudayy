@@ -1145,7 +1145,7 @@ lForm.style.display=mode==="login"?"block":"none";
 rForm.style.display=mode==="register"?"block":"none";
 }
 
-  async function registerEmail(e){
+async function registerEmail(e){
   e.preventDefault();
   const email=document.getElementById("registerEmail").value.trim();
   const password=document.getElementById("registerPassword").value;
@@ -1179,14 +1179,25 @@ rForm.style.display=mode==="register"?"block":"none";
 
 async function loginEmail(e){
   e.preventDefault();
-  const email=document.getElementById("loginEmail").value.trim(),password=document.getElementById("loginPassword").value;
+  const email=document.getElementById("loginEmail").value.trim();
+  const password=document.getElementById("loginPassword").value;
+  
   const {data,error}=await db.auth.signInWithPassword({email,password});
-  if(error){toast(error.message);return}
+  
+  if(error){
+      if (error.message.includes("Email not confirmed")) {
+          alert("⚠️ Tài khoản của bạn chưa được kích hoạt!\n\nVui lòng vào hộp thư email (" + email + ") tìm thư của chúng tôi và bấm vào link xác nhận trước khi đăng nhập.");
+      } else {
+          alert("Lỗi đăng nhập: " + error.message); 
+      }
+      return;
+  }
+  
   currentUser=data.user;
   await loadProfile();
   toast("Chào mừng bạn trở lại.");
 }
-
+  
 async function loginGoogle(){
   const {error}=await db.auth.signInWithOAuth({
     provider:"google",
