@@ -1595,6 +1595,57 @@ async function reactComment(id, btn){
     toast("Đã thả tim bình luận ❤️");
 }
 
+  async function replyTo(parentId, charId){
+  if (charId === 'null' || charId === undefined || charId === '') {
+    charId = null;
+  }
+
+  const text = prompt("💬 Nhập nội dung câu trả lời của bạn:");
+  if (!text || !text.trim()) return;
+
+  let guestName = null;
+  if (!currentUser) {
+    guestName = prompt("Danh xưng của bạn (Bỏ trống sẽ là Kẻ Mộng Mơ Vô Danh):") || "Kẻ Mộng Mơ Vô Danh";
+    guestName = guestName.trim() || "Kẻ Mộng Mơ Vô Danh";
+  }
+
+  try {
+    const { error } = await db.from("comments").insert({
+      parent_id: parentId,
+      char_id: charId,
+      content: text.trim(),
+      user_id: currentUser?.id || null,
+      guest_name: currentUser ? null : guestName,
+      is_admin: !!isAdmin
+    });
+
+    if (error) {
+      alert("Lỗi khi gửi câu trả lời: " + error.message);
+      return;
+    }
+
+    if (currentUser) {
+      await rewardSnowflakes(5);
+      toast("Đã trả lời (+5 ❄️)");
+    } else {
+      toast("Đã gửi câu trả lời!");
+    }
+
+    if (charId) {
+      await loadMiniComments(charId);
+      if (currentChar && currentChar.id === charId) {
+        await loadAppComments(charId);
+      }
+    } else {
+      await loadJournal();
+    }
+  } catch (err) {
+    alert("Lỗi hệ thống: " + err.message);
+  }
+}
+
+window.replyTo = replyTo;
+
 async function deleteComment(id){
 if(!isAdmin)return;
 const {error}=await db.from("comments").delete().eq("id",id);
