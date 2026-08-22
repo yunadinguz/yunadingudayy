@@ -537,7 +537,7 @@
 <div id="authGuest">
 <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuth('login')">Đăng nhập</button><button class="auth-tab" onclick="switchAuth('register')">Đăng ký</button></div>
 
-<form id="loginForm" class="auth-form" onsubmit="event.preventDefault(); loginEmail(event);">
+<form id="loginForm" class="auth-form" onsubmit="event.preventDefault(); window.handleLogin(event);">
 <div class="field-wrap"><span>📧</span><input id="loginEmail" type="email" placeholder="Email" required></div>
 <div class="field-wrap"><span>🔒︎</span><input id="loginPassword" type="password" placeholder="Mật khẩu" required><button type="button" class="password-toggle" onclick="togglePassword('loginPassword',this)">◉</button></div>
 <label class="auth-check"><input type="checkbox" id="rememberLogin" checked> Lưu đăng nhập cho lần sau</label>
@@ -545,7 +545,7 @@
 <button type="button" class="google-btn" onclick="loginGoogle()">Tiếp tục với Google</button>
 </form>
 
-<form id="registerForm" class="auth-form" style="display:none" onsubmit="event.preventDefault(); registerEmail(event);">
+<form id="registerForm" class="auth-form" style="display:none" onsubmit="event.preventDefault(); window.handleRegister(event);">
 <div style="text-align:center"><label class="profile-avatar-wrap"><img id="registerPreview" class="profile-avatar" src="" alt=""><button type="button" class="edit-icon" onclick="document.getElementById('registerAvatar').click()">＋</button><input id="registerAvatar" class="hidden-file" type="file" accept="image/*" onchange="previewAvatar(event,'registerPreview')"></label><div style="color:#66809a;font-size:.78rem;margin:5px">Ảnh đại diện</div></div>
 <div class="field-wrap"><span>👤</span><input id="registerDisplay" placeholder="Tên hiển thị" required></div><div class="field-wrap"><span>📧</span><input id="registerEmail" type="email" placeholder="Email" required></div><div class="field-wrap"><span>🔒︎</span><input id="registerPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" minlength="6" required><button type="button" class="password-toggle" onclick="togglePassword('registerPassword',this)">◉</button></div>
 <label class="auth-check"><input type="checkbox" id="rememberRegister" checked> Lưu thông tin đăng nhập cho lần sau</label>
@@ -1145,58 +1145,85 @@ lForm.style.display=mode==="login"?"block":"none";
 rForm.style.display=mode==="register"?"block":"none";
 }
 
-async function registerEmail(e){
-  e.preventDefault();
-  const email=document.getElementById("registerEmail").value.trim();
-  const password=document.getElementById("registerPassword").value;
-  const display=document.getElementById("registerDisplay").value.trim();
+async function handleRegister(e){
+  if(e) e.preventDefault();
+  const email = document.getElementById("registerEmail").value.trim();
+  const password = document.getElementById("registerPassword").value;
+  const display = document.getElementById("registerDisplay").value.trim() || "Kẻ Mộng Mơ";
   
+  if(!email || !password) {
+    alert("Vui lòng nhập đầy đủ Email và Mật khẩu!");
+    return;
+  }
+  if(password.length < 6) {
+    alert("Mật khẩu phải có ít nhất 6 ký tự!");
+    return;
+  }
+
   try{
-    const {data,error}=await db.auth.signUp({email,password,options:{data:{display_name:display}}});
+    const {data, error} = await db.auth.signUp({
+      email: email,
+      password: password,
+      options: { data: { display_name: display } }
+    });
+    
     if(error) {
-        alert("Lỗi đăng ký: " + error.message);
-        return;
+      alert("Lỗi đăng ký: " + error.message);
+      return;
     }
     
     if(data.user){
-      currentUser=data.user;
-      let avatar=null;
-      const f=document.getElementById("registerAvatar").files[0];
-      if(f&&data.session)avatar=await uploadAvatar(f);
-      if(data.session){
-        await db.from("profiles").upsert({id:data.user.id,display_name:display,avatar_url:avatar});
-        await loadProfile();
-      } else {
-        alert("ĐĂNG KÝ THÀNH CÔNG!\n\nVui lòng vào hộp thư email bạn vừa nhập và bấm vào link xác nhận trước khi đăng nhập nhé!");
-        document.getElementById("registerForm").reset();
-        switchAuth('login');
-      }
+      currentUser = data.user;
+      
+      try {
+        await db.from("profiles").upsert({
+          id: data.user.id,
+          display_name: display,
+          snowflakes: 0
+        });
+      } catch(dbErr) {}
+
+      await loadProfile();
+      alert("🎉 Đăng ký thành công!");
+      showView('auth');
     }
   }catch(err){
-      alert("Lỗi hệ thống: " + err.message);
+    alert("Lỗi hệ thống: " + err.message);
   }
 }
 
-async function loginEmail(e){
-  e.preventDefault();
-  const email=document.getElementById("loginEmail").value.trim();
-  const password=document.getElementById("loginPassword").value;
+async function handleLogin(e){
+  if(e) e.preventDefault();
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
   
-  const {data,error}=await db.auth.signInWithPassword({email,password});
-  
-  if(error){
-      if (error.message.includes("Email not confirmed")) {
-          alert("⚠️ Tài khoản của bạn chưa được kích hoạt!\n\nVui lòng vào hộp thư email (" + email + ") tìm thư của chúng tôi và bấm vào link xác nhận trước khi đăng nhập.");
-      } else {
-          alert("Lỗi đăng nhập: " + error.message); 
-      }
-      return;
+  if(!email || !password) {
+    alert("Vui lòng nhập Email và Mật khẩu!");
+    return;
   }
-  
-  currentUser=data.user;
-  await loadProfile();
-  toast("Chào mừng bạn trở lại.");
+
+  try {
+    const {data, error} = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+    
+    if(error){
+      alert("Lỗi đăng nhập: " + error.message); 
+      return;
+    }
+    
+    currentUser = data.user;
+    await loadProfile();
+    toast("✨ Đăng nhập thành công!");
+    showView('auth');
+  } catch(err) {
+    alert("Lỗi hệ thống: " + err.message);
+  }
 }
+
+window.handleRegister = handleRegister;
+window.handleLogin = handleLogin;
   
 async function loginGoogle(){
   const {error}=await db.auth.signInWithOAuth({
