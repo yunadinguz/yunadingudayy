@@ -1002,7 +1002,8 @@ let currentUser=null,currentProfile=null,isAdmin=false,currentChar=null,currentR
 let filteredChars=[...CHARS]; let currentSortMode="normal";
 let currentPage=1; const PER_PAGE=5;
 const profileCache=new Map();
-const charLikesMap={}; const charJourneyMap={};
+const charLikesMap = JSON.parse(localStorage.getItem("cache_char_likes") || "{}");
+const charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || "{}");
 let currentTrackIdx = Math.floor(Math.random() * PLAYLIST.length);
 let wasMusicPlaying = false;
 let currentFeedbackImg = null;
@@ -1424,22 +1425,24 @@ async function loadPublicStats(){
     try {
       let lRes = await fetch(`${STATS_API}/get/${LIKE_NS}/${c.id}`);
       let lData = await lRes.json();
-      charLikesMap[c.id] = lData.value ?? 0;
+      if(lData.value !== undefined) charLikesMap[c.id] = lData.value;
       let lEl = document.getElementById("like-" + c.id);
-      if (lEl) lEl.textContent = charLikesMap[c.id];
+      if (lEl) lEl.textContent = charLikesMap[c.id] || 0;
     } catch (e) {}
 
     try {
       let jRes = await fetch(`${STATS_API}/get/${CLICK_NS}/${c.id}`);
       let jData = await jRes.json();
-      charJourneyMap[c.id] = jData.value ?? 0;
+      if(jData.value !== undefined) charJourneyMap[c.id] = jData.value;
       let jEl = document.getElementById("journey-" + c.id);
-      if (jEl) jEl.textContent = `${charJourneyMap[c.id]} lượt đồng hành`;
+      if (jEl) jEl.textContent = `${charJourneyMap[c.id] || 0} lượt đồng hành`;
     } catch (e) {}
   });
   await Promise.all(promises);
+  localStorage.setItem("cache_char_likes", JSON.stringify(charLikesMap));
+  localStorage.setItem("cache_char_journey", JSON.stringify(charJourneyMap));
 }
-
+  
 async function likeChar(id, containerEl){
 const localKey="liked-"+id;
 if(localStorage.getItem(localKey)) return toast("Bạn đã thả tim nhân vật này rồi.");
@@ -1524,18 +1527,25 @@ const avatarHtml = `<div class="avatar-wrapper-relative" style="width:36px; heig
 
 const isLiked = localStorage.getItem("liked-cmt-" + c.id);
 const heartChar = isLiked ? "♥" : "♡";
+const cachedCmtLikes = localStorage.getItem("count-cmt-" + c.id) || (isLiked ? "1" : "0");
 
+// Tải ngầm lượt like cho bình luận này
 setTimeout(() => {
     fetch(`${STATS_API}/get/VanillaDaydream_Cmt/${c.id}`).then(r=>r.json()).then(d=>{
-        const el = document.getElementById(`cmt-like-count-${c.id}`);
-        if(el) el.textContent = d.value || 0;
+        if(d.value !== undefined){
+            const el = document.getElementById(`cmt-like-count-${c.id}`);
+            if(el) {
+                let finalVal = Math.max(d.value, isLiked ? 1 : 0);
+                el.textContent = finalVal;
+                localStorage.setItem("count-cmt-" + c.id, finalVal);
+            }
+        }
     }).catch(()=>{});
-}, 50);
+}, 100);
 
 const replies=all.filter(r=>r.parent_id===c.id).map(r=>commentHTML(r,all)).join("");
 const imgHtml=c.image_url?`<img src="${escapeHtml(c.image_url)}" class="comment-img">`:'';
 
-// Tìm char_id gốc để đảm bảo các reply cấp 2, cấp 3 vẫn giữ được char_id của nhân vật
 let rootCharId = c.char_id;
 if (!rootCharId && c.parent_id) {
     let p = all.find(x => x.id === c.parent_id);
@@ -1556,7 +1566,7 @@ ${adminBadge}
 ${imgHtml}
 <div class="comment-time">${formatDate(c.created_at)}</div>
 <div class="comment-tools">
-<button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked?'liked':''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">0</span></button>
+<button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked?'liked':''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">${cachedCmtLikes}</span></button>
 <button class="cmt-action-btn" onclick="replyTo('${c.id}', ${safeCharId})">💬 Trả lời</button>
 ${isAdmin?`<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>`:""}
 </div>
@@ -1564,46 +1574,6 @@ ${isAdmin?`<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" sty
 </div>
 </div>
 <div class="reply-list">${replies}</div>`;
-}
-
-function replyTo(id, charId){
-    const t=prompt("Nhập câu trả lời:");
-    if(!t?.trim())return;
-    postReply(id, t.trim(), charId);
-}
-
-async function postReply(parent, content, charId){
-    let guestName=null;
-    if(!currentUser) guestName=prompt("Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh):")||"Kẻ Mộng Mơ Vô Danh";
-    
-    // Gửi dữ liệu lên Supabase
-    const {error}=await db.from("comments").insert({
-        parent_id: parent, 
-        char_id: charId, // Giữ nguyên char_id của bình luận gốc
-        content: content, 
-        user_id: currentUser?.id||null, 
-        guest_name: currentUser?null:guestName, 
-        is_admin: !!isAdmin
-    });
-    
-if(error) { toast(error.message); return; }
-    
-    if (currentUser) {
-        await rewardSnowflakes(5);
-        toast("Đã trả lời. Nhận được +5 ❄️");
-    } else {
-        toast("Đã trả lời.");
-    }
-    
-    // Tự động load lại đúng vị trí để hiện bình luận và tăng số đếm
-    if(charId){
-        loadMiniComments(charId); // Tải lại số lượng ngoài thẻ
-        if(currentChar && currentChar.id === charId) {
-            loadAppComments(charId); // Tải lại giao diện bên trong thẻ nếu đang mở
-        }
-    } else {
-        loadJournal(); // Tải lại bên mục Lưu Bút
-    }
 }
 
 async function reactComment(id, btn){
@@ -1617,7 +1587,9 @@ async function reactComment(id, btn){
 
     const countSpan = document.getElementById("cmt-like-count-"+id);
     let currentCount = parseInt(countSpan.textContent) || 0;
-    countSpan.textContent = currentCount + 1;
+    let newCount = currentCount + 1;
+    countSpan.textContent = newCount;
+    localStorage.setItem("count-cmt-" + id, newCount);
 
     try{ await fetch(`${STATS_API}/hit/VanillaDaydream_Cmt/${id}`); }catch(e){}
     toast("Đã thả tim bình luận ❤️");
