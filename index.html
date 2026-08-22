@@ -1145,7 +1145,7 @@ lForm.style.display=mode==="login"?"block":"none";
 rForm.style.display=mode==="register"?"block":"none";
 }
 
-async function registerEmail(e){
+  async function registerEmail(e){
   e.preventDefault();
   const email=document.getElementById("registerEmail").value.trim();
   const password=document.getElementById("registerPassword").value;
@@ -1167,24 +1167,14 @@ async function registerEmail(e){
         await db.from("profiles").upsert({id:data.user.id,display_name:display,avatar_url:avatar});
         await loadProfile();
       } else {
-        toast("Đăng ký thành công!");
+        alert("ĐĂNG KÝ THÀNH CÔNG!\n\nVui lòng vào hộp thư email bạn vừa nhập và bấm vào link xác nhận trước khi đăng nhập nhé!");
+        document.getElementById("registerForm").reset();
+        switchAuth('login');
       }
     }
   }catch(err){
       alert("Lỗi hệ thống: " + err.message);
   }
-}
-    if(data.user){
-      currentUser=data.user;
-      let avatar=null;
-      const f=document.getElementById("registerAvatar").files[0];
-      if(f&&data.session)avatar=await uploadAvatar(f);
-      if(data.session){
-        await db.from("profiles").upsert({id:data.user.id,display_name:display,avatar_url:avatar});
-        await loadProfile();
-      }else toast("Đăng ký xong. Hãy kiểm tra email.");
-    }
-  }catch(err){toast(err.message)}
 }
 
 async function loginEmail(e){
