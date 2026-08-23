@@ -757,13 +757,15 @@ const CHARS=[
 ];
 
 const PLAYLIST = [
-  { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/avatar.jpg" },
-  { title: "snow flower", artist: "V feat peakboy", file: "MUSIC/snowflower.mp3", cover: "images/avatar.jpg" },
-  { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/avatar.jpg" },
-  { title: "chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/avatar.jpg" },
-  { title: "snowman", artist: "sia", file: "MUSIC/snowman.mp3", cover: "images/avatar.jpg" },
-  { title: "đợi", artist: "52Hz", file: "MUSIC/doi.mp3", cover: "images/avatar.jpg" },
-  { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/avatar.jpg" },
+  { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/limkim.jpg" },
+  { title: "snow flower", artist: "V feat peakboy", file: "MUSIC/snowflower.mp3", cover: "images/snowflower.jpg" },
+  { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/lastchristmas.jpg" },
+  { title: "chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/changgionggiangsinh.jpg" },
+  { title: "snowman", artist: "sia", file: "MUSIC/snowman.mp3", cover: "images/snowman.jpg" },
+  { title: "đợi", artist: "52Hz", file: "MUSIC/doi.mp3", cover: "images/doi.jpg" },
+  { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/pages.jpg" },
+  { title: "lỡ một mai tôi quên tên người", artist: "Khiem", file: "MUSIC/lomotmaitoiquentennguoi.mp3", cover: "images/lomotmaitoiquentennguoi.jpg" },
+  { title: "all i want for christmas is you", artist: "Mariah Carey", file: "MUSIC/pages.mp3", cover: "images/alliwant.jpg" },
   { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/avatar.jpg" }
 ];
 
@@ -2227,7 +2229,7 @@ function openEditProfile() {
   // Frame rỗng (tháo khung)
   let framesHtml = `
     <div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this)">
-      <div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Tháo</div>
+      <div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Gỡ bỏ</div>
     </div>`;
     
   framesHtml += FRAMES.filter(f => owned.includes(f.id)).map(f => `
