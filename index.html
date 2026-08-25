@@ -474,21 +474,22 @@
 <nav class="fb-nav">
 <button class="nav-item active" id="nav-library" onclick="showView('library')">🏠︎ Nhân vật</button>
 
+<button class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</button>
+<button class="nav-item" id="nav-journal" onclick="showView('journal')">Lưu bút &amp; Góp Ideas</button>
+
+<div class="dropdown">
+<button class="nav-item">Lệnh ▾</button>
+<div class="dropdown-content">
+<a href="https://docs.google.com/document/d/1fNAHcfcI2eJZ3iDHwZ6cjWFvZINnufsbJ5h8jzS8dPU/edit?usp=sharing" target="_blank">Lệnh hỗ trợ</a>
+<a href="https://docs.google.com/document/u/0/d/1wtlDGVuUhRbcdiEOrnSmWVYQyMScLhRBCvTPn1xK408/mobilebasic" target="_blank">Lệnh giải trí</a>
+</div>
+</div>
 <div class="dropdown">
 <button class="nav-item">Liên hệ ▾</button>
 <div class="dropdown-content">
 <a href="https://www.facebook.com/yuna.zdayy" target="_blank">Facebook</a>
 <a href="https://discord.gg/FSU3de4cs6" target="_blank">Discord</a>
 <a href="https://www.dokichat.club/en/profile" target="_blank">Doki</a>
-</div>
-</div>
-<button class="nav-item" id="nav-journal" onclick="showView('journal')">Lưu bút &amp; Góp Ideas</button>
-<button class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</button>
-<div class="dropdown">
-<button class="nav-item">Lệnh ▾</button>
-<div class="dropdown-content">
-<a href="https://docs.google.com/document/d/1fNAHcfcI2eJZ3iDHwZ6cjWFvZINnufsbJ5h8jzS8dPU/edit?usp=sharing" target="_blank">Lệnh hỗ trợ</a>
-<a href="https://docs.google.com/document/u/0/d/1wtlDGVuUhRbcdiEOrnSmWVYQyMScLhRBCvTPn1xK408/mobilebasic" target="_blank">Lệnh giải trí</a>
 </div>
 </div>
 <button class="nav-item" id="nav-shop" onclick="showView('shop')">Cửa hàng</button>
@@ -750,11 +751,11 @@ const CHARS=[
 {id:"ha-thien-dat",name:"Hạ Thiên Dật (夏天逸)",img:"images/hathiendat.jpg",tagline:"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ.",tags:["Hiện Đại","TMTM","TXVT","Ngọt","Ngoài lạnh trong nóng","Yêu thầm"],profile:"",doki:"https://www.dokichat.club/chat/9746f261-9250-45c7-ba26-6c112bfd586c?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221QS2HQaDGgW78AkNlMvtXX7wcH4d0zUfJ%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/5agMD8C8GPhDsJ67Le5YDG/H-Thin-Dt-?theme=icicle",created:"2026-06-25T12:00:00Z"},
 {id:"tri-due-khai",name:"Trì Duệ Khải (池睿凯)",img:"images/triduekhai.jpg",tagline:"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!",tags:["Hiện Đại","Ma-Người","Ngọt"],profile:"",doki:"https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/4pHEbWeAQyqS3fNDaLYhzm/Tr-Du-Khi-?theme=icicle",created:"2026-06-25T12:00:00Z"},
 {id:"tran-da",name:"Trần Dã (陈野)",img:"images/tranda.jpg",tagline:"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?",tags:["Hiện Đại","Age-gap","Ngược Tâm","Xã hội đen","Slow-Burn","Nuôi từ nhỏ"],profile:"",doki:"https://www.dokichat.club/chat/25514c37-f627-47d4-bd7c-5c0291876285?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2215VE7_N8lmyk3XvljicbPYE1OnBOAdiW5%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"",created:"2026-06-02T12:00:00Z"},
-{id:"tham-nhat-chu",name:"Thẩm Nhất Chu (沈以舟)",img:"images/thamnhatchu.jpg",tagline:"Giáo sư Thẩm cấm dục chính là bạn trai qua mạng của tôi!",tags:["Hiện Đại","Ngọt","Giáo sư","Yêu thầm"],profile:"",doki:"https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221WKA71eGJq11zi40y5_pwFH9HWixewWqh%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/7f9oqp7C3gjLu6MlVPR9L0/Thm-Nht-Chu-?theme=icicle",created:"2026-06-01T12:00:00Z"},
+{id:"tham-nhat-chu",name:"Thẩm Nhất Chu (沈以舟)",img:"images/thamnhatchu.jpg",tagline:"Giáo sư Thẩm cấm dục chính là bạn trai qua mạng của tôi!",tags:["Hiện Đại","Ngọt","Giáo sư-Sinh Viên","Yêu thầm","R16"],profile:"",doki:"https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221WKA71eGJq11zi40y5_pwFH9HWixewWqh%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/7f9oqp7C3gjLu6MlVPR9L0/Thm-Nht-Chu-?theme=icicle",created:"2026-06-01T12:00:00Z"},
 {id:"tri-triet-minh",name:"Trì Triệt Minh (池彻明)",img:"images/tritrietminh.jpg",tagline:"Nhật ký cua đổ người 'Out meta': Sếp tổng 40 tuổi thật thơm!",tags:["Hiện Đại","Sếp-Nhân Viên","Age-gap","Ngọt","Slow-Burn"],profile:"",doki:"",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221VMQV4GWygOnBGHQLMijBp9F8ZmmR8gMb%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/56NlG1HqQmltgSGuVd6BIk/Tr-Trit-Minh-?theme=icicle",created:"2026-07-25T12:00:00Z"},
 {id:"tri-tieu-han",name:"Trì Tiêu Hàn (池萧寒)",img:"images/tritieuhan.jpg",tagline:"Đàn em của tôi hình như biết yêu rồi...!?",tags:["Hiện Đại","TXVT","Ngọt","Hồng Hài Nhi","Yêu thầm"],profile:"",doki:"",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221xPmo_REdZ8OtY4MzS3cL3HLboatoF3pg%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/741JfoCGXFzR9Xy0V8JARe/Tr-Tiu-Hn-?theme=icicle",created:"2026-07-31T12:00:00Z"},
 {id:"tri-diec-than",name:"Trì Diệc Thần (池亦辰)",img:"images/tridiecthan.jpg",tagline:"Em thư ký lẳng lơ bị gã Sếp phát hiện ra rồi!",tags:["Hiện Đại","Sếp-Nhân Viên","R21"],profile:"",pass:"eMthuKYdAmDANG",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221hxxK-xvEy6ZOhmhbC6lMURoLvXwH43Yk%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/44i0Co5wcdCZLCtz6iGOg7/Tr-Dic-Thn-?theme=icicle",created:"2026-08-06T12:00:00Z"},
-{id:"tri-mo-tham",name:"Trì Mộ Thâm (池慕深)",img:"images/trimotham.jpg",tagline:"Nếu biết được bộ mặt thật của tôi, liệu em có còn nhìn tôi bằng ánh mắt dịu dàng như vậy không?",tags:["Hiện Đại","Bạn thân","R21","NTR", "Văn nhã bại hoại", "Tâm cơ"],profile:"",doki:"",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221qSgJQTilJK-LH_LpZkLRITL0-qpTTKgy%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/3EK2QbHmr0iNmj4Tnjr5QM/Tr-M-Thm?theme=icicle",created:"2026-08-24T12:00:00Z"}
+{id:"tri-mo-tham",name:"Trì Mộ Thâm (池慕深)",img:"images/trimotham.jpg",tagline:"Nếu biết được bộ mặt thật của tôi, liệu em có còn nhìn tôi bằng ánh mắt dịu dàng như vậy không?",tags:["Hiện Đại","Bạn thân","R21","NTR", "Văn nhã bại hoại", "Tâm cơ"],profile:"",pass:"banThaNTAMCoMuOnNtrVOBan",doki:"",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221qSgJQTilJK-LH_LpZkLRITL0-qpTTKgy%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/3EK2QbHmr0iNmj4Tnjr5QM/Tr-M-Thm?theme=icicle",created:"2026-08-24T12:00:00Z"}
 ];
 
 const PLAYLIST = [
