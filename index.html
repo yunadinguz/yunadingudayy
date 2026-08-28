@@ -2071,7 +2071,7 @@ function createSnow(){const box=document.getElementById("snow-container");for(le
 function createIntroSnow(){const box=document.getElementById("intro-snow-container");for(let i=0;i<25;i++){const s=document.createElement("span");s.className="intro-flake";s.textContent=["❄","❅","✦","❆"][Math.floor(Math.random()*4)];s.style.left=Math.random()*100+"%";s.style.top=(-10-Math.random()*100)+"px";s.style.fontSize=10+Math.random()*16+"px";s.style.animationDuration=8+Math.random()*10+"s";s.style.animationDelay=-Math.random()*10+"s";s.style.setProperty("--drift",(Math.random()*80-40)+"px");box.appendChild(s)}}
 
 /* === LOGIC SHOP, ĐIỂM DANH & CHỈNH SỬA === */
-const FRAMES = Array.from({length: 16}, (_, i) => ({ id: `khung${i+1}`, src: `images/khung${i+1}.png`, price: 60 }));
+const FRAMES = Array.from({length: 18}, (_, i) => ({ id: `khung${i+1}`, src: `images/khung${i+1}.png`, price: 60 }));
 
 function renderShop() {
   if(!currentProfile) { document.getElementById("shop-snowflakes").textContent = "0"; }
