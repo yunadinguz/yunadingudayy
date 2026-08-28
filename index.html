@@ -381,7 +381,8 @@
 /* CSS CHO TÍNH NĂNG MỚI (SHOP, CHECK-IN, KHUNG AVATAR) */
 /* Cửa hàng */
 .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 20px; }
-.shop-item { background: #fff; border: 1px solid #dcebf5; border-radius: 20px; padding: 12px; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center;}
+.shop-item { background: #fff; border: 1px solid #dcebf5; border-radius: 20px; padding: 12px; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; margin-top: 10px;}
+.shop-price-tag { position: absolute; top: -12px; left: -12px; background: #fff; border: 1.5px solid var(--light); color: var(--blue); padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; z-index: 3; box-shadow: 0 4px 10px rgba(121,172,217,0.2); }
 .shop-item.owned { opacity: 0.6; pointer-events: none; }
 .shop-item-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; }
 .shop-btn { border: 0; background: #79ACD9; color: #fff; border-radius: 12px; padding: 6px 12px; font-weight: 600; font-size: 0.85rem; width: 100%; margin-top: auto; }
@@ -443,6 +444,30 @@
 .avatar-wrapper-relative {
     border-radius: 50%;
 }
+
+/* CSS Tabs Chỉnh Sửa & Danh Hiệu */
+.edit-tabs { display: flex; border-bottom: 1px solid #dcebf5; margin: 15px 0 10px; }
+.edit-tab { flex: 1; text-align: center; padding: 8px; font-weight: 700; color: #8797a9; cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; }
+.edit-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.edit-section { display: none; }
+.edit-section.active { display: block; animation: fadeInView .3s ease forwards; }
+.title-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: .2s; }
+.title-item.selected { border-color: var(--blue); background: #e6f2fc; box-shadow: 0 0 0 1px var(--blue); }
+
+/* Danh hiệu Hologram */
+.badge.diep-khuc { background: linear-gradient(90deg, #b8c6db 0%, #f5f7fa 100%); position: relative; overflow: hidden; border: 1px solid #a3bded; color: #4a5568; box-shadow: 0 0 10px rgba(163,189,237, 0.6); font-weight: 800;}
+.badge.diep-khuc::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent); animation: holoLight 1.5s infinite linear; }
+@keyframes holoLight { 100% { left: 200%; } }
+
+/* Hòm thư */
+.mail-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-bottom: 1px solid #dcebf5; cursor: pointer; transition: .2s; background: #fff; }
+.mail-item.unread { background: #f5faff; font-weight: bold; }
+.mail-item.active-mail { background: #eaf5ff; border-left: 4px solid var(--blue); }
+.mail-dot { width: 8px; height: 8px; background: #e53e3e; border-radius: 50%; display: inline-block; margin-right: 4px; opacity: 0; }
+.mail-item.unread .mail-dot { opacity: 1; }
+.mail-title { color: var(--navy); font-size: 0.95rem; margin-bottom: 4px; }
+.mail-sender { color: #8797a9; font-size: 0.8rem; font-weight: normal; }
+.mail-content-view { background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; padding: 16px; margin-top: 15px; text-align: left; font-size: 0.9rem; line-height: 1.6; display: none; }
 </style>
 </head>
 <body>
@@ -578,8 +603,28 @@
 
 <div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2>🔮 Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
 
-<div class="floating-left">
-<button class="notif-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
+<div class="floating-left" style="display: flex; flex-direction: column; gap: 10px;">
+  <button class="notif-btn" id="mailBtn" onclick="openMailbox()">📩<span class="notif-badge" id="mailBadge" style="display:none">0</span></button>
+  <button class="notif-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
+</div>
+
+<!-- Modal Hòm Thư -->
+<div id="mailboxModal" class="custom-modal">
+  <div class="modal-box" style="width: min(500px, 94%); max-height: 80vh; display: flex; flex-direction: column;">
+    <button class="close-modal" onclick="closeModal('mailboxModal')">×</button>
+    <h2 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Hòm Thư</h2>
+    
+    <div style="display:flex; justify-content:space-between; margin-bottom: 10px;" id="adminMailTools"></div>
+    
+    <div style="flex: 1; overflow-y: auto; max-height: 35vh; border: 1px solid #dcebf5; border-radius: 12px; padding: 5px; text-align: left;" id="mailList"></div>
+    
+    <div id="mailDetail" class="mail-content-view">
+      <h3 id="mDetailTitle" style="color:var(--blue); margin: 0 0 5px;"></h3>
+      <div style="font-size: 0.8rem; color: #8797a9; margin-bottom: 10px;"><span id="mDetailSender"></span> • <span id="mDetailTime"></span></div>
+      <div id="mDetailBody" style="color: var(--navy); white-space: pre-wrap;"></div>
+      <div id="mDetailAction" style="margin-top:15px; text-align:center;"></div>
+    </div>
+  </div>
 </div>
 
 <div id="wechatModal" class="custom-modal">
@@ -606,7 +651,10 @@
       <div id="spTitle" class="spotify-title">Dracula</div>
       <div class="spotify-artist"><span id="spArtist">Tame Impala</span></div>
     </div>
-    <button class="spotify-play-btn" id="spPlayBtn" onclick="toggleSpotifyPlay()">▶</button>
+    <div style="display:flex; gap: 8px;">
+  <button id="spLoopBtn" style="width:42px; height:42px; border-radius:50%; background:#f0f7ff; border:1px solid #dcebf5; color:#78889b; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s;" onclick="toggleLoop()">⇄</button>
+  <button class="spotify-play-btn" id="spPlayBtn" onclick="toggleSpotifyPlay()">▶</button>
+</div>
   </div>
   <div class="spotify-list-title">Danh sách bài hát</div>
   <div class="spotify-playlist" id="spPlaylist"></div>
@@ -634,14 +682,15 @@
 </div>
 
 <!-- Modal Chỉnh sửa thông tin -->
+<!-- Modal Chỉnh sửa thông tin -->
 <div id="editProfileModal" class="custom-modal">
   <div class="modal-box" style="text-align: left;">
-    <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 20px;">
-      <button style="border:0; background:rgba(121, 172, 217, 0.15); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:var(--blue); font-weight:bold; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);" onclick="closeModal('editProfileModal')">←</button>
+    <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 10px;">
+      <button style="border:0; background:rgba(121, 172, 217, 0.15); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:var(--blue); font-weight:bold; cursor:pointer;" onclick="closeModal('editProfileModal')">←</button>
       <h2 style="margin:0; text-align:left;">Thông Tin Cá Nhân</h2>
     </div>
     
-    <div style="text-align:center; margin-bottom:20px;">
+    <div style="text-align:center; margin-bottom:15px;">
       <div class="avatar-wrapper-relative" style="width: 100px; height: 100px;">
         <img id="editPreviewAvatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" src="" alt="">
         <img id="editPreviewFrame" class="frame-overlay" src="" style="display:none;" alt="">
@@ -651,14 +700,26 @@
         <input id="editAvatarFile" class="hidden-file" type="file" accept="image/*" onchange="previewNewAvatar(event)">
       </div>
     </div>
-
     <div class="field-wrap">
       <div style="font-size:0.85rem; color:var(--text); margin-bottom:4px; font-weight:600;">Nickname</div>
       <input id="editDisplayName" placeholder="Nhập tên của bạn">
     </div>
 
-    <div style="font-size:0.85rem; color:var(--text); margin:15px 0 5px; font-weight:600;">Đổi Khung Đại Diện (Đang sở hữu)</div>
-    <div class="edit-frames-grid" id="editFramesGrid"></div>
+    <!-- TABS -->
+    <div class="edit-tabs">
+      <div class="edit-tab active" onclick="switchEditTab('frames')">Khung Ảnh Đại Diện</div>
+      <div class="edit-tab" onclick="switchEditTab('titles')">Danh Hiệu</div>
+    </div>
+
+    <!-- Tab Khung -->
+    <div id="tab-frames" class="edit-section active">
+      <div class="edit-frames-grid" id="editFramesGrid"></div>
+    </div>
+
+    <!-- Tab Danh Hiệu -->
+    <div id="tab-titles" class="edit-section">
+      <div style="max-height: 200px; overflow-y: auto; padding-right: 5px;" id="editTitlesList"></div>
+    </div>
 
     <button class="auth-submit" style="margin-top:20px;" onclick="saveEditProfile()">Lưu</button>
   </div>
@@ -1263,11 +1324,29 @@ function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavi
 const audioEl = document.getElementById("bg-music");
 const cdBtn = document.getElementById("music-toggle");
 
+let isLooping = false;
+
 function initSpotify(){
   loadTrackInfo(currentTrackIdx);
   audioEl.onplay = () => { cdBtn.classList.add("music-playing"); updateSpotifyPlayBtn(true); };
   audioEl.onpause = () => { cdBtn.classList.remove("music-playing"); updateSpotifyPlayBtn(false); };
-  audioEl.onended = () => { nextSpotifyTrack(); };
+  audioEl.onended = () => { 
+    if (isLooping) {
+      audioEl.currentTime = 0; audioEl.play().catch(()=>{});
+    } else {
+      nextSpotifyTrack(); 
+    }
+  };
+}
+
+function toggleLoop() {
+  isLooping = !isLooping;
+  const loopBtn = document.getElementById("spLoopBtn");
+  if(isLooping) {
+    loopBtn.style.background = "#e6f2fc"; loopBtn.style.color = "var(--blue)"; loopBtn.style.borderColor = "var(--blue)";
+  } else {
+    loopBtn.style.background = "#f0f7ff"; loopBtn.style.color = "#78889b"; loopBtn.style.borderColor = "#dcebf5";
+  }
 }
 
 function loadTrackInfo(idx){
@@ -1785,31 +1864,36 @@ await addAffinity(charId,10,"daily"); toast("Hôm nay +10 hảo cảm ✦");
 }
 
 async function refreshUserBadges(){
-if(!currentUser)return;
-const {data}=await db.from("affinities").select("char_id,points").eq("user_id",currentUser.id);
-let best = null;
-if(data && data.length > 0){
-  const sorted = [...data].sort((a,b)=>b.points-a.points);
-  best = sorted[0];
-}
-const c = CHARS.find(x => x.id === best?.char_id) || CHARS[0];
-const charCleanName = c.name.split(" (")[0];
-const title = titleFor({ points: best?.points || 0, name: charCleanName });
-const [, cls] = levelOf(best?.points || 0);
+  if(!currentUser) return;
+  const {data}=await db.from("affinities").select("char_id,points").eq("user_id",currentUser.id);
+  let best = null;
+  if(data && data.length > 0){
+    const sorted = [...data].sort((a,b)=>b.points-a.points);
+    best = sorted[0];
+  }
+  const c = CHARS.find(x => x.id === best?.char_id) || CHARS[0];
+  const charCleanName = c.name.split(" (")[0];
+  let title = titleFor({ points: best?.points || 0, name: charCleanName });
+  let [, cls] = levelOf(best?.points || 0);
 
-document.querySelectorAll(`[data-user="${currentUser.id}"]`).forEach(el=>{
-el.textContent=title;
-el.className="badge "+cls;
-});
+  // Ghi đè nếu user chọn danh hiệu tùy chỉnh
+  if(currentProfile && currentProfile.equipped_title) {
+    if(currentProfile.equipped_title === 'diep_khuc') { title = "Điệp Khúc Bất Tận"; cls = "diep-khuc"; }
+  }
 
-const g=document.getElementById("globalBadge");
-if(g) {
-    g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
-    if (cls === 'partner' && !isAdmin) {
-        const wrap = document.getElementById('mainAvatarWrapper');
-        if (wrap) wrap.classList.add('cat-ears-wrap');
-    }
-}
+  document.querySelectorAll(`[data-user="${currentUser.id}"]`).forEach(el=>{
+    el.textContent=title; el.className="badge "+cls;
+  });
+
+  const g=document.getElementById("globalBadge");
+  if(g) {
+      g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
+      const wrap = document.getElementById('mainAvatarWrapper');
+      if (wrap) {
+        if(cls === 'partner' && !isAdmin) wrap.classList.add('cat-ears-wrap');
+        else wrap.classList.remove('cat-ears-wrap');
+      }
+  }
 }
 
 async function openAppDetail(id){
@@ -1952,6 +2036,134 @@ document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"
 },50);
 }
 
+// ====== SYSTEM MAIL & REWARDS ======
+let allMails = [];
+let readMails = [];
+
+async function loadMailbox() {
+  // Lấy thư hệ thống của Admin (Ai cũng thấy)
+  let {data} = await db.from("comments").select("*").eq("char_id", "ADMIN_MAIL").order("created_at", {ascending: false});
+  allMails = (data || []).map(m => {
+    try { const content = JSON.parse(m.content); return { id: m.id, ...content, time: m.created_at, type: 'admin' }; } 
+    catch(e) { return { id: m.id, title: "Thư hệ thống", sender: "Admin", body: m.content, time: m.created_at, type: 'admin' }; }
+  });
+
+  if (!currentUser) {
+    // Nếu là KHÁCH CHƯA ĐĂNG NHẬP
+    readMails = JSON.parse(localStorage.getItem('guest_read_mails') || '[]');
+  } else {
+    // Nếu là NGƯỜI ĐÃ ĐĂNG NHẬP TÀI KHOẢN
+    readMails = currentProfile?.read_mails || [];
+    
+    // Kiểm tra xem đã bình luận trên 50 lần chưa
+    const { count } = await db.from("comments").select("*", { count: 'exact', head: true }).eq("user_id", currentUser.id);
+    if (count >= 50) {
+      const ownedT = currentProfile.owned_titles || [];
+      if (!ownedT.includes('diep_khuc')) {
+        // Tự động đẩy thư tặng khung vào hòm thư
+        allMails.unshift({
+          id: 'auto_reward_50', title: "Phần thưởng Đóng Góp Ý Tưởng", sender: "Snowveil System", time: new Date().toISOString(), type: 'reward',
+          body: "Cảm ơn bạn đã luôn đồng hành và dệt nên những giấc mộng cùng chúng tôi. Bạn đã để lại hơn 50 dấu chân yêu thương nơi đây!\n\nGửi tặng bạn danh hiệu độc quyền: ĐIỆP KHÚC BẤT TẬN."
+        });
+      }
+    }
+  }
+  updateMailBadge();
+}
+
+function updateMailBadge() {
+  const unread = allMails.filter(m => !readMails.includes(m.id)).length;
+  const badge = document.getElementById("mailBadge");
+  const btn = document.getElementById("mailBtn");
+  if(unread > 0) {
+    badge.style.display = "flex"; badge.textContent = unread; btn.classList.add("ring");
+  } else {
+    badge.style.display = "none"; btn.classList.remove("ring");
+  }
+}
+
+function openMailbox() {
+  loadMailbox().then(() => {
+    const list = document.getElementById("mailList");
+    if(allMails.length === 0) { list.innerHTML = `<div style="padding:20px; text-align:center; color:#8797a9;">Chưa có thư mới.</div>`; } 
+    else {
+      list.innerHTML = allMails.map(m => {
+        const isRead = readMails.includes(m.id);
+        return `<div class="mail-item ${isRead ? '' : 'unread'}" id="mail-item-${m.id}" onclick="viewMail('${m.id}')">
+          <div class="mail-dot"></div>
+          <div>
+            <div class="mail-title">${escapeHtml(m.title)}</div>
+            <div class="mail-sender">Từ: ${escapeHtml(m.sender)}</div>
+          </div>
+        </div>`;
+      }).join("");
+    }
+    
+    document.getElementById("adminMailTools").innerHTML = isAdmin ? `<button class="pill-btn" onclick="composeAdminMail()">+ Đăng thư hệ thống</button>` : '';
+    document.getElementById("mailDetail").style.display = "none";
+    openModal("mailboxModal");
+  });
+}
+
+async function viewMail(id) {
+  const m = allMails.find(x => x.id === id); if(!m) return;
+  document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
+  document.getElementById("mail-item-" + id).classList.add("active-mail");
+  
+  if (!readMails.includes(id)) {
+    readMails.push(id);
+    if(currentUser) {
+      await db.from("profiles").update({ read_mails: readMails }).eq("id", currentUser.id);
+      currentProfile.read_mails = readMails;
+    } else {
+      localStorage.setItem('guest_read_mails', JSON.stringify(readMails));
+    }
+    document.getElementById("mail-item-" + id).classList.remove("unread");
+    updateMailBadge();
+  }
+
+  document.getElementById("mDetailTitle").textContent = m.title;
+  document.getElementById("mDetailSender").textContent = "Người gửi: " + m.sender;
+  document.getElementById("mDetailTime").textContent = formatDate(m.time);
+  document.getElementById("mDetailBody").textContent = m.body;
+  
+  const actionDiv = document.getElementById("mDetailAction");
+  if(m.type === 'reward' && m.id === 'auto_reward_50') {
+    actionDiv.innerHTML = `<button class="auth-submit" style="width: auto; padding: 10px 25px;" onclick="claimRewardTitle('diep_khuc', 'Danh Hiệu: Điệp Khúc Bất Tận')">Nhận Danh Hiệu</button>`;
+  } else { actionDiv.innerHTML = ""; }
+  
+  document.getElementById("mailDetail").style.display = "block";
+}
+
+async function claimRewardTitle(tid, tname) {
+  let ownedT = currentProfile.owned_titles || [];
+  if(!ownedT.includes(tid)) {
+    ownedT.push(tid);
+    await db.from("profiles").update({ owned_titles: ownedT }).eq("id", currentUser.id);
+    currentProfile.owned_titles = ownedT;
+    
+    document.getElementById("congratsImg").src = "images/avatar.jpg"; 
+    document.querySelector(".congrats-text").innerHTML = `Chúc Mừng Nhận Được<br><span style="font-size:1.4rem; color:#fff; text-shadow: 0 0 10px #79ACD9;">${tname}</span>`;
+    document.getElementById("congratsModal").style.display = "flex";
+    
+    document.getElementById("mDetailAction").innerHTML = `<button class="pill-btn reset" disabled>Đã nhận</button>`;
+    loadMailbox(); 
+  }
+}
+
+function composeAdminMail() {
+  const title = prompt("Nhập tiêu đề thư:"); if(!title) return;
+  const sender = prompt("Người gửi (VD: Yuna):"); if(!sender) return;
+  const body = prompt("Nội dung thư:"); if(!body) return;
+  
+  const mailData = JSON.stringify({ title, sender, body });
+  db.from("comments").insert({ char_id: 'ADMIN_MAIL', content: mailData, user_id: currentUser.id, is_admin: true })
+  .then(({error}) => {
+    if(error) toast("Lỗi: " + error.message);
+    else { toast("Đã đăng thư hệ thống!"); openMailbox(); }
+  });
+}
+
 // CƠ CHẾ NOTIFICATION RANDOM (5 PHÚT / 1 LẦN)
 function triggerNotification() {
     // Chỉ tạo kịch bản mới 1 lần mỗi chu kỳ 5 phút
@@ -2082,12 +2294,12 @@ function renderShop() {
   
   grid.innerHTML = FRAMES.map(f => {
     const isOwned = owned.includes(f.id);
-    return `
+return `
       <div class="shop-item ${isOwned ? 'owned' : ''}">
+        <div class="shop-price-tag">${f.price} ❄️</div>
         <div class="owned-tag">Đã có</div>
         <img src="${f.src}" class="shop-item-img">
-        <div style="font-size:0.8rem; font-weight:bold; color:var(--blue); margin-bottom:8px;">${f.price} ❄️</div>
-        <button class="shop-btn" onclick="buyFrame('${f.id}', ${f.price}, '${f.src}')">Đổi</button>
+        <button class="shop-btn" onclick="buyFrame('${f.id}', ${f.price}, '${f.src}')" style="margin-top:10px;">Đổi</button>
       </div>
     `;
   }).join("");
@@ -2211,11 +2423,20 @@ async function doCheckin() {
 // Logic Chỉnh sửa Profile
 let tempAvatarFile = null;
 let tempEquippedFrame = null;
+let tempEquippedTitle = null;
+
+function switchEditTab(tab) {
+  document.querySelectorAll('.edit-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.edit-section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
 
 function openEditProfile() {
   if(!currentProfile) return;
   tempAvatarFile = null;
   tempEquippedFrame = currentProfile.equipped_frame;
+  tempEquippedTitle = currentProfile.equipped_title || null;
   
   const av = currentProfile.avatar_url || "";
   document.getElementById("editPreviewAvatar").src = av ? av : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
@@ -2225,22 +2446,27 @@ function openEditProfile() {
   if(tempEquippedFrame) { previewFrame.src = tempEquippedFrame; previewFrame.style.display = "block"; }
   else { previewFrame.style.display = "none"; }
 
-  const owned = isAdmin ? FRAMES.map(f => f.id) : (currentProfile.owned_frames || []);
+  const ownedF = isAdmin ? FRAMES.map(f => f.id) : (currentProfile.owned_frames || []);
   const grid = document.getElementById("editFramesGrid");
-  
-  // Frame rỗng (tháo khung)
-  let framesHtml = `
-    <div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this)">
-      <div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Gỡ bỏ</div>
-    </div>`;
-    
-  framesHtml += FRAMES.filter(f => owned.includes(f.id)).map(f => `
-    <div class="edit-frame-item ${tempEquippedFrame === f.src ? 'selected' : ''}" onclick="selectFrame('${f.src}', this)">
-      <img src="${f.src}">
-    </div>
-  `).join("");
-  
+  let framesHtml = `<div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this)"><div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Gỡ bỏ</div></div>`;
+  framesHtml += FRAMES.filter(f => ownedF.includes(f.id)).map(f => `<div class="edit-frame-item ${tempEquippedFrame === f.src ? 'selected' : ''}" onclick="selectFrame('${f.src}', this)"><img src="${f.src}"></div>`).join("");
   grid.innerHTML = framesHtml;
+
+  const ownedT = currentProfile.owned_titles || [];
+  const titlesList = document.getElementById("editTitlesList");
+  let titlesHtml = `<div class="title-item ${!tempEquippedTitle ? 'selected' : ''}" onclick="selectTitle(null, this)"><span style="font-weight:600; color:#8797a9;">Không sử dụng Danh Hiệu</span></div>`;
+  
+  const allTitles = { 'diep_khuc': { name: 'Điệp Khúc Bất Tận', cls: 'diep-khuc' } };
+  
+  ownedT.forEach(tid => {
+    if(allTitles[tid]) {
+      titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this)"><span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem;">${allTitles[tid].name}</span></div>`;
+    }
+  });
+  titlesList.innerHTML = titlesHtml;
+
+  switchEditTab('frames'); 
+  document.querySelector('.edit-tabs .edit-tab').classList.add('active');
   openModal("editProfileModal");
 }
 
@@ -2248,10 +2474,15 @@ function selectFrame(src, el) {
   tempEquippedFrame = src;
   document.querySelectorAll(".edit-frame-item").forEach(item => item.classList.remove("selected"));
   el.classList.add("selected");
-  
   const preview = document.getElementById("editPreviewFrame");
   if(src) { preview.src = src; preview.style.display = "block"; }
   else { preview.style.display = "none"; }
+}
+
+function selectTitle(tid, el) {
+  tempEquippedTitle = tid;
+  document.querySelectorAll(".title-item").forEach(item => item.classList.remove("selected"));
+  el.classList.add("selected");
 }
 
 function previewNewAvatar(e) {
@@ -2271,15 +2502,15 @@ async function saveEditProfile() {
     if(tempAvatarFile) { finalAvatar = await uploadAvatar(tempAvatarFile); }
     
     const {error} = await db.from("profiles").update({
-      display_name: newName, avatar_url: finalAvatar, equipped_frame: tempEquippedFrame
+      display_name: newName, avatar_url: finalAvatar, equipped_frame: tempEquippedFrame, equipped_title: tempEquippedTitle
     }).eq("id", currentUser.id);
     
     if(error) throw error;
     
-    // Cập nhật local
     currentProfile.display_name = newName;
     currentProfile.avatar_url = finalAvatar;
     currentProfile.equipped_frame = tempEquippedFrame;
+    currentProfile.equipped_title = tempEquippedTitle;
     profileCache.set(currentUser.id, currentProfile);
     
     toast("Lưu thông tin thành công!");
@@ -2333,6 +2564,7 @@ async function setup(){
     });
 
   loadPublicStats();
+  loadMailbox(); // Tải hộp thư tự động
 }
 setup();
 </script>
