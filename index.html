@@ -451,8 +451,13 @@
 .edit-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
 .edit-section { display: none; }
 .edit-section.active { display: block; animation: fadeInView .3s ease forwards; }
-.title-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: .2s; }
+.title-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: .2s; position: relative; }
 .title-item.selected { border-color: var(--blue); background: #e6f2fc; box-shadow: 0 0 0 1px var(--blue); }
+.title-item::after { content: ""; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #cfe2f1; background: #fff; transition: .2s; }
+.title-item.selected::after { background: #d9a05b; border-color: #d9a05b; box-shadow: inset 0 0 0 3px #fff; }
+
+.reply-list { margin-left: 36px; }
+.reply-list .reply-list { margin-left: 0; border-left: 2px solid #e1edf6; padding-left: 10px; margin-top: 5px; }
 
 /* Danh hiệu Hologram */
 .badge.diep-khuc { background: linear-gradient(90deg, #b8c6db 0%, #f5f7fa 100%); position: relative; overflow: hidden; border: 1px solid #a3bded; color: #4a5568; box-shadow: 0 0 10px rgba(163,189,237, 0.6); font-weight: 800;}
@@ -618,12 +623,33 @@
     
     <div style="flex: 1; overflow-y: auto; max-height: 35vh; border: 1px solid #dcebf5; border-radius: 12px; padding: 5px; text-align: left;" id="mailList"></div>
     
-    <div id="mailDetail" class="mail-content-view">
+<div id="mailDetail" class="mail-content-view">
       <h3 id="mDetailTitle" style="color:var(--blue); margin: 0 0 5px;"></h3>
       <div style="font-size: 0.8rem; color: #8797a9; margin-bottom: 10px;"><span id="mDetailSender"></span> • <span id="mDetailTime"></span></div>
       <div id="mDetailBody" style="color: var(--navy); white-space: pre-wrap;"></div>
-      <div id="mDetailAction" style="margin-top:15px; text-align:center;"></div>
+      <div id="mDetailAction" style="margin-top:15px; text-align:center; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;"></div>
     </div>
+  </div>
+</div>
+
+<!-- Modal Soạn Thư Hệ Thống (Chỉ Admin) -->
+<div id="composeMailModal" class="custom-modal">
+  <div class="modal-box" style="width: min(500px, 94%); text-align: left;">
+    <button class="close-modal" onclick="closeModal('composeMailModal')">×</button>
+    <h2 style="margin-bottom: 15px;">Soạn Thư Hệ Thống</h2>
+    <div class="field-wrap">
+      <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Tiêu đề thư</div>
+      <input id="adminMailTitle" placeholder="Nhập tiêu đề...">
+    </div>
+    <div class="field-wrap">
+      <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Người gửi</div>
+      <input id="adminMailSender" placeholder="VD: Mộng Chủ Yuna" value="Mộng Chủ Yuna">
+    </div>
+    <div class="field-wrap">
+      <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Nội dung thư</div>
+      <textarea id="adminMailBody" class="comment-input" rows="6" placeholder="Nhập nội dung thư..." style="width: 100%; border-radius: 12px; padding: 10px; resize: vertical;"></textarea>
+    </div>
+    <button class="auth-submit" style="margin-top: 10px;" onclick="sendAdminMail()">Gửi Thư</button>
   </div>
 </div>
 
@@ -2105,8 +2131,22 @@ function openMailbox() {
   });
 }
 
+let currentOpenMailId = null;
+
 async function viewMail(id) {
+  const mailDetailBox = document.getElementById("mailDetail");
+  
+  // Xử lý đóng/mở (thu gọn)
+  if (currentOpenMailId === id && mailDetailBox.style.display === "block") {
+    mailDetailBox.style.display = "none";
+    document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
+    currentOpenMailId = null;
+    return;
+  }
+  
+  currentOpenMailId = id;
   const m = allMails.find(x => x.id === id); if(!m) return;
+  
   document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
   document.getElementById("mail-item-" + id).classList.add("active-mail");
   
@@ -2128,11 +2168,19 @@ async function viewMail(id) {
   document.getElementById("mDetailBody").textContent = m.body;
   
   const actionDiv = document.getElementById("mDetailAction");
-  if(m.type === 'reward' && m.id === 'auto_reward_50') {
-    actionDiv.innerHTML = `<button class="auth-submit" style="width: auto; padding: 10px 25px;" onclick="claimRewardTitle('diep_khuc', 'Danh Hiệu: Điệp Khúc Bất Tận')">Nhận Danh Hiệu</button>`;
-  } else { actionDiv.innerHTML = ""; }
+  let actionHtml = "";
   
-  document.getElementById("mailDetail").style.display = "block";
+  if(m.type === 'reward' && m.id === 'auto_reward_50') {
+    actionHtml += `<button class="auth-submit" style="width: auto; padding: 10px 25px;" onclick="claimRewardTitle('diep_khuc', 'Danh Hiệu: Điệp Khúc Bất Tận')">Nhận Danh Hiệu</button>`;
+  }
+  
+  // Nút xóa cho Admin
+  if (isAdmin && m.type === 'admin') {
+    actionHtml += `<button class="pill-btn" style="background:#fee2e2; color:#dc2626;" onclick="deleteAdminMail('${m.id}')">🗑️ Thu hồi thư</button>`;
+  }
+  
+  actionDiv.innerHTML = actionHtml;
+  mailDetailBox.style.display = "block";
 }
 
 async function claimRewardTitle(tid, tname) {
@@ -2152,16 +2200,44 @@ async function claimRewardTitle(tid, tname) {
 }
 
 function composeAdminMail() {
-  const title = prompt("Nhập tiêu đề thư:"); if(!title) return;
-  const sender = prompt("Người gửi (VD: Yuna):"); if(!sender) return;
-  const body = prompt("Nội dung thư:"); if(!body) return;
+  document.getElementById("adminMailTitle").value = "";
+  document.getElementById("adminMailBody").value = "";
+  openModal("composeMailModal");
+}
+
+async function sendAdminMail() {
+  const title = document.getElementById("adminMailTitle").value.trim();
+  const sender = document.getElementById("adminMailSender").value.trim();
+  const body = document.getElementById("adminMailBody").value.trim();
+  
+  if(!title || !sender || !body) return toast("Vui lòng điền đầy đủ thông tin!");
   
   const mailData = JSON.stringify({ title, sender, body });
-  db.from("comments").insert({ char_id: 'ADMIN_MAIL', content: mailData, user_id: currentUser.id, is_admin: true })
-  .then(({error}) => {
-    if(error) toast("Lỗi: " + error.message);
-    else { toast("Đã đăng thư hệ thống!"); openMailbox(); }
-  });
+  const {error} = await db.from("comments").insert({ char_id: 'ADMIN_MAIL', content: mailData, user_id: currentUser.id, is_admin: true });
+  
+  if(error) {
+    toast("Lỗi: " + error.message);
+  } else { 
+    toast("Đã gửi thư hệ thống!"); 
+    closeModal("composeMailModal");
+    loadMailbox().then(() => {
+      // Cập nhật lại UI nếu mailbox đang mở
+      if (document.getElementById("mailboxModal").classList.contains("show")) openMailbox();
+    });
+  }
+}
+
+async function deleteAdminMail(mailId) {
+  if (!confirm("Bạn có chắc chắn muốn thu hồi (xóa) thư hệ thống này không?")) return;
+  const {error} = await db.from("comments").delete().eq("id", mailId);
+  if(error) {
+    toast("Lỗi khi xóa: " + error.message);
+  } else {
+    toast("Đã thu hồi thư.");
+    document.getElementById("mailDetail").style.display = "none";
+    currentOpenMailId = null;
+    loadMailbox().then(() => { if (document.getElementById("mailboxModal").classList.contains("show")) openMailbox(); });
+  }
 }
 
 // CƠ CHẾ NOTIFICATION RANDOM (5 PHÚT / 1 LẦN)
@@ -2452,15 +2528,43 @@ function openEditProfile() {
   framesHtml += FRAMES.filter(f => ownedF.includes(f.id)).map(f => `<div class="edit-frame-item ${tempEquippedFrame === f.src ? 'selected' : ''}" onclick="selectFrame('${f.src}', this)"><img src="${f.src}"></div>`).join("");
   grid.innerHTML = framesHtml;
 
+// Lấy ra danh hiệu mặc định theo hảo cảm
+  let defaultAffinityTitle = "Đã biết của " + CHARS[0].name.split(" (")[0];
+  let defaultAffinityCls = "normal";
+  if (currentProfile && currentProfile.id) {
+    const elGlobal = document.querySelector(`[data-user="${currentProfile.id}"]`);
+    if (elGlobal) {
+      defaultAffinityTitle = elGlobal.textContent;
+      defaultAffinityCls = elGlobal.className.replace("badge ", "").trim();
+      // Nếu đang dùng 'diep-khuc' thì ta phải tính lại danh hiệu gốc
+      if (defaultAffinityCls === 'diep-khuc') {
+         // Tính thủ công lại danh hiệu hảo cảm cao nhất
+         if (profileCache.has(currentProfile.id)) {
+             // Để đơn giản, cứ để nguyên. Hoặc ghi chung chung:
+             defaultAffinityTitle = "Danh hiệu hảo cảm (Mặc định)";
+             defaultAffinityCls = "normal";
+         }
+      }
+    }
+  }
+
   const ownedT = currentProfile.owned_titles || [];
   const titlesList = document.getElementById("editTitlesList");
-  let titlesHtml = `<div class="title-item ${!tempEquippedTitle ? 'selected' : ''}" onclick="selectTitle(null, this)"><span style="font-weight:600; color:#8797a9;">Không sử dụng Danh Hiệu</span></div>`;
+  
+  let titlesHtml = `<div class="title-item ${!tempEquippedTitle ? 'selected' : ''}" onclick="selectTitle(null, this)">
+      <div>
+        <span style="font-weight:600; color:#8797a9; font-size: 0.85rem; display:block; margin-bottom: 2px;">Mặc định (Theo hảo cảm)</span>
+        <span class="badge ${defaultAffinityCls}" style="font-size:0.8rem; margin:0;">${defaultAffinityTitle}</span>
+      </div>
+    </div>`;
   
   const allTitles = { 'diep_khuc': { name: 'Điệp Khúc Bất Tận', cls: 'diep-khuc' } };
   
   ownedT.forEach(tid => {
     if(allTitles[tid]) {
-      titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this)"><span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem;">${allTitles[tid].name}</span></div>`;
+      titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this)">
+        <span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem; padding: 6px 12px;">${allTitles[tid].name}</span>
+      </div>`;
     }
   });
   titlesList.innerHTML = titlesHtml;
