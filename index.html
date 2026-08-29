@@ -451,10 +451,11 @@
 .edit-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
 .edit-section { display: none; }
 .edit-section.active { display: block; animation: fadeInView .3s ease forwards; }
-.title-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: .2s; position: relative; }
-.title-item.selected { border-color: var(--blue); background: #e6f2fc; box-shadow: 0 0 0 1px var(--blue); }
-.title-item::after { content: ""; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #cfe2f1; background: #fff; transition: .2s; }
-.title-item.selected::after { background: #d9a05b; border-color: #d9a05b; box-shadow: inset 0 0 0 3px #fff; }
+.title-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e1edf6; cursor: pointer; transition: .2s; }
+.title-item:last-child { border-bottom: none; }
+.title-item::after { content: ""; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #cfe2f1; background: #fff; transition: .2s; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: transparent; box-sizing: border-box; flex-shrink: 0; margin-left: 10px;}
+.title-item.selected::after { background: var(--blue); border-color: var(--blue); color: #fff; content: "✓"; }
+.badge.no-title { background: transparent; color: #94a3b8; border: 1px solid #cbd5e1; box-shadow: none; font-weight: 600; }
 
 .reply-list { margin-left: 36px; }
 .reply-list .reply-list { margin-left: 0; border-left: 2px solid #e1edf6; padding-left: 10px; margin-top: 5px; }
@@ -1902,21 +1903,40 @@ async function refreshUserBadges(){
   let title = titleFor({ points: best?.points || 0, name: charCleanName });
   let [, cls] = levelOf(best?.points || 0);
 
-  // Ghi đè nếu user chọn danh hiệu tùy chỉnh
+  let hideBadge = false;
+
+  // Ghi đè nếu user chọn danh hiệu tùy chỉnh hoặc ẩn
   if(currentProfile && currentProfile.equipped_title) {
-    if(currentProfile.equipped_title === 'diep_khuc') { title = "Điệp Khúc Bất Tận"; cls = "diep-khuc"; }
+    if (currentProfile.equipped_title === 'none') {
+        hideBadge = true;
+    } else if (currentProfile.equipped_title === 'diep_khuc') { 
+        title = "Điệp Khúc Bất Tận"; cls = "diep-khuc"; 
+    }
   }
 
+  // Cập nhật tất cả các badge trong phần bình luận
   document.querySelectorAll(`[data-user="${currentUser.id}"]`).forEach(el=>{
-    el.textContent=title; el.className="badge "+cls;
+    if (hideBadge) {
+        el.style.display = "none";
+    } else {
+        el.style.display = "inline-flex";
+        el.textContent=title; 
+        el.className="badge "+cls;
+    }
   });
 
+  // Cập nhật badge ở phần Profile
   const g=document.getElementById("globalBadge");
   if(g) {
-      g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
+      if (hideBadge) {
+          g.innerHTML = "";
+      } else {
+          g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
+      }
+      
       const wrap = document.getElementById('mainAvatarWrapper');
       if (wrap) {
-        if(cls === 'partner' && !isAdmin) wrap.classList.add('cat-ears-wrap');
+        if(cls === 'partner' && !isAdmin && !hideBadge) wrap.classList.add('cat-ears-wrap');
         else wrap.classList.remove('cat-ears-wrap');
       }
   }
@@ -2529,37 +2549,35 @@ function openEditProfile() {
   grid.innerHTML = framesHtml;
 
 // Lấy ra danh hiệu mặc định theo hảo cảm
-  let defaultAffinityTitle = "Đã biết của " + CHARS[0].name.split(" (")[0];
+  let defaultAffinityTitle = "Danh hiệu theo hảo cảm";
   let defaultAffinityCls = "normal";
   if (currentProfile && currentProfile.id) {
     const elGlobal = document.querySelector(`[data-user="${currentProfile.id}"]`);
-    if (elGlobal) {
+    if (elGlobal && elGlobal.textContent.trim() !== "") {
       defaultAffinityTitle = elGlobal.textContent;
-      defaultAffinityCls = elGlobal.className.replace("badge ", "").trim();
-      // Nếu đang dùng 'diep-khuc' thì ta phải tính lại danh hiệu gốc
-      if (defaultAffinityCls === 'diep-khuc') {
-         // Tính thủ công lại danh hiệu hảo cảm cao nhất
-         if (profileCache.has(currentProfile.id)) {
-             // Để đơn giản, cứ để nguyên. Hoặc ghi chung chung:
-             defaultAffinityTitle = "Danh hiệu hảo cảm (Mặc định)";
-             defaultAffinityCls = "normal";
-         }
-      }
+      defaultAffinityCls = elGlobal.className.replace("badge ", "").replace("no-title", "").trim() || "normal";
     }
   }
 
   const ownedT = currentProfile.owned_titles || [];
   const titlesList = document.getElementById("editTitlesList");
   
-  let titlesHtml = `<div class="title-item ${!tempEquippedTitle ? 'selected' : ''}" onclick="selectTitle(null, this)">
-      <div>
-        <span style="font-weight:600; color:#8797a9; font-size: 0.85rem; display:block; margin-bottom: 2px;">Mặc định (Theo hảo cảm)</span>
+  // 1. Không sử dụng (Luôn ở đầu)
+  let titlesHtml = `<div class="title-item ${tempEquippedTitle === 'none' ? 'selected' : ''}" onclick="selectTitle('none', this)">
+      <span class="badge no-title" style="font-size:0.8rem; padding: 6px 12px;">Không sử dụng Danh Hiệu</span>
+    </div>`;
+
+  // 2. Mặc định (Theo hảo cảm)
+  const isDefaultSelected = (!tempEquippedTitle || tempEquippedTitle === 'null');
+  titlesHtml += `<div class="title-item ${isDefaultSelected ? 'selected' : ''}" onclick="selectTitle(null, this)">
+      <div style="display:flex; flex-direction:column; align-items:flex-start;">
+        <span style="font-size:0.75rem; color:#8797a9; margin-bottom:4px;">Mặc định (Theo hảo cảm)</span>
         <span class="badge ${defaultAffinityCls}" style="font-size:0.8rem; margin:0;">${defaultAffinityTitle}</span>
       </div>
     </div>`;
   
+  // 3. Các danh hiệu đặc biệt
   const allTitles = { 'diep_khuc': { name: 'Điệp Khúc Bất Tận', cls: 'diep-khuc' } };
-  
   ownedT.forEach(tid => {
     if(allTitles[tid]) {
       titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this)">
