@@ -2279,10 +2279,10 @@ function composeAdminMail() {
   
   // Đổ dữ liệu Yuna và toàn bộ Nhân vật vào Dropdown
   const senderSelect = document.getElementById("adminMailSender");
-  let optionsHtml = `<option value="Yuna">Yuna (Hệ thống)</option>`;
+  let optionsHtml = `<option value="Yuna">Yuna</option>`;
   CHARS.forEach(c => {
-    let charNameShort = c.name.split(" (")[0]; // Lấy tên tiếng Việt bỏ phần chữ Hán
-    optionsHtml += `<option value="${escapeHtml(charNameShort)}">${escapeHtml(charNameShort)} (Nhân vật)</option>`;
+    let charNameShort = c.name.split(" (")[0]; // Lấy tên tiếng Việt bỏ chữ Hán
+    optionsHtml += `<option value="${escapeHtml(charNameShort)}">${escapeHtml(charNameShort)}</option>`;
   });
   senderSelect.innerHTML = optionsHtml;
   
