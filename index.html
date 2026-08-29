@@ -467,7 +467,14 @@
 @keyframes holoLight { 100% { left: 200%; } }
 
 /* Hòm thư */
+.mail-tabs { display: flex; border-bottom: 1px solid #dcebf5; margin-bottom: 10px; }
+.mail-tab { flex: 1; text-align: center; padding: 10px 5px; font-weight: 700; color: #8797a9; cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; position: relative; font-size: 0.9rem; }
+.mail-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.mail-tab-dot { position: absolute; top: 6px; right: 15%; width: 8px; height: 8px; background: #e53e3e; border-radius: 50%; display: none; }
 .mail-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-bottom: 1px solid #dcebf5; cursor: pointer; transition: .2s; background: #fff; }
+#adminMailTitle { font-family: var(--serif); text-transform: uppercase; font-weight: 700; }
+.mail-title { font-family: var(--serif); text-transform: uppercase; font-weight: 700; color: var(--navy); font-size: 0.95rem; margin-bottom: 4px; }
+#mDetailTitle { font-family: var(--serif); text-transform: uppercase; font-weight: 700; }
 .mail-item.unread { background: #f5faff; font-weight: bold; }
 .mail-item.active-mail { background: #eaf5ff; border-left: 4px solid var(--blue); }
 .mail-dot { width: 8px; height: 8px; background: #e53e3e; border-radius: 50%; display: inline-block; margin-right: 4px; opacity: 0; }
@@ -621,6 +628,11 @@
     <button class="close-modal" onclick="closeModal('mailboxModal')">×</button>
     <h2 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Hòm Thư</h2>
     
+<div class="mail-tabs">
+      <div class="mail-tab active" id="tab-sys-mail" onclick="switchMailTab('system')">Thư Hệ Thống<div class="mail-tab-dot" id="dot-sys-mail"></div></div>
+      <div class="mail-tab" id="tab-char-mail" onclick="switchMailTab('character')">Thư Nhân Vật<div class="mail-tab-dot" id="dot-char-mail"></div></div>
+    </div>
+    
     <div style="display:flex; justify-content:space-between; margin-bottom: 10px;" id="adminMailTools"></div>
     
     <div style="flex: 1; overflow-y: auto; max-height: 35vh; border: 1px solid #dcebf5; border-radius: 12px; padding: 5px; text-align: left;" id="mailList"></div>
@@ -643,9 +655,9 @@
       <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Tiêu đề thư</div>
       <input id="adminMailTitle" placeholder="Nhập tiêu đề...">
     </div>
-    <div class="field-wrap">
+<div class="field-wrap">
       <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Người gửi</div>
-      <input id="adminMailSender" placeholder="VD: Mộng Chủ Yuna" value="Mộng Chủ Yuna">
+      <select id="adminMailSender" class="comment-input" style="padding: 10px; width: 100%; border-radius: 12px; margin-bottom: 9px; outline: 0; border: 1px solid #cfe2f1; background: #fff;"></select>
     </div>
     <div class="field-wrap">
       <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Nội dung thư</div>
@@ -729,7 +741,7 @@
       </div>
     </div>
     <div class="field-wrap">
-      <div style="font-size:0.85rem; color:var(--text); margin-bottom:4px; font-weight:600;">Nickname</div>
+      <div style="font-size:0.85rem; color:var(--text); margin-bottom:4px; font-weight:600;">Biệt Danh</div>
       <input id="editDisplayName" placeholder="Nhập tên của bạn">
     </div>
 
@@ -2122,40 +2134,77 @@ async function loadMailbox() {
   updateMailBadge();
 }
 
+let currentMailTab = 'system'; // Mặc định mở tab hệ thống
+
 function updateMailBadge() {
-  const unread = allMails.filter(m => !readMails.includes(m.id)).length;
+  // Tính tổng số thư chưa đọc
+  const unreadTotal = allMails.filter(m => !readMails.includes(m.id)).length;
+  // Tính thư hệ thống chưa đọc (người gửi là Yuna)
+  const unreadSys = allMails.filter(m => m.sender === 'Yuna' && !readMails.includes(m.id)).length;
+  // Tính thư nhân vật chưa đọc (người gửi khác Yuna)
+  const unreadChar = allMails.filter(m => m.sender !== 'Yuna' && !readMails.includes(m.id)).length;
+
   const badge = document.getElementById("mailBadge");
   const btn = document.getElementById("mailBtn");
-  if(unread > 0) {
-    badge.style.display = "flex"; badge.textContent = unread; btn.classList.add("ring");
+  
+  // Nút chuông bên ngoài
+  if(unreadTotal > 0) {
+    badge.style.display = "flex"; badge.textContent = unreadTotal; btn.classList.add("ring");
   } else {
     badge.style.display = "none"; btn.classList.remove("ring");
+  }
+
+  // Chấm đỏ trong Tab
+  const dotSys = document.getElementById("dot-sys-mail");
+  const dotChar = document.getElementById("dot-char-mail");
+  if (dotSys) dotSys.style.display = unreadSys > 0 ? "block" : "none";
+  if (dotChar) dotChar.style.display = unreadChar > 0 ? "block" : "none";
+}
+
+function switchMailTab(tab) {
+  currentMailTab = tab;
+  document.getElementById("tab-sys-mail").classList.remove("active");
+  document.getElementById("tab-char-mail").classList.remove("active");
+  
+  if (tab === 'system') document.getElementById("tab-sys-mail").classList.add("active");
+  else document.getElementById("tab-char-mail").classList.add("active");
+  
+  document.getElementById("mailDetail").style.display = "none";
+  currentOpenMailId = null;
+  renderMailList();
+}
+
+function renderMailList() {
+  const list = document.getElementById("mailList");
+  // Lọc thư theo tab hiện tại
+  const filteredMails = allMails.filter(m => {
+    if (currentMailTab === 'system') return m.sender === 'Yuna';
+    return m.sender !== 'Yuna';
+  });
+
+  if(filteredMails.length === 0) { 
+    list.innerHTML = `<div style="padding:20px; text-align:center; color:#8797a9;">Chưa có thư ở mục này.</div>`; 
+  } else {
+    list.innerHTML = filteredMails.map(m => {
+      const isRead = readMails.includes(m.id);
+      return `<div class="mail-item ${isRead ? '' : 'unread'}" id="mail-item-${m.id}" onclick="viewMail('${m.id}')">
+        <div class="mail-dot"></div>
+        <div>
+          <div class="mail-title">${escapeHtml(m.title)}</div>
+          <div class="mail-sender">Từ: ${escapeHtml(m.sender)}</div>
+        </div>
+      </div>`;
+    }).join("");
   }
 }
 
 function openMailbox() {
   loadMailbox().then(() => {
-    const list = document.getElementById("mailList");
-    if(allMails.length === 0) { list.innerHTML = `<div style="padding:20px; text-align:center; color:#8797a9;">Chưa có thư mới.</div>`; } 
-    else {
-      list.innerHTML = allMails.map(m => {
-        const isRead = readMails.includes(m.id);
-        return `<div class="mail-item ${isRead ? '' : 'unread'}" id="mail-item-${m.id}" onclick="viewMail('${m.id}')">
-          <div class="mail-dot"></div>
-          <div>
-            <div class="mail-title">${escapeHtml(m.title)}</div>
-            <div class="mail-sender">Từ: ${escapeHtml(m.sender)}</div>
-          </div>
-        </div>`;
-      }).join("");
-    }
-    
+    switchMailTab('system'); // Luôn mở tab Hệ thống khi bật lên
     document.getElementById("adminMailTools").innerHTML = isAdmin ? `<button class="pill-btn" onclick="composeAdminMail()">+ Đăng thư hệ thống</button>` : '';
-    document.getElementById("mailDetail").style.display = "none";
     openModal("mailboxModal");
   });
 }
-
 let currentOpenMailId = null;
 
 async function viewMail(id) {
@@ -2227,6 +2276,16 @@ async function claimRewardTitle(tid, tname) {
 function composeAdminMail() {
   document.getElementById("adminMailTitle").value = "";
   document.getElementById("adminMailBody").value = "";
+  
+  // Đổ dữ liệu Yuna và toàn bộ Nhân vật vào Dropdown
+  const senderSelect = document.getElementById("adminMailSender");
+  let optionsHtml = `<option value="Yuna">Yuna (Hệ thống)</option>`;
+  CHARS.forEach(c => {
+    let charNameShort = c.name.split(" (")[0]; // Lấy tên tiếng Việt bỏ phần chữ Hán
+    optionsHtml += `<option value="${escapeHtml(charNameShort)}">${escapeHtml(charNameShort)} (Nhân vật)</option>`;
+  });
+  senderSelect.innerHTML = optionsHtml;
+  
   openModal("composeMailModal");
 }
 
@@ -2278,7 +2337,7 @@ function initRandomNotification(){
     // Lần đầu vào web, gọi thông báo sau 6 giây
     setTimeout(() => {
         triggerNotification();
-        // Thiết lập bộ đếm 5 phút (300,000 mili-giây) sẽ thay tin nhắn mới và rung lại
+        // Thiết lập bộ đếm 5 phút sẽ thay tin nhắn mới
         wechatTimer = setInterval(triggerNotification, 300000); 
     }, 6000);
 }
