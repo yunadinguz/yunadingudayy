@@ -149,7 +149,8 @@
 .cmt-action-btn:hover{color:var(--blue);}
 .cmt-action-btn.liked {color:#e53e3e;}
 .cmt-action-btn.liked .cmt-heart {color:#e53e3e;}
-.reply-list{margin-left:36px}
+.reply-list { margin-left: 46px; } 
+.reply-list .reply-list { margin-left: 0 !important; border: none !important; padding-left: 0 !important; margin-top: 0 !important; }
 
 /* HIỆU ỨNG DANH HIỆU */
 .badge{font-size:0.65rem;padding:3px 8px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px}
@@ -2108,8 +2109,12 @@ async function loadMailbox() {
       if (!ownedT.includes('diep_khuc')) {
         // Tự động đẩy thư tặng khung vào hòm thư
         allMails.unshift({
-          id: 'auto_reward_50', title: "Phần thưởng Đóng Góp Ý Tưởng", sender: "Snowveil System", time: new Date().toISOString(), type: 'reward',
-          body: "Cảm ơn bạn đã luôn đồng hành và dệt nên những giấc mộng cùng chúng tôi. Bạn đã để lại hơn 50 dấu chân yêu thương nơi đây!\n\nGửi tặng bạn danh hiệu độc quyền: ĐIỆP KHÚC BẤT TẬN."
+          id: 'auto_reward_50', 
+          title: "Phần thưởng Tri Ân từ Tuyết Trắng", 
+          sender: "Yuna", 
+          time: new Date().toISOString(), 
+          type: 'reward',
+          body: "Thân gửi Kẻ Mộng Mơ vừa đi qua bão tuyết,\n\nGiữa vạn dặm sương mù và cái lạnh khắc nghiệt của mùa đông, bạn không chỉ là một lữ khách ghé ngang, mà đã chọn dừng bước để sưởi ấm cho vùng đất này. Từng dấu chân kiên nhẫn bạn để lại trên nền tuyết trắng, từng sự đồng hành thầm lặng đã hòa quyện lại, kết tinh rực rỡ thành "Điệp Khúc Bất Tận".\n\nTrong bất kỳ bản tình ca nào, điệp khúc luôn là giai điệu da diết nhất và vương vấn mãi trong tâm trí. Danh hiệu này chính là sự tri ân chân thành nhất cho ngọn lửa bạn đã thắp lên, xua tan đi màn đêm cô độc và giữ cho những giấc mơ của chúng ta không bao giờ bị lãng quên.\n\nCảm ơn bạn vì đã kiên trì đồng hành cùng sương tuyết. Miễn là bạn còn mơ mộng, bản tình ca này sẽ vì bạn mà mãi mãi cất lời."
         });
       }
     }
@@ -2564,13 +2569,15 @@ function openEditProfile() {
   
   // 1. Không sử dụng (Luôn ở đầu)
   let titlesHtml = `<div class="title-item ${tempEquippedTitle === 'none' ? 'selected' : ''}" onclick="selectTitle('none', this)">
-      <span class="badge no-title" style="font-size:0.8rem; padding: 6px 12px;">Không sử dụng Danh Hiệu</span>
+      <div style="flex: 1; display: flex; justify-content: center;">
+        <span class="badge no-title" style="font-size:0.8rem; padding: 6px 12px;">Không sử dụng Danh Hiệu</span>
+      </div>
     </div>`;
 
   // 2. Mặc định (Theo hảo cảm)
   const isDefaultSelected = (!tempEquippedTitle || tempEquippedTitle === 'null');
   titlesHtml += `<div class="title-item ${isDefaultSelected ? 'selected' : ''}" onclick="selectTitle(null, this)">
-      <div style="display:flex; flex-direction:column; align-items:flex-start;">
+      <div style="flex: 1; display:flex; flex-direction:column; align-items:center;">
         <span style="font-size:0.75rem; color:#8797a9; margin-bottom:4px;">Mặc định (Theo hảo cảm)</span>
         <span class="badge ${defaultAffinityCls}" style="font-size:0.8rem; margin:0;">${defaultAffinityTitle}</span>
       </div>
@@ -2581,12 +2588,14 @@ function openEditProfile() {
   ownedT.forEach(tid => {
     if(allTitles[tid]) {
       titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this)">
-        <span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem; padding: 6px 12px;">${allTitles[tid].name}</span>
+        <div style="flex: 1; display: flex; justify-content: center;">
+          <span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem; padding: 6px 12px;">${allTitles[tid].name}</span>
+        </div>
       </div>`;
     }
   });
   titlesList.innerHTML = titlesHtml;
-
+  
   switchEditTab('frames'); 
   document.querySelector('.edit-tabs .edit-tab').classList.add('active');
   openModal("editProfileModal");
