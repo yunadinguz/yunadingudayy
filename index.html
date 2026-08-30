@@ -2165,6 +2165,82 @@ document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"
 // ====== SYSTEM MAIL & REWARDS ======
 let allMails = [];
 let readMails = [];
+let currentMailTab = 'system';
+
+// 1. HÀM CẬP NHẬT CHẤM ĐỎ VÀ SỐ LƯỢNG THƯ CHƯA ĐỌC (MỚI THÊM)
+function updateMailBadge() {
+  const badge = document.getElementById("mailBadge");
+  const dotSys = document.getElementById("dot-sys-mail");
+  const dotChar = document.getElementById("dot-char-mail");
+  
+  const unreadSys = allMails.filter(m => (m.type === 'admin' || m.type === 'reward') && !readMails.includes(m.id)).length;
+  const unreadChar = allMails.filter(m => m.type === 'character' && !readMails.includes(m.id)).length;
+  const totalUnread = unreadSys + unreadChar;
+
+  if (badge) {
+    badge.textContent = totalUnread;
+    badge.style.display = totalUnread > 0 ? "flex" : "none";
+  }
+  if (dotSys) dotSys.style.display = unreadSys > 0 ? "block" : "none";
+  if (dotChar) dotChar.style.display = unreadChar > 0 ? "block" : "none";
+}
+
+// 2. HÀM MỞ HÒM THƯ (MỚI THÊM)
+function openMailbox() {
+  switchMailTab(currentMailTab || 'system');
+  
+  // Hiển thị công cụ soạn thư cho Admin
+  const adminTools = document.getElementById("adminMailTools");
+  if (adminTools) {
+    if (isAdmin) {
+      adminTools.innerHTML = `<button class="pill-btn" style="padding:6px 12px; font-size:0.8rem;" onclick="composeAdminMail()">✍️ Soạn Thư</button>`;
+    } else {
+      adminTools.innerHTML = "";
+    }
+  }
+
+  // Ẩn chi tiết thư cũ
+  const mailDetail = document.getElementById("mailDetail");
+  if (mailDetail) mailDetail.style.display = "none";
+  currentOpenMailId = null;
+
+  openModal("mailboxModal");
+}
+
+// 3. HÀM CHUYỂN ĐỔI TAB TRONG HÒM THƯ (MỚI THÊM)
+function switchMailTab(tab) {
+  currentMailTab = tab;
+  document.getElementById("tab-sys-mail")?.classList.toggle("active", tab === 'system');
+  document.getElementById("tab-char-mail")?.classList.toggle("active", tab === 'character');
+
+  const listContainer = document.getElementById("mailList");
+  if (!listContainer) return;
+
+  let filtered = [];
+  if (tab === 'system') {
+    filtered = allMails.filter(m => m.type === 'admin' || m.type === 'reward');
+  } else {
+    filtered = allMails.filter(m => m.type === 'character');
+  }
+
+  if (filtered.length === 0) {
+    listContainer.innerHTML = `<div style="text-align:center; color:#8797a9; padding:20px; font-size:0.85rem;">Chưa có thư nào ở danh mục này.</div>`;
+    return;
+  }
+
+  listContainer.innerHTML = filtered.map(m => {
+    const isUnread = !readMails.includes(m.id);
+    return `
+      <div class="mail-item ${isUnread ? 'unread' : ''}" id="mail-item-${m.id}" onclick="viewMail('${m.id}')">
+        <span class="mail-dot"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="mail-title">${escapeHtml(m.title)}</div>
+          <div class="mail-sender">${escapeHtml(m.sender || 'Hệ thống')} • ${formatDate(m.time)}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
 
 async function loadMailbox() {
   // Lấy thư hệ thống
