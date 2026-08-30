@@ -2585,51 +2585,68 @@ async function buyFrame(id, price, src) {
   renderShop(); renderAuth();
 }
 
-// Logic Điểm danh
-function getWeekNumber(d) {
-    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-    return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+// ================= LOGIC ĐIỂM DANH (ĐÃ FIX LỖI TIMEZONE) =================
+
+// 1. Lấy ngày chuẩn theo giờ địa phương (Tránh lỗi UTC)
+function getLocalYYYYMMDD() {
+    const d = new Date();
+    const tzOffset = d.getTimezoneOffset() * 60000;
+    return (new Date(d - tzOffset)).toISOString().slice(0, 10);
 }
 
+// 2. Kiểm tra xem đã qua tuần mới chưa dựa trên khoảng cách ngày
+function isNewWeek(lastDateStr) {
+    if (!lastDateStr) return false;
+    const todayStr = getLocalYYYYMMDD();
+    if (lastDateStr === todayStr) return false;
+
+    // Quy đổi về lúc 00:00:00 giờ local
+    const lastD = new Date(lastDateStr + 'T00:00:00');
+    const currD = new Date(todayStr + 'T00:00:00');
+
+    // Cách 7 ngày thì chắc chắn là tuần mới
+    const diffDays = (currD - lastD) / (1000 * 60 * 60 * 24);
+    if (diffDays >= 7) return true; 
+
+    // Lấy số thứ tự trong tuần (0: Thứ 2 -> 6: CN)
+    const lastIdx = (lastD.getDay() + 6) % 7;
+    const currIdx = (currD.getDay() + 6) % 7;
+
+    // Nếu thứ hiện tại nhỏ hơn thứ lần trước (VD: CN sang Thứ 2) -> Qua tuần
+    return currIdx < lastIdx;
+}
+
+// 3. Render giao diện
 function renderCheckin() {
   const wrap = document.getElementById("checkinWrap");
   if(!wrap || !currentProfile) return;
   
-  const todayStr = new Date().toISOString().slice(0,10);
-  const currentWeek = getWeekNumber(new Date());
+  const todayStr = getLocalYYYYMMDD();
+  const todayIdx = (new Date().getDay() + 6) % 7;
   
-  // Ktra reset tuần
-  let lastCheckinDate = currentProfile.last_checkin_date;
   let progress = currentProfile.checkin_progress || 0;
   
-  let lastWeek = lastCheckinDate ? getWeekNumber(new Date(lastCheckinDate)) : -1;
-  if(lastWeek !== currentWeek && lastWeek !== -1) { progress = 0; } // Qua tuần mới -> reset
+  // Kiểm tra reset tuần
+  if (isNewWeek(currentProfile.last_checkin_date)) { 
+      progress = 0; 
+  }
   
-  // Lấy ra index của ngày hôm nay theo thời gian thực (0: Thứ 2, ..., 6: Chủ nhật)
-  const todayIdx = (new Date().getDay() + 6) % 7;
-
   const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"];
   let gridHtml = days.map((day, idx) => {
-    // Dùng phép toán bit (bitmask) để kiểm tra ngày hôm đó đã bấm chưa
     const isClaimed = (progress & (1 << idx)) !== 0;
-    const isMissed = idx < todayIdx && !isClaimed; // Đã qua ngày nhưng chưa điểm danh
+    const isMissed = idx < todayIdx && !isClaimed; 
 
     let extraStyle = '';
     if (isMissed) {
-        extraStyle = 'background: #e2e8f0; color: #94a3b8; border-color: #cbd5e1; opacity: 0.7;'; // Làm xám nhạt ô bỏ lỡ
+        extraStyle = 'background: #e2e8f0; color: #94a3b8; border-color: #cbd5e1; opacity: 0.7;';
     } else if (idx === todayIdx && !isClaimed) {
-        extraStyle = 'border-color: var(--blue); box-shadow: 0 0 6px rgba(3,62,140,0.25);'; // Nổi bật ô của ngày hôm nay
+        extraStyle = 'border-color: var(--blue); box-shadow: 0 0 6px rgba(3,62,140,0.25);';
     }
 
     return `<div class="checkin-day ${isClaimed ? 'claimed' : ''}" style="${extraStyle}">${day}<br><b style="font-size:12px">10 ❄️</b></div>`;
   }).join("");
 
-// Chỉ cho phép điểm danh nếu ô của ngày hôm nay chưa được đánh dấu
   const canCheckin = (progress & (1 << todayIdx)) === 0;
-  
-  // Đếm số ngày đã điểm danh (đếm số bit 1 trong biến progress)
   const countClaimed = progress.toString(2).replace(/0/g, '').length;
   
   wrap.innerHTML = `
@@ -2638,28 +2655,32 @@ function renderCheckin() {
       <span>Đã có: <b style="color:var(--blue)">${currentProfile.snowflakes || 0} ❄️</b></span>
     </div>
     <div class="checkin-grid">${gridHtml}</div>
-    <button class="checkin-btn" ${!canCheckin ? 'disabled' : ''} onclick="doCheckin()">
+    <button class="checkin-btn" id="btn-do-checkin" ${!canCheckin ? 'disabled' : ''} onclick="doCheckin()">
       ${canCheckin ? 'Nhận 10 ❄️ Hôm Nay' : 'Đã điểm danh hôm nay'}
     </button>
   `;
 }
 
+// 4. Xử lý bấm nhận quà
 async function doCheckin() {
   if(!currentUser) return;
-  const todayStr = new Date().toISOString().slice(0,10);
-  
-  // Tính toán lại progress phòng khi user để treo tab qua tuần mới
-  const currentWeek = getWeekNumber(new Date());
-  let lastWeek = currentProfile.last_checkin_date ? getWeekNumber(new Date(currentProfile.last_checkin_date)) : -1;
-  let currentProgress = currentProfile.checkin_progress || 0;
-  if (lastWeek !== currentWeek && lastWeek !== -1) { currentProgress = 0; }
-
-  // Hôm nay là thứ mấy
+  const todayStr = getLocalYYYYMMDD();
   const todayIdx = (new Date().getDay() + 6) % 7;
   
-  if ((currentProgress & (1 << todayIdx)) !== 0) return toast("Bạn đã điểm danh hôm nay rồi!");
+  let currentProgress = currentProfile.checkin_progress || 0;
+  if (isNewWeek(currentProfile.last_checkin_date)) { 
+      currentProgress = 0; 
+  }
 
-  // Lưu vị trí ngày hôm nay
+  // Chặn 2 lớp: Chặn theo bitmask và chặn theo Date
+  if ((currentProgress & (1 << todayIdx)) !== 0 || currentProfile.last_checkin_date === todayStr) {
+      return toast("Bạn đã điểm danh hôm nay rồi!");
+  }
+
+  // Khóa nút ngay lập tức để tránh bấm đúp
+  const btn = document.getElementById("btn-do-checkin");
+  if(btn) { btn.disabled = true; btn.textContent = "Đang xử lý..."; }
+
   let progress = currentProgress | (1 << todayIdx);
   let newSnowflakes = (currentProfile.snowflakes || 0) + 10;
 
@@ -2667,8 +2688,12 @@ async function doCheckin() {
     last_checkin_date: todayStr, checkin_progress: progress, snowflakes: newSnowflakes
   }).eq("id", currentUser.id);
 
-  if(error) return toast("Lỗi điểm danh: " + error.message);
+  if(error) {
+      if(btn) { btn.disabled = false; btn.textContent = "Nhận 10 ❄️ Hôm Nay"; }
+      return toast("Lỗi điểm danh: " + error.message);
+  }
   
+  // Cập nhật lại dữ liệu Profile trên bộ nhớ
   currentProfile.last_checkin_date = todayStr;
   currentProfile.checkin_progress = progress;
   currentProfile.snowflakes = newSnowflakes;
@@ -2676,6 +2701,13 @@ async function doCheckin() {
   toast("Điểm danh thành công! Nhận 10 ❄️");
   renderCheckin();
 }
+// ================= HẾT LOGIC ĐIỂM DANH =================
+  
+  // Tính toán lại progress phòng khi user để treo tab qua tuần mới
+  const currentWeek = getWeekNumber(new Date());
+  let lastWeek = currentProfile.last_checkin_date ? getWeekNumber(new Date(currentProfile.last_checkin_date)) : -1;
+  let currentProgress = currentProfile.checkin_progress || 0;
+  if (lastWeek !== currentWeek && lastWeek !== -1) { currentProgress = 0; }
 
 // Logic Chỉnh sửa Profile
 let tempAvatarFile = null;
