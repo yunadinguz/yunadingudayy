@@ -482,6 +482,19 @@
 .mail-title { color: var(--navy); font-size: 0.95rem; margin-bottom: 4px; }
 .mail-sender { color: #8797a9; font-size: 0.8rem; font-weight: normal; }
 .mail-content-view { background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; padding: 16px; margin-top: 15px; text-align: left; font-size: 0.9rem; line-height: 1.6; display: none; }
+
+/* GIAO DIỆN BÌNH LUẬN MỚI */
+.cmt-input-container { display: flex; align-items: flex-end; gap: 8px; width: 100%; margin-top: 6px; }
+.cmt-camera-btn { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #c2dcf0; background: #fff; color: #3b6d9a; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: 0.2s; padding: 0; }
+.cmt-camera-btn:hover { background: #eaf5ff; }
+.cmt-text-wrapper { flex: 1; display: flex; flex-direction: column; background: #fff; border: 1px solid #cfe2f1; border-radius: 20px; overflow: hidden; }
+.cmt-textarea { border: none; outline: none; resize: none; background: transparent; font-family: var(--sans); font-size: 0.88rem; color: var(--navy); padding: 10px 12px; max-height: 120px; width: 100%; }
+.cmt-send-btn { flex-shrink: 0; border: none; background: #8aadd0; color: #fff; font-weight: 700; border-radius: 18px; padding: 10px 18px; transition: 0.2s; cursor: pointer; }
+.cmt-send-btn:hover { background: var(--mid); }
+.inline-reply-box { display: none; margin-top: 8px; padding-left: 46px; }
+.inline-reply-box.open { display: block; animation: fadeInView .3s ease; }
+.cmt-preview-area { margin-bottom: 6px; display: empty; }
+.cmt-preview-area img { max-width: 120px; max-height: 120px; border-radius: 12px; border: 1px solid #dceaf5; object-fit: cover; display: block; margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -1111,7 +1124,7 @@ const charLikesMap = JSON.parse(localStorage.getItem("cache_char_likes") || "{}"
 const charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || "{}");
 let currentTrackIdx = Math.floor(Math.random() * PLAYLIST.length);
 let wasMusicPlaying = false;
-let currentFeedbackImg = null;
+let commentImages = {};
 
 // Khai báo biến lưu kịch bản Wechat và bộ hẹn giờ
 let currentWechatScript = null;
@@ -1203,33 +1216,40 @@ function renderAuth(){
 function updateJournalInput(){
   const box = document.getElementById("journalFormBox");
   if(!box) return;
-  const nickHtml = !currentUser ? `<input id="journalNickname" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : '';
+  const nickHtml = !currentUser ? `<input id="nick-journal" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : '';
   box.innerHTML = `
     ${nickHtml}
-    <textarea id="journalText" class="comment-input" rows="3" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea>
-    <div id="journalImgPreview" style="margin-bottom:6px"></div>
-    <div class="comment-actions">
-      <label class="file-upload-btn">
-        📷 Thêm ảnh
-        <input type="file" id="journalImageInput" accept="image/*" class="hidden-file" onchange="previewFeedbackImage(event)">
+    <div id="preview-journal" class="cmt-preview-area"></div>
+    <div class="cmt-input-container">
+      <label class="cmt-camera-btn" title="Thêm ảnh">
+        📷<input type="file" id="file-journal" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'journal')">
       </label>
-      <button class="journal-send" onclick="postComment(null)">Gửi lưu bút</button>
+      <div class="cmt-text-wrapper">
+        <textarea id="input-journal" class="cmt-textarea" rows="1" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+      </div>
+      <button class="cmt-send-btn" onclick="submitComment('journal', null, null)">Gửi</button>
     </div>
   `;
 }
 
-function previewFeedbackImage(e){
+function previewCommentImage(e, id){
   const file = e.target.files[0];
   if(file){
-    currentFeedbackImg = file;
+    commentImages[id] = file;
     const url = URL.createObjectURL(file);
-    document.getElementById("journalImgPreview").innerHTML = `<img src="${url}" class="comment-img"><button style="border:0;background:none;color:#e53e3e;font-size:0.75rem;cursor:pointer" onclick="removeFeedbackImage()">✕ Xóa ảnh</button>`;
+    const previewBox = document.getElementById("preview-" + id);
+    if(previewBox) {
+      previewBox.innerHTML = `<img src="${url}"><button type="button" style="border:0;background:none;color:#e53e3e;font-size:0.75rem;cursor:pointer;margin-top:4px;" onclick="removeCommentImage('${id}')">✕ Xóa ảnh</button>`;
+    }
   }
 }
 
-function removeFeedbackImage(){
-  currentFeedbackImg = null;
-  document.getElementById("journalImgPreview").innerHTML = "";
+function removeCommentImage(id){
+  delete commentImages[id];
+  const previewBox = document.getElementById("preview-" + id);
+  if(previewBox) previewBox.innerHTML = "";
+  const fileInput = document.getElementById("file-" + id);
+  if(fileInput) fileInput.value = "";
 }
 
 async function uploadAvatar(file){
@@ -1500,8 +1520,16 @@ ${pass}
   <div class="comment-scroll" id="mini-list-${c.id}"></div>
   <div style="margin-top:8px">
     ${nickField}
-    <textarea id="mini-input-${c.id}" class="comment-input" rows="2" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea>
-    <div class="comment-actions"><button class="send-btn" onclick="postComment('${c.id}')">Gửi</button></div>
+    <div id="preview-mini-${c.id}" class="cmt-preview-area"></div>
+    <div class="cmt-input-container">
+      <label class="cmt-camera-btn">
+        📷<input type="file" id="file-mini-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'mini-${c.id}')">
+      </label>
+      <div class="cmt-text-wrapper">
+        <textarea id="input-mini-${c.id}" class="cmt-textarea" rows="1" placeholder="Bình luận dưới tên ${escapeHtml(c.name.split(' (')[0])}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+      </div>
+      <button class="cmt-send-btn" onclick="submitComment('mini-${c.id}', '${c.id}', null)">Gửi</button>
+    </div>
   </div>
 </div>
 </article>`}).join("");
@@ -1690,13 +1718,31 @@ ${imgHtml}
 <div class="comment-time">${formatDate(c.created_at)}</div>
 <div class="comment-tools">
 <button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked?'liked':''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">${cachedCmtLikes}</span></button>
-<button class="cmt-action-btn" onclick="replyTo('${c.id}', ${safeCharId})">💬 Trả lời</button>
+<button class="cmt-action-btn" onclick="toggleReplyBox('${c.id}')">💬 Trả lời</button>
 ${isAdmin?`<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>`:""}
 </div>
 </div>
 </div>
 </div>
+<div id="reply-box-${c.id}" class="inline-reply-box">
+  ${!currentUser ? `<input id="nick-reply-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : ''}
+  <div id="preview-reply-${c.id}" class="cmt-preview-area"></div>
+  <div class="cmt-input-container">
+    <label class="cmt-camera-btn">
+      📷<input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')">
+    </label>
+    <div class="cmt-text-wrapper">
+      <textarea id="input-reply-${c.id}" class="cmt-textarea" rows="1" placeholder="Viết phản hồi của bạn..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+    </div>
+    <button class="cmt-send-btn" onclick="submitComment('reply-${c.id}', ${safeCharId}, '${c.id}')">Gửi</button>
+  </div>
+</div>
 <div class="reply-list">${replies}</div>`;
+}
+
+function toggleReplyBox(id){
+  const box = document.getElementById("reply-box-" + id);
+  if(box) box.classList.toggle("open");
 }
 
 async function reactComment(id, btn){
@@ -1718,67 +1764,91 @@ async function reactComment(id, btn){
     toast("Đã thả tim bình luận ❤️");
 }
 
-  async function replyTo(parentId, charId){
-  if (charId === 'null' || charId === undefined || charId === '') {
-    charId = null;
-  }
+async function submitComment(inputId, charId, parentId) {
+  if (charId === 'null' || charId === undefined || charId === '') charId = null;
 
-  const text = prompt("💬 Nhập nội dung câu trả lời của bạn:");
-  if (!text || !text.trim()) return;
+  const textarea = document.getElementById("input-" + inputId);
+  const content = textarea ? textarea.value.trim() : "";
+  const imageFile = commentImages[inputId];
+  
+  if (!content && !imageFile) return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
 
   let guestName = null;
   if (!currentUser) {
-    guestName = prompt("Danh xưng của bạn (Bỏ trống sẽ là Kẻ Mộng Mơ Vô Danh):") || "Kẻ Mộng Mơ Vô Danh";
-    guestName = guestName.trim() || "Kẻ Mộng Mơ Vô Danh";
+    const nickInput = document.getElementById("nick-" + inputId);
+    guestName = nickInput ? nickInput.value.trim() : "Kẻ Mộng Mơ Vô Danh";
+    if (!guestName) guestName = "Kẻ Mộng Mơ Vô Danh";
+  }
+
+  // Tạm khóa nút Gửi
+  const sendBtn = textarea.closest('.cmt-input-container').querySelector('.cmt-send-btn');
+  let originalBtnText = "Gửi";
+  if (sendBtn) {
+    originalBtnText = sendBtn.textContent;
+    sendBtn.textContent = "..."; 
+    sendBtn.disabled = true;
   }
 
   try {
+    let uploadedImgUrl = null;
+    if (imageFile) {
+      uploadedImgUrl = await uploadAvatar(imageFile);
+    }
+
     const { error } = await db.from("comments").insert({
-      parent_id: parentId,
-      char_id: charId,
-      content: text.trim(),
+      parent_id: parentId || null,
+      char_id: charId || null,
+      content: content,
+      image_url: uploadedImgUrl,
       user_id: currentUser?.id || null,
       guest_name: currentUser ? null : guestName,
       is_admin: !!isAdmin
     });
 
-    if (error) {
-      alert("Lỗi khi gửi câu trả lời: " + error.message);
-      return;
-    }
+    if (error) throw error;
 
+    // Reset Form
+    textarea.value = "";
+    textarea.style.height = '';
+    removeCommentImage(inputId);
+    if(parentId) toggleReplyBox(parentId);
+
+    // Tặng thưởng nếu có đăng nhập
     if (currentUser) {
+      if(charId && !parentId) await addAffinity(charId, 20, "comment");
       await rewardSnowflakes(5);
-      toast("Đã trả lời (+5 ❄️)");
+      toast("Đã gửi bình luận (+5 ❄️)");
     } else {
-      toast("Đã gửi câu trả lời!");
+      toast("Đã gửi bình luận!");
     }
 
+    // Tải lại vùng cmt
     if (charId) {
       await loadMiniComments(charId);
-      if (currentChar && currentChar.id === charId) {
-        await loadAppComments(charId);
-      }
+      if (currentChar && currentChar.id === charId) await loadAppComments(charId);
     } else {
       await loadJournal();
     }
   } catch (err) {
-    alert("Lỗi hệ thống: " + err.message);
+    toast("Lỗi hệ thống: " + err.message);
+  } finally {
+    if (sendBtn) {
+      sendBtn.textContent = originalBtnText; 
+      sendBtn.disabled = false;
+    }
   }
 }
 
-window.replyTo = replyTo;
-
 async function deleteComment(id){
-if(!isAdmin)return;
-const {error}=await db.from("comments").delete().eq("id",id);
-if(error)toast(error.message);
-else{
-toast("Đã xóa bình luận.");
-loadJournal();
-filteredChars.forEach(c=>loadMiniComments(c.id));
-if(currentChar)loadAppComments(currentChar.id);
-}
+  if(!isAdmin)return;
+  const {error}=await db.from("comments").delete().eq("id",id);
+  if(error)toast(error.message);
+  else{
+    toast("Đã xóa bình luận.");
+    loadJournal();
+    filteredChars.forEach(c=>loadMiniComments(c.id));
+    if(currentChar)loadAppComments(currentChar.id);
+  }
 }
 
 async function rewardSnowflakes(amount) {
@@ -1790,35 +1860,6 @@ async function rewardSnowflakes(amount) {
     const shopSnowText = document.getElementById("shop-snowflakes");
     if(shopSnowText) shopSnowText.textContent = newSnowflakes;
   }
-}
-
-async function postComment(charId){
-const textarea=charId?document.getElementById("mini-input-"+charId):document.getElementById("journalText");
-const content=textarea?.value.trim();if(!content && !currentFeedbackImg)return toast("Hãy viết gì đó hoặc đính kèm ảnh nhé.");
-let guestName=null;
-if(!currentUser){
-if(charId){ guestName=document.getElementById("mini-nick-"+charId)?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
-else{ guestName=document.getElementById("journalNickname")?.value.trim()||"Kẻ Mộng Mơ Vô Danh"; }
-}
-
-let uploadedImgUrl = null;
-if(currentFeedbackImg && !charId){
-  try{ uploadedImgUrl = await uploadAvatar(currentFeedbackImg); }catch(e){}
-}
-
-const {error}=await db.from("comments").insert({char_id:charId||null,content,image_url:uploadedImgUrl,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
-if(error){toast(error.message);return}
-textarea.value=""; 
-removeFeedbackImage();
-
-if (currentUser) {
-    await rewardSnowflakes(5);
-    toast("Đã gửi bình luận. Nhận được +5 ❄️");
-} else {
-    toast("Đã gửi bình luận.");
-}
-
-if(charId){loadMiniComments(charId);if(currentChar?.id===charId)loadAppComments(charId)}else loadJournal();
 }
 
 async function loadJournal(){
@@ -1981,8 +2022,19 @@ return `<div class="recommend-card" onclick="${clickAction}">
 
 document.getElementById("appLinks").innerHTML=[["Doki",c.doki,"link-doki"],["ggAI",c.gg,"link-gg"],["Story",c.story,"link-story"]].filter(x=>x[1]).map(x=>`<a class="${x[2]}" href="${x[1]}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">${x[0]}</a>`).join("");
 
-const nickFieldApp=!currentUser?`<input id="appNickname" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
-document.getElementById("appCommentForm").innerHTML=`${nickFieldApp}<textarea id="appInput" class="comment-input" rows="2" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..."></textarea><div class="comment-actions"><button class="send-btn" onclick="postAppComment()">Gửi</button></div>`;
+const nickFieldApp=!currentUser?`<input id="nick-app-${id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
+document.getElementById("appCommentForm").innerHTML = `
+  ${nickFieldApp}
+  <div id="preview-app-${id}" class="cmt-preview-area"></div>
+  <div class="cmt-input-container">
+    <label class="cmt-camera-btn">
+      📷<input type="file" id="file-app-${id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'app-${id}')">
+    </label>
+    <div class="cmt-text-wrapper">
+      <textarea id="input-app-${id}" class="cmt-textarea" rows="1" placeholder="Bình luận dưới tên ${escapeHtml(c.name.split(' (')[0])}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+    </div>
+    <button class="cmt-send-btn" onclick="submitComment('app-${id}', '${id}', null)">Gửi</button>
+  </div>`;
 
 await refreshAffinity(id);
 
@@ -2007,24 +2059,6 @@ function closeAppDetail(){
     audioEl.play().catch(()=>{});
     wasMusicPlaying = false;
   }
-}
-
-async function postAppComment(){
-if(!currentChar)return;
-const ta=document.getElementById("appInput"); const content=ta.value.trim(); if(!content)return;
-let guestName=null;
-if(!currentUser) guestName=document.getElementById("appNickname")?.value.trim()||"Kẻ Mộng Mơ Vô Danh";
-const {error}=await db.from("comments").insert({char_id:currentChar.id,content,user_id:currentUser?.id||null,guest_name:currentUser?null:guestName,is_admin:!!isAdmin});
-if(error)return toast(error.message);
-ta.value="";
-if(currentUser){
-    await addAffinity(currentChar.id,20,"comment");
-    await rewardSnowflakes(5);
-    toast("Đã lưu bình luận. Nhận được +5 ❄️");
-} else {
-    toast("Đã lưu bình luận.");
-}
-await loadAppComments(currentChar.id); loadMiniComments(currentChar.id);
 }
 
 async function loadAppComments(id){
