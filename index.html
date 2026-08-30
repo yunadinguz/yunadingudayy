@@ -2701,13 +2701,6 @@ async function doCheckin() {
   toast("Điểm danh thành công! Nhận 10 ❄️");
   renderCheckin();
 }
-// ================= HẾT LOGIC ĐIỂM DANH =================
-  
-  // Tính toán lại progress phòng khi user để treo tab qua tuần mới
-  const currentWeek = getWeekNumber(new Date());
-  let lastWeek = currentProfile.last_checkin_date ? getWeekNumber(new Date(currentProfile.last_checkin_date)) : -1;
-  let currentProgress = currentProfile.checkin_progress || 0;
-  if (lastWeek !== currentWeek && lastWeek !== -1) { currentProgress = 0; }
 
 // Logic Chỉnh sửa Profile
 let tempAvatarFile = null;
