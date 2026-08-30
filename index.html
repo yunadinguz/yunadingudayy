@@ -1527,7 +1527,7 @@ const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 grid.innerHTML=pagedChars.map(c=>{
 // Bấm vào luôn mở bảng thông tin (Detail)
 const clickAction = `openAppDetail('${c.id}')`;
-const pass = c.pass ? `<button class="r21-btn" onclick="${clickAction}">🔐 Giấc Mộng Đóng Băng (Xem thông tin)</button>` : `<button class="btn-see-more" onclick="${clickAction}">✦ Xem thêm</button>`;
+const pass = `<button class="btn-see-more" onclick="${clickAction}">✦ Xem thêm</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
 
 const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
