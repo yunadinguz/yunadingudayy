@@ -1525,8 +1525,9 @@ const start=(currentPage-1)*PER_PAGE;
 const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 
 grid.innerHTML=pagedChars.map(c=>{
-const clickAction = c.pass ? `openR21Modal('${c.id}')` : `openAppDetail('${c.id}')`;
-const pass=c.pass?`<button class="r21-btn" onclick="${clickAction}">🔐 Giấc Mộng Đóng Băng</button>`:`<button class="btn-see-more" onclick="${clickAction}">✦ Xem thêm</button>`;
+// Bấm vào luôn mở bảng thông tin (Detail)
+const clickAction = `openAppDetail('${c.id}')`;
+const pass = c.pass ? `<button class="r21-btn" onclick="${clickAction}">🔐 Giấc Mộng Đóng Băng (Xem thông tin)</button>` : `<button class="btn-see-more" onclick="${clickAction}">✦ Xem thêm</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
 
 const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
@@ -2043,17 +2044,30 @@ document.getElementById("appTags").innerHTML=c.tags.map(t=>`<span class="tag" on
 
 document.getElementById("appProfile").innerHTML=c.profile?escapeHtml(c.profile):`<span style="color:#a0acb9;font-style:italic">Chưa có thông tin công khai.</span>`;
 
-document.getElementById("recommendRow").innerHTML=CHARS.filter(x=>x.id!==id).slice(0,5).map(x=>{
-const clickAction=x.pass?`closeAppDetail();setTimeout(()=>openR21Modal('${x.id}'),200)`:`openAppDetail('${x.id}')`;
-return `<div class="recommend-card" onclick="${clickAction}">
-<img src="${x.img}" alt="">
-<b>${escapeHtml(x.name.split(" (")[0])}</b>
-<div class="rec-tagline">"${escapeHtml(short(x.tagline,70))}"</div>
-<div class="recommend-tags">${x.tags.slice(0,2).map(t=>`<span class="tag" style="font-size:.62rem;padding:2px 6px">#${escapeHtml(t)}</span>`).join("")}</div>
-</div>`;
+// --- ĐỀ XUẤT NGẪU NHIÊN NHÂN VẬT ---
+let recommendList = CHARS.filter(x => x.id !== id).sort(() => 0.5 - Math.random()).slice(0, 5);
+document.getElementById("recommendRow").innerHTML = recommendList.map(x => {
+  const clickAction = `openAppDetail('${x.id}')`;
+  return `<div class="recommend-card" onclick="${clickAction}">
+  <img src="${x.img}" alt="">
+  <b>${escapeHtml(x.name.split(" (")[0])}</b>
+  <div class="rec-tagline">"${escapeHtml(short(x.tagline,70))}"</div>
+  <div class="recommend-tags">${x.tags.slice(0,2).map(t=>`<span class="tag" style="font-size:.62rem;padding:2px 6px">#${escapeHtml(t)}</span>`).join("")}</div>
+  </div>`;
 }).join("");
 
-document.getElementById("appLinks").innerHTML=[["Doki",c.doki,"link-doki"],["ggAI",c.gg,"link-gg"],["Story",c.story,"link-story"]].filter(x=>x[1]).map(x=>`<a class="${x[2]}" href="${x[1]}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">${x[0]}</a>`).join("");
+// --- GẮN PASS VÀO NÚT GGAI (NẾU CÓ PASS) ---
+let linksHtml = "";
+if(c.doki) linksHtml += `<a class="link-doki" href="${c.doki}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">Doki</a>`;
+if(c.gg) {
+  if(c.pass) {
+    linksHtml += `<a class="link-gg" href="javascript:void(0)" onclick="clickJourney('${id}'); openR21ForLink('${id}', '${c.gg}')">🔐 ggAI</a>`;
+  } else {
+    linksHtml += `<a class="link-gg" href="${c.gg}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">ggAI</a>`;
+  }
+}
+if(c.story) linksHtml += `<a class="link-story" href="${c.story}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">Story</a>`;
+document.getElementById("appLinks").innerHTML = linksHtml;
 
 const nickFieldApp=!currentUser?`<input id="nick-app-${id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
 document.getElementById("appCommentForm").innerHTML = `
@@ -2102,24 +2116,27 @@ document.getElementById("appComments").innerHTML=`<div class="comment-scroll">${
 refreshUserBadges();
 }
 
-function openR21Modal(id){
-  currentR21=id;
-  document.getElementById("r21Input").value="";
-  const err = document.getElementById("r21Error");
-  err.style.display="none";
+let currentR21Url = null;
+
+function openR21ForLink(id, url) {
+  currentR21 = id;
+  currentR21Url = url; // Lưu lại link ggAI để mở sau khi nhập đúng
+  document.getElementById("r21Input").value = "";
+  document.getElementById("r21Error").style.display = "none";
   document.getElementById("r21Box").classList.remove("shake");
   openModal("r21Modal");
 }
 
-function verifyR21(){
-  const c=CHARS.find(x=>x.id===currentR21);
+function verifyR21() {
+  const c = CHARS.find(x => x.id === currentR21);
   const inputVal = document.getElementById("r21Input").value;
   const box = document.getElementById("r21Box");
   const err = document.getElementById("r21Error");
 
-  if(inputVal===c.pass){
+  if(inputVal === c.pass){
     closeModal("r21Modal");
-    setTimeout(()=>openAppDetail(currentR21),220);
+    // Nhập đúng thì mở tab ggAI
+    window.open(currentR21Url, "_blank"); 
   } else {
     err.style.display="block";
     box.classList.remove("shake");
@@ -2157,7 +2174,7 @@ if(p%25===0)document.getElementById("destinyNote").textContent=["Đang lắng ng
 if(p>=100){
 clearInterval(timer);
 setTimeout(()=>{
-document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"><div style="font-size:.78rem;color:#6e8aa3;margin-bottom:6px">✨ Đêm nay, người được số phận gửi đến chính là...</div><img src="${c.img}" alt=""><h3>${escapeHtml(c.name)}</h3><p>"${escapeHtml(short(c.tagline,95))}"</p><div style="display:flex;gap:10px;justify-content:center;margin-top:10px"><button class="modal-primary" onclick="closeModal('destinyModal');setTimeout(()=>${c.pass?`openR21Modal('${c.id}')`:`openAppDetail('${c.id}')`},220)">Xem giấc mộng</button><button class="pill-btn reset" onclick="closeModal('destinyModal')">Hủy</button></div></div>`;
+document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"><div style="font-size:.78rem;color:#6e8aa3;margin-bottom:6px">✨ Đêm nay, người được số phận gửi đến chính là...</div><img src="${c.img}" alt=""><h3>${escapeHtml(c.name)}</h3><p>"${escapeHtml(short(c.tagline,95))}"</p><div style="display:flex;gap:10px;justify-content:center;margin-top:10px"><button class="modal-primary" onclick="closeModal('destinyModal');setTimeout(()=>openAppDetail('${c.id}'),220)">Xem giấc mộng</button><button class="pill-btn reset" onclick="closeModal('destinyModal')">Hủy</button></div></div>`;
 },400)}
 },50);
 }
