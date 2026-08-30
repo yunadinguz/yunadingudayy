@@ -484,17 +484,38 @@
 .mail-content-view { background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; padding: 16px; margin-top: 15px; text-align: left; font-size: 0.9rem; line-height: 1.6; display: none; }
 
 /* GIAO DIỆN BÌNH LUẬN MỚI */
-.cmt-input-container { display: flex; align-items: flex-end; gap: 8px; width: 100%; margin-top: 6px; }
-.cmt-camera-btn { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #c2dcf0; background: #fff; color: #3b6d9a; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: 0.2s; padding: 0; }
-.cmt-camera-btn:hover { background: #eaf5ff; }
-.cmt-text-wrapper { flex: 1; display: flex; flex-direction: column; background: #fff; border: 1px solid #cfe2f1; border-radius: 20px; overflow: hidden; }
-.cmt-textarea { border: none; outline: none; resize: none; background: transparent; font-family: var(--sans); font-size: 0.88rem; color: var(--navy); padding: 10px 12px; max-height: 120px; width: 100%; }
-.cmt-send-btn { flex-shrink: 0; border: none; background: #8aadd0; color: #fff; font-weight: 700; border-radius: 18px; padding: 10px 18px; transition: 0.2s; cursor: pointer; }
-.cmt-send-btn:hover { background: var(--mid); }
+.cmt-box-wrapper { background: #ffffff; border: 1px solid #cfe2f1; border-radius: 18px; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; box-shadow: 0 2px 8px rgba(3,62,140,0.03); }
+.cmt-textarea { border: none; outline: none; resize: none; background: transparent; font-family: var(--sans); font-size: 0.88rem; color: var(--navy); padding: 4px 0; max-height: 120px; width: 100%; }
+.cmt-action-bar { display: flex; align-items: center; justify-content: space-between; width: 100%; padding-top: 4px; border-top: 1px solid #f0f6fb; }
+
+/* Nút Camera nhỏ gọn, căn giữa tuyệt đối và có hiệu ứng nổi */
+.cmt-camera-btn { 
+  flex-shrink: 0; 
+  width: 30px; 
+  height: 30px; 
+  border-radius: 50%; 
+  border: 1px solid #d0e4f5; 
+  background: #ffffff; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer; 
+  font-size: 14px; 
+  line-height: 1; 
+  box-shadow: 0 3px 8px rgba(3,62,140,0.12); 
+  transition: all 0.2s ease; 
+  user-select: none;
+}
+.cmt-camera-btn:hover { background: #f0f7ff; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(3,62,140,0.18); }
+.cmt-camera-btn:active { transform: translateY(0); }
+
+/* Nút Gửi */
+.cmt-send-btn { border: none; background: linear-gradient(135deg,#79acd9,#4d8fca); color: #fff; font-weight: 700; border-radius: 14px; padding: 6px 16px; font-size: 0.82rem; transition: 0.2s; cursor: pointer; box-shadow: 0 2px 6px rgba(3,62,140,0.15); }
+.cmt-send-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
 .inline-reply-box { display: none; margin-top: 8px; padding-left: 46px; }
 .inline-reply-box.open { display: block; animation: fadeInView .3s ease; }
-.cmt-preview-area { margin-bottom: 6px; display: empty; }
-.cmt-preview-area img { max-width: 120px; max-height: 120px; border-radius: 12px; border: 1px solid #dceaf5; object-fit: cover; display: block; margin-top: 4px; }
+.cmt-preview-area img { max-width: 110px; max-height: 110px; border-radius: 10px; border: 1px solid #dceaf5; object-fit: cover; display: block; margin: 4px 0; }
 </style>
 </head>
 <body>
@@ -624,7 +645,7 @@
 
 <div id="appView" class="app-view"><div class="app-shell"><button class="app-close" onclick="closeAppDetail()">×</button><div class="app-scroll" id="appScroll"><div id="appHero" class="app-hero"></div><div class="app-meta"><div class="app-title-row"><h2 id="appName" class="app-name"></h2><div id="voiceBtnWrap"></div></div><div id="appCreated" class="app-created"></div></div><div class="app-section"><h3>✦ Chi tiết nhân vật</h3><div id="appTagline" class="app-tagline-full"></div><div id="appTags" class="app-tags"></div><div id="appAffinity"></div></div><div class="app-section"><h3>Thông tin công khai</h3><div id="appProfile" class="public-info"></div></div><div class="app-section app-comments"><h3>💬 Bình luận</h3><div id="appCommentForm"></div><div id="appComments"></div></div><div class="app-section"><h3>Những người bạn có thể thích...</h3><div id="recommendRow" class="recommend-row"></div></div></div><div id="appLinks" class="sticky-links"></div></div></div>
 
-<div id="howToPassModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('howToPassModal')">×</button><h2>🗝️ Cách Lấy Pass</h2><div style="color:var(--text);line-height:1.6;font-size:.86rem;text-align:left"><p><b>Thử thách 1:</b> Kẻ Mộng Mơ đã đủ trưởng thành (18+).</p><p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên page Bản tình ca ngày đông. (Không phải WEB) và chụp gửi cho Yuna.</p><hr style="border:0;border-top:1px dashed var(--pale);margin:10px 0"><p style="color:#c85b64"><u>Lưu ý:</u> Hãy cất giữ thần chú thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.</p></div><button class="modal-primary" style="margin-top:10px" onclick="closeModal('howToPassModal')">Đã hiểu</button></div></div>
+<div id="howToPassModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('howToPassModal')">×</button><h2>🗝️ Cách Lấy Pass</h2><div style="color:var(--text);line-height:1.6;font-size:.86rem;text-align:left"><p><b>Thử thách 1:</b> Xác nhận Kẻ Mộng Mơ đã đủ trưởng thành (18+) bằng Giấy tờ tùy thân (Yêu cầu: Che tất cả những thông tin khác, chỉ để lại Ngày/Tháng/Năm sinh).</p><p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên page Bản tình ca ngày đông. (Không phải WEB) và chụp gửi cho Page.</p><p><b>Thử thách 3:</b> Chờ và nhận "Câu thần chú" từ Yuna.</p><hr style="border:0;border-top:1px dashed var(--pale);margin:10px 0"><p style="color:#c85b64"><u>Lưu ý:</u> Hãy cất giữ thần chú thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.</p></div><button class="modal-primary" style="margin-top:10px" onclick="closeModal('howToPassModal')">Đã hiểu</button></div></div>
 
 <div id="r21Modal" class="custom-modal"><div class="modal-box" id="r21Box"><button class="close-modal" onclick="closeModal('r21Modal')">×</button><h2>🔐 Giấc Mộng Đóng Băng</h2><p style="color:var(--text);font-size:.86rem">Thần chú để phá vỡ phong ấn là gì?</p><input id="r21Input" type="password" placeholder="Nhập câu thần chú..."><p id="r21Error" style="color:#e53e3e;font-weight:600;display:none;margin-top:8px;font-size:.85rem">Băng vẫn chưa tan... Bạn có muốn truyền thêm hơi ấm không?</p><div style="display:flex;gap:10px;justify-content:center;margin-top:14px"><button class="modal-primary" onclick="verifyR21()">Phá băng</button><button class="pill-btn reset" onclick="closeModal('r21Modal')">Hủy</button></div></div></div>
 
@@ -1219,15 +1240,15 @@ function updateJournalInput(){
   const nickHtml = !currentUser ? `<input id="nick-journal" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : '';
   box.innerHTML = `
     ${nickHtml}
-    <div id="preview-journal" class="cmt-preview-area"></div>
-    <div class="cmt-input-container">
-      <label class="cmt-camera-btn" title="Thêm ảnh">
-        📷<input type="file" id="file-journal" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'journal')">
-      </label>
-      <div class="cmt-text-wrapper">
-        <textarea id="input-journal" class="cmt-textarea" rows="1" placeholder="Viết cảm nghĩ và ideas mà bạn muốn dệt mộng..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+    <div class="cmt-box-wrapper">
+      <textarea id="input-journal" class="cmt-textarea" rows="2" placeholder="Bình luận dưới tên ${escapeHtml(currentProfile?.display_name || 'Kẻ Mộng Mơ Vô Danh')}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+      <div id="preview-journal" class="cmt-preview-area"></div>
+      <div class="cmt-action-bar">
+        <label class="cmt-camera-btn" title="Thêm ảnh">
+          📷<input type="file" id="file-journal" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'journal')">
+        </label>
+        <button class="cmt-send-btn" onclick="submitComment('journal', null, null)">Gửi</button>
       </div>
-      <button class="cmt-send-btn" onclick="submitComment('journal', null, null)">Gửi</button>
     </div>
   `;
 }
@@ -1520,15 +1541,15 @@ ${pass}
   <div class="comment-scroll" id="mini-list-${c.id}"></div>
   <div style="margin-top:8px">
     ${nickField}
-    <div id="preview-mini-${c.id}" class="cmt-preview-area"></div>
-    <div class="cmt-input-container">
-      <label class="cmt-camera-btn">
-        📷<input type="file" id="file-mini-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'mini-${c.id}')">
-      </label>
-      <div class="cmt-text-wrapper">
-        <textarea id="input-mini-${c.id}" class="cmt-textarea" rows="1" placeholder="Bình luận dưới tên ${escapeHtml(c.name.split(' (')[0])}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+    <div class="cmt-box-wrapper">
+      <textarea id="input-mini-${c.id}" class="cmt-textarea" rows="2" placeholder="Bình luận dưới tên ${escapeHtml(currentProfile?.display_name || 'Kẻ Mộng Mơ Vô Danh')}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+      <div id="preview-mini-${c.id}" class="cmt-preview-area"></div>
+      <div class="cmt-action-bar">
+        <label class="cmt-camera-btn" title="Thêm ảnh">
+          📷<input type="file" id="file-mini-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'mini-${c.id}')">
+        </label>
+        <button class="cmt-send-btn" onclick="submitComment('mini-${c.id}', '${c.id}', null)">Gửi</button>
       </div>
-      <button class="cmt-send-btn" onclick="submitComment('mini-${c.id}', '${c.id}', null)">Gửi</button>
     </div>
   </div>
 </div>
@@ -1726,15 +1747,15 @@ ${isAdmin?`<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" sty
 </div>
 <div id="reply-box-${c.id}" class="inline-reply-box">
   ${!currentUser ? `<input id="nick-reply-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : ''}
-  <div id="preview-reply-${c.id}" class="cmt-preview-area"></div>
-  <div class="cmt-input-container">
-    <label class="cmt-camera-btn">
-      📷<input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')">
-    </label>
-    <div class="cmt-text-wrapper">
-      <textarea id="input-reply-${c.id}" class="cmt-textarea" rows="1" placeholder="Viết phản hồi của bạn..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+  <div class="cmt-box-wrapper">
+    <textarea id="input-reply-${c.id}" class="cmt-textarea" rows="1" placeholder="Viết phản hồi dưới tên ${escapeHtml(currentProfile?.display_name || 'Kẻ Mộng Mơ Vô Danh')}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+    <div id="preview-reply-${c.id}" class="cmt-preview-area"></div>
+    <div class="cmt-action-bar">
+      <label class="cmt-camera-btn" title="Thêm ảnh">
+        📷<input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')">
+      </label>
+      <button class="cmt-send-btn" onclick="submitComment('reply-${c.id}', ${safeCharId}, '${c.id}')">Gửi</button>
     </div>
-    <button class="cmt-send-btn" onclick="submitComment('reply-${c.id}', ${safeCharId}, '${c.id}')">Gửi</button>
   </div>
 </div>
 <div class="reply-list">${replies}</div>`;
@@ -1781,7 +1802,7 @@ async function submitComment(inputId, charId, parentId) {
   }
 
   // Tạm khóa nút Gửi
-  const sendBtn = textarea.closest('.cmt-input-container').querySelector('.cmt-send-btn');
+  const sendBtn = textarea.closest('.cmt-box-wrapper').querySelector('.cmt-send-btn');
   let originalBtnText = "Gửi";
   if (sendBtn) {
     originalBtnText = sendBtn.textContent;
@@ -2025,15 +2046,15 @@ document.getElementById("appLinks").innerHTML=[["Doki",c.doki,"link-doki"],["ggA
 const nickFieldApp=!currentUser?`<input id="nick-app-${id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
 document.getElementById("appCommentForm").innerHTML = `
   ${nickFieldApp}
-  <div id="preview-app-${id}" class="cmt-preview-area"></div>
-  <div class="cmt-input-container">
-    <label class="cmt-camera-btn">
-      📷<input type="file" id="file-app-${id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'app-${id}')">
-    </label>
-    <div class="cmt-text-wrapper">
-      <textarea id="input-app-${id}" class="cmt-textarea" rows="1" placeholder="Bình luận dưới tên ${escapeHtml(c.name.split(' (')[0])}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+  <div class="cmt-box-wrapper">
+    <textarea id="input-app-${id}" class="cmt-textarea" rows="2" placeholder="Bình luận dưới tên ${escapeHtml(currentProfile?.display_name || 'Kẻ Mộng Mơ Vô Danh')}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+    <div id="preview-app-${id}" class="cmt-preview-area"></div>
+    <div class="cmt-action-bar">
+      <label class="cmt-camera-btn" title="Thêm ảnh">
+        📷<input type="file" id="file-app-${id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'app-${id}')">
+      </label>
+      <button class="cmt-send-btn" onclick="submitComment('app-${id}', '${id}', null)">Gửi</button>
     </div>
-    <button class="cmt-send-btn" onclick="submitComment('app-${id}', '${id}', null)">Gửi</button>
   </div>`;
 
 await refreshAffinity(id);
