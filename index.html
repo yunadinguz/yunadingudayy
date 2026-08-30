@@ -1175,7 +1175,15 @@ function titleFor(best){
 function pct(n){const ranges=[[0,20],[20,100],[100,500],[500,2000]];if(n>2000)return 100;const r=ranges.find(x=>n>=x[0]&&n<=x[1])||ranges[0];return Math.min(100,Math.max(0,((n-r[0])/(r[1]-r[0]))*100))}
 
 async function loadProfile(){
-if(!currentUser){currentProfile=null;isAdmin=false;renderAuth();return}
+if(!currentUser){
+  currentProfile=null;
+  isAdmin=false;
+  renderAuth();
+  renderCards();
+  updateJournalInput();
+  loadMailbox(); // Cập nhật hòm thư khi là khách
+  return;
+}
 let {data}=await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
 currentProfile=data||{id:currentUser.id,display_name:currentUser.user_metadata?.display_name||currentUser.email?.split("@")[0]||"Kẻ Mộng Mơ Vô Danh"};
 
@@ -1184,7 +1192,11 @@ try{
   isAdmin=!!(a.data && (a.data.role==='admin'||a.data.role==='owner'||a.data.user_id));
 }catch(e){ isAdmin = false; }
 
-renderAuth();refreshUserBadges();
+renderAuth();
+refreshUserBadges();
+renderCards();
+updateJournalInput();
+loadMailbox(); // Cập nhật chính xác hòm thư ngay khi tải xong tài khoản
 }
 
 async function initAuth(){
@@ -2155,26 +2167,26 @@ let allMails = [];
 let readMails = [];
 
 async function loadMailbox() {
-  // Lấy thư hệ thống của Admin (Ai cũng thấy)
+  // Lấy thư hệ thống
   let {data} = await db.from("comments").select("*").eq("char_id", "ADMIN_MAIL").order("created_at", {ascending: false});
   allMails = (data || []).map(m => {
     try { const content = JSON.parse(m.content); return { id: m.id, ...content, time: m.created_at, type: 'admin' }; } 
     catch(e) { return { id: m.id, title: "Thư hệ thống", sender: "Admin", body: m.content, time: m.created_at, type: 'admin' }; }
   });
 
-  if (!currentUser) {
-    // Nếu là KHÁCH CHƯA ĐĂNG NHẬP
-    readMails = JSON.parse(localStorage.getItem('guest_read_mails') || '[]');
-  } else {
-    // Nếu là NGƯỜI ĐÃ ĐĂNG NHẬP TÀI KHOẢN
-    readMails = currentProfile?.read_mails || [];
-    
-    // Kiểm tra xem đã bình luận trên 50 lần chưa
+  // Khóa lưu trữ riêng theo tài khoản trên thiết bị
+  const storageKey = 'read_mails_' + (currentUser ? currentUser.id : 'guest');
+  let localRead = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  let profileRead = currentProfile?.read_mails || [];
+  
+  // Gộp cả 2 nguồn để đảm bảo không bao giờ bị mất trạng thái đã đọc
+  readMails = Array.from(new Set([...localRead, ...profileRead]));
+
+  if (currentUser) {
     const { count } = await db.from("comments").select("*", { count: 'exact', head: true }).eq("user_id", currentUser.id);
     if (count >= 50) {
-      const ownedT = currentProfile.owned_titles || [];
+      const ownedT = currentProfile?.owned_titles || [];
       if (!ownedT.includes('diep_khuc')) {
-        // Tự động đẩy thư tặng khung vào hòm thư
         allMails.unshift({
           id: 'auto_reward_50', 
           title: "Phần thưởng Tri Ân từ Tuyết Trắng", 
@@ -2189,77 +2201,6 @@ async function loadMailbox() {
   updateMailBadge();
 }
 
-let currentMailTab = 'system'; // Mặc định mở tab hệ thống
-
-function updateMailBadge() {
-  // Tính tổng số thư chưa đọc
-  const unreadTotal = allMails.filter(m => !readMails.includes(m.id)).length;
-  // Tính thư hệ thống chưa đọc (người gửi là Yuna)
-  const unreadSys = allMails.filter(m => m.sender === 'Yuna' && !readMails.includes(m.id)).length;
-  // Tính thư nhân vật chưa đọc (người gửi khác Yuna)
-  const unreadChar = allMails.filter(m => m.sender !== 'Yuna' && !readMails.includes(m.id)).length;
-
-  const badge = document.getElementById("mailBadge");
-  const btn = document.getElementById("mailBtn");
-  
-  // Nút chuông bên ngoài
-  if(unreadTotal > 0) {
-    badge.style.display = "flex"; badge.textContent = unreadTotal; btn.classList.add("ring");
-  } else {
-    badge.style.display = "none"; btn.classList.remove("ring");
-  }
-
-  // Chấm đỏ trong Tab
-  const dotSys = document.getElementById("dot-sys-mail");
-  const dotChar = document.getElementById("dot-char-mail");
-  if (dotSys) dotSys.style.display = unreadSys > 0 ? "block" : "none";
-  if (dotChar) dotChar.style.display = unreadChar > 0 ? "block" : "none";
-}
-
-function switchMailTab(tab) {
-  currentMailTab = tab;
-  document.getElementById("tab-sys-mail").classList.remove("active");
-  document.getElementById("tab-char-mail").classList.remove("active");
-  
-  if (tab === 'system') document.getElementById("tab-sys-mail").classList.add("active");
-  else document.getElementById("tab-char-mail").classList.add("active");
-  
-  document.getElementById("mailDetail").style.display = "none";
-  currentOpenMailId = null;
-  renderMailList();
-}
-
-function renderMailList() {
-  const list = document.getElementById("mailList");
-  // Lọc thư theo tab hiện tại
-  const filteredMails = allMails.filter(m => {
-    if (currentMailTab === 'system') return m.sender === 'Yuna';
-    return m.sender !== 'Yuna';
-  });
-
-  if(filteredMails.length === 0) { 
-    list.innerHTML = `<div style="padding:20px; text-align:center; color:#8797a9;">Chưa có thư ở mục này.</div>`; 
-  } else {
-    list.innerHTML = filteredMails.map(m => {
-      const isRead = readMails.includes(m.id);
-      return `<div class="mail-item ${isRead ? '' : 'unread'}" id="mail-item-${m.id}" onclick="viewMail('${m.id}')">
-        <div class="mail-dot"></div>
-        <div>
-          <div class="mail-title">${escapeHtml(m.title)}</div>
-          <div class="mail-sender">Từ: ${escapeHtml(m.sender)}</div>
-        </div>
-      </div>`;
-    }).join("");
-  }
-}
-
-function openMailbox() {
-  loadMailbox().then(() => {
-    switchMailTab('system'); // Luôn mở tab Hệ thống khi bật lên
-    document.getElementById("adminMailTools").innerHTML = isAdmin ? `<button class="pill-btn" onclick="composeAdminMail()">+ Đăng thư hệ thống</button>` : '';
-    openModal("mailboxModal");
-  });
-}
 let currentOpenMailId = null;
 
 async function viewMail(id) {
@@ -2277,17 +2218,25 @@ async function viewMail(id) {
   const m = allMails.find(x => x.id === id); if(!m) return;
   
   document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
-  document.getElementById("mail-item-" + id).classList.add("active-mail");
+  document.getElementById("mail-item-" + id)?.classList.add("active-mail");
   
+  // Đánh dấu đã đọc
   if (!readMails.includes(id)) {
     readMails.push(id);
+    
+    // 1. Lưu ngay vào bộ nhớ máy
+    const storageKey = 'read_mails_' + (currentUser ? currentUser.id : 'guest');
+    localStorage.setItem(storageKey, JSON.stringify(readMails));
+
+    // 2. Đồng bộ lên database
     if(currentUser) {
-      await db.from("profiles").update({ read_mails: readMails }).eq("id", currentUser.id);
-      currentProfile.read_mails = readMails;
-    } else {
-      localStorage.setItem('guest_read_mails', JSON.stringify(readMails));
+      try {
+        await db.from("profiles").update({ read_mails: readMails }).eq("id", currentUser.id);
+        if(currentProfile) currentProfile.read_mails = readMails;
+      } catch(e) {}
     }
-    document.getElementById("mail-item-" + id).classList.remove("unread");
+
+    document.getElementById("mail-item-" + id)?.classList.remove("unread");
     updateMailBadge();
   }
 
