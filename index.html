@@ -538,12 +538,13 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 2px rgba(244, 114, 182, 0.8));
   /* Animation rơi thẳng từ trên xuống */
   animation: particleFallDown 1.3s ease-in forwards;
+  transform-origin: center; /* Giúp hiệu ứng xoay tròn mượt hơn */
 }
 
 @keyframes particleFallDown {
   0% {
     opacity: 0;
-    transform: translate(var(--x), -20px) scale(var(--scale));
+    transform: translateY(-20px) rotate(0deg);
   }
   20% {
     opacity: 1;
@@ -553,8 +554,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   }
   100% {
     opacity: 0;
-    /* Rơi thẳng xuống 90px, không bắn ngang */
-    transform: translate(var(--x), 90px) scale(var(--scale)) rotate(180deg);
+    transform: translateY(110px) rotate(180deg);
   }
 }
 
@@ -3121,16 +3121,14 @@ function spawnKaomojiSnowflake() {
   p.className = 'wish-particle';
   p.innerText = '❄';
   
-  // 1. Tạo độ to nhỏ ngẫu nhiên (hạt nhỏ xíu, hạt vừa, hạt to)
-  let scale = (0.6 + Math.random() * 0.9).toFixed(2);
-  p.style.setProperty('--scale', scale);
+  // 1. Tạo độ to nhỏ ngẫu nhiên bằng font-size thay vì scale (để fix lỗi Safari/Mobile)
+  let scale = 0.6 + Math.random() * 0.9;
+  p.style.fontSize = (24 * scale) + 'px'; // 24px là kích thước gốc
 
-  // 2. Rải đều vị trí ngang quanh ảnh và cho rơi thẳng xuống
-  let x = (Math.random() * 130 - 65) + 'px'; 
-  p.style.setProperty('--x', x);
-  
-  p.style.left = '50%';
-  p.style.top = '30%'; // Bắt đầu từ phía trên ảnh rồi rơi thẳng xuống
+  // 2. Vị trí X ngang ngẫu nhiên gán thẳng vào thuộc tính left
+  let xOffset = Math.random() * 130 - 65; 
+  p.style.left = `calc(50% + ${xOffset}px)`;
+  p.style.top = '15%'; // Bắt đầu từ phía trên ảnh
 
   container.appendChild(p);
 
