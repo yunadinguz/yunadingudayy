@@ -2830,22 +2830,27 @@ function previewNewAvatar(e) {
   }
 }
 
-async function saveEditProfile() {
+  async function saveEditProfile() {
   if (!currentUser) return;
   const newName = document.getElementById("editDisplayName").value.trim();
   if (!newName) return toast("Biệt danh không được để trống!");
 
+  // Hiển thị trạng thái đang tải trên nút bấm
   const btn = document.querySelector("#editProfileModal .auth-submit");
-  btn.textContent = "Đang lưu...";
-  btn.disabled = true;
+  if(btn) {
+    btn.textContent = "Đang lưu...";
+    btn.disabled = true;
+  }
 
   try {
-    let newAvatarUrl = currentProfile.avatar_url;
+    let newAvatarUrl = currentProfile?.avatar_url || null;
+    
+    // Nếu người dùng có upload ảnh mới
     if (tempAvatarFile) {
       newAvatarUrl = await uploadAvatar(tempAvatarFile);
     }
 
-    // PHẢI dùng upsert và truyền 'id' để sửa lỗi mất dữ liệu khi F5
+    // BẮT BUỘC DÙNG UPSERT: Tránh lỗi người dùng không tồn tại trong bảng profiles
     const { error } = await db.from("profiles").upsert({
       id: currentUser.id,
       display_name: newName,
@@ -2856,28 +2861,36 @@ async function saveEditProfile() {
 
     if (error) throw error;
 
-    // Cập nhật giao diện ngay lập tức
-    currentProfile.display_name = newName;
-    currentProfile.avatar_url = newAvatarUrl;
-    currentProfile.equipped_frame = tempEquippedFrame;
-    currentProfile.equipped_title = tempEquippedTitle;
+    // Cập nhật giao diện ngay lập tức mà không cần F5
+    if (currentProfile) {
+      currentProfile.display_name = newName;
+      currentProfile.avatar_url = newAvatarUrl;
+      currentProfile.equipped_frame = tempEquippedFrame;
+      currentProfile.equipped_title = tempEquippedTitle;
+    }
 
     toast("✨ Cập nhật thông tin thành công!");
     closeModal("editProfileModal");
     
-    // Tải lại giao diện
+    // Tải lại các thành phần giao diện
     renderAuth();
     refreshUserBadges();
     renderCards();
     loadJournal();
     if (currentChar) loadAppComments(currentChar.id);
+
   } catch (err) {
+    console.error("Lỗi Supabase:", err);
     toast("Lỗi khi lưu: " + err.message);
   } finally {
-    btn.textContent = "Lưu";
-    btn.disabled = false;
+    // Trả lại trạng thái nút bấm
+    if(btn) {
+      btn.textContent = "Lưu";
+      btn.disabled = false;
+    }
   }
 }
+
 function switchEditTab(tab) {
   document.querySelectorAll('.edit-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.edit-section').forEach(s => s.classList.remove('active'));
@@ -2999,64 +3012,6 @@ window.addEventListener('click', function(e) {
   const cm = document.getElementById('congratsModal');
   if (e.target === cm) cm.style.display = 'none';
 });
-
-  // Xem trước ảnh đại diện khi chọn ảnh mới trong modal Chỉnh sửa
-function previewNewAvatar(e) {
-  const file = e.target.files[0];
-  if (file) {
-    tempAvatarFile = file;
-    document.getElementById("editPreviewAvatar").src = URL.createObjectURL(file);
-  }
-}
-
-// Lưu toàn bộ thông tin (Tên, Ảnh đại diện, Khung, Danh hiệu) lên Supabase
-async function saveEditProfile() {
-  if (!currentUser) return;
-  
-  const newName = document.getElementById("editDisplayName").value.trim();
-  if (!newName) return toast("Biệt danh không được để trống!");
-
-  toast("Đang lưu thông tin...");
-
-  try {
-    let newAvatarUrl = currentProfile?.avatar_url || null;
-
-    // Nếu người dùng có chọn ảnh mới thì upload lên Storage
-    if (tempAvatarFile) {
-      newAvatarUrl = await uploadAvatar(tempAvatarFile);
-    }
-
-    // Cập nhật Database
-    const updateData = {
-      display_name: newName,
-      avatar_url: newAvatarUrl,
-      equipped_frame: tempEquippedFrame,
-      equipped_title: tempEquippedTitle
-    };
-
-    const { error } = await db.from("profiles").update(updateData).eq("id", currentUser.id);
-    if (error) throw error;
-
-    // Cập nhật profile hiện tại trong bộ nhớ
-    currentProfile.display_name = newName;
-    currentProfile.avatar_url = newAvatarUrl;
-    currentProfile.equipped_frame = tempEquippedFrame;
-    currentProfile.equipped_title = tempEquippedTitle;
-
-    closeModal("editProfileModal");
-    toast("✨ Đã cập nhật hồ sơ thành công!");
-    
-    // Tải lại giao diện hiển thị
-    renderAuth();
-    refreshUserBadges();
-    renderCards();
-    loadJournal();
-    if (currentChar) loadAppComments(currentChar.id);
-
-  } catch (err) {
-    toast("Lỗi cập nhật: " + err.message);
-  }
-}
 
 async function setup(){
   createSnow(); 
