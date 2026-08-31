@@ -2822,7 +2822,8 @@ let tempAvatarFile = null;
 let tempEquippedFrame = null;
 let tempEquippedTitle = null;
 
-  async function previewNewAvatar(e) {
+// Xem trước ảnh đại diện khi chọn ảnh mới trong modal Chỉnh sửa
+function previewNewAvatar(e) {
   const file = e.target.files[0];
   if (file) {
     tempAvatarFile = file;
@@ -2830,36 +2831,64 @@ let tempEquippedTitle = null;
   }
 }
 
+// Lưu toàn bộ thông tin (Tên, Ảnh, Khung, Danh hiệu) lên Supabase
 async function saveEditProfile() {
   if (!currentUser) return;
+  
   const newName = document.getElementById("editDisplayName").value.trim();
+  if (!newName) return toast("Biệt danh không được để trống!");
+
+  toast("Đang lưu thông tin...");
+
+  // Khóa nút Lưu để tránh user bấm nhiều lần
   const btn = document.querySelector("#editProfileModal .auth-submit");
-  btn.textContent = "Đang lưu...";
-  btn.disabled = true;
+  if(btn) { btn.textContent = "Đang lưu..."; btn.disabled = true; }
 
   try {
-    let newAvatarUrl = currentProfile.avatar_url;
+    let newAvatarUrl = currentProfile?.avatar_url || null;
+
+    // Nếu người dùng có chọn ảnh mới thì upload lên Storage
     if (tempAvatarFile) {
       newAvatarUrl = await uploadAvatar(tempAvatarFile);
     }
 
-    const { error } = await db.from("profiles").update({
-      display_name: newName || "Kẻ Mộng Mơ Vô Danh",
+    // Cập nhật Database: BẮT BUỘC PHẢI CÓ 'id' ĐỂ DÙNG UPSERT
+    const updateData = {
+      id: currentUser.id, // Dòng này rất quan trọng để Supabase biết đang sửa cho ai
+      display_name: newName,
       avatar_url: newAvatarUrl,
       equipped_frame: tempEquippedFrame,
       equipped_title: tempEquippedTitle
-    }).eq("id", currentUser.id);
+    };
 
+    // THAY ĐỔI: Dùng .upsert() thay vì .update()
+    const { error } = await db.from("profiles").upsert(updateData);
     if (error) throw error;
 
-    toast("Lưu thông tin thành công!");
+    // Đảm bảo currentProfile tồn tại trước khi cập nhật local
+    if (!currentProfile) currentProfile = {};
+    
+    // Cập nhật profile hiện tại trong bộ nhớ (để không cần load lại trang)
+    currentProfile.display_name = newName;
+    currentProfile.avatar_url = newAvatarUrl;
+    currentProfile.equipped_frame = tempEquippedFrame;
+    currentProfile.equipped_title = tempEquippedTitle;
+
     closeModal("editProfileModal");
-    await loadProfile(); // Cập nhật lại giao diện
+    toast("✨ Đã cập nhật hồ sơ thành công!");
+    
+    // Tải lại giao diện hiển thị
+    renderAuth();
+    refreshUserBadges();
+    renderCards();
+    loadJournal();
+    if (currentChar) loadAppComments(currentChar.id);
+
   } catch (err) {
-    toast("Lỗi khi lưu: " + err.message);
+    toast("Lỗi cập nhật: " + err.message);
   } finally {
-    btn.textContent = "Lưu";
-    btn.disabled = false;
+    // Mở khóa nút bấm
+    if(btn) { btn.textContent = "Lưu"; btn.disabled = false; }
   }
 }
 
