@@ -2822,7 +2822,6 @@ let tempAvatarFile = null;
 let tempEquippedFrame = null;
 let tempEquippedTitle = null;
 
-// Xem trước ảnh đại diện khi chọn ảnh mới trong modal Chỉnh sửa
 function previewNewAvatar(e) {
   const file = e.target.files[0];
   if (file) {
@@ -2831,67 +2830,54 @@ function previewNewAvatar(e) {
   }
 }
 
-// Lưu toàn bộ thông tin (Tên, Ảnh, Khung, Danh hiệu) lên Supabase
 async function saveEditProfile() {
   if (!currentUser) return;
-  
   const newName = document.getElementById("editDisplayName").value.trim();
   if (!newName) return toast("Biệt danh không được để trống!");
 
-  toast("Đang lưu thông tin...");
-
-  // Khóa nút Lưu để tránh user bấm nhiều lần
   const btn = document.querySelector("#editProfileModal .auth-submit");
-  if(btn) { btn.textContent = "Đang lưu..."; btn.disabled = true; }
+  btn.textContent = "Đang lưu...";
+  btn.disabled = true;
 
   try {
-    let newAvatarUrl = currentProfile?.avatar_url || null;
-
-    // Nếu người dùng có chọn ảnh mới thì upload lên Storage
+    let newAvatarUrl = currentProfile.avatar_url;
     if (tempAvatarFile) {
       newAvatarUrl = await uploadAvatar(tempAvatarFile);
     }
 
-    // Cập nhật Database: BẮT BUỘC PHẢI CÓ 'id' ĐỂ DÙNG UPSERT
-    const updateData = {
-      id: currentUser.id, // Dòng này rất quan trọng để Supabase biết đang sửa cho ai
+    // PHẢI dùng upsert và truyền 'id' để sửa lỗi mất dữ liệu khi F5
+    const { error } = await db.from("profiles").upsert({
+      id: currentUser.id,
       display_name: newName,
       avatar_url: newAvatarUrl,
       equipped_frame: tempEquippedFrame,
       equipped_title: tempEquippedTitle
-    };
+    });
 
-    // THAY ĐỔI: Dùng .upsert() thay vì .update()
-    const { error } = await db.from("profiles").upsert(updateData);
     if (error) throw error;
 
-    // Đảm bảo currentProfile tồn tại trước khi cập nhật local
-    if (!currentProfile) currentProfile = {};
-    
-    // Cập nhật profile hiện tại trong bộ nhớ (để không cần load lại trang)
+    // Cập nhật giao diện ngay lập tức
     currentProfile.display_name = newName;
     currentProfile.avatar_url = newAvatarUrl;
     currentProfile.equipped_frame = tempEquippedFrame;
     currentProfile.equipped_title = tempEquippedTitle;
 
+    toast("✨ Cập nhật thông tin thành công!");
     closeModal("editProfileModal");
-    toast("✨ Đã cập nhật hồ sơ thành công!");
     
-    // Tải lại giao diện hiển thị
+    // Tải lại giao diện
     renderAuth();
     refreshUserBadges();
     renderCards();
     loadJournal();
     if (currentChar) loadAppComments(currentChar.id);
-
   } catch (err) {
-    toast("Lỗi cập nhật: " + err.message);
+    toast("Lỗi khi lưu: " + err.message);
   } finally {
-    // Mở khóa nút bấm
-    if(btn) { btn.textContent = "Lưu"; btn.disabled = false; }
+    btn.textContent = "Lưu";
+    btn.disabled = false;
   }
 }
-
 function switchEditTab(tab) {
   document.querySelectorAll('.edit-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.edit-section').forEach(s => s.classList.remove('active'));
