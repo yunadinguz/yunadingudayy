@@ -60,7 +60,7 @@
 /* DROPDOWNS */
 .dropdown{position:relative;display:inline-block;flex-shrink:0}
 .dropdown-content{display:none;position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 4px);min-width:160px;background:#fff;border-radius:18px;padding:8px;box-shadow:0 10px 30px rgba(0,0,0,0.18);z-index:99999;border:1px solid #dceaf5}
-.dropdown:hover .dropdown-content{display:block}
+.dropdown-content.show{display:block}
 .dropdown-content a{display:block;padding:9px 12px;border-radius:12px;color:#64748b !important;font-weight:600;text-align:center;transition:.2s;white-space:nowrap;text-transform:none !important;font-size:0.88rem}
 .dropdown-content a:hover{background:var(--ice);color:var(--blue) !important}
 
@@ -508,6 +508,11 @@
 .inline-reply-box { display: none; margin-top: 8px; padding-left: 46px; }
 .inline-reply-box.open { display: block; animation: fadeInView .3s ease; }
 .cmt-preview-area img { max-width: 110px; max-height: 110px; border-radius: 10px; border: 1px solid #dceaf5; object-fit: cover; display: block; margin: 4px 0; }
+  /* Hiệu ứng lún nút khi bấm */
+button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:active, .spotify-item:active {
+  transform: scale(0.95) !important;
+  transition: transform 0.1s ease !important;
+}
 </style>
 </head>
 <body>
@@ -542,14 +547,14 @@
 <button class="nav-item" id="nav-journal" onclick="showView('journal')">Lưu bút &amp; Góp Ideas</button>
 
 <div class="dropdown">
-<button class="nav-item">Lệnh ▾</button>
+<button class="nav-item" onclick="toggleMenuDropdown(event, this)">Lệnh ▾</button>
 <div class="dropdown-content">
 <a href="https://docs.google.com/document/d/1fNAHcfcI2eJZ3iDHwZ6cjWFvZINnufsbJ5h8jzS8dPU/edit?usp=sharing" target="_blank">Lệnh hỗ trợ</a>
 <a href="https://docs.google.com/document/u/0/d/1wtlDGVuUhRbcdiEOrnSmWVYQyMScLhRBCvTPn1xK408/mobilebasic" target="_blank">Lệnh giải trí</a>
 </div>
 </div>
 <div class="dropdown">
-<button class="nav-item">Liên hệ ▾</button>
+<button class="nav-item" onclick="toggleMenuDropdown(event, this)">Liên hệ ▾</button>
 <div class="dropdown-content">
 <a href="https://www.facebook.com/yuna.zdayy" target="_blank">Facebook</a>
 <a href="https://discord.gg/FSU3de4cs6" target="_blank">Discord</a>
@@ -568,7 +573,7 @@
 <div class="search-box">
 <input id="searchInput" type="search" name="search_no_autofill" autocomplete="off" placeholder="❄️ Người bạn muốn tìm hoặc hashtag" oninput="applyFilters()">
 <div class="dropdown">
-<button class="pill-btn dark" style="padding:7px 14px;font-size:.82rem" id="sortLabel">Tất cả ▾</button>
+<button class="pill-btn dark" style="padding:7px 14px;font-size:.82rem" id="sortLabel" onclick="toggleMenuDropdown(event, this)">Tất cả ▾</button>
 <div class="dropdown-content sort-dropdown-content">
 <a onclick="setSort('normal')" data-sort="normal"><span class="check-icon">✓</span>Tất cả</a>
 <a onclick="setSort('likes')" data-sort="likes"><span class="check-icon" style="opacity:0">✓</span>Yêu thích nhất</a>
@@ -2881,6 +2886,25 @@ async function setup(){
   loadMailbox(); // Tải hộp thư tự động
 }
 setup();
+  // --- LOGIC ĐÓNG/MỞ DROPDOWN MENU TÙY CHỈNH ---
+function toggleMenuDropdown(e, btn) {
+    e.stopPropagation(); // Ngăn chặn sự kiện click lan ra ngoài
+    const content = btn.nextElementSibling;
+    const isCurrentlyShowing = content.classList.contains('show');
+
+    // 1. Đóng tất cả các menu khác đang mở (nếu có)
+    document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
+
+    // 2. Nếu menu này chưa mở, thì mở nó lên
+    if (!isCurrentlyShowing) {
+        content.classList.add('show');
+    }
+}
+
+// 3. Nếu người dùng click ra vùng trống bất kỳ trên màn hình -> Đóng toàn bộ menu
+document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
+});
 </script>
 </body>
 </html>
