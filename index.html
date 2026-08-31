@@ -575,7 +575,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   font-family: var(--serif); 
   font-size: 1.5rem; 
   margin-bottom: 25px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 5px rgba(255, 215, 0, 0.9), 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4); 
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 3px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 215, 0, 0.3); 
   letter-spacing: 1px;
   opacity: 0;
   animation: titlePop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -655,7 +655,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   font-size: 1.2rem;
   text-shadow: 0 0 8px #fff;
   animation: starTwinkle 1.5s infinite alternate;
-  opacity: 0; /* Bắt đầu tàng hình */
+  opacity: 0;
 }
 @keyframes starTwinkle {
   0% { opacity: 0; }
@@ -673,7 +673,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   background: rgba(255, 235, 160, 0.9);
   border-radius: 50%;
   pointer-events: none;
-  box-shadow: 0 0 6px rgba(255, 235, 160, 0.8);
+  box-shadow: 0 0 2px rgba(255, 235, 160, 0.8);
   animation: dustFall linear forwards;
 }
 @keyframes dustFall {
@@ -941,9 +941,10 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
     
     <!-- Cấu trúc thẻ bài có bọc thêm các ngôi sao xung quanh -->
     <div class="wish-card-container">
-      <div class="wish-star star-1">✦</div>
-      <div class="wish-star star-2">✧</div>
-      <div class="wish-star star-3">✦</div>
+      <div class="wish-star star-1">₊</div>
+      <div class="wish-star star-2">⊹</div>
+      <div class="wish-star star-3">₊</div>
+      <div class="wish-star star-4">⊹</div>
       
       <div class="wish-item-card">
         <div class="wish-icon-wrap">❄️</div>
@@ -1112,7 +1113,8 @@ const PLAYLIST = [
   { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/pages.jpeg" },
   { title: "lỡ một mai tôi quên tên người", artist: "Khiem", file: "MUSIC/lomotmaitoiquentennguoi.mp3", cover: "images/lomotmaitoiquentennguoi.jpg" },
   { title: "all i want for christmas is you", artist: "Mariah Carey", file: "MUSIC/alliwant.mp3", cover: "images/alliwant.jpeg" },
-  { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/springsnow.jpeg" }
+  { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/springsnow.jpeg" },
+  { title: "dạo bước hồng kông 1999", artist: "Bố Lỗ Tích", file: "MUSIC/daobuochongkong.mp3", cover: "images/daobuochongkong.png" }
 ];
 
 const VOICE_MAP = {
