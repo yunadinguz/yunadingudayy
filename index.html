@@ -2730,7 +2730,7 @@ function switchEditTab(tab) {
   document.getElementById('tab-' + tab).classList.add('active');
 }
 
-function openEditProfile() {
+async function openEditProfile() {
   if(!currentProfile) return;
   tempAvatarFile = null;
   tempEquippedFrame = currentProfile.equipped_frame;
@@ -2759,15 +2759,21 @@ function openEditProfile() {
   }).join("");
   grid.innerHTML = framesHtml;
 
-  let defaultAffinityTitle = "Danh hiệu theo hảo cảm";
+// Lấy dữ liệu điểm hảo cảm thật sự từ Database
+  let defaultAffinityTitle = "Đã biết của " + CHARS[0].name.split(" (")[0];
   let defaultAffinityCls = "normal";
-  if (currentProfile && currentProfile.id) {
-    const elGlobal = document.querySelector(`[data-user="${currentProfile.id}"]`);
-    if (elGlobal && elGlobal.textContent.trim() !== "") {
-      defaultAffinityTitle = elGlobal.textContent;
-      defaultAffinityCls = elGlobal.className.replace("badge ", "").replace("no-title", "").trim() || "normal";
+
+  try {
+    const {data} = await db.from("affinities").select("char_id,points").eq("user_id",currentUser.id);
+    let best = null;
+    if(data && data.length > 0){
+      best = [...data].sort((a,b)=>b.points-a.points)[0];
     }
-  }
+    const c = CHARS.find(x => x.id === best?.char_id) || CHARS[0];
+    defaultAffinityTitle = titleFor({ points: best?.points || 0, name: c.name.split(" (")[0] });
+    let [, cls] = levelOf(best?.points || 0);
+    defaultAffinityCls = cls;
+  } catch (err) {}
 
   const ownedT = currentProfile.owned_titles || [];
   const titlesList = document.getElementById("editTitlesList");
@@ -2799,7 +2805,7 @@ function openEditProfile() {
   titlesList.innerHTML = titlesHtml;
   
   document.querySelector('.edit-tabs').innerHTML = `
-    <div class="edit-tab active" onclick="switchEditTab('frames')">Khung Ảnh <span class="tab-new-dot" id="tab-dot-frames"></span></div>
+    <div class="edit-tab active" onclick="switchEditTab('frames')">Khung Avatar <span class="tab-new-dot" id="tab-dot-frames"></span></div>
     <div class="edit-tab" onclick="switchEditTab('titles')">Danh Hiệu <span class="tab-new-dot" id="tab-dot-titles"></span></div>
   `;
   updateEditProfileBadge();
