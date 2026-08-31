@@ -557,11 +557,10 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
     transform: translateY(110px) rotate(180deg);
   }
 }
-
-/* GIAO DIỆN NHẬN BÔNG TUYẾT (STYLE GENSHIN) */
+/* GIAO DIỆN NHẬN BÔNG TUYẾT */
 #wishResultModal { 
   z-index: 13000; 
-  background: rgba(0,0,0,0.7); /* Làm nền tối lại một chút để bụi vàng nổi bật hơn */
+  background: rgba(0,0,0,0.7); 
   cursor: pointer; 
 }
 .wish-result-content {
@@ -570,19 +569,15 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   position: relative;
 }
 
-/* Chữ tiêu đề: Hiện ra ĐẦU TIÊN */
+/* Chữ tiêu đề: Hiện ra Nhanh */
 .wish-result-title {
   color: #f5f0e6; 
   font-family: var(--serif); 
-  font-size: 1.8rem; /* Cho chữ to ra giống ảnh */
+  font-size: 1.5rem; 
   margin-bottom: 25px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.3); 
   letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   opacity: 0;
-  /* Animation nhảy ra cực nhanh */
   animation: titlePop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 @keyframes titlePop {
@@ -590,28 +585,22 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   100% { opacity: 1; transform: scale(1); }
 }
 
-/* Container bọc thẻ bài và các ngôi sao */
 .wish-card-container {
   position: relative;
 }
 
-/* Thẻ bài: Hiện ra SAU chữ một chút và RẤT NHANH */
+/* THẺ BÀI: GIỮ NGUYÊN HÌNH CHỮ NHẬT TRẮNG CŨ CỦA BẠN */
 .wish-item-card {
-  background: radial-gradient(circle, #2a4b73 0%, #152740 100%); /* Đổi thành hình tròn tối màu giống ảnh */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  background: #ffffff;
+  border-radius: 16px;
+  width: 90px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  position: relative;
+  border: none;
   overflow: hidden;
-  /* Glow mờ nhạt, không còn vàng khè nữa */
-  box-shadow: 0 0 25px rgba(200, 220, 255, 0.3), inset 0 0 15px rgba(255,255,255,0.1);
+  position: relative; /* Cần để hiệu ứng kính chạy bên trong */
+  box-shadow: 0 0 25px rgba(200, 220, 255, 0.3), 0 8px 25px rgba(0,0,0,0.2);
   opacity: 0;
-  /* Trễ 0.15s, thời gian chạy 0.25s (rất nhanh) */
   animation: cardPopFast 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards;
 }
 
@@ -626,61 +615,59 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   position: absolute; 
   top: -50%; left: -50%; 
   width: 200%; height: 200%;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
   transform: rotate(30deg) translateX(-100%);
-  animation: glassSweep 2.5s infinite; /* Chạy liên tục */
+  animation: glassSweep 2.5s infinite; 
+  z-index: 3; /* Phủ lên trên */
 }
 @keyframes glassSweep {
   0%, 15% { transform: rotate(30deg) translateX(-100%); }
   85%, 100% { transform: rotate(30deg) translateX(100%); }
 }
 
+/* ICON CỦA BẠN (GIỮ NGUYÊN) */
 .wish-icon-wrap {
-  font-size: 3.5rem;
+  padding: 14px 0 8px;
+  font-size: 2.8rem;
+  text-align: center;
   line-height: 1;
-  z-index: 2;
-  text-shadow: 0 0 10px rgba(255,255,255,0.6);
-  margin-top: -10px;
+  position: relative;
+  z-index: 1;
 }
 
-/* Số lượng (Nằm đè lên phía dưới góc giống ảnh) */
+/* HỘP ĐỰNG SỐ LƯỢNG: GIỮ NGUYÊN MÀU XANH CŨ CỦA BẠN */
 .wish-amount-box {
-  position: absolute;
-  bottom: 15px;
-  background: transparent;
+  background: linear-gradient(135deg, #1d609b, #4b92d8);
   color: #ffffff;
+  text-align: center;
   font-weight: 800;
-  font-size: 1.2rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.5);
+  font-size: 1rem;
+  padding: 6px 0;
   border: none !important;
-  z-index: 2;
+  position: relative;
+  z-index: 1;
 }
 
-/* HIỆU ỨNG NGÔI SAO LẤP LÁNH BAY LÊN XUỐNG */
+/* HIỆU ỨNG NGÔI SAO: CHỈ LÚC ẨN LÚC HIỆN, KHÔNG LÊN XUỐNG */
 .wish-star {
   position: absolute;
   color: #fff;
   font-size: 1.2rem;
   text-shadow: 0 0 8px #fff;
-  animation: starFloat 3s infinite ease-in-out, starTwinkle 1.5s infinite alternate;
-  opacity: 0;
-  animation-delay: 0.3s; /* Chờ thẻ pop ra mới hiện */
-  animation-fill-mode: forwards;
-}
-.star-1 { top: -10px; left: -20px; font-size: 1.5rem; }
-.star-2 { top: 20px; right: -30px; font-size: 1rem; animation-delay: 0.5s; }
-.star-3 { bottom: 0px; left: -25px; font-size: 1.2rem; animation-delay: 0.4s; }
-
-@keyframes starFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  animation: starTwinkle 1.5s infinite alternate;
+  opacity: 0; /* Bắt đầu tàng hình */
 }
 @keyframes starTwinkle {
-  0% { opacity: 0.3; }
+  0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-/* HẠT BỤI VÀNG LI TI RƠI XUỐNG */
+/* Chỉnh vị trí sao cho vừa vặn với thẻ 90px */
+.star-1 { top: -10px; left: -20px; font-size: 1.5rem; animation-delay: 0.3s; }
+.star-2 { top: 20px; right: -25px; font-size: 1rem; animation-delay: 0.8s; }
+.star-3 { bottom: -10px; left: -15px; font-size: 1.2rem; animation-delay: 0.5s; }
+
+/* HẠT BỤI VÀNG LI TI */
 .gold-dust {
   position: absolute;
   background: rgba(255, 235, 160, 0.9);
@@ -3312,40 +3299,37 @@ async function saveWishResult(amount) {
   }
 }
 
-  // --- HIỆU ỨNG BỤI VÀNG RƠI LI TI ---
+// --- HIỆU ỨNG BỤI VÀNG RƠI LI TI ---
 let goldDustInterval;
 
 function startGoldDustEffect() {
   const container = document.getElementById('goldDustContainer');
   if (!container) return;
-  container.innerHTML = ""; // Xóa bụi cũ nếu có
+  container.innerHTML = ""; 
   
-  // Sinh bụi liên tục
+  // Đổi thành 20ms (Bụi sẽ rơi ra rào rạt và rất nhiều)
   goldDustInterval = setInterval(() => {
     let dust = document.createElement('div');
     dust.className = 'gold-dust';
     
-    // Random kích thước (rất li ti)
-    let size = Math.random() * 3 + 1; // 1px đến 4px
+    // Kích thước li ti (1px đến 3px)
+    let size = Math.random() * 2.5 + 1; 
     dust.style.width = size + 'px';
     dust.style.height = size + 'px';
     
-    // Random vị trí xuất hiện (toàn màn hình)
     dust.style.left = Math.random() * 100 + 'vw';
-    dust.style.top = (Math.random() * 40 + 20) + 'vh'; // Bắt đầu từ giữa giữa màn hình đổ xuống
+    dust.style.top = (Math.random() * 40 + 20) + 'vh'; 
     
-    // Random tốc độ rơi
-    let duration = Math.random() * 2 + 1.5; // 1.5s đến 3.5s
+    let duration = Math.random() * 2 + 1.5; 
     dust.style.animationDuration = duration + 's';
     
     container.appendChild(dust);
     
-    // Tự xóa DOM sau khi rơi xong
     setTimeout(() => {
       if(dust.parentNode) dust.parentNode.removeChild(dust);
     }, duration * 1000);
     
-  }, 100); // 100ms ra 1 hạt
+  }, 20);
 }
 
 function stopGoldDustEffect() {
