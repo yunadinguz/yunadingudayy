@@ -513,6 +513,52 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   transform: scale(0.95) !important;
   transition: transform 0.1s ease !important;
 }
+
+  /* GIAO DIỆN KHÚC NGUYỆN CẦU */
+.wish-video-container {
+  margin: 0 auto 15px; 
+  width: min(260px, 100%); 
+  aspect-ratio: 1/1; 
+  border-radius: 16px; 
+  overflow: hidden; 
+  background: #000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* GIAO DIỆN NHẬN BÔNG TUYẾT (STYLE GENSHIN) */
+#wishResultModal {
+  z-index: 13000; 
+  background: rgba(0,0,0,0.85); 
+  cursor: pointer; /* Bấm đâu cũng tắt được */
+}
+.wish-result-content {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none; /* Xuyên click xuống nền đen để tắt */
+}
+.wish-result-title {
+  color: #e5d2a3; font-family: var(--serif); font-size: 2rem; margin-bottom: 25px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;
+}
+.wish-item-box {
+  position: relative; width: 120px; height: 140px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.wish-glow {
+  position: absolute; top: 50%; left: 50%; width: 220%; height: 220%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, transparent 60%);
+  transform: translate(-50%, -50%); z-index: 1;
+  animation: spin 6s linear infinite;
+}
+.wish-icon {
+  font-size: 4.5rem; position: relative; z-index: 2; margin-bottom: 8px;
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));
+}
+.wish-amount {
+  background: #fdfdfd; width: 100%; text-align: center; color: #3d4554; font-weight: 800;
+  font-size: 1.2rem; padding: 6px 0; border-radius: 4px; position: relative; z-index: 2;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
 </style>
 </head>
 <body>
@@ -583,7 +629,11 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 </div>
 </div>
-<div class="action-row"><button class="pill-btn" onclick="openDestiny()">🔮 Theo Dấu Tuyết Rơi</button><button id="resetFilter" class="pill-btn reset" style="display:none" onclick="resetFilter()">Bỏ lọc</button></div>
+<div class="action-row" style="flex-direction: column; gap: 10px;">
+  <button class="pill-btn" style="width: 100%;" onclick="openDestiny()">🔮 Theo Dấu Tuyết Rơi</button>
+  <button class="pill-btn" style="width: 100%; background: linear-gradient(135deg, #1d5f99, #6aa5d7);" onclick="openWishModal()">🌠 Khúc Nguyện Cầu</button>
+  <button id="resetFilter" class="pill-btn reset" style="display:none; width: 100%;" onclick="resetFilter()">Bỏ lọc</button>
+</div>
 </div>
 
 <div class="menu-title" id="list-top-anchor">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
@@ -738,6 +788,35 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 
 <div id="toast" class="toast"></div>
+  <!-- Modal Khúc Nguyện Cầu -->
+<div id="wishModal" class="custom-modal">
+  <div class="modal-box" style="text-align: center;">
+    <button class="close-modal" onclick="closeWishModal()">×</button>
+    <h2 class="gradient-title" style="margin-bottom: 5px;">Khúc Nguyện Cầu</h2>
+    <div style="font-size: 0.8rem; color: #8797a9; font-style: italic; margin-bottom: 15px; line-height: 1.5;">
+      Khúc hát dành cho những điều lòng người vẫn chưa gọi thành tên... Hãy thì thầm điều ước của bạn...
+    </div>
+    
+    <div class="wish-video-container">
+      <video id="wishVideo" width="100%" height="100%" style="object-fit: cover;" playsinline muted></video>
+    </div>
+    
+    <div id="wishRemainingText" style="font-size: 0.82rem; color: #8797a9; margin-bottom: 8px; font-weight: bold;">Lượt còn lại: .../3</div>
+    <button id="wishBtn" class="modal-primary" style="width: 100%;" onclick="doWish()">Cầu Nguyện</button>
+  </div>
+</div>
+
+<!-- Modal Kết Quả -->
+<div id="wishResultModal" class="custom-modal" onclick="closeWishResult()">
+  <div class="wish-result-content">
+    <div class="wish-result-title">Obtained</div>
+    <div class="wish-item-box">
+      <div class="wish-glow"></div>
+      <div class="wish-icon">❄️</div>
+      <div class="wish-amount" id="wishAmount">0</div>
+    </div>
+  </div>
+</div>
 <audio id="bg-music" preload="auto"></audio>
 <audio id="voice-player" preload="auto"></audio>
 
@@ -2905,6 +2984,137 @@ function toggleMenuDropdown(e, btn) {
 document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
 });
+
+  // ==========================================
+// TÍNH NĂNG KHÚC NGUYỆN CẦU (GACHA BÔNG TUYẾT)
+// ==========================================
+let isWishing = false;
+let todayWishCount = 0;
+let earnedSnowflakes = 0;
+
+async function checkWishLimit() {
+  const todayStr = getLocalYYYYMMDD();
+  if (currentProfile.last_wish_date !== todayStr) {
+    todayWishCount = 0; // Reset qua ngày mới
+  } else {
+    todayWishCount = currentProfile.wish_count || 0;
+  }
+}
+
+function openWishModal() {
+  if (!currentUser) {
+    toast("Bạn cần đăng nhập để Cầu Nguyện!");
+    return showView('auth');
+  }
+  
+  checkWishLimit().then(() => {
+    document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+    openModal('wishModal');
+    
+    // Nạp video 1 và cho loop như GIF
+    const vid = document.getElementById('wishVideo');
+    vid.src = "images/colum1.webm";
+    vid.loop = true;
+    vid.play(); // Chỉ play khi mở modal (nhẹ máy)
+  });
+}
+
+function closeWishModal() {
+  if (isWishing) return; // Đang chạy animation thì không cho tắt
+  closeModal('wishModal');
+  const vid = document.getElementById('wishVideo');
+  vid.pause();
+  vid.src = ""; // Xóa src để giải phóng ram
+}
+
+async function doWish() {
+  if (isWishing) return;
+  if (todayWishCount >= 3) {
+    toast("Hôm nay bạn đã hết lượt cầu nguyện. Hãy quay lại vào ngày mai nhé!");
+    return;
+  }
+
+  isWishing = true;
+  document.getElementById('wishBtn').disabled = true;
+  document.getElementById('wishBtn').innerText = "Đang cầu nguyện...";
+
+  // Random số lượng bông tuyết theo tỉ lệ
+  earnedSnowflakes = getRandomWishAmount();
+
+  // Chuyển sang video 2
+  const vid = document.getElementById('wishVideo');
+  vid.loop = false; // Video 2 không lặp lại
+  vid.src = "images/colum2.webm";
+  vid.play();
+
+  // Bắt sự kiện khi video 2 chạy xong
+  vid.onended = async () => {
+    // 1. Dừng video lại
+    vid.pause();
+    
+    // 2. Lưu vào DB Supabase
+    await saveWishResult(earnedSnowflakes);
+
+    // 3. Hiện popup Genshin
+    document.getElementById('wishAmount').innerText = earnedSnowflakes;
+    document.getElementById('wishResultModal').classList.add('show');
+  };
+}
+
+function getRandomWishAmount() {
+  const rand = Math.random() * 100; // Random từ 0 đến 100
+  if (rand < 0.1) return 100;                 // 0.1% ra 100
+  if (rand < 0.4) return 50;                  // 0.3% ra 50
+  if (rand < 0.9) return 20;                  // 0.5% ra 20
+  if (rand < 1.6) return 10;                  // 0.7% ra 10
+  
+  // Còn lại 98.4%, chia tỉ lệ cho 1, 2, 5
+  if (rand < 16.6) return 5;                  // ~15% ra 5
+  if (rand < 50.0) return 2;                  // ~33.4% ra 2
+  return 1;                                   // ~50% ra 1
+}
+
+function closeWishResult() {
+  document.getElementById('wishResultModal').classList.remove('show');
+  
+  // Trả video về colum1.webm và chạy lại
+  const vid = document.getElementById('wishVideo');
+  vid.src = "images/colum1.webm";
+  vid.loop = true;
+  vid.play();
+
+  // Khôi phục nút bấm
+  isWishing = false;
+  document.getElementById('wishBtn').disabled = false;
+  document.getElementById('wishBtn').innerText = "Cầu Nguyện";
+  document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+}
+
+async function saveWishResult(amount) {
+  const todayStr = getLocalYYYYMMDD();
+  todayWishCount++; // Tăng lượt cầu nguyện hôm nay lên 1
+  let newSnowflakes = (currentProfile.snowflakes || 0) + amount; // Cộng dồn tuyết
+
+  // Update lên database
+  const {error} = await db.from("profiles").update({
+    last_wish_date: todayStr,
+    wish_count: todayWishCount,
+    snowflakes: newSnowflakes
+  }).eq("id", currentUser.id);
+
+  if(!error) {
+    currentProfile.last_wish_date = todayStr;
+    currentProfile.wish_count = todayWishCount;
+    currentProfile.snowflakes = newSnowflakes;
+    
+    // Cập nhật số tuyết đang hiện ở các phần khác (như Shop)
+    const shopSnowText = document.getElementById("shop-snowflakes");
+    if(shopSnowText) shopSnowText.textContent = newSnowflakes;
+    renderCheckin(); // Update lại header checkin nếu cần
+  } else {
+    toast("Lỗi lưu kết quả cầu nguyện!");
+  }
+}
 </script>
 </body>
 </html>
