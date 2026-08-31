@@ -18,9 +18,6 @@
 #dream-intro{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:url('images/introdaydream.jpg') center/cover no-repeat, url('introdaydream.jpg') center/cover no-repeat, #071426;overflow:hidden;transition:opacity .8s ease,visibility .8s ease}
 #dream-intro::before{content:"";position:absolute;left:0;top:0;width:calc(100% + 60px);height:calc(100% + 60px);background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.15),transparent 35%),radial-gradient(circle at 80% 30%,rgba(170,210,255,.18),transparent 45%),radial-gradient(circle at 50% 90%,rgba(120,170,255,.15),transparent 40%);pointer-events:none}
 #dream-intro.hide{opacity:0;visibility:hidden;pointer-events:none}
-.intro-snow{position:absolute;inset:0;pointer-events:none;z-index:1}
-.intro-flake{position:absolute;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.7);animation:introFall linear infinite}
-@keyframes introFall{from{transform:translate3d(0,-120px,0) rotate(0deg);opacity:0}10%{opacity:.9}50%{transform:translate3d(25px,50vh,0) rotate(180deg)}to{transform:translate3d(-30px,110vh,0) rotate(360deg);opacity:0}}
 
 .intro-box{position:relative;z-index:2;text-align:center;color:#ffffff;width:min(480px, 88vw);padding:40px 26px;background:rgba(255, 255, 255, 0.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:32px;border:1px solid rgba(255,255,255,.35);box-shadow:0 20px 50px rgba(0,20,50,.25), inset 0 0 20px rgba(255,255,255,.15);animation:introFloat 3s ease-in-out infinite}
 @keyframes introFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-8px,0)}}
@@ -36,10 +33,6 @@
 .begin-btn::before{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-25deg);animation:shine 4s infinite}
 @keyframes shine{0%{left:-120%}100%{left:180%}}
 .begin-btn:hover{transform:translate3d(0,-4px,0);background:rgba(255,255,255,.30);box-shadow:0 0 35px rgba(255,255,255,.5)}
-
-.intro-moon,.intro-title,.intro-sub,.intro-box p,.begin-btn{opacity:0;transform:translate3d(0,20px,0)}
-.intro-moon{animation:fadeUp 1.2s .2s forwards}.intro-title{animation:fadeUp 1.2s .8s forwards}.intro-sub{animation:fadeUp 1.2s 1.5s forwards}.intro-box p:nth-of-type(1){animation:fadeUp 1.2s 2.2s forwards}.intro-box p:nth-of-type(2){animation:fadeUp 1.2s 2.8s forwards}.begin-btn{animation:fadeUp 1s 3.5s forwards}
-@keyframes fadeUp{to{opacity:1;transform:translate3d(0,0,0)}}
 
 /* MAIN LAYOUT */
 .main-background{min-height:100vh;background:linear-gradient(135deg,#d7eaf9,#edf6ff 36%,#c4def5 72%,#b6d4ee);background-size:200% 200%;animation:bgMove 12s ease infinite;position:relative}@keyframes bgMove{50%{background-position:100% 50%}}
@@ -161,11 +154,6 @@
 .badge.partner::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:sweepLight 3s infinite}
 @keyframes pulseLove{0%,100%{box-shadow:0 0 8px rgba(244,63,94,.6)}50%{box-shadow:0 0 15px rgba(244,63,94,.9)}}
 @keyframes sweepLight{0%{left:-100%}20%,100%{left:200%}}
-
-.cat-ears-wrap{position:relative;display:inline-block;z-index:1}
-.cat-ears-wrap::before,.cat-ears-wrap::after{content:"";position:absolute;top:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:12px solid #fbcfe8;z-index:-1;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.1))}
-.cat-ears-wrap::before{left:0px;transform:rotate(-15deg)}
-.cat-ears-wrap::after{right:0px;transform:rotate(15deg)}
 
 /* LOANG MÀU XANH CHO TIÊU ĐỀ */
 .gradient-title{background:linear-gradient(135deg, #2b6cb0, #6aa5d7, #3182ce);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
@@ -524,7 +512,6 @@
 </head>
 <body>
 <div id="dream-intro">
-<div class="intro-snow" id="intro-snow-container"></div>
 <div class="intro-box">
 <div class="intro-moon">☾</div>
 <div class="intro-title">Snowveil Daydream</div>
@@ -1237,7 +1224,7 @@ function renderAuth(){
             </div>
             ${adminBadgeText}
             <div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div>
-<button class="edit-profile-btn" style="position:relative;" onclick="openEditProfile()">Chỉnh sửa <span class="notif-badge" id="editProfileBadge" style="display:none; right:-5px; top:-5px;">0</span></button>
+            <button class="edit-profile-btn" style="position:relative;" onclick="openEditProfile()">Chỉnh sửa <span class="notif-badge" id="editProfileBadge" style="display:none; right:-5px; top:-5px;">0</span></button>
           </div>
         </div>
         <div id="profileAffinityList" style="margin-top:12px"></div>
@@ -1248,14 +1235,6 @@ function renderAuth(){
     renderCheckin();
   }
   updateJournalInput(); refreshUserBadges(); updateEditProfileBadge();
-}
-      </div>
-      <div class="checkin-wrap" id="checkinWrap"></div>
-      <button class="logout-btn" style="width:100%; margin-top:15px; padding:12px; background:#fee2e2; color:#dc2626; border-radius:22px; font-size:1rem;" onclick="logout()">Đăng xuất</button>
-    `;
-    renderCheckin();
-  }
-  updateJournalInput(); refreshUserBadges();
 }
 
 function updateJournalInput(){
@@ -1702,7 +1681,6 @@ const name=c.user_id?(profile.display_name||"Kẻ Mộng Mơ Vô Danh"):(c.guest
 const av=c.user_id?profile.avatar_url:"";
 
 let badgeHtml = "";
-let catEarsCls = c.is_admin ? "cat-ears-wrap" : "";
 
 if (c.user_id && profile.bestAffinity) {
     const best = profile.bestAffinity;
@@ -1711,7 +1689,6 @@ if (c.user_id && profile.bestAffinity) {
     const [l, cls] = levelOf(best.points || 0);
     const titleStr = `${l} của ${charCleanName}`;
     badgeHtml = `<span class="badge ${cls}" data-user="${c.user_id}">${escapeHtml(titleStr)}</span>`;
-    if (cls === 'partner') catEarsCls = "cat-ears-wrap";
 } else if (c.user_id) {
     const defaultName = CHARS[0].name.split(" (")[0];
     badgeHtml = `<span class="badge normal" data-user="${c.user_id}">Đã biết của ${defaultName}</span>`;
@@ -1953,7 +1930,7 @@ filteredChars.sort((a,b)=>(charJourneyMap[b.id]||0)-(charJourneyMap[a.id]||0));
 }else if(currentSortMode==="newest"){
 filteredChars.sort((a,b)=>new Date(b.created)-new Date(a.created));
 }else if(currentSortMode==="oldest"){
-filteredChars.sort((a,b)=>new Date(a.created)-new Date(a.created));
+filteredChars.sort((a,b)=>new Date(a.created)-new Date(b.created));
 }
 
 currentPage=1;
@@ -2032,12 +2009,6 @@ async function refreshUserBadges(){
           g.innerHTML = "";
       } else {
           g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
-      }
-      
-      const wrap = document.getElementById('mainAvatarWrapper');
-      if (wrap) {
-        if(cls === 'partner' && !isAdmin && !hideBadge) wrap.classList.add('cat-ears-wrap');
-        else wrap.classList.remove('cat-ears-wrap');
       }
   }
 }
@@ -2393,6 +2364,7 @@ async function viewMail(id) {
 }
 
 async function claimRewardTitle(tid, tname) {
+  if(!currentUser || !currentProfile) return;
   let ownedT = currentProfile.owned_titles || [];
   if(!ownedT.includes(tid)) {
     ownedT.push(tid);
@@ -2556,7 +2528,6 @@ db.channel('public-realtime')
 }
 
 function createSnow(){const box=document.getElementById("snow-container");for(let i=0;i<30;i++){const s=document.createElement("span");s.className="snowflake";s.textContent=["❄","❅","❆"][Math.floor(Math.random()*3)];s.style.left=Math.random()*100+"vw";s.style.fontSize=8+Math.random()*10+"px";s.style.animationDuration=8+Math.random()*9+"s";s.style.animationDelay=-Math.random()*10+"s";s.style.setProperty("--x",(Math.random()*60-30)+"px");box.appendChild(s)}}
-function createIntroSnow(){const box=document.getElementById("intro-snow-container");for(let i=0;i<25;i++){const s=document.createElement("span");s.className="intro-flake";s.textContent=["❄","❅","✦","❆"][Math.floor(Math.random()*4)];s.style.left=Math.random()*100+"%";s.style.top=(-10-Math.random()*100)+"px";s.style.fontSize=10+Math.random()*16+"px";s.style.animationDuration=8+Math.random()*10+"s";s.style.animationDelay=-Math.random()*10+"s";s.style.setProperty("--drift",(Math.random()*80-40)+"px");box.appendChild(s)}}
 
 /* === LOGIC SHOP, ĐIỂM DANH & CHỈNH SỬA === */
 const FRAMES = Array.from({length: 18}, (_, i) => ({ id: `khung${i+1}`, src: `images/khung${i+1}.png`, price: 60 }));
@@ -2711,6 +2682,47 @@ let tempAvatarFile = null;
 let tempEquippedFrame = null;
 let tempEquippedTitle = null;
 
+  async function previewNewAvatar(e) {
+  const file = e.target.files[0];
+  if (file) {
+    tempAvatarFile = file;
+    document.getElementById("editPreviewAvatar").src = URL.createObjectURL(file);
+  }
+}
+
+async function saveEditProfile() {
+  if (!currentUser) return;
+  const newName = document.getElementById("editDisplayName").value.trim();
+  const btn = document.querySelector("#editProfileModal .auth-submit");
+  btn.textContent = "Đang lưu...";
+  btn.disabled = true;
+
+  try {
+    let newAvatarUrl = currentProfile.avatar_url;
+    if (tempAvatarFile) {
+      newAvatarUrl = await uploadAvatar(tempAvatarFile);
+    }
+
+    const { error } = await db.from("profiles").update({
+      display_name: newName || "Kẻ Mộng Mơ Vô Danh",
+      avatar_url: newAvatarUrl,
+      equipped_frame: tempEquippedFrame,
+      equipped_title: tempEquippedTitle
+    }).eq("id", currentUser.id);
+
+    if (error) throw error;
+
+    toast("Lưu thông tin thành công!");
+    closeModal("editProfileModal");
+    await loadProfile(); // Cập nhật lại giao diện
+  } catch (err) {
+    toast("Lỗi khi lưu: " + err.message);
+  } finally {
+    btn.textContent = "Lưu";
+    btn.disabled = false;
+  }
+}
+
 function switchEditTab(tab) {
   document.querySelectorAll('.edit-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.edit-section').forEach(s => s.classList.remove('active'));
@@ -2821,7 +2833,6 @@ window.addEventListener('click', function(e) {
 
 async function setup(){
   createSnow(); 
-  createIntroSnow(); 
 
   const urlStr = window.location.hash + window.location.search;
   if (urlStr.includes("access_token") || urlStr.includes("code=") || urlStr.includes("error_description")) {
