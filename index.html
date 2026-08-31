@@ -3012,12 +3012,13 @@ document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
 });
 
-// ==========================================
-// TÍNH NĂNG KHÚC NGUYỆN CẦU (ẢNH TĨNH + HIỆU ỨNG)
+  // ==========================================
+// TÍNH NĂNG KHÚC NGUYỆN CẦU (ẢNH TĨNH + HIỆU ỨNG KAOMOJI)
 // ==========================================
 let isWishing = false;
 let todayWishCount = 0;
 let earnedSnowflakes = 0;
+let snowInterval; // Biến lặp tuyết rơi
 
 async function checkWishLimit() {
   const todayStr = getLocalYYYYMMDD();
@@ -3046,8 +3047,6 @@ function closeWishModal() {
   if (isWishing) return; 
   closeModal('wishModal');
 }
-
-let snowInterval; // Biến để điều khiển vòng lặp tuyết rơi
 
 async function doWish() {
   if (isWishing) return;
@@ -3113,44 +3112,6 @@ function spawnKaomojiSnowflake() {
   setTimeout(() => {
     if(p.parentNode) p.parentNode.removeChild(p);
   }, 1500);
-}
-
-  // 3. Random số lượng bông tuyết
-  earnedSnowflakes = getRandomWishAmount();
-
-  // 4. Chờ 1.4 giây cho hiệu ứng chạy xong rồi hiện kết quả
-  setTimeout(async () => {
-    img.className = "wish-img-float"; // Trả lại hiệu ứng nhấp nhô
-    await saveWishResult(earnedSnowflakes);
-    
-    document.getElementById('wishAmount').innerText = earnedSnowflakes;
-    document.getElementById('wishResultModal').classList.add('show');
-  }, 1400);
-}
-
-// Hàm bắn bông tuyết
-function spawnWishParticles() {
-  const container = document.getElementById('wishParticleContainer');
-  container.innerHTML = ""; 
-  for(let i = 0; i < 12; i++) {
-    let p = document.createElement('div');
-    p.className = 'wish-particle';
-    p.innerText = '❄️';
-    
-    let angle = Math.random() * Math.PI * 2;
-    let distance = 70 + Math.random() * 50; 
-    let tx = Math.cos(angle) * distance + 'px';
-    let ty = Math.sin(angle) * distance + 'px';
-    
-    p.style.setProperty('--tx', tx);
-    p.style.setProperty('--ty', ty);
-    p.style.left = '50%';
-    p.style.top = '50%';
-    p.style.marginLeft = '-10px';
-    p.style.marginTop = '-10px';
-    
-    container.appendChild(p);
-  }
 }
 
 function getRandomWishAmount() {
