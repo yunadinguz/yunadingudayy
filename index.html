@@ -446,6 +446,10 @@
     border-radius: 50%;
 }
 
+/* Chấm đỏ thông báo vật phẩm mới */
+.item-new-dot { position: absolute; top: -4px; right: -4px; width: 14px; height: 14px; background: #e53e3e; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10; pointer-events: none; }
+.tab-new-dot { display: inline-block; width: 8px; height: 8px; background: #e53e3e; border-radius: 50%; margin-left: 4px; vertical-align: middle; display: none; }
+
 /* CSS Tabs Chỉnh Sửa & Danh Hiệu */
 .edit-tabs { display: flex; border-bottom: 1px solid #dcebf5; margin: 15px 0 10px; }
 .edit-tab { flex: 1; text-align: center; padding: 8px; font-weight: 700; color: #8797a9; cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; }
@@ -1233,10 +1237,18 @@ function renderAuth(){
             </div>
             ${adminBadgeText}
             <div style="font-size:.72rem;color:#8797a9;margin-top:2px">${escapeHtml(currentUser.email||"")}</div>
-            <button class="edit-profile-btn" onclick="openEditProfile()">Chỉnh sửa</button>
+<button class="edit-profile-btn" style="position:relative;" onclick="openEditProfile()">Chỉnh sửa <span class="notif-badge" id="editProfileBadge" style="display:none; right:-5px; top:-5px;">0</span></button>
           </div>
         </div>
         <div id="profileAffinityList" style="margin-top:12px"></div>
+      </div>
+      <div class="checkin-wrap" id="checkinWrap"></div>
+      <button class="logout-btn" style="width:100%; margin-top:15px; padding:12px; background:#fee2e2; color:#dc2626; border-radius:22px; font-size:1rem;" onclick="logout()">Đăng xuất</button>
+    `;
+    renderCheckin();
+  }
+  updateJournalInput(); refreshUserBadges(); updateEditProfileBadge();
+}
       </div>
       <div class="checkin-wrap" id="checkinWrap"></div>
       <button class="logout-btn" style="width:100%; margin-top:15px; padding:12px; background:#fee2e2; color:#dc2626; border-radius:22px; font-size:1rem;" onclick="logout()">Đăng xuất</button>
@@ -2185,6 +2197,40 @@ let readMails = [];
 let currentMailTab = 'system';
 
 // 1. HÀM CẬP NHẬT CHẤM ĐỎ VÀ SỐ LƯỢNG THƯ CHƯA ĐỌC (MỚI THÊM)
+  // --- HỆ THỐNG CHẤM ĐỎ VẬT PHẨM MỚI ---
+function getNewItems() {
+    if(!currentUser) return {frames: [], titles: []};
+    return JSON.parse(localStorage.getItem('new_items_' + currentUser.id) || '{"frames":[], "titles":[]}');
+}
+function addNewItem(type, id) {
+    if(!currentUser) return;
+    let items = getNewItems();
+    if(!items[type].includes(id)) items[type].push(id);
+    localStorage.setItem('new_items_' + currentUser.id, JSON.stringify(items));
+    updateEditProfileBadge();
+}
+function removeNewItem(type, id, dotElement) {
+    if(!currentUser) return;
+    let items = getNewItems();
+    items[type] = items[type].filter(x => x !== id);
+    localStorage.setItem('new_items_' + currentUser.id, JSON.stringify(items));
+    updateEditProfileBadge();
+    if(dotElement) dotElement.style.display = 'none'; // Tắt chấm đỏ ngay khi bấm
+}
+function updateEditProfileBadge() {
+    const badge = document.getElementById("editProfileBadge");
+    const items = getNewItems();
+    const total = items.frames.length + items.titles.length;
+    if(badge) {
+        badge.style.display = total > 0 ? "flex" : "none";
+        badge.textContent = total;
+    }
+    const frameDot = document.getElementById("tab-dot-frames");
+    if(frameDot) frameDot.style.display = items.frames.length > 0 ? "inline-block" : "none";
+    const titleDot = document.getElementById("tab-dot-titles");
+    if(titleDot) titleDot.style.display = items.titles.length > 0 ? "inline-block" : "none";
+}
+// -------------------------------------
 function updateMailBadge() {
   const badge = document.getElementById("mailBadge");
   const dotSys = document.getElementById("dot-sys-mail");
@@ -2260,35 +2306,28 @@ function switchMailTab(tab) {
 }
 
 async function loadMailbox() {
-  // Lấy thư hệ thống
   let {data} = await db.from("comments").select("*").eq("char_id", "ADMIN_MAIL").order("created_at", {ascending: false});
   allMails = (data || []).map(m => {
     try { const content = JSON.parse(m.content); return { id: m.id, ...content, time: m.created_at, type: 'admin' }; } 
     catch(e) { return { id: m.id, title: "Thư hệ thống", sender: "Admin", body: m.content, time: m.created_at, type: 'admin' }; }
   });
 
-  // Khóa lưu trữ riêng theo tài khoản trên thiết bị
   const storageKey = 'read_mails_' + (currentUser ? currentUser.id : 'guest');
   let localRead = JSON.parse(localStorage.getItem(storageKey) || '[]');
   let profileRead = currentProfile?.read_mails || [];
-  
-  // Gộp cả 2 nguồn để đảm bảo không bao giờ bị mất trạng thái đã đọc
   readMails = Array.from(new Set([...localRead, ...profileRead]));
 
   if (currentUser) {
     const { count } = await db.from("comments").select("*", { count: 'exact', head: true }).eq("user_id", currentUser.id);
     if (count >= 50) {
-      const ownedT = currentProfile?.owned_titles || [];
-      if (!ownedT.includes('diep_khuc')) {
-        allMails.unshift({
-          id: 'auto_reward_50', 
-          title: "Phần thưởng Tri Ân từ Tuyết Trắng", 
-          sender: "Yuna", 
-          time: new Date().toISOString(), 
-          type: 'reward',
-          body: "Thân gửi Kẻ Mộng Mơ vừa đi qua bão tuyết,\n\nGiữa vạn dặm sương mù và cái lạnh khắc nghiệt của mùa đông, bạn không chỉ là một lữ khách ghé ngang, mà đã chọn dừng bước để sưởi ấm cho vùng đất này. Từng dấu chân kiên nhẫn bạn để lại trên nền tuyết trắng, từng sự đồng hành thầm lặng đã hòa quyện lại, kết tinh rực rỡ thành 'Điệp Khúc Bất Tận'.\n\nTrong bất kỳ bản tình ca nào, điệp khúc luôn là giai điệu da diết nhất và vương vấn mãi trong tâm trí. Danh hiệu này chính là sự tri ân chân thành nhất cho ngọn lửa bạn đã thắp lên, xua tan đi màn đêm cô độc và giữ cho những giấc mơ của chúng ta không bao giờ bị lãng quên.\n\nCảm ơn bạn vì đã kiên trì đồng hành cùng sương tuyết. Miễn là bạn còn mơ mộng, bản tình ca này sẽ vì bạn mà mãi mãi cất lời."
-        });
-      }
+      allMails.unshift({
+        id: 'auto_reward_50', 
+        title: "Phần thưởng Tri Ân từ Tuyết Trắng", 
+        sender: "Yuna", 
+        time: new Date().toISOString(), 
+        type: 'reward',
+        body: "Thân gửi Kẻ Mộng Mơ vừa đi qua bão tuyết,\n\nGiữa vạn dặm sương mù và cái lạnh khắc nghiệt của mùa đông, bạn không chỉ là một lữ khách ghé ngang, mà đã chọn dừng bước để sưởi ấm cho vùng đất này. Từng dấu chân kiên nhẫn bạn để lại trên nền tuyết trắng, từng sự đồng hành thầm lặng đã hòa quyện lại, kết tinh rực rỡ thành 'Điệp Khúc Bất Tận'.\n\nTrong bất kỳ bản tình ca nào, điệp khúc luôn là giai điệu da diết nhất và vương vấn mãi trong tâm trí. Danh hiệu này chính là sự tri ân chân thành nhất cho ngọn lửa bạn đã thắp lên, xua tan đi màn đêm cô độc và giữ cho những giấc mơ của chúng ta không bao giờ bị lãng quên.\n\nCảm ơn bạn vì đã kiên trì đồng hành cùng sương tuyết. Miễn là bạn còn mơ mộng, bản tình ca này sẽ vì bạn mà mãi mãi cất lời."
+      });
     }
   }
   updateMailBadge();
@@ -2298,8 +2337,6 @@ let currentOpenMailId = null;
 
 async function viewMail(id) {
   const mailDetailBox = document.getElementById("mailDetail");
-  
-  // Xử lý đóng/mở (thu gọn)
   if (currentOpenMailId === id && mailDetailBox.style.display === "block") {
     mailDetailBox.style.display = "none";
     document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
@@ -2313,22 +2350,15 @@ async function viewMail(id) {
   document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
   document.getElementById("mail-item-" + id)?.classList.add("active-mail");
   
-  // Đánh dấu đã đọc
   if (!readMails.includes(id)) {
     readMails.push(id);
-    
-    // 1. Lưu ngay vào bộ nhớ máy
-    const storageKey = 'read_mails_' + (currentUser ? currentUser.id : 'guest');
-    localStorage.setItem(storageKey, JSON.stringify(readMails));
-
-    // 2. Đồng bộ lên database
+    localStorage.setItem('read_mails_' + (currentUser ? currentUser.id : 'guest'), JSON.stringify(readMails));
     if(currentUser) {
       try {
         await db.from("profiles").update({ read_mails: readMails }).eq("id", currentUser.id);
         if(currentProfile) currentProfile.read_mails = readMails;
       } catch(e) {}
     }
-
     document.getElementById("mail-item-" + id)?.classList.remove("unread");
     updateMailBadge();
   }
@@ -2336,16 +2366,24 @@ async function viewMail(id) {
   document.getElementById("mDetailTitle").textContent = m.title;
   document.getElementById("mDetailSender").textContent = "Người gửi: " + m.sender;
   document.getElementById("mDetailTime").textContent = formatDate(m.time);
-  document.getElementById("mDetailBody").textContent = m.body;
   
   const actionDiv = document.getElementById("mDetailAction");
   let actionHtml = "";
   
-  if(m.type === 'reward' && m.id === 'auto_reward_50') {
-    actionHtml += `<button class="auth-submit" style="width: auto; padding: 10px 25px;" onclick="claimRewardTitle('diep_khuc', 'Danh Hiệu: Điệp Khúc Bất Tận')">Nhận Danh Hiệu</button>`;
+  if(m.id === 'auto_reward_50') {
+    const badgeUI = `<div style="text-align:center; margin: 25px 0 15px;"><span class="badge diep-khuc" style="font-size:1.1rem; padding: 10px 22px;">Điệp Khúc Bất Tận</span></div>`;
+    document.getElementById("mDetailBody").innerHTML = escapeHtml(m.body).replace(/\n/g, '<br>') + badgeUI;
+    
+    const hasClaimed = currentProfile?.owned_titles?.includes('diep_khuc');
+    if(hasClaimed) {
+      actionHtml += `<button class="pill-btn reset" disabled style="width: auto; padding: 10px 25px;">Đã nhận</button>`;
+    } else {
+      actionHtml += `<button class="auth-submit" style="width: auto; padding: 10px 25px;" onclick="claimRewardTitle('diep_khuc', 'Điệp Khúc Bất Tận')">Nhận Danh Hiệu</button>`;
+    }
+  } else {
+    document.getElementById("mDetailBody").innerHTML = escapeHtml(m.body).replace(/\n/g, '<br>');
   }
   
-  // Nút xóa cho Admin
   if (isAdmin && m.type === 'admin') {
     actionHtml += `<button class="pill-btn" style="background:#fee2e2; color:#dc2626;" onclick="deleteAdminMail('${m.id}')">🗑️ Thu hồi thư</button>`;
   }
@@ -2361,28 +2399,26 @@ async function claimRewardTitle(tid, tname) {
     await db.from("profiles").update({ owned_titles: ownedT }).eq("id", currentUser.id);
     currentProfile.owned_titles = ownedT;
     
-    document.getElementById("congratsImg").src = "images/avatar.jpg"; 
-    document.querySelector(".congrats-text").innerHTML = `Chúc Mừng Nhận Được<br><span style="font-size:1.4rem; color:#fff; text-shadow: 0 0 10px #79ACD9;">${tname}</span>`;
+    addNewItem('titles', tid);
+    
+    document.getElementById("congratsImg").style.display = "none";
+    document.querySelector(".congrats-text").innerHTML = `Chúc mừng bạn đã nhận được<br><span style="font-size:1.6rem; color:#fff; text-shadow: 0 0 15px #79ACD9;">Danh hiệu "${tname}"</span>!`;
     document.getElementById("congratsModal").style.display = "flex";
     
-    document.getElementById("mDetailAction").innerHTML = `<button class="pill-btn reset" disabled>Đã nhận</button>`;
-    loadMailbox(); 
+    document.getElementById("mDetailAction").innerHTML = `<button class="pill-btn reset" disabled style="width: auto; padding: 10px 25px;">Đã nhận</button>`;
   }
 }
 
 function composeAdminMail() {
   document.getElementById("adminMailTitle").value = "";
   document.getElementById("adminMailBody").value = "";
-  
-  // Đổ dữ liệu Yuna và toàn bộ Nhân vật vào Dropdown
   const senderSelect = document.getElementById("adminMailSender");
   let optionsHtml = `<option value="Yuna">Yuna</option>`;
   CHARS.forEach(c => {
-    let charNameShort = c.name.split(" (")[0]; // Lấy tên tiếng Việt bỏ chữ Hán
+    let charNameShort = c.name.split(" (")[0];
     optionsHtml += `<option value="${escapeHtml(charNameShort)}">${escapeHtml(charNameShort)}</option>`;
   });
   senderSelect.innerHTML = optionsHtml;
-  
   openModal("composeMailModal");
 }
 
@@ -2392,28 +2428,21 @@ async function sendAdminMail() {
   const body = document.getElementById("adminMailBody").value.trim();
   
   if(!title || !sender || !body) return toast("Vui lòng điền đầy đủ thông tin!");
-  
   const mailData = JSON.stringify({ title, sender, body });
   const {error} = await db.from("comments").insert({ char_id: 'ADMIN_MAIL', content: mailData, user_id: currentUser.id, is_admin: true });
   
-  if(error) {
-    toast("Lỗi: " + error.message);
-  } else { 
-    toast("Đã gửi thư hệ thống!"); 
-    closeModal("composeMailModal");
-    loadMailbox().then(() => {
-      // Cập nhật lại UI nếu mailbox đang mở
-      if (document.getElementById("mailboxModal").classList.contains("show")) openMailbox();
-    });
+  if(error) { toast("Lỗi: " + error.message); } 
+  else { 
+    toast("Đã gửi thư hệ thống!"); closeModal("composeMailModal");
+    loadMailbox().then(() => { if (document.getElementById("mailboxModal").classList.contains("show")) openMailbox(); });
   }
 }
 
 async function deleteAdminMail(mailId) {
   if (!confirm("Bạn có chắc chắn muốn thu hồi (xóa) thư hệ thống này không?")) return;
   const {error} = await db.from("comments").delete().eq("id", mailId);
-  if(error) {
-    toast("Lỗi khi xóa: " + error.message);
-  } else {
+  if(error) { toast("Lỗi khi xóa: " + error.message); } 
+  else {
     toast("Đã thu hồi thư.");
     document.getElementById("mailDetail").style.display = "none";
     currentOpenMailId = null;
@@ -2421,9 +2450,7 @@ async function deleteAdminMail(mailId) {
   }
 }
 
-// CƠ CHẾ NOTIFICATION RANDOM (5 PHÚT / 1 LẦN)
 function triggerNotification() {
-    // Chỉ tạo kịch bản mới 1 lần mỗi chu kỳ 5 phút
     currentWechatScript = WECHAT_DATABASE[Math.floor(Math.random()*WECHAT_DATABASE.length)];
     const b=document.getElementById("notifBtn");
     const bg=document.getElementById("notifBadge");
@@ -2431,10 +2458,8 @@ function triggerNotification() {
 }
 
 function initRandomNotification(){
-    // Lần đầu vào web, gọi thông báo sau 6 giây
     setTimeout(() => {
         triggerNotification();
-        // Thiết lập bộ đếm 5 phút sẽ thay tin nhắn mới
         wechatTimer = setInterval(triggerNotification, 300000); 
     }, 6000);
 }
@@ -2445,9 +2470,7 @@ function openWeChatModal(){
   if(b) b.classList.remove("ring");
   if(bg) bg.style.display="none";
 
-  // Sử dụng kịch bản đang chờ. Nếu bấm nhiều lần trong 5 phút, nó vẫn là kịch bản này.
   const script = currentWechatScript || WECHAT_DATABASE[0];
-
   document.getElementById("wcHeaderAvatar").src = script.avatar;
   document.getElementById("wcHeaderName").textContent = script.name;
   
@@ -2456,12 +2479,10 @@ function openWeChatModal(){
   
   body.innerHTML = `<div class="wechat-typing" id="wcTyping">... ${script.name} đang nhập ...</div>`;
   choices.innerHTML = "";
-
   openModal('wechatModal');
 
   setTimeout(()=>{
     document.getElementById("wcTyping")?.remove();
-    
     let callHtml = script.call ? `<div class="wechat-meta-box">📞 ${escapeHtml(script.call)}</div>` : '';
     let extraHtml = script.extra ? `<div class="wechat-meta-box" style="color: #07c160; background: #f2fbf4; border-color: #d1ebd8;">🧧 ${escapeHtml(script.extra)}</div>` : '';
 
@@ -2486,7 +2507,6 @@ function openWeChatModal(){
 async function sendWeChatReply(charId, charAvatar, userReplyText, msg2Text){
   const body = document.getElementById("wcBody");
   const choices = document.getElementById("wcChoices");
-  
   choices.innerHTML = "";
 
   let userAvatarHtml = "";
@@ -2506,7 +2526,6 @@ async function sendWeChatReply(charId, charAvatar, userReplyText, msg2Text){
       ${userAvatarHtml}
       <div class="msg-bubble msg-right">${escapeHtml(userReplyText)}</div>
     </div>`;
-  
   body.innerHTML += `<div class="wechat-typing" id="wcTyping">... Đang gõ ...</div>`;
   body.scrollTop = body.scrollHeight;
 
@@ -2568,7 +2587,6 @@ async function buyFrame(id, price, src) {
   let currentSnowflakes = currentProfile.snowflakes || 0;
   if(currentSnowflakes < price) return toast("Bạn không đủ Bông tuyết!");
   
-  // Trừ tiền và thêm item
   currentSnowflakes -= price;
   let newOwned = [...(currentProfile.owned_frames || []), id];
   
@@ -2578,45 +2596,37 @@ async function buyFrame(id, price, src) {
   currentProfile.snowflakes = currentSnowflakes;
   currentProfile.owned_frames = newOwned;
   
-  // Hiển thị modal chúc mừng
+  addNewItem('frames', id); 
   document.getElementById("congratsImg").src = src;
-  document.getElementById("congratsModal").style.display = "flex"; // Hiện thay vì add class để override
-  
+  document.getElementById("congratsImg").style.display = "block";
+  document.querySelector(".congrats-text").innerHTML = `Chúc Mừng Bạn Đã Nhận Được`;
+  document.getElementById("congratsModal").style.display = "flex"; 
   renderShop(); renderAuth();
 }
 
-// ================= LOGIC ĐIỂM DANH (ĐÃ FIX LỖI TIMEZONE) =================
-
-// 1. Lấy ngày chuẩn theo giờ địa phương (Tránh lỗi UTC)
 function getLocalYYYYMMDD() {
     const d = new Date();
     const tzOffset = d.getTimezoneOffset() * 60000;
     return (new Date(d - tzOffset)).toISOString().slice(0, 10);
 }
 
-// 2. Kiểm tra xem đã qua tuần mới chưa dựa trên khoảng cách ngày
 function isNewWeek(lastDateStr) {
     if (!lastDateStr) return false;
     const todayStr = getLocalYYYYMMDD();
     if (lastDateStr === todayStr) return false;
 
-    // Quy đổi về lúc 00:00:00 giờ local
     const lastD = new Date(lastDateStr + 'T00:00:00');
     const currD = new Date(todayStr + 'T00:00:00');
 
-    // Cách 7 ngày thì chắc chắn là tuần mới
     const diffDays = (currD - lastD) / (1000 * 60 * 60 * 24);
     if (diffDays >= 7) return true; 
 
-    // Lấy số thứ tự trong tuần (0: Thứ 2 -> 6: CN)
     const lastIdx = (lastD.getDay() + 6) % 7;
     const currIdx = (currD.getDay() + 6) % 7;
 
-    // Nếu thứ hiện tại nhỏ hơn thứ lần trước (VD: CN sang Thứ 2) -> Qua tuần
     return currIdx < lastIdx;
 }
 
-// 3. Render giao diện
 function renderCheckin() {
   const wrap = document.getElementById("checkinWrap");
   if(!wrap || !currentProfile) return;
@@ -2626,7 +2636,6 @@ function renderCheckin() {
   
   let progress = currentProfile.checkin_progress || 0;
   
-  // Kiểm tra reset tuần
   if (isNewWeek(currentProfile.last_checkin_date)) { 
       progress = 0; 
   }
@@ -2661,7 +2670,6 @@ function renderCheckin() {
   `;
 }
 
-// 4. Xử lý bấm nhận quà
 async function doCheckin() {
   if(!currentUser) return;
   const todayStr = getLocalYYYYMMDD();
@@ -2672,12 +2680,10 @@ async function doCheckin() {
       currentProgress = 0; 
   }
 
-  // Chặn 2 lớp: Chặn theo bitmask và chặn theo Date
   if ((currentProgress & (1 << todayIdx)) !== 0 || currentProfile.last_checkin_date === todayStr) {
       return toast("Bạn đã điểm danh hôm nay rồi!");
   }
 
-  // Khóa nút ngay lập tức để tránh bấm đúp
   const btn = document.getElementById("btn-do-checkin");
   if(btn) { btn.disabled = true; btn.textContent = "Đang xử lý..."; }
 
@@ -2693,7 +2699,6 @@ async function doCheckin() {
       return toast("Lỗi điểm danh: " + error.message);
   }
   
-  // Cập nhật lại dữ liệu Profile trên bộ nhớ
   currentProfile.last_checkin_date = todayStr;
   currentProfile.checkin_progress = progress;
   currentProfile.snowflakes = newSnowflakes;
@@ -2702,7 +2707,6 @@ async function doCheckin() {
   renderCheckin();
 }
 
-// Logic Chỉnh sửa Profile
 let tempAvatarFile = null;
 let tempEquippedFrame = null;
 let tempEquippedTitle = null;
@@ -2728,13 +2732,21 @@ function openEditProfile() {
   if(tempEquippedFrame) { previewFrame.src = tempEquippedFrame; previewFrame.style.display = "block"; }
   else { previewFrame.style.display = "none"; }
 
+  const newItems = getNewItems();
+
   const ownedF = isAdmin ? FRAMES.map(f => f.id) : (currentProfile.owned_frames || []);
   const grid = document.getElementById("editFramesGrid");
-  let framesHtml = `<div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this)"><div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Gỡ bỏ</div></div>`;
-  framesHtml += FRAMES.filter(f => ownedF.includes(f.id)).map(f => `<div class="edit-frame-item ${tempEquippedFrame === f.src ? 'selected' : ''}" onclick="selectFrame('${f.src}', this)"><img src="${f.src}"></div>`).join("");
+  let framesHtml = `<div class="edit-frame-item ${!tempEquippedFrame ? 'selected' : ''}" onclick="selectFrame(null, this, null)"><div style="width:100%; aspect-ratio:1; border-radius:50%; background:#eef7ff; display:flex; align-items:center; justify-content:center; color:#79ACD9; font-weight:bold;">Gỡ bỏ</div></div>`;
+  
+  framesHtml += FRAMES.filter(f => ownedF.includes(f.id)).map(f => {
+    const isNew = newItems.frames.includes(f.id);
+    return `<div class="edit-frame-item ${tempEquippedFrame === f.src ? 'selected' : ''}" style="position:relative;" onclick="selectFrame('${f.src}', this, '${f.id}')">
+      ${isNew ? '<div class="item-new-dot"></div>' : ''}
+      <img src="${f.src}">
+    </div>`;
+  }).join("");
   grid.innerHTML = framesHtml;
 
-// Lấy ra danh hiệu mặc định theo hảo cảm
   let defaultAffinityTitle = "Danh hiệu theo hảo cảm";
   let defaultAffinityCls = "normal";
   if (currentProfile && currentProfile.id) {
@@ -2748,28 +2760,25 @@ function openEditProfile() {
   const ownedT = currentProfile.owned_titles || [];
   const titlesList = document.getElementById("editTitlesList");
   
-  // 1. Không sử dụng (Luôn ở đầu)
-  let titlesHtml = `<div class="title-item ${tempEquippedTitle === 'none' ? 'selected' : ''}" onclick="selectTitle('none', this)">
-      <div style="flex: 1; display: flex; justify-content: center;">
-        <span class="badge no-title" style="font-size:0.8rem; padding: 6px 12px;">Không sử dụng Danh Hiệu</span>
-      </div>
+  let titlesHtml = `<div class="title-item ${tempEquippedTitle === 'none' ? 'selected' : ''}" onclick="selectTitle('none', this, null)">
+      <div style="flex: 1; display: flex; justify-content: center;"><span class="badge no-title" style="font-size:0.8rem; padding: 6px 12px;">Không sử dụng Danh Hiệu</span></div>
     </div>`;
 
-  // 2. Mặc định (Theo hảo cảm)
   const isDefaultSelected = (!tempEquippedTitle || tempEquippedTitle === 'null');
-  titlesHtml += `<div class="title-item ${isDefaultSelected ? 'selected' : ''}" onclick="selectTitle(null, this)">
+  titlesHtml += `<div class="title-item ${isDefaultSelected ? 'selected' : ''}" onclick="selectTitle(null, this, null)">
       <div style="flex: 1; display:flex; flex-direction:column; align-items:center;">
         <span style="font-size:0.75rem; color:#8797a9; margin-bottom:4px;">Mặc định (Theo hảo cảm)</span>
         <span class="badge ${defaultAffinityCls}" style="font-size:0.8rem; margin:0;">${defaultAffinityTitle}</span>
       </div>
     </div>`;
   
-  // 3. Các danh hiệu đặc biệt
   const allTitles = { 'diep_khuc': { name: 'Điệp Khúc Bất Tận', cls: 'diep-khuc' } };
   ownedT.forEach(tid => {
     if(allTitles[tid]) {
-      titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this)">
-        <div style="flex: 1; display: flex; justify-content: center;">
+      const isNew = newItems.titles.includes(tid);
+      titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this, '${tid}')">
+        <div style="flex: 1; display: flex; justify-content: center; position:relative;">
+          ${isNew ? '<div class="item-new-dot" style="position:relative; right:auto; top:auto; margin-right:10px;"></div>' : ''}
           <span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem; padding: 6px 12px;">${allTitles[tid].name}</span>
         </div>
       </div>`;
@@ -2777,63 +2786,31 @@ function openEditProfile() {
   });
   titlesList.innerHTML = titlesHtml;
   
+  document.querySelector('.edit-tabs').innerHTML = `
+    <div class="edit-tab active" onclick="switchEditTab('frames')">Khung Ảnh <span class="tab-new-dot" id="tab-dot-frames"></span></div>
+    <div class="edit-tab" onclick="switchEditTab('titles')">Danh Hiệu <span class="tab-new-dot" id="tab-dot-titles"></span></div>
+  `;
+  updateEditProfileBadge();
+
   switchEditTab('frames'); 
-  document.querySelector('.edit-tabs .edit-tab').classList.add('active');
   openModal("editProfileModal");
 }
 
-function selectFrame(src, el) {
+function selectFrame(src, el, id) {
   tempEquippedFrame = src;
   document.querySelectorAll(".edit-frame-item").forEach(item => item.classList.remove("selected"));
   el.classList.add("selected");
   const preview = document.getElementById("editPreviewFrame");
   if(src) { preview.src = src; preview.style.display = "block"; }
   else { preview.style.display = "none"; }
+  if(id) removeNewItem('frames', id, el.querySelector('.item-new-dot'));
 }
 
-function selectTitle(tid, el) {
+function selectTitle(tid, el, id) {
   tempEquippedTitle = tid;
   document.querySelectorAll(".title-item").forEach(item => item.classList.remove("selected"));
   el.classList.add("selected");
-}
-
-function previewNewAvatar(e) {
-  const file = e.target.files[0];
-  if(file) {
-    tempAvatarFile = file;
-    document.getElementById("editPreviewAvatar").src = URL.createObjectURL(file);
-  }
-}
-
-async function saveEditProfile() {
-  const newName = document.getElementById("editDisplayName").value.trim() || "Kẻ Mộng Mơ Vô Danh";
-  document.getElementById("editProfileModal").querySelector(".auth-submit").textContent = "Đang lưu...";
-  
-  try {
-    let finalAvatar = currentProfile.avatar_url;
-    if(tempAvatarFile) { finalAvatar = await uploadAvatar(tempAvatarFile); }
-    
-    const {error} = await db.from("profiles").update({
-      display_name: newName, avatar_url: finalAvatar, equipped_frame: tempEquippedFrame, equipped_title: tempEquippedTitle
-    }).eq("id", currentUser.id);
-    
-    if(error) throw error;
-    
-    currentProfile.display_name = newName;
-    currentProfile.avatar_url = finalAvatar;
-    currentProfile.equipped_frame = tempEquippedFrame;
-    currentProfile.equipped_title = tempEquippedTitle;
-    profileCache.set(currentUser.id, currentProfile);
-    
-    toast("Lưu thông tin thành công!");
-    closeModal("editProfileModal");
-    renderAuth(); loadJournal();
-    filteredChars.forEach(c => loadMiniComments(c.id));
-    if(currentChar) loadAppComments(currentChar.id);
-    
-  } catch(e) { toast("Lỗi: " + e.message); }
-  
-  document.getElementById("editProfileModal").querySelector(".auth-submit").textContent = "Lưu Thông Tin";
+  if(id) removeNewItem('titles', id, el.querySelector('.item-new-dot'));
 }
 
 // Ghi đè lại để fix click ngoài của modal chúc mừng
