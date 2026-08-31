@@ -514,27 +514,33 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   transition: transform 0.1s ease !important;
 }
 
-  /* GIAO DIỆN KHÚC NGUYỆN CẦU */
-.wish-video-container {
-  margin: 0 auto 15px; 
-  width: min(260px, 100%); 
-  aspect-ratio: 1/1; 
-  border-radius: 16px; 
-  overflow: hidden; 
-  background: #000;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+ /* GIAO DIỆN KHÚC NGUYỆN CẦU (ẢNH TĨNH) */
+.wish-img-float { animation: wishFloat 3s ease-in-out infinite; }
+@keyframes wishFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); } 
 }
 
-/* GIAO DIỆN NHẬN BÔNG TUYẾT (STYLE GENSHIN) */
-#wishResultModal {
-  z-index: 13000; 
-  background: rgba(0,0,0,0.85); 
-  cursor: pointer; /* Bấm đâu cũng tắt được */
+.wish-img-shake { animation: wishShake 0.4s ease-in-out infinite; }
+@keyframes wishShake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); } 
+  75% { transform: rotate(8deg); }  
 }
+
+.wish-particle {
+  position: absolute; font-size: 1.2rem; color: #fff; pointer-events: none; z-index: 10;
+  animation: particleBurst 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes particleBurst {
+  0% { opacity: 1; transform: translate(0, 0) scale(0.5) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); }
+}
+
+#wishResultModal { z-index: 13000; background: rgba(0,0,0,0.85); cursor: pointer; }
 .wish-result-content {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  pointer-events: none; /* Xuyên click xuống nền đen để tắt */
+  animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;
 }
 .wish-result-title {
   color: #e5d2a3; font-family: var(--serif); font-size: 2rem; margin-bottom: 25px;
@@ -546,13 +552,17 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 }
 .wish-glow {
   position: absolute; top: 50%; left: 50%; width: 220%; height: 220%;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 230, 100, 0.8) 0%, transparent 65%);
   transform: translate(-50%, -50%); z-index: 1;
-  animation: spin 6s linear infinite;
+  animation: pulseGlow 1.2s ease-in-out infinite alternate;
+}
+@keyframes pulseGlow {
+  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
 }
 .wish-icon {
   font-size: 4.5rem; position: relative; z-index: 2; margin-bottom: 8px;
-  filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));
+  filter: drop-shadow(0 0 15px rgba(255,255,255,1));
 }
 .wish-amount {
   background: #fdfdfd; width: 100%; text-align: center; color: #3d4554; font-weight: 800;
@@ -630,9 +640,9 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 </div>
 <div class="action-row" style="flex-direction: column; gap: 10px;">
-  <button class="pill-btn" style="width: 100%;" onclick="openDestiny()">🔮 Theo Dấu Tuyết Rơi</button>
-  <button class="pill-btn" style="width: 100%; background: linear-gradient(135deg, #1d5f99, #6aa5d7);" onclick="openWishModal()">🌠 Khúc Nguyện Cầu</button>
-  <button id="resetFilter" class="pill-btn reset" style="display:none; width: 100%;" onclick="resetFilter()">Bỏ lọc</button>
+  <button class="pill-btn" onclick="openDestiny()">🔮 Theo Dấu Tuyết Rơi</button>
+  <button class="pill-btn" style="background: linear-gradient(135deg, #1d5f99, #6aa5d7);" onclick="openWishModal()">🌠 Khúc Nguyện Cầu</button>
+  <button id="resetFilter" class="pill-btn reset" style="display:none" onclick="resetFilter()">Bỏ lọc</button>
 </div>
 </div>
 
@@ -695,7 +705,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 
 <div id="r21Modal" class="custom-modal"><div class="modal-box" id="r21Box"><button class="close-modal" onclick="closeModal('r21Modal')">×</button><h2>🔐 Giấc Mộng Đóng Băng</h2><p style="color:var(--text);font-size:.86rem">Thần chú để phá vỡ phong ấn là gì?</p><input id="r21Input" type="password" placeholder="Nhập câu thần chú..."><p id="r21Error" style="color:#e53e3e;font-weight:600;display:none;margin-top:8px;font-size:.85rem">Băng vẫn chưa tan... Bạn có muốn truyền thêm hơi ấm không?</p><div style="display:flex;gap:10px;justify-content:center;margin-top:14px"><button class="modal-primary" onclick="verifyR21()">Phá băng</button><button class="pill-btn reset" onclick="closeModal('r21Modal')">Hủy</button></div></div></div>
 
-<div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2>🔮 Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
+<div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">🔮 Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
 
 <div class="floating-left" style="display: flex; flex-direction: column; gap: 10px;">
   <button class="notif-btn" id="mailBtn" onclick="openMailbox()">📩<span class="notif-badge" id="mailBadge" style="display:none">0</span></button>
@@ -788,17 +798,18 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 
 <div id="toast" class="toast"></div>
-  <!-- Modal Khúc Nguyện Cầu -->
+<!-- Modal Khúc Nguyện Cầu -->
 <div id="wishModal" class="custom-modal">
   <div class="modal-box" style="text-align: center;">
     <button class="close-modal" onclick="closeWishModal()">×</button>
     <h2 class="gradient-title" style="margin-bottom: 5px;">Khúc Nguyện Cầu</h2>
-    <div style="font-size: 0.8rem; color: #8797a9; font-style: italic; margin-bottom: 15px; line-height: 1.5;">
+    <div style="font-size: 0.8rem; color: #8797a9; font-style: italic; margin-bottom: 25px; line-height: 1.5;">
       Khúc hát dành cho những điều lòng người vẫn chưa gọi thành tên... Hãy thì thầm điều ước của bạn...
     </div>
     
-    <div class="wish-video-container">
-      <video id="wishVideo" width="100%" height="100%" style="object-fit: cover;" playsinline muted></video>
+    <div style="position: relative; margin: 0 auto 25px; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+      <div id="wishParticleContainer" style="position: absolute; inset: 0;"></div>
+      <img id="wishImage" src="images/colum1.png" style="width: 100%; height: 100%; object-fit: contain; z-index: 2;" alt="">
     </div>
     
     <div id="wishRemainingText" style="font-size: 0.82rem; color: #8797a9; margin-bottom: 8px; font-weight: bold;">Lượt còn lại: .../3</div>
@@ -806,7 +817,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   </div>
 </div>
 
-<!-- Modal Kết Quả -->
+<!-- Modal Kết Quả (Style Genshin) -->
 <div id="wishResultModal" class="custom-modal" onclick="closeWishResult()">
   <div class="wish-result-content">
     <div class="wish-result-title">Obtained</div>
@@ -2985,8 +2996,8 @@ document.addEventListener('click', () => {
     document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
 });
 
-  // ==========================================
-// TÍNH NĂNG KHÚC NGUYỆN CẦU (GACHA BÔNG TUYẾT)
+// ==========================================
+// TÍNH NĂNG KHÚC NGUYỆN CẦU (ẢNH TĨNH + HIỆU ỨNG)
 // ==========================================
 let isWishing = false;
 let todayWishCount = 0;
@@ -2995,7 +3006,7 @@ let earnedSnowflakes = 0;
 async function checkWishLimit() {
   const todayStr = getLocalYYYYMMDD();
   if (currentProfile.last_wish_date !== todayStr) {
-    todayWishCount = 0; // Reset qua ngày mới
+    todayWishCount = 0; 
   } else {
     todayWishCount = currentProfile.wish_count || 0;
   }
@@ -3009,22 +3020,15 @@ function openWishModal() {
   
   checkWishLimit().then(() => {
     document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+    document.getElementById('wishImage').className = "wish-img-float"; // Bật hiệu ứng nhấp nhô
+    document.getElementById('wishParticleContainer').innerHTML = ""; // Xóa tuyết cũ
     openModal('wishModal');
-    
-    // Nạp video 1 và cho loop như GIF
-    const vid = document.getElementById('wishVideo');
-    vid.src = "images/colum1.webm";
-    vid.loop = true;
-    vid.play(); // Chỉ play khi mở modal (nhẹ máy)
   });
 }
 
 function closeWishModal() {
-  if (isWishing) return; // Đang chạy animation thì không cho tắt
+  if (isWishing) return; 
   closeModal('wishModal');
-  const vid = document.getElementById('wishVideo');
-  vid.pause();
-  vid.src = ""; // Xóa src để giải phóng ram
 }
 
 async function doWish() {
@@ -3038,52 +3042,64 @@ async function doWish() {
   document.getElementById('wishBtn').disabled = true;
   document.getElementById('wishBtn').innerText = "Đang cầu nguyện...";
 
-  // Random số lượng bông tuyết theo tỉ lệ
+  // 1. Đổi class ảnh: Tắt nhấp nhô, bật hiệu ứng Lắc Lư
+  const img = document.getElementById('wishImage');
+  img.className = "wish-img-shake";
+
+  // 2. Tạo hiệu ứng bắn Bông Tuyết xung quanh
+  spawnWishParticles();
+
+  // 3. Random số lượng bông tuyết
   earnedSnowflakes = getRandomWishAmount();
 
-  // Chuyển sang video 2
-  const vid = document.getElementById('wishVideo');
-  vid.loop = false; // Video 2 không lặp lại
-  vid.src = "images/colum2.webm";
-  vid.play();
-
-  // Bắt sự kiện khi video 2 chạy xong
-  vid.onended = async () => {
-    // 1. Dừng video lại
-    vid.pause();
-    
-    // 2. Lưu vào DB Supabase
+  // 4. Chờ 1.4 giây cho hiệu ứng chạy xong rồi hiện kết quả
+  setTimeout(async () => {
+    img.className = "wish-img-float"; // Trả lại hiệu ứng nhấp nhô
     await saveWishResult(earnedSnowflakes);
-
-    // 3. Hiện popup Genshin
+    
     document.getElementById('wishAmount').innerText = earnedSnowflakes;
     document.getElementById('wishResultModal').classList.add('show');
-  };
+  }, 1400);
+}
+
+// Hàm bắn bông tuyết
+function spawnWishParticles() {
+  const container = document.getElementById('wishParticleContainer');
+  container.innerHTML = ""; 
+  for(let i = 0; i < 12; i++) {
+    let p = document.createElement('div');
+    p.className = 'wish-particle';
+    p.innerText = '❄️';
+    
+    let angle = Math.random() * Math.PI * 2;
+    let distance = 70 + Math.random() * 50; 
+    let tx = Math.cos(angle) * distance + 'px';
+    let ty = Math.sin(angle) * distance + 'px';
+    
+    p.style.setProperty('--tx', tx);
+    p.style.setProperty('--ty', ty);
+    p.style.left = '50%';
+    p.style.top = '50%';
+    p.style.marginLeft = '-10px';
+    p.style.marginTop = '-10px';
+    
+    container.appendChild(p);
+  }
 }
 
 function getRandomWishAmount() {
-  const rand = Math.random() * 100; // Random từ 0 đến 100
-  if (rand < 0.1) return 100;                 // 0.1% ra 100
-  if (rand < 0.4) return 50;                  // 0.3% ra 50
-  if (rand < 0.9) return 20;                  // 0.5% ra 20
-  if (rand < 1.6) return 10;                  // 0.7% ra 10
-  
-  // Còn lại 98.4%, chia tỉ lệ cho 1, 2, 5
-  if (rand < 16.6) return 5;                  // ~15% ra 5
-  if (rand < 50.0) return 2;                  // ~33.4% ra 2
-  return 1;                                   // ~50% ra 1
+  const rand = Math.random() * 100;
+  if (rand < 0.1) return 100;                 
+  if (rand < 0.4) return 50;                  
+  if (rand < 0.9) return 20;                  
+  if (rand < 1.6) return 10;                  
+  if (rand < 16.6) return 5;                  
+  if (rand < 50.0) return 2;                  
+  return 1;                                   
 }
 
 function closeWishResult() {
   document.getElementById('wishResultModal').classList.remove('show');
-  
-  // Trả video về colum1.webm và chạy lại
-  const vid = document.getElementById('wishVideo');
-  vid.src = "images/colum1.webm";
-  vid.loop = true;
-  vid.play();
-
-  // Khôi phục nút bấm
   isWishing = false;
   document.getElementById('wishBtn').disabled = false;
   document.getElementById('wishBtn').innerText = "Cầu Nguyện";
@@ -3092,10 +3108,9 @@ function closeWishResult() {
 
 async function saveWishResult(amount) {
   const todayStr = getLocalYYYYMMDD();
-  todayWishCount++; // Tăng lượt cầu nguyện hôm nay lên 1
-  let newSnowflakes = (currentProfile.snowflakes || 0) + amount; // Cộng dồn tuyết
+  todayWishCount++; 
+  let newSnowflakes = (currentProfile.snowflakes || 0) + amount; 
 
-  // Update lên database
   const {error} = await db.from("profiles").update({
     last_wish_date: todayStr,
     wish_count: todayWishCount,
@@ -3107,10 +3122,9 @@ async function saveWishResult(amount) {
     currentProfile.wish_count = todayWishCount;
     currentProfile.snowflakes = newSnowflakes;
     
-    // Cập nhật số tuyết đang hiện ở các phần khác (như Shop)
     const shopSnowText = document.getElementById("shop-snowflakes");
     if(shopSnowText) shopSnowText.textContent = newSnowflakes;
-    renderCheckin(); // Update lại header checkin nếu cần
+    renderCheckin();
   } else {
     toast("Lỗi lưu kết quả cầu nguyện!");
   }
