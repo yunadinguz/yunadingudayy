@@ -561,58 +561,139 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 /* GIAO DIỆN NHẬN BÔNG TUYẾT (STYLE GENSHIN) */
 #wishResultModal { 
   z-index: 13000; 
-  background: rgba(0,0,0,0.5); /* Nền bớt đen, nhìn xuyên thấu */
+  background: rgba(0,0,0,0.7); /* Làm nền tối lại một chút để bụi vàng nổi bật hơn */
   cursor: pointer; 
 }
 .wish-result-content {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;
-}
-/* Chữ tiêu đề thu nhỏ lại vừa vặn */
-.wish-result-title {
-  color: #e5d2a3; 
-  font-family: var(--serif); 
-  font-size: 1.35rem; /* Đã thu nhỏ chữ lại */
-  margin-bottom: 20px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6); 
-  letter-spacing: 1px;
+  pointer-events: none;
+  position: relative;
 }
 
-/* Thẻ bài KHÔNG VIỀN, nổi khối 3D siêu rõ */
+/* Chữ tiêu đề: Hiện ra ĐẦU TIÊN */
+.wish-result-title {
+  color: #f5f0e6; 
+  font-family: var(--serif); 
+  font-size: 1.8rem; /* Cho chữ to ra giống ảnh */
+  margin-bottom: 25px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.3); 
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  /* Animation nhảy ra cực nhanh */
+  animation: titlePop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes titlePop {
+  0% { opacity: 0; transform: scale(0.6); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Container bọc thẻ bài và các ngôi sao */
+.wish-card-container {
+  position: relative;
+}
+
+/* Thẻ bài: Hiện ra SAU chữ một chút và RẤT NHANH */
 .wish-item-card {
-  background: #ffffff;
-  border-radius: 16px;
-  width: 90px;
+  background: radial-gradient(circle, #2a4b73 0%, #152740 100%); /* Đổi thành hình tròn tối màu giống ảnh */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
   display: flex;
   flex-direction: column;
-  border: none; /* Không viền */
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  position: relative;
   overflow: hidden;
-  /* Hiệu ứng tỏa ánh sáng vàng nhẹ */
-  box-shadow: 0 0 18px rgba(251, 191, 36, 0.75), 0 8px 25px rgba(0, 0, 0, 0.2);
-  animation: pulseGoldGlow 2s infinite alternate;
+  /* Glow mờ nhạt, không còn vàng khè nữa */
+  box-shadow: 0 0 25px rgba(200, 220, 255, 0.3), inset 0 0 15px rgba(255,255,255,0.1);
+  opacity: 0;
+  /* Trễ 0.15s, thời gian chạy 0.25s (rất nhanh) */
+  animation: cardPopFast 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards;
 }
 
-@keyframes pulseGoldGlow {
-  0% { box-shadow: 0 0 12px rgba(251, 191, 36, 0.5), 0 6px 20px rgba(0,0,0,0.2); }
-  100% { box-shadow: 0 0 25px rgba(251, 191, 36, 0.9), 0 8px 30px rgba(0,0,0,0.3); }
+@keyframes cardPopFast {
+  0% { opacity: 0; transform: scale(0.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* HIỆU ỨNG QUÉT KÍNH (Glass Sweep) */
+.wish-item-card::after {
+  content: ""; 
+  position: absolute; 
+  top: -50%; left: -50%; 
+  width: 200%; height: 200%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  transform: rotate(30deg) translateX(-100%);
+  animation: glassSweep 2.5s infinite; /* Chạy liên tục */
+}
+@keyframes glassSweep {
+  0%, 15% { transform: rotate(30deg) translateX(-100%); }
+  85%, 100% { transform: rotate(30deg) translateX(100%); }
 }
 
 .wish-icon-wrap {
-  padding: 14px 0 8px;
-  font-size: 2.8rem;
-  text-align: center;
+  font-size: 3.5rem;
   line-height: 1;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(255,255,255,0.6);
+  margin-top: -10px;
 }
 
-/* Phần hiển thị số không viền, đồng bộ với khối nổi */
+/* Số lượng (Nằm đè lên phía dưới góc giống ảnh) */
 .wish-amount-box {
-  background: linear-gradient(135deg, #1d609b, #4b92d8);
+  position: absolute;
+  bottom: 15px;
+  background: transparent;
   color: #ffffff;
-  text-align: center;
   font-weight: 800;
-  font-size: 1rem;
-  padding: 6px 0;
+  font-size: 1.2rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.5);
   border: none !important;
+  z-index: 2;
+}
+
+/* HIỆU ỨNG NGÔI SAO LẤP LÁNH BAY LÊN XUỐNG */
+.wish-star {
+  position: absolute;
+  color: #fff;
+  font-size: 1.2rem;
+  text-shadow: 0 0 8px #fff;
+  animation: starFloat 3s infinite ease-in-out, starTwinkle 1.5s infinite alternate;
+  opacity: 0;
+  animation-delay: 0.3s; /* Chờ thẻ pop ra mới hiện */
+  animation-fill-mode: forwards;
+}
+.star-1 { top: -10px; left: -20px; font-size: 1.5rem; }
+.star-2 { top: 20px; right: -30px; font-size: 1rem; animation-delay: 0.5s; }
+.star-3 { bottom: 0px; left: -25px; font-size: 1.2rem; animation-delay: 0.4s; }
+
+@keyframes starFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes starTwinkle {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* HẠT BỤI VÀNG LI TI RƠI XUỐNG */
+.gold-dust {
+  position: absolute;
+  background: rgba(255, 235, 160, 0.9);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 6px rgba(255, 235, 160, 0.8);
+  animation: dustFall linear forwards;
+}
+@keyframes dustFall {
+  0% { transform: translateY(-20px) scale(0); opacity: 0; }
+  10% { opacity: 1; transform: translateY(0px) scale(1); }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(150px) scale(0); opacity: 0; }
 }
 </style>
 </head>
@@ -863,14 +944,24 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   </div>
 </div>
 
-<!-- Modal Kết Quả (Style Genshin) -->
+<!-- Modal Kết Quả -->
 <div id="wishResultModal" class="custom-modal" onclick="closeWishResult()">
+  <!-- Container chứa bụi vàng li ti -->
+  <div id="goldDustContainer" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none;"></div>
+  
   <div class="wish-result-content">
     <div class="wish-result-title">Chúc Mừng ✦ Nhận Được</div>
-    <!-- Cấu trúc thẻ bài -->
-    <div class="wish-item-card">
-      <div class="wish-icon-wrap">❄️</div>
-      <div class="wish-amount-box" id="wishAmount">0</div>
+    
+    <!-- Cấu trúc thẻ bài có bọc thêm các ngôi sao xung quanh -->
+    <div class="wish-card-container">
+      <div class="wish-star star-1">✦</div>
+      <div class="wish-star star-2">✧</div>
+      <div class="wish-star star-3">✦</div>
+      
+      <div class="wish-item-card">
+        <div class="wish-icon-wrap">❄️</div>
+        <div class="wish-amount-box" id="wishAmount">0</div>
+      </div>
     </div>
   </div>
 </div>
@@ -3126,7 +3217,7 @@ async function doWish() {
   // 3. Random số lượng bông tuyết
   earnedSnowflakes = getRandomWishAmount();
 
-  // 4. Chờ 1.4 giây cho lắc lư xong rồi hiện kết quả
+// 4. Chờ 1.4 giây cho lắc lư xong rồi hiện kết quả
   setTimeout(async () => {
     // Ngừng rải tuyết và xóa tuyết cũ
     clearInterval(snowInterval);
@@ -3135,10 +3226,15 @@ async function doWish() {
     img.className = "wish-img-float"; // Trả lại hiệu ứng nhấp nhô
     await saveWishResult(earnedSnowflakes);
     
-    document.getElementById('wishAmount').innerText = earnedSnowflakes;
+    // Thêm dấu + đằng trước số lượng
+    document.getElementById('wishAmount').innerText = '+' + earnedSnowflakes;
+    
+    // Khởi động Modal
     document.getElementById('wishResultModal').classList.add('show');
+    
+    // Bật hiệu ứng bụi vàng li ti
+    startGoldDustEffect();
   }, 1400);
-}
 
 // Hàm rải ký tự bông tuyết rơi thẳng xuống có to nhỏ ngẫu nhiên
 function spawnKaomojiSnowflake() {
@@ -3183,9 +3279,12 @@ function closeWishResult() {
   document.getElementById('wishBtn').disabled = false;
   document.getElementById('wishBtn').innerText = "Cầu Nguyện";
   document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+
+    // Dừng bụi vàng rơi
+  stopGoldDustEffect();
   
   // Hiện thông báo nhỏ để báo đã cộng dồn bông tuyết thành công
-  toast("✨ Đã cất giữ " + earnedSnowflakes + " ❄️ vào túi!");
+  toast("✨ Đã cất giữ " + earnedSnowflakes + "❄️ vào túi!");
 }
 
 async function saveWishResult(amount) {
@@ -3210,6 +3309,48 @@ async function saveWishResult(amount) {
   } else {
     toast("Lỗi lưu kết quả cầu nguyện!");
   }
+}
+
+  // --- HIỆU ỨNG BỤI VÀNG RƠI LI TI ---
+let goldDustInterval;
+
+function startGoldDustEffect() {
+  const container = document.getElementById('goldDustContainer');
+  if (!container) return;
+  container.innerHTML = ""; // Xóa bụi cũ nếu có
+  
+  // Sinh bụi liên tục
+  goldDustInterval = setInterval(() => {
+    let dust = document.createElement('div');
+    dust.className = 'gold-dust';
+    
+    // Random kích thước (rất li ti)
+    let size = Math.random() * 3 + 1; // 1px đến 4px
+    dust.style.width = size + 'px';
+    dust.style.height = size + 'px';
+    
+    // Random vị trí xuất hiện (toàn màn hình)
+    dust.style.left = Math.random() * 100 + 'vw';
+    dust.style.top = (Math.random() * 40 + 20) + 'vh'; // Bắt đầu từ giữa giữa màn hình đổ xuống
+    
+    // Random tốc độ rơi
+    let duration = Math.random() * 2 + 1.5; // 1.5s đến 3.5s
+    dust.style.animationDuration = duration + 's';
+    
+    container.appendChild(dust);
+    
+    // Tự xóa DOM sau khi rơi xong
+    setTimeout(() => {
+      if(dust.parentNode) dust.parentNode.removeChild(dust);
+    }, duration * 1000);
+    
+  }, 100); // 100ms ra 1 hạt
+}
+
+function stopGoldDustEffect() {
+  clearInterval(goldDustInterval);
+  const container = document.getElementById('goldDustContainer');
+  if (container) container.innerHTML = "";
 }
 </script>
 </body>
