@@ -528,13 +528,19 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   75% { transform: rotate(8deg); }  
 }
 
+/* Hiệu ứng tuyết rơi từ trên xuống */
 .wish-particle {
-  position: absolute; font-size: 1.2rem; color: #fff; pointer-events: none; z-index: 10;
-  animation: particleBurst 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  position: absolute; 
+  pointer-events: none; 
+  z-index: 10;
+  top: -20px; /* Bắt đầu rơi từ trên đỉnh ảnh */
+  animation: particleFall linear forwards;
 }
-@keyframes particleBurst {
-  0% { opacity: 1; transform: translate(0, 0) scale(0.5) rotate(0deg); }
-  100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg); }
+@keyframes particleFall {
+  0% { opacity: 0; transform: translateY(0) scale(0.5) rotate(0deg); }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(180px) scale(1.2) rotate(360deg); }
 }
 
 /* GIAO DIỆN NHẬN BÔNG TUYẾT (STYLE GENSHIN) */
@@ -3041,6 +3047,8 @@ function closeWishModal() {
   closeModal('wishModal');
 }
 
+let snowInterval; // Biến để điều khiển vòng lặp tuyết rơi
+
 async function doWish() {
   if (isWishing) return;
   if (todayWishCount >= 3) {
@@ -3056,8 +3064,56 @@ async function doWish() {
   const img = document.getElementById('wishImage');
   img.className = "wish-img-shake";
 
-  // 2. Tạo hiệu ứng bắn Bông Tuyết xung quanh
-  spawnWishParticles();
+  // 2. Cho tuyết rơi liên tục (mỗi 80 mili-giây tạo ra 1 bông)
+  snowInterval = setInterval(spawnKaomojiSnowflake, 80);
+
+  // 3. Random số lượng bông tuyết
+  earnedSnowflakes = getRandomWishAmount();
+
+  // 4. Chờ 1.4 giây cho lắc lư xong rồi hiện kết quả
+  setTimeout(async () => {
+    // Ngừng rải tuyết và xóa tuyết cũ
+    clearInterval(snowInterval);
+    document.getElementById('wishParticleContainer').innerHTML = ""; 
+    
+    img.className = "wish-img-float"; // Trả lại hiệu ứng nhấp nhô
+    await saveWishResult(earnedSnowflakes);
+    
+    document.getElementById('wishAmount').innerText = earnedSnowflakes;
+    document.getElementById('wishResultModal').classList.add('show');
+  }, 1400);
+}
+
+// Hàm rải ký tự bông tuyết Kaomoji nhiều màu
+function spawnKaomojiSnowflake() {
+  const container = document.getElementById('wishParticleContainer');
+  if(!container) return;
+
+  // Danh sách ký tự và màu sắc xanh nhạt, xanh đậm
+  const kaomojis = ['❅', '❆', '❄', '✻', '✼'];
+  const colors = ['#79ACD9', '#033E8C', '#B3D5F2', '#023E73']; 
+
+  let p = document.createElement('div');
+  p.className = 'wish-particle';
+  
+  // Random ký tự và màu sắc
+  p.innerText = kaomojis[Math.floor(Math.random() * kaomojis.length)];
+  p.style.color = colors[Math.floor(Math.random() * colors.length)];
+  
+  // Random vị trí rơi ngang (từ trái qua phải)
+  p.style.left = (Math.random() * 100) + '%';
+  // Random kích thước to nhỏ
+  p.style.fontSize = (1 + Math.random() * 0.8) + 'rem';
+  // Random tốc độ rơi (từ 0.8s đến 1.3s)
+  p.style.animationDuration = (0.8 + Math.random() * 0.5) + 's';
+
+  container.appendChild(p);
+
+  // Tự động xóa bông tuyết khi rơi xong khỏi màn hình cho nhẹ máy
+  setTimeout(() => {
+    if(p.parentNode) p.parentNode.removeChild(p);
+  }, 1500);
+}
 
   // 3. Random số lượng bông tuyết
   earnedSnowflakes = getRandomWishAmount();
