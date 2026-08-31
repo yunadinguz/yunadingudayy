@@ -2726,8 +2726,16 @@ async function saveEditProfile() {
 function switchEditTab(tab) {
   document.querySelectorAll('.edit-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.edit-section').forEach(s => s.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
+  
+  const targetTabBtn = document.querySelector(`.edit-tab[onclick*="${tab}"]`);
+  if (targetTabBtn) {
+      targetTabBtn.classList.add('active');
+  }
+  
+  const targetSection = document.getElementById('tab-' + tab);
+  if (targetSection) {
+      targetSection.classList.add('active');
+  }
 }
 
 async function openEditProfile() {
