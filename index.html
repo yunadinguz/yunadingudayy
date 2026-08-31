@@ -553,41 +553,45 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;
 }
+/* Chữ tiêu đề thu nhỏ lại vừa vặn */
 .wish-result-title {
-  color: #e5d2a3; font-family: var(--serif); font-size: 2rem; margin-bottom: 20px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 2px;
+  color: #e5d2a3; 
+  font-family: var(--serif); 
+  font-size: 1.35rem; /* Đã thu nhỏ chữ lại */
+  margin-bottom: 20px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6); 
+  letter-spacing: 1px;
 }
 
-/* Thẻ bài chứa bông tuyết */
-/* Thẻ bài chứa bông tuyết (Kính mờ ảo - Glassmorphism) */
+/* Thẻ bài KHÔNG VIỀN, nổi khối 3D siêu rõ */
 .wish-item-card {
-  background: rgba(255, 255, 255, 0.15); /* Nền kính trong suốt */
-  backdrop-filter: blur(12px); /* Hiệu ứng mờ đằng sau */
-  -webkit-backdrop-filter: blur(12px);
+  background: #ffffff; /* Trắng sáng rõ ràng, không bị chìm */
+  border: none !important; /* Xóa sạch viền */
   border-radius: 16px;
-  width: 90px; /* Đã thu nhỏ lại cho vừa vặn */
+  width: 85px; /* Kích thước nhỏ gọn, vừa vặn */
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 15px rgba(255,255,255,0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Viền mờ ảo, không thô */
+  /* Đổ bóng sâu để tạo cảm giác chiếc khung đang bay lơ lửng nổi lên */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
+
 .wish-icon-wrap {
-  padding: 15px 0 10px;
-  font-size: 3.2rem; /* Đã thu nhỏ icon tuyết */
+  padding: 14px 0 8px;
+  font-size: 2.8rem;
   text-align: center;
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
+  line-height: 1;
 }
 
-/* Phần hiển thị số (Hòa vào nền, không viền) */
+/* Phần hiển thị số không viền, đồng bộ với khối nổi */
 .wish-amount-box {
-  background: rgba(0, 0, 0, 0.2); /* Nền mờ tối nhẹ nhàng để nổi số */
+  background: linear-gradient(135deg, #1d609b, #4b92d8); /* Xanh biển nhẹ */
   color: #ffffff;
   text-align: center;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 800;
+  font-size: 1rem;
   padding: 6px 0;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  border: none !important;
 }
 </style>
 </head>
