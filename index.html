@@ -559,31 +559,35 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 }
 
 /* Thẻ bài chứa bông tuyết */
+/* Thẻ bài chứa bông tuyết (Kính mờ ảo - Glassmorphism) */
 .wish-item-card {
-  background: #ffffff; /* Khung nền trắng */
-  border-radius: 12px;
-  width: 120px;
+  background: rgba(255, 255, 255, 0.15); /* Nền kính trong suốt */
+  backdrop-filter: blur(12px); /* Hiệu ứng mờ đằng sau */
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  width: 90px; /* Đã thu nhỏ lại cho vừa vặn */
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-  border: 1px solid #dceaf5;
-  overflow: hidden; /* Cắt gọn phần bo góc */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 0 15px rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Viền mờ ảo, không thô */
+  overflow: hidden;
 }
 .wish-icon-wrap {
-  padding: 25px 0;
-  font-size: 4.5rem;
+  padding: 15px 0 10px;
+  font-size: 3.2rem; /* Đã thu nhỏ icon tuyết */
   text-align: center;
-  filter: drop-shadow(0 5px 10px rgba(121, 172, 217, 0.2));
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
 }
 
-/* Khung xanh biển chứa số màu trắng */
+/* Phần hiển thị số (Hòa vào nền, không viền) */
 .wish-amount-box {
-  background: #3182ce; /* Màu xanh biển */
-  color: #ffffff;      /* Chữ số màu trắng */
+  background: rgba(0, 0, 0, 0.2); /* Nền mờ tối nhẹ nhàng để nổi số */
+  color: #ffffff;
   text-align: center;
-  font-weight: 800;
-  font-size: 1.25rem;
-  padding: 8px 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 6px 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 </style>
 </head>
@@ -3131,6 +3135,9 @@ function closeWishResult() {
   document.getElementById('wishBtn').disabled = false;
   document.getElementById('wishBtn').innerText = "Cầu Nguyện";
   document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+  
+  // Hiện thông báo nhỏ để báo đã cộng dồn bông tuyết thành công
+  toast("✨ Đã cất giữ " + earnedSnowflakes + " ❄️ vào túi!");
 }
 
 async function saveWishResult(amount) {
