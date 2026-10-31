@@ -282,6 +282,47 @@
 .float-btn:hover, .notif-btn:hover{background:rgba(255,255,255,.95);transform:scale(1.1)}
 .music-playing{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 
+/* --- CSS THANH CÔNG CỤ MỚI --- */
+.glass-action-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  z-index: 11000;
+  box-shadow: 0 10px 30px rgba(3, 62, 140, 0.15);
+}
+.glass-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: var(--navy);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-3px);
+}
+.glass-btn.ring { animation: ringBell .8s ease infinite; }
+.glass-btn.music-playing { animation: spin 4s linear infinite; }
+
 /* SPOTIFY GIAO DIỆN LIGHT THEME */
 .spotify-modal{display:none;position:fixed;inset:0;z-index:15000;background:rgba(5,18,35,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
 .spotify-modal.show{display:flex;opacity:1}
@@ -820,9 +861,10 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 
 <div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
 
-<div class="floating-left" style="display: flex; flex-direction: column; gap: 10px;">
-  <button class="notif-btn" id="mailBtn" onclick="openMailbox()">📩<span class="notif-badge" id="mailBadge" style="display:none">0</span></button>
-  <button class="notif-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
+<div class="glass-action-bar">
+  <button class="glass-btn" id="mailBtn" onclick="openMailbox()">📩<span class="notif-badge" id="mailBadge" style="display:none">0</span></button>
+  <button class="glass-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
+  <button class="glass-btn" id="music-toggle" onclick="openSpotify()">♬</button>
 </div>
 
 <!-- Modal Hòm Thư -->
@@ -907,7 +949,6 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 <div class="floating-right">
 <button class="float-btn" onclick="scrollToTop()">⬆️</button>
 <button class="float-btn" onclick="scrollToBottom()">⬇️</button>
-<button class="float-btn" id="music-toggle" onclick="openSpotify()">💿</button>
 </div>
 
 <div id="toast" class="toast"></div>
@@ -1903,16 +1944,25 @@ const av=c.user_id?profile.avatar_url:"";
 
 let badgeHtml = "";
 
-if (c.user_id && profile.bestAffinity) {
-    const best = profile.bestAffinity;
-    const charData = CHARS.find(ch => ch.id === best.char_id) || CHARS[0];
-    const charCleanName = charData.name.split(" (")[0];
-    const [l, cls] = levelOf(best.points || 0);
-    const titleStr = `${l} của ${charCleanName}`;
-    badgeHtml = `<span class="badge ${cls}" data-user="${c.user_id}">${escapeHtml(titleStr)}</span>`;
-} else if (c.user_id) {
-    const defaultName = CHARS[0].name.split(" (")[0];
-    badgeHtml = `<span class="badge normal" data-user="${c.user_id}">Đã biết của ${defaultName}</span>`;
+if (c.user_id) {
+    // Sửa lỗi: Lấy đúng danh hiệu người dùng đang trang bị hiển thị cho tất cả mọi người
+    if (profile.equipped_title === 'diep_khuc') {
+        badgeHtml = `<span class="badge diep-khuc" data-user="${c.user_id}">Điệp Khúc Bất Tận</span>`;
+    } 
+    else if (profile.equipped_title === 'none') {
+        badgeHtml = ``; // Ẩn danh hiệu nếu họ chọn Không sử dụng
+    } 
+    else if (profile.bestAffinity) {
+        const best = profile.bestAffinity;
+        const charData = CHARS.find(ch => ch.id === best.char_id) || CHARS[0];
+        const charCleanName = charData.name.split(" (")[0];
+        const [l, cls] = levelOf(best.points || 0);
+        const titleStr = `${l} của ${charCleanName}`;
+        badgeHtml = `<span class="badge ${cls}" data-user="${c.user_id}">${escapeHtml(titleStr)}</span>`;
+    } else {
+        const defaultName = CHARS[0].name.split(" (")[0];
+        badgeHtml = `<span class="badge normal" data-user="${c.user_id}">Đã biết của ${defaultName}</span>`;
+    }
 }
 
 const adminBadge = c.is_admin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : "";
@@ -2500,7 +2550,12 @@ function switchMailTab(tab) {
 async function loadMailbox() {
   let {data} = await db.from("comments").select("*").eq("char_id", "ADMIN_MAIL").order("created_at", {ascending: false});
   allMails = (data || []).map(m => {
-    try { const content = JSON.parse(m.content); return { id: m.id, ...content, time: m.created_at, type: 'admin' }; } 
+    try { 
+      const content = JSON.parse(m.content); 
+      // Sửa lỗi 3: Phân loại theo người gửi. Yuna => admin (Thư hệ thống), ngược lại => character (Thư nhân vật)
+      const mailType = content.sender === "Yuna" ? 'admin' : 'character';
+      return { id: m.id, ...content, time: m.created_at, type: mailType }; 
+    } 
     catch(e) { return { id: m.id, title: "Thư hệ thống", sender: "Admin", body: m.content, time: m.created_at, type: 'admin' }; }
   });
 
@@ -2512,16 +2567,18 @@ async function loadMailbox() {
   if (currentUser) {
     const { count } = await db.from("comments").select("*", { count: 'exact', head: true }).eq("user_id", currentUser.id);
     if (count >= 50) {
-      allMails.unshift({
+      allMails.push({ // Dùng push thay vì unshift để có thể sort lại
         id: 'auto_reward_50', 
         title: "Phần thưởng Tri Ân từ Tuyết Trắng", 
         sender: "Yuna", 
-        time: new Date().toISOString(), 
+        time: "2024-01-01T00:00:00.000Z", // Sửa lỗi 2: Fix thời gian cũ để không trồi lên đầu bảng
         type: 'reward',
         body: "Thân gửi Kẻ Mộng Mơ vừa đi qua bão tuyết,\n\nGiữa vạn dặm sương mù và cái lạnh khắc nghiệt của mùa đông, bạn không chỉ là một lữ khách ghé ngang, mà đã chọn dừng bước để sưởi ấm cho vùng đất này. Từng dấu chân kiên nhẫn bạn để lại trên nền tuyết trắng, từng sự đồng hành thầm lặng đã hòa quyện lại, kết tinh rực rỡ thành 'Điệp Khúc Bất Tận'.\n\nTrong bất kỳ bản tình ca nào, điệp khúc luôn là giai điệu da diết nhất và vương vấn mãi trong tâm trí. Danh hiệu này chính là sự tri ân chân thành nhất cho ngọn lửa bạn đã thắp lên, xua tan đi màn đêm cô độc và giữ cho những giấc mơ của chúng ta không bao giờ bị lãng quên.\n\nCảm ơn bạn vì đã kiên trì đồng hành cùng Bản tình ca ngày đông. Miễn là bạn còn mơ mộng, bản tình ca này sẽ vì bạn mà mãi mãi cất lời."
       });
     }
   }
+  // Sắp xếp lại toàn bộ thư theo thời gian (từ mới nhất đến cũ nhất)
+  allMails.sort((a, b) => new Date(b.time) - new Date(a.time));
   updateMailBadge();
 }
 
