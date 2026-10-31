@@ -277,9 +277,9 @@
 @keyframes ringBell{0%{transform:rotate(0)}15%{transform:rotate(18deg)}30%{transform:rotate(-18deg)}45%{transform:rotate(12deg)}60%{transform:rotate(-12deg)}75%{transform:rotate(6deg)}100%{transform:rotate(0)}}
 
 .floating-right{position:fixed;right:14px;bottom:14px;z-index:11000;display:flex;flex-direction:column;gap:8px}
-.float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--mid);box-shadow:0 3px 12px rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.8);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
+.float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.4);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);color:var(--mid);box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid rgba(255,255,255,0.6);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
 
-.float-btn:hover, .notif-btn:hover{background:rgba(255,255,255,.95);transform:scale(1.1)}
+.float-btn:hover, .notif-btn:hover{background:rgba(255,255,255,0.8);transform:scale(1.1)}
 .music-playing{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 
 /* --- CSS THANH CÔNG CỤ MỚI --- */
@@ -864,7 +864,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 <div class="glass-action-bar">
   <button class="glass-btn" id="mailBtn" onclick="openMailbox()">📩<span class="notif-badge" id="mailBadge" style="display:none">0</span></button>
   <button class="glass-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
-  <button class="glass-btn" id="music-toggle" onclick="openSpotify()">♬</button>
+  <button class="glass-btn" id="music-toggle" onclick="openSpotify()">🎵</button>
 </div>
 
 <!-- Modal Hòm Thư -->
@@ -1780,7 +1780,7 @@ const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 grid.innerHTML=pagedChars.map(c=>{
 // Bấm vào luôn mở bảng thông tin (Detail)
 const clickAction = `openAppDetail('${c.id}')`;
-const pass = `<button class="btn-see-more" onclick="${clickAction}">✦ Tìm hiểu</button>`;
+const pass = `<button class="btn-see-more" onclick="${clickAction}">✦ Tìm hiểu ➟</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
 
 const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
@@ -2340,6 +2340,7 @@ document.getElementById("appCommentForm").innerHTML = `
 await refreshAffinity(id);
 
 document.getElementById("appView").classList.add("show");
+document.querySelector('.glass-action-bar').style.display = 'none';
 document.getElementById("appScroll").scrollTop=0;
 
 document.querySelectorAll(".app-section").forEach(sec=>{
@@ -2353,6 +2354,7 @@ await loadAppComments(id);
 
 function closeAppDetail(){
   document.getElementById("appView").classList.remove("show");
+  document.querySelector('.glass-action-bar').style.display = 'flex';
   currentChar=null;
   const player = document.getElementById("voice-player");
   player.pause();
