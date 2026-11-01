@@ -952,6 +952,17 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 
 <div id="toast" class="toast"></div>
+
+<!-- Modal Chọn Phiên Bản ggAI -->
+<div id="ggListModal" class="custom-modal">
+  <div class="modal-box" style="width: min(380px, 94%); padding: 22px;">
+    <button class="close-modal" onclick="closeModal('ggListModal')">×</button>
+    <h2 class="gradient-title" style="margin-bottom: 15px; font-size: 1.25rem;">Chọn Phiên Bản</h2>
+    <div id="ggListContent" style="display: flex; flex-direction: column; gap: 10px;">
+    </div>
+  </div>
+</div>
+  
 <!-- Modal Khúc Nguyện Cầu -->
 <div id="wishModal" class="custom-modal">
   <div class="modal-box" style="text-align: center;">
@@ -1132,7 +1143,7 @@ const STATS_API = "https://abacus.jasoncameron.dev";
 
 const CHARS=[
 {id:"to-trach-duong",name:"Tô Trạch Dương (苏泽阳)",img:"images/totrachduong.jpg",tagline:"Mẹ kiếp! Là ai suốt ngày thò mông ra đung đưa trước mặt chồng bạn thân thế hả?",tags:["Hiện Đại","NTR","R21","Forbidden Romance"],profile:"",pass:"CaMtReNhOdUoI18tUoI",doki:"https://www.dokichat.club/chat/fb1e8c56-7a7a-4a44-9ff4-ac4053460dc1?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221HgnZAVy8I9veCKa1Vo09btgkXYmOnP0e%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/qPxW69exZQIqP5luoAvIF/T-Trch-Dng-?theme=icicle",created:"2026-06-25T12:00:00Z"},
-{id:"tri-canh-ngon",name:"Trì Cảnh Ngôn (池景言)",img:"images/tricanhngon.jpg",tagline:"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!",tags:["Hiện Đại","Xuyên Sách","Ngọt","Age-gap","Yêu thầm","R17"],profile:"",doki:"https://www.dokichat.club/chat/0f64f08c-4038-43ed-b9bd-177e5a17a16e?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221eR-bu9Sxm2WWBBQzGWPEzOFNf5RpQV6C%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/2AtzbcfcdMTti46Do9tG6Q/Tr-Cnh-Ngn-?theme=icicle",created:"2026-06-08T12:00:00Z"},
+{id:"tri-canh-ngon",name:"Trì Cảnh Ngôn (池景言)",img:"images/tricanhngon.jpg",tagline:"Sau khi xuyên vào tiểu thuyết ngôn tình ba xu, tôi trở thành vợ của anh trai nam chính?!!",tags:["Hiện Đại","Xuyên Sách","Ngọt","Age-gap","Yêu thầm","R17"],profile:"",doki:"https://www.dokichat.club/chat/0f64f08c-4038-43ed-b9bd-177e5a17a16e?isShare=true",ggList: [ { name: "Bản cũ (Bá đạo tổng tài yêu em)", url: "https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221gSkm_SwrSMvu95QtjOU3YhoIwKozqP95%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" }, { name: "Bản remake (Có hệ thống)", url: "https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221eR-bu9Sxm2WWBBQzGWPEzOFNf5RpQV6C%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" }, { name: "Bản remake (Không có hệ thống)", url: "LINK" } ],story:"https://ellipsus.com/read/2AtzbcfcdMTti46Do9tG6Q/Tr-Cnh-Ngn-?theme=icicle",created:"2026-06-08T12:00:00Z"},
 {id:"ha-thien-dat",name:"Hạ Thiên Dật (夏天逸)",img:"images/hathiendat.jpg",tagline:"Tình cảm của Hạ Thiên Dật này dành cho mày, chưa bao giờ là một thì quá khứ.",tags:["Hiện Đại","TMTM","TXVT","Ngọt","Ngoài Lạnh Trong Nóng","Yêu thầm","Bạn Thân"],profile:"",doki:"https://www.dokichat.club/chat/9746f261-9250-45c7-ba26-6c112bfd586c?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221QS2HQaDGgW78AkNlMvtXX7wcH4d0zUfJ%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/5agMD8C8GPhDsJ67Le5YDG/H-Thin-Dt-?theme=icicle",created:"2026-06-25T12:00:00Z"},
 {id:"tri-due-khai",name:"Trì Duệ Khải (池睿凯)",img:"images/triduekhai.jpg",tagline:"Sau khi chết, tôi mỗi ngày đều nhờ thân xác mèo để làm nũng bạn trai!",tags:["Hiện Đại","Ma-Người","Ngọt"],profile:"",doki:"https://www.dokichat.club/chat/5928eb81-15d2-40f6-8d3d-3486539cf56a?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221LDxxJ8Ne6v8YcHY21oBpMW-n4Etbggps%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/4pHEbWeAQyqS3fNDaLYhzm/Tr-Du-Khi-?theme=icicle",created:"2026-06-25T12:00:00Z"},
 {id:"tran-da",name:"Trần Dã (陈野)",img:"images/tranda.jpg",tagline:"Trần Dã, mày nghĩ mày có thể gột sạch mùi máu trên người chỉ bằng cách nuôi một đứa trẻ sao?",tags:["Hiện Đại","Age-gap","Ngược Tâm","Xã hội đen","Slow-Burn","Nuôi Từ Nhỏ"],profile:"",doki:"https://www.dokichat.club/chat/25514c37-f627-47d4-bd7c-5c0291876285?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2215VE7_N8lmyk3XvljicbPYE1OnBOAdiW5%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"",created:"2026-06-02T12:00:00Z"},
@@ -2320,7 +2331,9 @@ document.getElementById("recommendRow").innerHTML = recommendList.map(x => {
 // --- GẮN PASS VÀO NÚT GGAI (NẾU CÓ PASS) ---
 let linksHtml = "";
 if(c.doki) linksHtml += `<a class="link-doki" href="${c.doki}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">Doki</a>`;
-if(c.gg) {
+if(c.ggList) {
+  linksHtml += `<a class="link-gg" href="javascript:void(0)" onclick="openGgListModal('${id}')">ggAI</a>`;
+} else if(c.gg) {
   if(c.pass) {
     linksHtml += `<a class="link-gg" href="javascript:void(0)" onclick="clickJourney('${id}'); openR21ForLink('${id}', '${c.gg}')">🔐 ggAI</a>`;
   } else {
@@ -2406,6 +2419,20 @@ function verifyR21() {
     void box.offsetWidth;
     box.classList.add("shake");
   }
+}
+
+function openGgListModal(id) {
+  const c = CHARS.find(x => x.id === id);
+  if(!c || !c.ggList) return;
+  const container = document.getElementById("ggListContent");
+  container.innerHTML = c.ggList.map(item => `
+    <a href="${item.url}" target="_blank" rel="noopener"
+       class="wechat-choice-btn" style="text-align: center; text-decoration: none; display: block;"
+       onclick="clickJourney('${id}'); closeModal('ggListModal');">
+       ${item.name}
+    </a>
+  `).join("");
+  openModal('ggListModal');
 }
 
 function toggleMiniComments(id){const el=document.getElementById("mini-"+id);el.classList.toggle("open");if(el.classList.contains("open"))loadMiniComments(id)}
@@ -3384,7 +3411,7 @@ function createDustParticle(container) {
     dust.style.left = Math.random() * 100 + 'vw';
     dust.style.top = (Math.random() * 30 - 10) + 'vh'; // Hiện từ trên cao một chút để chảy xuống
     
-    let duration = Math.random() * 2.5 + 1.5; // Tăng tốc độ rơi cho dứt khoát (1.5s - 4s)
+let duration = Math.random() * 4 + 4;
     dust.style.animationDuration = duration + 's';
     
     container.appendChild(dust);
