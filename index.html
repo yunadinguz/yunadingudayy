@@ -746,17 +746,63 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 .app-tab-content { display: none; padding-top: 10px; }
 .app-tab-content.active { display: block; animation: fadeInView 0.3s ease forwards; }
 
-/* --- CSS TOP 3 BẢNG XẾP HẠNG --- */
-.lb-top3-container { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 20px 16px; text-align: center; }
-.lb-card { background: #fff; border-radius: 16px; padding: 15px 10px; box-shadow: 0 4px 15px rgba(3,62,140,.08); display: flex; flex-direction: column; align-items: center; position: relative; flex: 1; }
-.lb-card.top1 { border: 2px solid #fbbf24; transform: translateY(-15px); box-shadow: 0 8px 25px rgba(251,191,36,.2); }
-.lb-card.top2 { border: 2px solid #94a3b8; }
-.lb-card.top3 { border: 2px solid #d97706; }
-.lb-crown { position: absolute; top: -15px; font-size: 24px; }
-.lb-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 8px; }
-.lb-card.top1 .lb-avatar { width: 65px; height: 65px; border-color: #fbbf24; }
-.lb-name { font-weight: 700; color: var(--navy); font-size: 0.85rem; word-break: break-word; line-height: 1.2; margin-bottom: 4px; }
-.lb-points { font-size: 0.8rem; color: #e53e3e; font-weight: bold; }
+/* --- CSS TOP 3 BẢNG XẾP HẠNG GRADIENT THEO MẪU --- */
+.lb-top3-container { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 25px 16px 15px; text-align: center; }
+.lb-card { 
+  border-radius: 20px; 
+  padding: 14px 6px 16px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  position: relative; 
+  flex: 1; 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  transition: transform 0.2s ease;
+}
+
+/* Ô HẠNG 1: Gradient Vàng Mật Ong */
+.lb-card.top1 { 
+  background: linear-gradient(180deg, #fef0d5 0%, #fff8ec 50%, #ffffff 100%); 
+  border: 1px solid #fde3be;
+  transform: translateY(-14px); 
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.12);
+}
+
+/* Ô HẠNG 2: Gradient Bạc Ánh Xanh Lam Khói */
+.lb-card.top2 { 
+  background: linear-gradient(180deg, #e3eefa 0%, #f1f7fd 50%, #ffffff 100%); 
+  border: 1px solid #d5e5f5;
+}
+
+/* Ô HẠNG 3: Gradient Đồng Ánh Cam Hồng Nhạt */
+.lb-card.top3 { 
+  background: linear-gradient(180deg, #fbe8dc 0%, #fdf4ed 50%, #ffffff 100%); 
+  border: 1px solid #f8dcd0;
+}
+
+/* Huy hiệu số thứ tự có 2 nhánh lá lúa/nguyệt quế 2 bên */
+.lb-rank-badge { 
+  font-family: var(--serif); 
+  font-size: 1.15rem; 
+  font-weight: 800; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 4px; 
+  margin-bottom: 8px; 
+}
+.lb-card.top1 .lb-rank-badge { color: #d97706; }
+.lb-card.top2 .lb-rank-badge { color: #718298; }
+.lb-card.top3 .lb-rank-badge { color: #c26938; }
+
+.lb-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2.5px solid #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.08); margin-bottom: 8px; }
+.lb-card.top1 .lb-avatar { width: 64px; height: 64px; border-color: #fff; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.18); }
+
+.lb-name { font-weight: 700; color: #2c3e50; font-size: 0.85rem; word-break: break-word; line-height: 1.25; margin-bottom: 6px; }
+.lb-points { font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.lb-card.top1 .lb-points { color: #d97706; }
+.lb-card.top2 .lb-points { color: #718298; }
+.lb-card.top3 .lb-points { color: #c26938; }
 
 .lb-list-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f0f6fb; background: #fff; }
 .lb-list-rank { width: 30px; font-weight: 700; color: #94a3b8; font-size: 0.9rem; }
@@ -3766,13 +3812,25 @@ function renderTopCard(user, rank) {
   
   return `
     <div class="lb-card top${rank}">
-      <div class="lb-crown">${crowns[rank]}</div>
-      <div class="avatar-wrapper-relative" style="width:${rank === 1 ? '65px' : '50px'}; height:${rank === 1 ? '65px' : '50px'}; margin-bottom: 8px;">
+      <!-- Biểu tượng Vương miện / Huy chương -->
+      <div style="font-size: ${rank === 1 ? '1.5rem' : '1.25rem'}; margin-bottom: 2px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12)); line-height: 1;">
+        ${crowns[rank]}
+      </div>
+
+      <!-- Avatar & Khung -->
+      <div class="avatar-wrapper-relative" style="width:${rank === 1 ? '64px' : '52px'}; height:${rank === 1 ? '64px' : '52px'}; margin-bottom: 8px;">
          <img class="lb-avatar" style="margin:0; width:100%; height:100%" src="${escapeHtml(user.avatar)}">
          ${frameHtml}
       </div>
+
+      <!-- Tên người dùng -->
       <div class="lb-name">${escapeHtml(user.name)}</div>
-      <div class="lb-points">❤️ ${user.points}</div>
+
+      <!-- Điểm hảo cảm nhịp tim -->
+      <div class="lb-points">
+        <span style="font-size:12px;">ﮩ٨ـ</span>
+        <span>${user.points}</span>
+      </div>
     </div>`;
 }
 </script>
