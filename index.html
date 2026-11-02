@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -123,11 +122,12 @@
 
 /* COMMENTS & INPUTS */
 .comment-mini{display:none;margin-top:10px;background:#f5faff;border:1px solid #dcebf6;border-radius:20px;padding:12px}.comment-mini.open{display:block}
-.comment-scroll{max-height:350px;overflow-y:auto;padding-right:3px}
+.comment-scroll{max-height:280px;overflow-y:auto;padding-right:3px}
 .comment-input,.nickname-input{width:100%;border:1px solid #cfe2f1;background:#fff;border-radius:16px;padding:10px 12px;outline:0;resize:none;margin-bottom:6px;font-size:0.88rem;font-family:var(--sans);color:var(--navy)}
 .nickname-input::placeholder,.comment-input::placeholder{color:#8aa0b8;font-size:0.88rem}
 .comment-actions{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .send-btn{border:0;border-radius:18px;padding:8px 18px;background:#8aadd0;color:#fff;font-weight:700;transition:.2s}.send-btn:hover{background:var(--mid)}
+.file-upload-btn{border:1px solid #c2dcf0;border-radius:18px;background:#fff;color:#3b6d9a;padding:6px 12px;font-size:.78rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;cursor:pointer}
 .comment-img{max-width:180px;max-height:180px;border-radius:12px;margin-top:6px;object-fit:cover;border:1px solid #dceaf5;display:block}
 
 .comment{display:flex;gap:10px;margin:10px 0}
@@ -136,7 +136,7 @@
 .comment-head{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .comment-name{font-weight:700;color:#214e76;font-size:.84rem}
 .comment-time{font-size:.67rem;color:#9aa7b6;margin-top:3px}
-.comment-text{font-size:.88rem;color:#4d5e72;line-height:1.45;margin-top:3px;white-space:pre-wrap;word-break:break-word}
+.comment-text{font-size:.83rem;color:#4d5e72;line-height:1.45;margin-top:3px;white-space:pre-wrap;word-break:break-word}
 .comment-tools{display:flex;gap:12px;margin-top:6px}
 .cmt-action-btn{border:0;background:none;color:#7190ac;padding:0;font-size:.75rem;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:4px;}
 .cmt-action-btn:hover{color:var(--blue);}
@@ -173,15 +173,7 @@
 .voice-btn.playing{animation:voicePulse 0.8s ease-in-out infinite alternate;background:linear-gradient(135deg,#0284c7,#38bdf8);color:#fff;border-color:#0284c7}
 @keyframes voicePulse{0%{transform:scale(1)}100%{transform:scale(1.15) translateY(-1px)}}
 
-.app-meta{padding:16px 20px 0px}.app-name{font:700 1.6rem var(--serif);margin:0 0 3px}.app-created{color:#9aa7b6;font-size:.75rem;font-style:italic}
-
-/* NEW TABS CHO APP VIEW */
-.app-tabs-header { display: flex; border-bottom: 1px solid #dcebf5; background: #fff; position: sticky; top: 0; z-index: 10; margin-top: 10px; }
-.app-tab-btn { flex: 1; text-align: center; padding: 12px; font-weight: 700; color: #8797a9; cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; }
-.app-tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
-.app-tab-content { display: none; }
-.app-tab-content.active { display: block; animation: fadeInView .3s ease forwards; }
-
+.app-meta{padding:16px 20px 4px}.app-name{font:700 1.6rem var(--serif);margin:0 0 3px}.app-created{color:#9aa7b6;font-size:.75rem;font-style:italic}
 .app-section{background:#fff;margin:12px 16px;border-radius:23px;padding:16px;box-shadow:0 4px 15px rgba(3,62,140,.05);animation:fadeInView .35s ease forwards}
 .app-section h3{color:var(--blue);font:600 1.05rem var(--serif);margin:0 0 10px}
 .app-tagline-full{font-style:italic;color:#5f6e80;line-height:1.5;font-size:0.85rem}
@@ -208,33 +200,15 @@
 .sticky-links a{flex:1;text-align:center;border-radius:18px;padding:11px 6px;color:#fff;font-weight:700;font-size:.85rem}
 .link-doki{background:#75acd7}.link-gg{background:#034a82}.link-story{background:#a9d0ed}
 
-/* LEADERBOARD UI */
-.lb-top3-container { display: flex; justify-content: center; align-items: flex-end; margin: 25px 0; padding-bottom: 25px; border-bottom: 1px solid #f0f6fb; gap: 8px; }
-.lb-card { background: #fff; border-radius: 16px; padding: 15px 8px; text-align: center; box-shadow: 0 4px 15px rgba(3,62,140,0.06); width: 31%; position: relative; border: 1px solid #e1edf7; display: flex; flex-direction: column; align-items: center; }
-.lb-card.rank-1 { order: 2; transform: scale(1.12); background: linear-gradient(to bottom, #fffcf0, #fff); border-color: #ffd54f; z-index: 2; box-shadow: 0 8px 25px rgba(255, 213, 79, 0.25); }
-.lb-card.rank-2 { order: 1; background: linear-gradient(to bottom, #f5f8fa, #fff); border-color: #cfd9e0; }
-.lb-card.rank-3 { order: 3; background: linear-gradient(to bottom, #fdf6ec, #fff); border-color: #f3d4b4; }
-.lb-avatar-wrap { position: relative; width: 55px; height: 55px; margin-bottom: 8px; }
-.lb-card.rank-1 .lb-avatar-wrap { width: 65px; height: 65px; }
-.lb-avatar-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-.lb-rank-icon { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); font-size: 1.4rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); z-index: 3; }
-.lb-name { font-weight: 700; color: var(--navy); font-size: 0.8rem; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
-.lb-points { font-weight: 800; color: var(--blue); font-size: 0.85rem; display: flex; align-items: center; gap: 4px; }
-
-.lb-list-item { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid #f0f6fb; gap: 12px; }
-.lb-list-rank { width: 24px; font-weight: bold; color: #8797a9; text-align: center; font-size: 1rem; }
-.lb-list-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #dceaf5; }
-.lb-list-info { flex: 1; min-width: 0; }
-.lb-list-name { font-weight: 700; color: var(--navy); font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lb-list-points { font-weight: 700; color: var(--blue); font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
-
-
 /* PAGES */
 .journal-page,.auth-page{width:min(580px,calc(100% - 16px));margin:15px auto 50px;background:rgba(255,255,255,.86);border-radius:28px;padding:20px;box-shadow:var(--shadow)}
 .page-title{text-align:center;font:700 1.65rem var(--serif);color:var(--blue);margin:12px 0 6px}
 .page-sub{text-align:center;color:var(--text);font-style:italic;font-size:.85rem}
 .back-library{border:0;border-radius:22px;background:#eaf5ff;color:#25587f;padding:9px 16px;font-weight:700;margin-bottom:12px}
 .journal-form{background:#f5faff;border:1px solid #dcebf5;border-radius:23px;padding:15px;margin:18px 0}
+
+.journal-send{border:0;border-radius:20px;padding:10px 24px!important;background:#B3D5F2;color:#023E73;font-weight:700;transition:.2s;cursor:pointer}
+.journal-send:hover, .journal-send:active{background:#023E73;color:#fff}
 
 .auth-brand{text-align:center;font:700 clamp(1.8rem,6vw,2.5rem) var(--serif);margin:10px auto 4px;display:block}
 .auth-tabs{display:flex;gap:8px;background:#eef7ff;border-radius:22px;padding:4px}
@@ -411,10 +385,11 @@
 /* GIAO DIỆN THANH CUỘN MENU */
 .menu-scrollbar-track {
   position: absolute;
+  /* Đặt vị trí chính xác ngay dưới các nút, né khoảng tàng hình */
   bottom: 152px; 
   left: 16px;
   width: calc(100% - 32px);
-  height: 6px; 
+  height: 6px; /* Dày 6px để ngón tay dễ chạm trên điện thoại */
   background: rgba(121, 172, 217, 0.2);
   border-radius: 4px;
   z-index: 901; 
@@ -427,7 +402,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  cursor: grab;
+  cursor: grab; /* Hiển thị biểu tượng bàn tay khi dùng PC */
 }
 .menu-scrollbar-thumb:active {
   cursor: grabbing;
@@ -482,6 +457,7 @@
 .edit-frame-item { border: 2px solid transparent; border-radius: 12px; padding: 4px; cursor: pointer; text-align: center; }
 .edit-frame-item.selected { border-color: var(--blue); background: #f0f7ff; }
 .edit-frame-item img { width: 100%; aspect-ratio: 1; object-fit: contain; }
+  /* Ép ảnh avatar bên trong khung */
 .avatar-wrapper-relative img:not(.frame-overlay),
 .avatar-wrapper-relative .avatar-letter {
     border: none !important; 
@@ -493,11 +469,17 @@
     margin: 0 !important;
     padding: 0 !important;
 }
-.avatar-wrapper-relative { border-radius: 50%; }
 
+/* Đảm bảo khung chứa luôn tròn */
+.avatar-wrapper-relative {
+    border-radius: 50%;
+}
+
+/* Chấm đỏ thông báo vật phẩm mới */
 .item-new-dot { position: absolute; top: -4px; right: -4px; width: 14px; height: 14px; background: #e53e3e; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 10; pointer-events: none; }
 .tab-new-dot { display: inline-block; width: 8px; height: 8px; background: #e53e3e; border-radius: 50%; margin-left: 4px; vertical-align: middle; display: none; }
 
+/* CSS Tabs Chỉnh Sửa & Danh Hiệu */
 .edit-tabs { display: flex; border-bottom: 1px solid #dcebf5; margin: 15px 0 10px; }
 .edit-tab { flex: 1; text-align: center; padding: 8px; font-weight: 700; color: #8797a9; cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; }
 .edit-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
@@ -534,12 +516,13 @@
 .mail-sender { color: #8797a9; font-size: 0.8rem; font-weight: normal; }
 .mail-content-view { background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; padding: 16px; margin-top: 15px; text-align: left; font-size: 0.9rem; line-height: 1.6; display: none; }
 
-/* GIAO DIỆN BÌNH LUẬN MỚI & STICKER */
-.cmt-box-wrapper { background: #ffffff; border: 1px solid #cfe2f1; border-radius: 18px; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; box-shadow: 0 2px 8px rgba(3,62,140,0.03); position: relative; }
+/* GIAO DIỆN BÌNH LUẬN MỚI */
+.cmt-box-wrapper { background: #ffffff; border: 1px solid #cfe2f1; border-radius: 18px; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; box-shadow: 0 2px 8px rgba(3,62,140,0.03); }
 .cmt-textarea { border: none; outline: none; resize: none; background: transparent; font-family: var(--sans); font-size: 0.88rem; color: var(--navy); padding: 4px 0; max-height: 120px; width: 100%; }
-.cmt-action-bar { display: flex; align-items: center; justify-content: space-between; width: 100%; padding-top: 4px; border-top: 1px solid #f0f6fb; position: relative; }
+.cmt-action-bar { display: flex; align-items: center; justify-content: space-between; width: 100%; padding-top: 4px; border-top: 1px solid #f0f6fb; }
 
-.cmt-camera-btn, .cmt-sticker-btn { 
+/* Nút Camera nhỏ gọn, căn giữa tuyệt đối và có hiệu ứng nổi */
+.cmt-camera-btn { 
   flex-shrink: 0; 
   width: 30px; 
   height: 30px; 
@@ -556,52 +539,230 @@
   transition: all 0.2s ease; 
   user-select: none;
 }
-.cmt-camera-btn:hover, .cmt-sticker-btn:hover { background: #f0f7ff; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(3,62,140,0.18); }
-.cmt-camera-btn:active, .cmt-sticker-btn:active { transform: translateY(0); }
+.cmt-camera-btn:hover { background: #f0f7ff; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(3,62,140,0.18); }
+.cmt-camera-btn:active { transform: translateY(0); }
 
-/* Bảng Sticker */
-.sticker-picker { display: none; position: absolute; bottom: calc(100% + 5px); left: 0; background: #fff; border: 1px solid #cfe2f1; border-radius: 16px; padding: 12px; width: 240px; box-shadow: 0 10px 30px rgba(3,62,140,0.15); z-index: 100; grid-template-columns: repeat(3, 1fr); gap: 10px; max-height: 220px; overflow-y: auto; }
-.sticker-picker.show { display: grid; animation: fadeInView 0.2s ease; }
-.sticker-item { width: 100%; aspect-ratio: 1; cursor: pointer; transition: transform 0.2s; object-fit: contain; }
-.sticker-item:hover { transform: scale(1.15); }
-
+/* Nút Gửi */
 .cmt-send-btn { border: none; background: linear-gradient(135deg,#79acd9,#4d8fca); color: #fff; font-weight: 700; border-radius: 14px; padding: 6px 16px; font-size: 0.82rem; transition: 0.2s; cursor: pointer; box-shadow: 0 2px 6px rgba(3,62,140,0.15); }
 .cmt-send-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
 .inline-reply-box { display: none; margin-top: 8px; padding-left: 46px; }
 .inline-reply-box.open { display: block; animation: fadeInView .3s ease; }
 .cmt-preview-area img { max-width: 110px; max-height: 110px; border-radius: 10px; border: 1px solid #dceaf5; object-fit: cover; display: block; margin: 4px 0; }
+  /* Hiệu ứng lún nút khi bấm */
+button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:active, .spotify-item:active {
+  transform: scale(0.95) !important;
+  transition: transform 0.1s ease !important;
+}
 
-button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:active, .spotify-item:active { transform: scale(0.95) !important; transition: transform 0.1s ease !important; }
-
-/* KHÚC NGUYỆN CẦU (ẢNH TĨNH) */
+ /* GIAO DIỆN KHÚC NGUYỆN CẦU (ẢNH TĨNH) */
 .wish-img-float { animation: wishFloat 3s ease-in-out infinite; }
-@keyframes wishFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-.wish-img-shake { animation: wishShake 0.4s ease-in-out infinite; }
-@keyframes wishShake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
-.wish-particle { position: absolute; pointer-events: none; z-index: 10; background: linear-gradient(135deg, #fbcfe8 10%, #e879f9 40%, #38bdf8 75%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 2px rgba(244, 114, 182, 0.8)); animation: particleFallDown 1.3s ease-in forwards; transform-origin: center; }
-@keyframes particleFallDown { 0% { opacity: 0; transform: translateY(-20px) rotate(0deg); } 20% { opacity: 1; } 80% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(110px) rotate(180deg); } }
+@keyframes wishFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); } 
+}
 
+.wish-img-shake { animation: wishShake 0.4s ease-in-out infinite; }
+@keyframes wishShake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); } 
+  75% { transform: rotate(8deg); }  
+}
+
+/* Hiệu ứng tuyết rơi từ trên xuống */
+.wish-particle {
+  position: absolute; pointer-events: none; z-index: 10;
+  /* Màu Nguyên Thạch */
+  background: linear-gradient(135deg, #fbcfe8 10%, #e879f9 40%, #38bdf8 75%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 2px rgba(244, 114, 182, 0.8));
+  /* Animation rơi thẳng từ trên xuống */
+  animation: particleFallDown 1.3s ease-in forwards;
+  transform-origin: center; /* Giúp hiệu ứng xoay tròn mượt hơn */
+}
+
+@keyframes particleFallDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) rotate(0deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110px) rotate(180deg);
+  }
+}
 /* GIAO DIỆN NHẬN BÔNG TUYẾT */
-#wishResultModal { z-index: 13000; background: rgba(0,0,0,0.7); cursor: pointer; }
-.wish-result-content { display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; position: relative; }
-.wish-result-title { color: #f5f0e6; font-family: var(--serif); font-size: 1.5rem; margin-bottom: 25px; text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 3px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 215, 0, 0.3); letter-spacing: 1px; opacity: 0; animation: titlePop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-@keyframes titlePop { 0% { opacity: 0; transform: scale(0.6); } 100% { opacity: 1; transform: scale(1); } }
-.wish-card-container { position: relative; }
-.wish-item-card { background: #ffffff; border-radius: 16px; width: 90px; display: flex; flex-direction: column; border: none; overflow: hidden; position: relative; box-shadow: 0 0 25px rgba(200, 220, 255, 0.3), 0 8px 25px rgba(0,0,0,0.2); opacity: 0; animation: cardPopFast 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards; }
-@keyframes cardPopFast { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
-.wish-item-card::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg) translateX(-100%); animation: glassSweep 2.5s infinite; z-index: 3; }
-@keyframes glassSweep { 0%, 15% { transform: rotate(30deg) translateX(-100%); } 85%, 100% { transform: rotate(30deg) translateX(100%); } }
-.wish-icon-wrap { padding: 14px 0 8px; font-size: 2.8rem; text-align: center; line-height: 1; position: relative; z-index: 1; }
-.wish-amount-box { background: linear-gradient(135deg, #1d609b, #4b92d8); color: #ffffff; text-align: center; font-weight: 800; font-size: 1rem; padding: 6px 0; border: none !important; position: relative; z-index: 1; }
-.wish-star { position: absolute; color: #fff; font-size: 1.2rem; text-shadow: 0 0 8px #fff; animation: starTwinkle 1.5s infinite alternate; opacity: 0; }
-@keyframes starTwinkle { 0% { opacity: 0; } 100% { opacity: 1; } }
+#wishResultModal { 
+  z-index: 13000; 
+  background: rgba(0,0,0,0.7); 
+  cursor: pointer; 
+}
+.wish-result-content {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  pointer-events: none;
+  position: relative;
+}
+
+/* Chữ tiêu đề: Hiện ra Nhanh */
+.wish-result-title {
+  color: #f5f0e6; 
+  font-family: var(--serif); 
+  font-size: 1.5rem; 
+  margin-bottom: 25px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 3px rgba(255, 215, 0, 0.8), 0 0 8px rgba(255, 215, 0, 0.3); 
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: titlePop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+@keyframes titlePop {
+  0% { opacity: 0; transform: scale(0.6); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.wish-card-container {
+  position: relative;
+}
+
+/* THẺ BÀI: GIỮ NGUYÊN HÌNH CHỮ NHẬT TRẮNG CŨ CỦA BẠN */
+.wish-item-card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 90px;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  overflow: hidden;
+  position: relative; /* Cần để hiệu ứng kính chạy bên trong */
+  box-shadow: 0 0 25px rgba(200, 220, 255, 0.3), 0 8px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  animation: cardPopFast 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.15s forwards;
+}
+
+@keyframes cardPopFast {
+  0% { opacity: 0; transform: scale(0.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* HIỆU ỨNG QUÉT KÍNH (Glass Sweep) */
+.wish-item-card::after {
+  content: ""; 
+  position: absolute; 
+  top: -50%; left: -50%; 
+  width: 200%; height: 200%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+  transform: rotate(30deg) translateX(-100%);
+  animation: glassSweep 2.5s infinite; 
+  z-index: 3; /* Phủ lên trên */
+}
+@keyframes glassSweep {
+  0%, 15% { transform: rotate(30deg) translateX(-100%); }
+  85%, 100% { transform: rotate(30deg) translateX(100%); }
+}
+
+/* ICON CỦA BẠN (GIỮ NGUYÊN) */
+.wish-icon-wrap {
+  padding: 14px 0 8px;
+  font-size: 2.8rem;
+  text-align: center;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* HỘP ĐỰNG SỐ LƯỢNG: GIỮ NGUYÊN MÀU XANH CŨ CỦA BẠN */
+.wish-amount-box {
+  background: linear-gradient(135deg, #1d609b, #4b92d8);
+  color: #ffffff;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 6px 0;
+  border: none !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* HIỆU ỨNG NGÔI SAO: CHỈ LÚC ẨN LÚC HIỆN, KHÔNG LÊN XUỐNG */
+.wish-star {
+  position: absolute;
+  color: #fff;
+  font-size: 1.2rem;
+  text-shadow: 0 0 8px #fff;
+  animation: starTwinkle 1.5s infinite alternate;
+  opacity: 0;
+}
+@keyframes starTwinkle {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+  
 .star-1 { top: -10px; left: -20px; font-size: 1.5rem; animation-delay: 0.3s; }
 .star-2 { top: 20px; right: -25px; font-size: 1rem; animation-delay: 0.8s; }
 .star-3 { bottom: -10px; left: -15px; font-size: 1.2rem; animation-delay: 0.5s; }
-.gold-dust { position: absolute; background: rgba(255, 235, 160, 0.7); border-radius: 50%; pointer-events: none; box-shadow: none; animation: dustFall linear forwards; }
-@keyframes dustFall { 0% { transform: translateY(-20px) scale(0); opacity: 0; } 5% { opacity: 1; transform: translateY(0) scale(1); } 80% { opacity: 0.6; } 100% { transform: translateY(100vh) scale(0); opacity: 0; } }
 
+/* HẠT BỤI VÀNG LI TI */
+.gold-dust {
+  position: absolute;
+  background: rgba(255, 235, 160, 0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: none;
+  animation: dustFall linear forwards;
+}
+
+@keyframes dustFall {
+  0% { transform: translateY(-20px) scale(0); opacity: 0; }
+  5% { opacity: 1; transform: translateY(0) scale(1); }
+  80% { opacity: 0.6; }
+  100% { transform: translateY(100vh) scale(0); opacity: 0; }
+}
+
+ /* --- CSS CHO STICKER --- */
+.sticker-picker { display: none; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px; background: #f4faff; border: 1px solid #cfe2f1; border-radius: 12px; margin-top: 8px; max-height: 200px; overflow-y: auto; }
+.sticker-picker.show { display: grid; animation: fadeInView 0.3s ease; }
+.sticker-item { width: 100%; aspect-ratio: 1; object-fit: contain; cursor: pointer; transition: transform 0.2s; padding: 4px; border-radius: 8px; }
+.sticker-item:hover { transform: scale(1.1); background: #eaf5ff; }
+.sticker-selected-preview { display: inline-block; position: relative; margin-top: 8px; }
+.sticker-selected-preview img { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; background: #f4faff; border: 1px solid #dceaf5; }
+.sticker-remove-btn { position: absolute; top: -5px; right: -5px; background: #e53e3e; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+/* --- CSS CHO BÌNH LUẬN (RÚT GỌN & XEM THÊM) --- */
+.cmt-read-more { color: var(--blue); font-weight: 600; cursor: pointer; font-size: 0.85rem; margin-left: 5px; white-space: nowrap; }
+.cmt-read-more:hover { text-decoration: underline; }
+.view-more-replies { color: #64748b; font-weight: 600; font-size: 0.82rem; cursor: pointer; margin-top: 5px; padding-left: 10px; }
+.view-more-replies:hover { color: var(--blue); }
+
+/* --- CSS CHO TAB CHI TIẾT VÀ BẢNG XẾP HẠNG --- */
+.app-tabs-container { display: flex; border-bottom: 1px solid #dcebf5; margin: 15px 16px 0; }
+.app-tab-btn { flex: 1; background: transparent; border: none; padding: 12px 5px; font-weight: 700; color: #8797a9; font-size: 0.95rem; cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; }
+.app-tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+.app-tab-content { display: none; padding-top: 10px; }
+.app-tab-content.active { display: block; animation: fadeInView 0.3s ease forwards; }
+
+/* --- CSS TOP 3 BẢNG XẾP HẠNG --- */
+.lb-top3-container { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 20px 16px; text-align: center; }
+.lb-card { background: #fff; border-radius: 16px; padding: 15px 10px; box-shadow: 0 4px 15px rgba(3,62,140,.08); display: flex; flex-direction: column; align-items: center; position: relative; flex: 1; }
+.lb-card.top1 { border: 2px solid #fbbf24; transform: translateY(-15px); box-shadow: 0 8px 25px rgba(251,191,36,.2); }
+.lb-card.top2 { border: 2px solid #94a3b8; }
+.lb-card.top3 { border: 2px solid #d97706; }
+.lb-crown { position: absolute; top: -15px; font-size: 24px; }
+.lb-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 8px; }
+.lb-card.top1 .lb-avatar { width: 65px; height: 65px; border-color: #fbbf24; }
+.lb-name { font-weight: 700; color: var(--navy); font-size: 0.85rem; word-break: break-word; line-height: 1.2; margin-bottom: 4px; }
+.lb-points { font-size: 0.8rem; color: #e53e3e; font-weight: bold; }
+
+.lb-list-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f0f6fb; background: #fff; }
+.lb-list-rank { width: 30px; font-weight: 700; color: #94a3b8; font-size: 0.9rem; }
+.lb-list-avatar { width: 36px; height: 36px; border-radius: 50%; margin-right: 12px; object-fit: cover; }
+.lb-list-name { flex: 1; font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+.lb-list-points { color: #e53e3e; font-weight: bold; font-size: 0.85rem; }
 </style>
 </head>
 <body>
@@ -733,52 +894,55 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 
 <div id="appView" class="app-view">
-<div class="app-shell">
-  <button class="app-close" onclick="closeAppDetail()">×</button>
-  <div class="app-scroll" id="appScroll">
-    <div id="appHero" class="app-hero"></div>
-    <div class="app-meta">
-      <div class="app-title-row"><h2 id="appName" class="app-name"></h2><div id="voiceBtnWrap"></div></div>
-      <div id="appCreated" class="app-created"></div>
-    </div>
-    
-    <!-- TABS CHI TIẾT & BẢNG XẾP HẠNG -->
-    <div class="app-tabs-header">
-      <div class="app-tab-btn active" onclick="switchAppTab('detail')">Chi tiết nhân vật</div>
-      <div class="app-tab-btn" onclick="switchAppTab('leaderboard')">Bảng xếp hạng</div>
-    </div>
+  <div class="app-shell">
+    <button class="app-close" onclick="closeAppDetail()">×</button>
+    <div class="app-scroll" id="appScroll">
+      <div id="appHero" class="app-hero"></div>
+      
+      <div class="app-meta">
+        <div class="app-title-row">
+          <h2 id="appName" class="app-name"></h2>
+          <div id="voiceBtnWrap"></div>
+        </div>
+        <div id="appCreated" class="app-created"></div>
+      </div>
+      
+      <!-- MENU TAB MỚI -->
+      <div class="app-tabs-container">
+        <button class="app-tab-btn active" id="tabBtn-details" onclick="switchAppTab('details')">Chi tiết nhân vật</button>
+        <button class="app-tab-btn" id="tabBtn-leaderboard" onclick="switchAppTab('leaderboard')">Bảng xếp hạng</button>
+      </div>
 
-    <!-- NỘI DUNG TAB CHI TIẾT -->
-    <div id="tab-detail" class="app-tab-content active">
-      <div class="app-section">
-        <h3>✦ Thông tin nổi bật</h3>
-        <div id="appTagline" class="app-tagline-full"></div>
-        <div id="appTags" class="app-tags"></div>
-        <div id="appAffinity"></div>
+      <!-- NỘI DUNG TAB CHI TIẾT (Cũ) -->
+      <div id="app-tab-details" class="app-tab-content active">
+        <div class="app-section">
+          <div id="appTagline" class="app-tagline-full"></div>
+          <div id="appTags" class="app-tags"></div>
+          <div id="appAffinity"></div>
+        </div>
+        <div class="app-section">
+          <h3>Thông tin công khai</h3>
+          <div id="appProfile" class="public-info"></div>
+        </div>
+        <div class="app-section app-comments">
+          <h3>💬 Bình luận</h3>
+          <div id="appCommentForm"></div>
+          <div id="appComments"></div>
+        </div>
+        <div class="app-section">
+          <h3>Những người bạn có thể thích...</h3>
+          <div id="recommendRow" class="recommend-row"></div>
+        </div>
       </div>
-      <div class="app-section">
-        <h3>Thông tin công khai</h3>
-        <div id="appProfile" class="public-info"></div>
-      </div>
-      <div class="app-section app-comments">
-        <h3>💬 Bình luận</h3>
-        <div id="appCommentForm"></div>
-        <div id="appComments"></div>
-      </div>
-      <div class="app-section">
-        <h3>Những người bạn có thể thích...</h3>
-        <div id="recommendRow" class="recommend-row"></div>
-      </div>
-    </div>
 
-    <!-- NỘI DUNG TAB BẢNG XẾP HẠNG -->
-    <div id="tab-leaderboard" class="app-tab-content" style="background:#fff; padding: 15px; margin: 12px 16px; border-radius: 23px; box-shadow: 0 4px 15px rgba(3,62,140,.05);">
-      <!-- Dữ liệu render bằng JS -->
+      <!-- NỘI DUNG TAB BẢNG XẾP HẠNG (Mới) -->
+      <div id="app-tab-leaderboard" class="app-tab-content">
+        <div id="leaderboardContent">Đang tải bảng xếp hạng...</div>
+      </div>
+
     </div>
-    
+    <div id="appLinks" class="sticky-links"></div>
   </div>
-  <div id="appLinks" class="sticky-links"></div>
-</div>
 </div>
 
 <div id="howToPassModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('howToPassModal')">×</button><h2>🗝️ Cách Lấy Pass</h2><div style="color:var(--text);line-height:1.6;font-size:.86rem;text-align:left"><p><b>Thử thách 1:</b> Xác nhận Kẻ Mộng Mơ đã đủ trưởng thành (18+) bằng Giấy tờ tùy thân (Yêu cầu: Che tất cả những thông tin khác, chỉ để lại Ngày/Tháng/Năm sinh).</p><p><b>Thử thách 2:</b> Thả tim vào post Nhân vật mà bạn muốn lấy pass trên page Bản tình ca ngày đông. (Không phải WEB) và chụp gửi cho Page.</p><p><b>Thử thách 3:</b> Chờ và nhận "Câu thần chú" từ Yuna.</p><hr style="border:0;border-top:1px dashed var(--pale);margin:10px 0"><p style="color:#c85b64"><u>Lưu ý:</u> Hãy cất giữ thần chú thật cẩn thận, bởi một khi bí mật bị hé lộ, mùa đông sẽ lặng lẽ viết nên một câu thần chú mới.</p></div><button class="modal-primary" style="margin-top:10px" onclick="closeModal('howToPassModal')">Đã hiểu</button></div></div>
@@ -904,6 +1068,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
       Khúc hát dành cho những điều lòng người vẫn chưa gọi thành tên... Hãy thì thầm điều ước của bạn...
     </div>
     
+    <!-- Đã tăng size ảnh lên 160px và giảm margin-bottom để gần chữ Lượt còn lại hơn -->
     <div style="position: relative; margin: 0 auto 5px; width: 160px; height: 160px; display: flex; align-items: center; justify-content: center;">
       <div id="wishParticleContainer" style="position: absolute; inset: 0;"></div>
       <img id="wishImage" src="images/colum.png" style="width: 100%; height: 100%; object-fit: contain; z-index: 2;" alt="">
@@ -922,6 +1087,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   <div class="wish-result-content">
     <div class="wish-result-title">Chúc Mừng ✦ Nhận Được</div>
     
+    <!-- Cấu trúc thẻ bài có bọc thêm các ngôi sao xung quanh -->
     <div class="wish-card-container">
       <div class="wish-star star-1">⊹</div>
       <div class="wish-star star-2">₊</div>
@@ -991,14 +1157,6 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 </div>
 
 <script>
-// DANH SÁCH 15 STICKER MẪU (Thay link thật của bạn vào đây)
-const STICKERS = [
-  "images/sticker1.png", "images/sticker2.png", "images/sticker3.png", 
-  "images/sticker4.png", "images/sticker5.png", "images/sticker6.png",
-  "images/sticker7.png", "images/sticker8.png", "images/sticker9.png",
-  "images/sticker10.png", "images/sticker11.png", "images/sticker12.png",
-  "images/sticker13.png", "images/sticker14.png", "images/sticker15.png"
-];
 
 // --- LOGIC THANH CUỘN MENU NGANG ---
 document.addEventListener("DOMContentLoaded", () => {
@@ -1008,17 +1166,20 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (!nav || !thumb || !track) return;
 
+  // 1. Hàm đồng bộ khi người dùng vuốt/cuộn menu
   function syncScrollbar() {
     if (nav.scrollWidth <= nav.clientWidth) {
-      track.style.display = "none";
+      track.style.display = "none"; // Ẩn nếu menu ngắn không cần cuộn
       return;
     }
     track.style.display = "block";
 
+    // Tính chiều dài của thanh màu xanh
     const ratio = nav.clientWidth / nav.scrollWidth;
-    const thumbWidth = Math.max(ratio * 100, 15);
+    const thumbWidth = Math.max(ratio * 100, 15); // Tối thiểu dài 15%
     thumb.style.width = thumbWidth + "%";
 
+    // Tính vị trí trượt
     const maxScroll = nav.scrollWidth - nav.clientWidth;
     const scrollPercent = nav.scrollLeft / maxScroll;
     const maxLeft = 100 - thumbWidth;
@@ -1030,6 +1191,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", syncScrollbar);
   setTimeout(syncScrollbar, 300);
 
+  // 2. Chức năng cho phép người dùng CẦM THANH XANH ĐỂ KÉO (Drag & Touch)
   let isDragging = false;
   let startX, startScrollLeft;
 
@@ -1037,12 +1199,12 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = true;
     startX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
     startScrollLeft = nav.scrollLeft;
-    thumb.style.transition = "none"; 
+    thumb.style.transition = "none"; // Bỏ độ trễ khi đang kéo
   }
 
   function onDrag(e) {
     if (!isDragging) return;
-    e.preventDefault(); 
+    e.preventDefault(); // Tránh bị cuộn cả trang web
     const x = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
     const walk = x - startX;
     
@@ -1054,10 +1216,12 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   }
 
+  // Dành cho PC
   thumb.addEventListener('mousedown', startDrag);
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup', stopDrag);
 
+  // Dành cho Điện thoại
   thumb.addEventListener('touchstart', startDrag, {passive: false});
   document.addEventListener('touchmove', onDrag, {passive: false});
   document.addEventListener('touchend', stopDrag);
@@ -1110,10 +1274,227 @@ const VOICE_MAP = {
 };
 
 const WECHAT_DATABASE = [
+  // --- TRÌ TRIỆT MINH ---
   { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
     msg1: "Chào buổi sáng. Không biết em đã dậy hay chưa nên tôi không gọi, sợ làm phiền giấc ngủ của em. Hôm nay dự báo thời tiết trời sẽ trở lạnh, em đi làm nhớ quàng thêm chiếc khăn len tôi đưa hôm trước. Lúc nào dậy thì nhắn tôi một tiếng nhé.",
     optA: "Em vừa dậy đây ạ, khăn len anh cho em quàng sẵn rồi nè.", optB: "Hôm nay em hơi mệt nên định xin nghỉ làm ở nhà một hôm...",
-    msg2: "Tốt rồi. Dù đi làm hay ở nhà nghỉ ngơi thì cũng nhớ ăn sáng đầy đủ. Trưa nay tôi bận chút việc, chiều xong sớm tôi qua với em." }
+    msg2: "Tốt rồi. Dù đi làm hay ở nhà nghỉ ngơi thì cũng nhớ ăn sáng đầy đủ. Trưa nay tôi bận chút việc, chiều xong sớm tôi qua với em." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "Wechat: +100 tệ.",
+    msg1: "Tôi vừa đến công ty. Định gọi nghe giọng em một chút trước khi vào họp giao ban nhưng chắc em vẫn còn ngủ. Không sao, cứ ngủ thêm một lát đi. Chút nữa đến chỗ làm nhớ mua gì đó ăn sáng, đừng để bụng đói.",
+    optA: "Em vừa thức dậy nè, anh họp xong chưa ạ?", optB: "Em đến tiệm rồi, anh họp tốt nha. Cố lên aạa!",
+    msg2: "Vậy thì tôi yên tâm rồi. Không được bỏ bữa, sức khỏe mới là quan trọng nhất. Em cần gì cứ nhắn tôi." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
+    msg1: "Trưa nay tôi có hẹn dùng bữa với đối tác nên không qua đón em đi ăn được. Tôi đã dặn trợ lý đặt phần canh đầu cá hầm đậu hũ non ở nhà hàng Giang Chiết mà em thích qua văn phòng rồi. Ngoan ngoãn ăn hết đi, chiều tôi qua kiểm tra.",
+    optA: "Em nhận được rồi, ngon lắm ạ, cảm ơn anh!", optB: "Anh lại giở trò kiểm tra em rồi, em ăn hết sạch rồi đây này! ( ｡ •̀ ᴖ •́ ｡)💢",
+    msg2: "Có tinh thần như vậy là tốt rồi. Chiều làm việc ngoan ngoãn nhé, tầm 5 giờ rưỡi tôi đón, đừng tự về." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Tan làm chưa? Tôi gọi cho em không được. Trời bắt đầu mưa lớn rồi, em chờ ở sảnh đi, đừng chạy lung tung bắt xe kẻo ướt. Xe tôi đang rẽ qua ngã tư rồi, ba phút nữa tôi tới đón em.",
+    optA: "Ở đây hơi ồn nên không nghe thấy chuông, em đang đứng ở ngoài đợi anh đây ạ.", optB: "Em tính đi bắt taxi thì mưa to quá, may mà anh sắp tới.",
+    msg2: "Ở yên đó đừng ra ngoài dầm mưa... Tôi thấy bóng em đứng ở cửa rồi." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: false, extra: "",
+    msg1: "Vừa xử lý xong nốt đống công việc. Căn hộ hôm nay yên tĩnh quá, tự nhiên thấy thiếu thiếu điều gì đó... Hóa ra là thiếu em gối đầu lên đùi tôi xem TV. Em ngủ chưa? Chúc ngủ ngon, bé ngoan.",
+    optA: "Em chưa ngủ, cũng đang nhớ anh muốn chết đây này...", optB: "Em sắp ngủ rồi, anh cũng đi ngủ sớm đi kẻo mệt ạ.",
+    msg2: "Ngoan. Nhắm mắt lại đi, trong mơ tôi sẽ sang gối đầu lên đùi em...Quên lời tôi nói khi nãy đi nhé. Chúc em ngủ ngon." },
+  { charId: "tri-triet-minh", name: "Trì Triệt Minh", avatar: "images/tritrietminh.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Tôi vừa hạ cánh xuống Nam Kinh, việc đầu tiên là muốn báo bình an cho em. Ở nhà một mình nhớ khóa cửa cẩn thận. Xong việc tôi sẽ bay chuyến sớm nhất về với em. Nhớ em.",
+    optA: "Anh đi đường cẩn thận nhé, em ở nhà vẫn ngoan mà.(˶ᵔ ᵕ ᵔ˶)", optB: "Vừa đi đã nhắn nhớ em rồi, làm xong việc nhanh rồi về nha anh.",
+    msg2: "Ừm, tôi biết rồi. Ngoan ngoãn chờ tôi về, có chuyện gì thì gọi cho tôi ngay, đừng tự mình xử lý. Tôi xong việc sẽ báo em." },
+
+  // --- TRÌ TIÊU HÀN ---
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị dậy chưa? Em vừa chạy bộ ngang qua, gửi sẵn sữa đậu nành với sủi cảo nóng ở chú bảo vệ rồi ạ. Dậy thì nhắn em một câu cho em có năng lượng lên lớp nha! Yêu chị béee❤️",
+    optA: "Chị vừa dậy, cảm ơn em nhé.", optB: "Trời ơi sáng ra đã nạp ngọt thế này rồi, cún bự đi học ngoan nhé.",
+    msg2: "Hi hi chị thích là em vui rồi! Nhớ ăn hết đấy nhé, tí lên lớp em nhắn tin cho chị tiếp nhaaa~❤️" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "5 phút nữa nghỉ trưa mình gặp nhau ngoài hành lang nha, em xách cơm hộp đến tận nơi rồi. Hôm nay em nấu toàn món chị thích, không ăn là em dỗi thật đấy!",
+    optA: "Chờ chị 2 phút nữa nha, chị dọn xong đồ đã.", optB: "Nấu cho chị thật đấy à? Không ngon là chị phạt em đấy nhé~",
+    msg2: "Em đứng ngay hành lang lớp chị chờ rồi đây nè! Bảo đảm tay nghề em chỉ có ngon trở lên thôi, mau ra đây với em đi!🐶( •̯́ ₃ •̯̀)" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị ơiii! Em vừa ném một quả 3 điểm xoáy rổ đỉnh lắm, mọi người ai cũng lác mắt luôn! Tiếc quá nay không có chị ở khán đài lau mồ hôi cho em... Tối nay chị bù cho em một cái ôm nạp pin nhé?🥺",
+    optA: "Giỏi thế cơ à? Tối nay về rồi tính xem có được ôm không nhé.", optB: "Chiều quá em sinh hư rồi đấy, tối nay sang đây ngoan thì mới được ôm nha.",
+    msg2: "Chị bé hứa rồi đấy nhé! Tối nay em sẽ phi sang ngay, không được bùng kèo ôm nạp pin của em đâu đấy ạaa! ( ˶˘ ³˘)♡" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Em gọi định rủ chị đi ăn thịt nướng mà chị hông nghe máy...Hừm, Lục Tề vừa rủ em đi chơi net rồi, em đi đây, tối nay em không về đâu! ... Chị vẫn không rep em à? Thôi em đùa đấy, em không đi đâu, em ngồi dưới KTX nữ đợi chị về rồi này ạaa 😭",
+    optA: "Chị vừa làm xong tài liệu, em đứng đấy lạnh không? Đợi lát chị xuống ngay.", optB: "Cún bự hôm nay còn biết dọa chị sao? Chờ lát xuống xem chị xử em như thế nào. (≖_≖ )",
+    msg2: "Hì hì em biết ngay chị thương em mà! Em đứng ngay gốc cây dưới KTX rồi, chị xuống mau đi em ôm cái cho ấm nè ạaa ₍₍⚞(˶>ᗜ<˶)⚟⁾⁾" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị xem cái váy này có xinh không ạ? Em thì thấy hợp với chị lắm luôn! Rep em trong 3 giây nếu không em thanh toán luôn đấy...3... 2... 1... Reng! Hết giờ, em quẹt thẻ rồi nhé, cuối tuần mặc đi hẹn hò với em nha!🐶",
+    optA: "Váy xinh thật nhưng mà mắc lắm…", optB: "Em đúng là không cho chị kịp phản ứng luôn… Lần sau không được tự tiện thế nữa đâu đấy.",
+    msg2: "Yay! Vậy là cuối tuần chị nhất định phải mặc nha~ Em đã tưởng tượng cảnh chị mặc nó đi cùng em rồi đó (˶˃ ∇ ˂˶)... chị bé không được nuốt lời đâu đó ạ!" },
+  { charId: "tri-tieu-han", name: "Trì Tiêu Hàn", avatar: "images/tritieuhan.jpg", call: false, extra: "",
+    msg1: "Chị ngủ chưa ạ? Em vừa tắm xong, nhớ mùi hương trên người chị quá, chăn gối ở ký túc xá nam toàn mùi xà phòng chả có hơi ấm gì cả. Đêm nay cho em vào giấc mơ của chị nhé. Ngủ ngon nha chị bé, yêu chị nhất trên đời! ❤️",
+    optA: "Chị sắp ngủ rồi, em cũng ngủ sớm đi. Đừng thức khuya quá mai không dậy được.", optB: "Mới xa có một tí đã mè nheo rồi… yêu em. Ngủ sớm đi nha!",
+    msg2: "Em nhắm mắt lại đây, ngày mai gặp chị bé nhớ phải nói yêu em đấy nhé! Yêu chị nhiều lắm luôn ạaa❤️" },
+
+  // --- TRÌ DIỆC THẦN ---
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
+    msg1: "8 giờ kém 10. Espresso không đường, mang vào phòng tôi cùng với báo cáo tài chính quý 3 để lên bàn. Còn nữa, nếu em thật sự muốn che thì tôi khuyên em, nên dặm thêm phấn ở cổ đi. Đêm qua cắn môi cởi đồ trước ống kính sung sức lắm cơ mà, sao hôm nay đứng báo cáo trước mặt tôi, chân em lại run rồi?",
+    optA: "Em mang cà phê và báo cáo vào ngay đây ạ~", optB: "Cái đó… Sếp Trì để ý kĩ thế ạ?",
+    msg2: "…Mau lên, đừng nói nhiều nữa. Tính kiên nhẫn của tôi có hạn đấy." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
+    msg1: "Tôi đang đợi em trong phòng, đợi ít người rồi hãy vào.",
+    optA: "Vậy em đợi đến lúc vắng nguời rồi vào ạ…", optB: "Trưa nay em hẹn ăn với đồng nghiệp mất rồi… có hơi bất tiện.",
+    msg2: "Tốt nhất thì em nên nhanh một chút." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "",
+    msg1: "Đang nhắn tin cho ai mà cười tươi thế? Cất điện thoại đi. Nếu em thích khoe dáng đến vậy thì tối nay ở lại tăng ca, tôi sẽ đích thân làm 'khán giả' duy nhất của em trong phòng họp cách âm này.",
+    optA: "Là tin nhắn công việc thôi, sếp quản cả việc em cười sao?~", optB: "Anh vô lý vừa thôi… đây là giờ nghỉ cá nhân của em mà….",
+    msg2: "Bất kể là việc gì, ánh mắt của em chỉ được phép đặt trên người tôi. Thu dọn đồ đạc, tối nay chuẩn bị ‘tăng ca’." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Buổi hẹn tối nay của em... hủy đi. Sếp của em đang thiếu 'nhiên liệu' để duyệt đống hồ sơ này. Vào đây, giúp tôi giải tỏa một chút.",
+    optA: "Anh lại dùng quyền lực ép người rồi...", optB: "Không hủy đâu, hôm nay em có việc bận thật mà.",
+    msg2: "Tôi cho em 5 phút để thu xếp. Nếu em không tự vào phòng làm việc của tôi, tôi sẽ ra ngoài đó kéo em vào." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: false, extra: "Tài khoản: +5000$",
+    msg1: "Tiền thưởng chuyên cần hôm nay. Còn nữa, tôi vừa cho người gửi một hộp quà đến cửa nhà em. Mở ra đi. Món quà đó tôi đích thân chọn theo đúng số đo của em đấy.",
+    optA: "Cái này... anh bắt em mặc nó thật à?", optB: "Anh xem tôi là loại người gì vậy? Cầm lại tiền của anh đi.",
+    msg2: "Cầm lấy đi. Lát nữa mặc vào rồi chụp gửi cho tôi một tấm, hoặc là tôi tự qua nhà em kiểm tra." },
+  { charId: "tri-diec-than", name: "Trì Diệc Thần", avatar: "images/tridiecthan.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Lại bắt chủ nhân của em phải chờ à? Ở công ty thì cúi đầu gọi 'Sếp Trì' dõng dạc lắm, sao bây giờ không ngoan ngoãn nghe máy mà rên rỉ gọi tên tôi như đêm qua nữa?",
+    optA: "Em vừa tắm xong nên không nghe thấy, Sếp Trì bớt giận ~", optB: "Ban ngày ở công ty chưa đủ sao? Anh đúng là đồ biến thái mà...",
+    msg2: "Ngoan ngoãn bật camera lên hoặc nghe điện thoại ngay. Đừng để tôi đợi lâu." },
+
+  // --- TRÌ DUỆ KHẢI ---
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Nãi Cầu hôm nay dậy sớm cào cửa đòi ăn. Anh vừa pha xong ly cà phê, nếu em ở đây chắc lại nhăn mặt chê đắng rồi đòi uống trà sữa cho xem.",
+    optA: "...", optB: "...",
+    msg2: "…Một số chuyện nhỏ về em, ở cạnh lâu rồi tự nhiên thành thói quen mất." },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Anh vừa ghé siêu thị dưới nhà. Thấy tiệm bánh ra món mới đúng loại em thích, định quay sang hỏi em có muốn ăn không...",
+    optA: "...", optB: "...",
+    msg2: "…Anh mua một phần trước. Nếu ngon thì để dành cho em, lần sau mình cùng ăn." },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Anh biết là điện thoại sẽ chẳng có ai bắt máy đâu. Chỉ là tự nhiên muốn nghe tiếng chuông đổ vài giây, cho căn phòng bớt tĩnh mịch thôi.",
+    optA: "...", optB: "...",
+    msg2: "..chỉ là lại nhớ em rồi. Khi nào em rảnh thì có thế nói chuyện với anh một lát được không?" },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Anh chợt nhớ ra... sáng nay Nãi Cầu cứ nhìn chằm chằm vào khoảng không phòng khách rồi kêu meo meo suốt. Có phải em lại mò về trêu con mèo của anh đúng không?",
+    optA: "...", optB: "...",
+    msg2: "…Anh cũng nghĩ nó nhớ em thật. Nếu có em chơi cùng thì chắc nó sẽ vui lắm…" },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Đêm nay gió lạnh thật đấy. Tay anh hơi run. Tự nhiên lại nhớ cảm giác được nắm lấy một bàn tay nho nhỏ…",
+    optA: "...", optB: "...",
+    msg2: "Anh sẽ tự chăm sóc tốt cho mình. Em cũng nhớ giữ ấm nhé, đừng vì lo cho anh mà quên chăm sóc bản thân." },
+  { charId: "tri-due-khai", name: "Trì Duệ Khải", avatar: "images/triduekhai.jpg", call: false, extra: "",
+    msg1: "Muộn lắm rồi đấy, chúc cô ngốc của anh ngủ ngon nhé. Đừng đi đâu xa quá đấy, anh tìm không thấy đâu.",
+    optA: "...", optB: "...",
+    msg2: "Cô ngốc ngủ ngon nhé. Anh sẽ ngoan ngoãn nhắm mắt lại, hy vọng đêm nay có thể gặp được em trong mơ." },
+
+  // --- TRÌ CẢNH NGÔN ---
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Chào buổi sáng, bé con. Tôi phải ra ngoài sớm để giải quyết chút chuyện nên không gọi em dậy. Bữa sáng tôi đã dặn đầu bếp chuẩn bị sẵn rồi, dậy thì nhớ ăn ngoan nhé. Trưa nay tôi sẽ về đón em.",
+    optA: "Em dậy rồi nè, đồ ăn ngon lắm, cảm ơn chồng nhé!", optB: "Trưa nay anh nhớ về đúng giờ đấy, em đợi anh.",
+    msg2: "Ngoan, ăn xong cứ nghỉ ngơi thong thả, trưa đúng giờ tôi sẽ về dẫn em đi ăn." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Em vẫn đang ngủ sao, mèo nhỏ? Hay là vẫn còn giận dỗi tôi chuyện tối qua rồi? Dậy thì gọi lại cho tôi nhé, tôi không muốn tranh cãi xem ai đúng ai sai đâu, giọng em là thứ duy nhất tôi muốn nghe lúc này.",
+    optA: "Em dậy rồi. Chuyện tối qua để lúc gặp nhau chúng ta nói nhé.", optB: "Em không còn giận nữa. Anh cứ làm việc đi, lát em gọi lại.",
+    msg2: "Được. Tôi không muốn ép em nói ngay lúc này. Khi nào em sẵn sàng thì chúng ta nói chuyện cho rõ." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Đến giờ nghỉ trưa rồi. Tôi vừa bảo Khương Vũ mang món tráng miệng em thích nhất đến cho em rồi đấy. Nhớ ăn uống đầy đủ. Chiều nay tôi bận họp, em có muốn đến văn phòng đợi tôi làm việc không?",
+    optA: "Em sẽ đến văn phòng đợi anh, anh họp xong nhớ tìm em nhé!", optB: "Chiều em bận ở nhà rồi, không sang được đâu~",
+    msg2: "Được, tùy em. Nhưng ở đâu cũng phải ăn trưa đầy đủ, xong việc chiều nay tôi sẽ về thẳng nhà với em ngay." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: "Đã nhỡ cuộc gọi thoại (3)", extra: "",
+    msg1: "Vẫn còn giận tôi sao? Được rồi, là tôi sai, tôi không nên cấm cản em chuyện hôm qua. Đừng xù lông với tôi nữa, lát nữa tôi dẫn em đi ăn món em thích nhất để chuộc lỗi, chịu không?",
+    optA: "Biết sai là tốt, chiều nhớ đón em đi ăn món em thích đó nha!", optB: "Em vẫn hơi giận một chút, nhưng đi ăn với anh thì em đồng ý.",
+    msg2: "Vậy quyết định thế nhé. Tôi sẽ đến đón em, còn chuyện hôm qua tôi sẽ không nhắc lại nữa. Tôi biết mèo nhỏ của tôi rộng lượng nhất mà." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Tôi nghe nói chiều nay em đi shopping? Mua bất cứ thứ gì em thích, quẹt thẻ của tôi.",
+    optA: "Anh cứ chiều em thế này làm em tiêu hoang mất thôi! (,; ⩌ ;,)", optB: "Không cần đâu, em chỉ đi xem một chút thôi. Nhưng cảm ơn anh nhé. (ᵕ—ᴗ—)",
+    msg2: "Tiền tôi kiếm ra là để cho em tiêu. Cứ mua thỏa thích vào, tối về nhớ cho tôi xem em đã chọn được những gì." },
+  { charId: "tri-canh-ngon", name: "Trì Cảnh Ngôn", avatar: "images/tricanhngon.jpg", call: false, extra: "",
+    msg1: "Muộn rồi, mèo nhỏ của tôi đã ngủ chưa? Đừng thức khuya nghịch điện thoại nữa. Tôi giải quyết nốt hồ sơ này sẽ về phòng ngay. Ngoan ngoãn nhắm mắt lại đi, lát nữa vào tôi sẽ hôn em.",
+    optA: "Em đang đợi anh vào ngủ chung đây nè!", optB: "Em nhắm mắt rồi. Anh làm xong thì cũng nghỉ sớm nhé ~",
+    msg2: "Ừ, vậy em cứ nằm nghỉ trước. Tôi xử lý xong sẽ vào với em ngay, sẽ không để em phải chờ lâu." },
+
+  // --- THẨM NHẤT CHU ---
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: false, extra: "",
+    msg1: "Chữa bài muộn tối qua không có nghĩa là được nướng bỏ bữa sáng. 15 phút nữa anh ghé dưới lầu, ngoan ngoãn xuống nhận đồ ăn rồi đi học.",
+    optA: "Em dậy rồi mà, anh mua đồ ăn gì cho em thế?", optB: "Em còn buồn ngủ lắm... Cho em ngủ thêm 5 phút nữa thôi mà…",
+    msg2: "Biết rồi cô nương. Xuống nhận đồ rồi ăn hết, đừng vừa đi vừa ngủ. Anh ở dưới đợi em." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Anh vừa ra khỏi phòng họp khoa. Gọi không bắt máy, chắc lại gục mặt xuống bàn ngủ trong giờ của thầy khác đúng không? Khi nãy để hộp sữa dưới hộc bàn chỗ em, mau dậy uống chút đi.",
+    optA: "Em không ngủ đâu, chỉ là lúc nãy không nghe thấy điện thoại.", optB: "Tại bài tập tối qua khó quá làm em thức khuya đấy chứ! Nhưng mà em uống sữa rồi, cảm ơn anh nha ~",
+    msg2: "Lần sau không được thức khuya như thế nữa. Học xong thì về nghỉ ngơi đi, chiều anh kiểm tra bài em sau." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Gọi cho em mà máy bận. Tốt nhất là em đang bận thảo luận bài tập chứ không phải đang buôn chuyện với Trương Hạo. Tối nay anh qua đón đi ăn, nhớ chuẩn bị sớm.",
+    optA: "Em đang trao đổi nhóm thật mà, anh đừng ghen suy diễn linh tinh à nha! Tối nay anh đón em đi ăn món gì thế ạ?", optB: "Em đang bận một chút thôi. Anh không cần qua đón cũng được.",
+    msg2: "Xong việc thì báo anh. Tối nay anh vẫn qua, có đi ăn hay không thì lúc đó tính." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: false, extra: "",
+    msg1: "Sao giờ này chưa về nhà? Anh nấu xong cơm rồi. 10 phút nữa không nhắn lại, anh sẽ gọi cho anh trai em đòi người.",
+    optA: "Em đang trên đường về đây rồi, anh đừng gọi cho anh trai em mà!", optB: "Tại kẹt xe quá mà giáo sư Thẩm! 10 phút nữa em có mặt ở nhà mà!",
+    msg2: "Biết vậy là tốt. Về đường xá cẩn thận, không cần phóng nhanh. Cơm nước anh đã nấu xong hết rồi, về nhà là ăn được ngay." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: "Đã nhỡ cuộc gọi thoại (2)", extra: "",
+    msg1: "Lại để điện thoại chế độ không làm phiền? Tắt máy đi ngủ sớm, cấm lén thức khuya xem phim. Anh check được lịch sử online WeChat của em đấy.",
+    optA: "Đồ xấu xa... anh còn theo dõi em nữa chứ...", optB: "Em tắt máy đi ngủ thật đây, chúc anh ngủ ngon!",
+    msg2: "Anh nhắc nhở vì muốn tốt cho sức khỏe của em thôi. Tắt điện thoại ngay đi, không thì ngày mai đích thân giáo sư Thẩm “chỉ bảo” lại em đấy." },
+  { charId: "tham-nhat-chu", name: "Thẩm Nhất Chu", avatar: "images/thamnhatchu.jpg", call: false, extra: "",
+    msg1: "Trời hôm nay mưa lạnh, gọi xem mèo con đã ngủ dậy chưa. Ra mở cửa đi, anh đang đứng trước nhà cùng bánh ngọt em thích đây.",
+    optA: "Em dậy rồi! Đợi em một chút, em ra mở cửa.", optB: "Anh đến thật à? Em còn chưa thay đồ nữa, cho em vài phút.",
+    msg2: "Nhanh một chút mở cửa cho anh kẻo bánh nguội. Hôm nay mưa lạnh nên ở nhà nghỉ ngơi, anh sang đọc sách với em." },
+
+  // --- TRẦN DÃ ---
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Tôi mua sữa đậu nành với há cảo để trên bàn bếp, dậy thì hâm nóng lại rồi hẵng ăn. Hôm nay tôi không về sớm đâu, đừng đợi.",
+    optA: "Ừm... Anh làm việc cẩn thận ạ, em sẽ tự ăn.", optB: "Cảm ơn anh. Anh cũng nhớ ăn uống đầy đủ, đừng chỉ lo cho em.",
+    msg2: "Ừ. Ăn uống đàng hoàng rồi đi học." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Tiền tiêu vặt tháng này tôi vừa chuyển vào thẻ rồi. Thiếu thì nhắn tôi, đừng có tiết kiệm tiền ăn trưa. Dạo này em gầy đi nhiều rồi.",
+    optA: "Em nhận được rồi. Cảm ơn anh, em sẽ ăn uống đầy đủ.", optB: "Anh cho em nhiều tiền thế, em vẫn còn tiền tháng trước mà...",
+    msg2: "Cứ cầm lấy mà mua đồ ăn thức uống. Bằng tuổi em người ta béo tròn ra, em thì không khác gì tờ giấy, ăn nhiều vào một chút." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Gọi kiểm tra xem đang ở trường hay đi linh tinh thôi. Đang trong lớp thì cứ học đi, không cần gọi lại cho tôi. Tan học nhớ về thẳng nhà, dạo này bên ngoài không an toàn.",
+    optA: "Em đang ở trong thư viện, anh yên tâm đi. Tan học em sẽ về thẳng nhà ạ.", optB: "Em đang trong lớp nên không nghe máy được. Học xong em sẽ nhắn anh.",
+    msg2: "Được. Học xong thì báo tôi một tiếng, về nhà cẩn thận." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Ban nãy thằng nhóc đi cạnh em ở cổng trường là ai? Bỏ đi, tôi không quản chuyện sinh viên của bọn em. Nhưng bảo nó tránh xa mấy quán bida ở khu Nam ra, chỗ đó không sạch sẽ gì đâu.",
+    optA: "Đó là bạn cùng lớp hỗ trợ em làm bài tập nhóm thôi ạ.", optB: "Anh đừng lo, em biết khu đó không an toàn nên sẽ không lui tới đâu ạ.",
+    msg2: "Ừ. Tôi không can thiệp chuyện của em, chỉ nhắc một câu. Biết tự bảo vệ mình là được." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: false, extra: "",
+    msg1: "Ngủ chưa? ...Chưa ngủ thì uống cốc sữa ấm đi. Tôi đứng dưới đường nhìn lên thấy phòng còn sáng đèn. Đã bảo thức khuya không tốt mà không nghe lời gì cả.",
+    optA: "Em học bài xong rồi, giờ em uống sữa xong liền đi ngủ ạ. Anh về rồi sao lại không lên nhà với em...?", optB: "Em sắp ngủ rồi. Anh lại có việc không thể về luôn sao?",
+    msg2: "Chuyện của tôi em không cần bận tâm. Uống xong thì đi ngủ, đừng thức thêm." },
+  { charId: "tran-da", name: "Trần Dã", avatar: "images/tranda.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "...Không có gì. Tay chạm nhầm màn hình thôi.",
+    optA: "Anh chưa ngủ sao? Công việc không ổn ạ?", optB: "Không có gì mà gọi lúc hai giờ sáng sao? Có chuyện gì anh có thể nói với em được không?",
+    msg2: "Không có gì. Sao bây giờ em vẫn chưa ngủ?" },
+
+  // --- HẠ THIÊN DẬT ---
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Dậy chưa đồ đần? Đúng 5 phút nữa không mò xuống thì tự mà lết đi học.",
+    optA: "Xuống ngay đây! Hừ... Mới sáng ra đã gắt gỏng rồi!", optB: "Còn 15 phút nữa, mày đi trước cũng được.",
+    msg2: "Nhanh cái chân lên! Tao đợi. Không ông đây lên tận phòng tìm mày bây giờ." },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Hộp cơm để trong hộc bàn mày ấy. Mẹ tao bắt mang đi chứ tao thừa hơi đâu mà thức sớm bọc khăn giữ nhiệt rồi mang lên cho mày. Ráng mà ăn cho hết đấy!",
+    optA: "Biết rồi, tao sẽ ăn hết luôn cho coi. Chiều phải qua cảm ơn bác gái mới được!", optB: "Mang tới cho tao thật à? Cảm ơn nha đồ cọc tính~",
+    msg2: "Ăn nhanh đi kẻo nguội ngắt ra bây giờ. Lần sau tao không xách hộ nữa đâu." },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Trời sắp mưa to rồi đấy, đang đứng trú ở cái xó nào rồi? Ở yên đấy đừng có đi lung tung, để tao cầm ô qua.",
+    optA: "Tao đang ở cổng trường, mau mau qua đón tao!", optB: "Tao có mang ô mà, mày không phải qua đâu.",
+    msg2: "Đứng yên đấy! Tao đang chạy qua rồi, 2 phút nữa tới!" },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: "Đã nhỡ cuộc gọi thoại (1)", extra: "",
+    msg1: "Tao đứng dưới cổng nhà mày 10 phút rồi. Mò xuống cầm cái túi này lên, bánh bao kim sa mày thích đấy. Nhanh không nó nguội.",
+    optA: "Hehe, sao mày biết tao đang thèm bánh bao kim sa hay thế?", optB: "Mày vào để lên bàn giúp tao được không? Tao đang dở việc tí.",
+    msg2: "Mau mò xuống lấy nhanh không tao ăn hết bây giờ, lần sau đừng có mơ tao mua cho mà ăn nữa!" },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Bài 4 toán hình giải xong chưa? Đừng có mà chép mạng. Không biết làm thì mở cửa ra tao sang dạy cho.",
+    optA: "Bó tay rồi nè, Dật lão tôn mau sang giảng cho tao đi.", optB: "Tao tự làm được rồi nhá! Không cần mày nữa đâu.",
+    msg2: "Mở cửa ra tao sang kiểm tra! Không làm đúng tao gõ cho sưng đầu, đừng có mà bướng." },
+  { charId: "ha-thien-dat", name: "Hạ Thiên Dật", avatar: "images/hathiendat.jpg", call: false, extra: "",
+    msg1: "Tắt điện thoại đi ngủ ngay. Mai mà đi học muộn rồi lại bắt tao chép bài hộ thì biết tay tao. Gửi tao cái icon rồi ngủ đi.",
+    optA: "Tao ngủ rồi đây~ 😴", optB: "Mày đe dọa tao đấy à? Ngủ thì ngủ, làm gì dữ vậy...",
+    msg2: "Ngủ sớm đi, mai tao sang gọi dậy đi học mà chưa dậy thì đừng trách sao tao ác đấy nhá." },
+
+  // --- TÔ TRẠCH DƯƠNG ---
+  { charId: "to-trach-duong", name: "Tô Trạch Dương", avatar: "images/totrachduong.jpg", call: false, extra: "",
+    msg1: "Tôi đang ở bãi đỗ xe của công ty, hôm nay cô muốn giao dịch lúc mấy giờ thì nhắn sớm một chút đi. Đừng có vô cớ gọi điện làm phiền tôi trong giờ hành chính, tôi không muốn người khác sinh nghi.",
+    optA: "Chiều nay 6 giờ. Tôi sẽ nhắn địa điểm cho anh sau~", optB: "Hôm nay tôi chưa có hứng, khi nào cần tôi sẽ nhắn sau.",
+    msg2: "...Nhớ lấy lời cô đấy. Đừng có thình lình xuất hiện làm phiền đến tôi và Nhược Hy là được." },
+  { charId: "to-trach-duong", name: "Tô Trạch Dương", avatar: "images/totrachduong.jpg", call: "Đã nhỡ cuộc gọi thoại (2)", extra: "",
+    msg1: "Cô đang giở trò gì thế? Dám dùng tiền chèn ép tôi đến đây chờ cô rồi bây giờ không thèm nghe máy? Chết tiệt... Mau về mở cửa đi, giải quyết cho xong chuyện tối nay để tôi còn về với Nhược Hy.",
+    optA: "Tôi vừa có việc đột xuất nên không nghe máy được. Anh muốn đến vậy sao? Haha~.", optB: "Bật khóc vì phải chờ đợi à? Tôi sắp về tới rồi, kiên nhẫn đợi một chút.",
+    msg2: "Đừng lằng nhằng với tôi. Mau giải quyết cho xong chuyện đi, tôi không muốn ở lại cái nơi bẩn thỉu này lâu đâu." },
+  { charId: "to-trach-duong", name: "Tô Trạch Dương", avatar: "images/totrachduong.jpg", call: false, extra: "",
+    msg1: "Nghe nói cô đi công tác ba ngày? Tốt nhất là cô cứ đi luôn đi. Mấy ngày không phải nhìn thấy bản mặt dùng tiền ép người của cô, không phải làm cái chuyện buồn nôn đó, tôi cảm thấy cuộc hôn nhân của mình thật sự rất bình yên.",
+    optA: "Thật sự vui sao? Đừng có nhớ nhung cơ thể của tôi mà sinh hoang tưởng nhé~", optB: "Anh cứ tận hưởng đi, tôi rất mong chờ vẻ mặt của anh sau ba ngày thiếu vắng đấy~",
+    msg2: "Đừng có ngạo mạn, cô quên lý do tại sao tôi đồng ý thỏa thuận với cô rồi à?" }
 ];
 
 let currentUser=null,currentProfile=null,isAdmin=false,currentChar=null,currentR21=null;
@@ -1125,8 +1506,7 @@ const charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || 
 let currentTrackIdx = Math.floor(Math.random() * PLAYLIST.length);
 let wasMusicPlaying = false;
 let commentImages = {};
-let commentStickers = {}; // Lưu trữ URL sticker được chọn cho mỗi form input
-let searchTimeout = null;
+  let searchTimeout = null;
 function debounceSearch() {
   clearTimeout(searchTimeout);
   searchTimeout = setTimeout(() => {
@@ -1168,7 +1548,7 @@ if(!currentUser){
   renderAuth();
   renderCards();
   updateJournalInput();
-  loadMailbox(); 
+  loadMailbox(); // Cập nhật hòm thư khi là khách
   return;
 }
 let {data}=await db.from("profiles").select("*").eq("id",currentUser.id).maybeSingle();
@@ -1183,7 +1563,7 @@ renderAuth();
 refreshUserBadges();
 renderCards();
 updateJournalInput();
-loadMailbox(); 
+loadMailbox(); // Cập nhật chính xác hòm thư ngay khi tải xong tài khoản
 }
 
 async function initAuth(){
@@ -1233,33 +1613,6 @@ function renderAuth(){
   updateJournalInput(); refreshUserBadges(); updateEditProfileBadge();
 }
 
-function getStickerPickerHTML(id) {
-  const gridHtml = STICKERS.map(url => `<img src="${url}" class="sticker-item" onclick="pickSticker('${id}', '${url}')">`).join("");
-  return `<div class="sticker-picker" id="sticker-picker-${id}">${gridHtml}</div>`;
-}
-
-function toggleStickerPicker(id) {
-  const picker = document.getElementById(`sticker-picker-${id}`);
-  if(picker) picker.classList.toggle("show");
-}
-
-function pickSticker(inputId, url) {
-  removeCommentImage(inputId); // Clear if there was an image file
-  commentStickers[inputId] = url; 
-  const previewBox = document.getElementById("preview-" + inputId);
-  if(previewBox) {
-    previewBox.innerHTML = `<img src="${url}"><button type="button" style="border:0;background:none;color:#e53e3e;font-size:0.75rem;cursor:pointer;margin-top:4px;" onclick="removeCommentImage('${inputId}')">✕ Xóa nhãn dán</button>`;
-  }
-  document.getElementById("sticker-picker-" + inputId).classList.remove("show");
-}
-
-// Ẩn bảng sticker khi click ra ngoài
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.cmt-sticker-btn') && !e.target.closest('.sticker-picker')) {
-    document.querySelectorAll('.sticker-picker.show').forEach(el => el.classList.remove('show'));
-  }
-});
-
 function updateJournalInput(){
   const box = document.getElementById("journalFormBox");
   if(!box) return;
@@ -1274,11 +1627,11 @@ function updateJournalInput(){
           <label class="cmt-camera-btn" title="Thêm ảnh">
             📷<input type="file" id="file-journal" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'journal')">
           </label>
-          <div class="cmt-sticker-btn" title="Thêm nhãn dán" onclick="toggleStickerPicker('journal')">☺</div>
+          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('journal')">😀</button>
         </div>
-        ${getStickerPickerHTML('journal')}
         <button class="cmt-send-btn" onclick="submitComment('journal', null, null)">Gửi</button>
       </div>
+      <div id="sticker-picker-journal" class="sticker-picker"></div>
     </div>
   `;
 }
@@ -1286,7 +1639,6 @@ function updateJournalInput(){
 function previewCommentImage(e, id){
   const file = e.target.files[0];
   if(file){
-    removeCommentImage(id); // Clear sticker if any
     commentImages[id] = file;
     const url = URL.createObjectURL(file);
     const previewBox = document.getElementById("preview-" + id);
@@ -1298,7 +1650,6 @@ function previewCommentImage(e, id){
 
 function removeCommentImage(id){
   delete commentImages[id];
-  delete commentStickers[id];
   const previewBox = document.getElementById("preview-" + id);
   if(previewBox) previewBox.innerHTML = "";
   const fileInput = document.getElementById("file-" + id);
@@ -1330,20 +1681,45 @@ async function handleRegister(e){
   const password = document.getElementById("registerPassword").value;
   const display = document.getElementById("registerDisplay").value.trim() || "Kẻ Mộng Mơ";
   
-  if(!email || !password) { alert("Vui lòng nhập đầy đủ Email và Mật khẩu!"); return; }
-  if(password.length < 6) { alert("Mật khẩu phải có ít nhất 6 ký tự!"); return; }
+  if(!email || !password) {
+    alert("Vui lòng nhập đầy đủ Email và Mật khẩu!");
+    return;
+  }
+  if(password.length < 6) {
+    alert("Mật khẩu phải có ít nhất 6 ký tự!");
+    return;
+  }
 
   try{
-    const {data, error} = await db.auth.signUp({ email: email, password: password, options: { data: { display_name: display } } });
-    if(error) { alert("Lỗi đăng ký: " + error.message); return; }
+    const {data, error} = await db.auth.signUp({
+      email: email,
+      password: password,
+      options: { data: { display_name: display } }
+    });
+    
+    if(error) {
+      alert("Lỗi đăng ký: " + error.message);
+      return;
+    }
+    
     if(data.user){
       currentUser = data.user;
-      try { await db.from("profiles").upsert({ id: data.user.id, display_name: display, snowflakes: 0 }); } catch(dbErr) {}
+      
+      try {
+        await db.from("profiles").upsert({
+          id: data.user.id,
+          display_name: display,
+          snowflakes: 0
+        });
+      } catch(dbErr) {}
+
       await loadProfile();
       alert("🎉 Đăng ký thành công!");
       showView('auth');
     }
-  }catch(err){ alert("Lỗi hệ thống: " + err.message); }
+  }catch(err){
+    alert("Lỗi hệ thống: " + err.message);
+  }
 }
 
 async function handleLogin(e){
@@ -1351,22 +1727,39 @@ async function handleLogin(e){
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
   
-  if(!email || !password) { alert("Vui lòng nhập Email và Mật khẩu!"); return; }
+  if(!email || !password) {
+    alert("Vui lòng nhập Email và Mật khẩu!");
+    return;
+  }
+
   try {
-    const {data, error} = await db.auth.signInWithPassword({ email: email, password: password });
-    if(error){ alert("Lỗi đăng nhập: " + error.message); return; }
+    const {data, error} = await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+    
+    if(error){
+      alert("Lỗi đăng nhập: " + error.message); 
+      return;
+    }
+    
     currentUser = data.user;
     await loadProfile();
     toast("✨ Đăng nhập thành công!");
     showView('auth');
-  } catch(err) { alert("Lỗi hệ thống: " + err.message); }
+  } catch(err) {
+    alert("Lỗi hệ thống: " + err.message);
+  }
 }
 
 window.handleRegister = handleRegister;
 window.handleLogin = handleLogin;
   
 async function loginGoogle(){
-  const {error}=await db.auth.signInWithOAuth({ provider:"google", options:{redirectTo:window.location.origin+window.location.pathname} });
+  const {error}=await db.auth.signInWithOAuth({
+    provider:"google",
+    options:{redirectTo:window.location.origin+window.location.pathname}
+  });
   if(error)toast("Lỗi Google Auth: "+error.message);
 }
 
@@ -1503,6 +1896,7 @@ const start=(currentPage-1)*PER_PAGE;
 const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 
 grid.innerHTML=pagedChars.map(c=>{
+// Bấm vào luôn mở bảng thông tin (Detail)
 const clickAction = `openAppDetail('${c.id}')`;
 const pass = `<button class="btn-see-more" onclick="${clickAction}">✦ Tìm hiểu ➟</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
@@ -1539,11 +1933,11 @@ ${pass}
           <label class="cmt-camera-btn" title="Thêm ảnh">
             📷<input type="file" id="file-mini-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'mini-${c.id}')">
           </label>
-          <div class="cmt-sticker-btn" title="Thêm nhãn dán" onclick="toggleStickerPicker('mini-${c.id}')">☺</div>
+          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('mini-${c.id}')">😀</button>
         </div>
-        ${getStickerPickerHTML(`mini-${c.id}`)}
         <button class="cmt-send-btn" onclick="submitComment('mini-${c.id}', '${c.id}', null)">Gửi</button>
       </div>
+      <div id="sticker-picker-mini-${c.id}" class="sticker-picker"></div>
     </div>
   </div>
 </div>
@@ -1665,168 +2059,136 @@ if(el) el.innerHTML=roots.map(x=>commentHTML(x,data||[])).join("")||`<div style=
 refreshUserBadges();
 }
 
-// Logic rút gọn comment
-function toggleCmtText(btn) {
-  const fullText = btn.previousElementSibling;
-  const shortText = btn.previousElementSibling.previousElementSibling;
-  if(fullText.style.display === "none") {
-    fullText.style.display = "inline";
-    shortText.style.display = "none";
-    btn.textContent = "Ẩn bớt ▴";
-  } else {
-    fullText.style.display = "none";
-    shortText.style.display = "inline";
-    btn.textContent = "Hiển thị ▾";
-  }
-}
+function commentHTML(c, all) {
+  const profile = c._profile || {};
+  const name = c.user_id ? (profile.display_name || "Kẻ Mộng Mơ Vô Danh") : (c.guest_name || "Kẻ Mộng Mơ Vô Danh");
+  const av = c.user_id ? profile.avatar_url : "";
+  let badgeHtml = "";
 
-// Logic rút gọn replies
-function toggleReplies(btn, count) {
-  const restDiv = btn.previousElementSibling;
-  if(restDiv.style.display === "none") {
-    restDiv.style.display = "block";
-    btn.innerHTML = "Ẩn bớt bình luận ▴";
-  } else {
-    restDiv.style.display = "none";
-    btn.innerHTML = `Xem thêm ${count} câu trả lời ▾`;
-  }
-}
-
-function commentHTML(c,all,isReplyContext=false){
-const profile=c._profile||{};
-const name=c.user_id?(profile.display_name||"Kẻ Mộng Mơ Vô Danh"):(c.guest_name||"Kẻ Mộng Mơ Vô Danh");
-const av=c.user_id?profile.avatar_url:"";
-
-let badgeHtml = "";
-if (c.user_id) {
+  if (c.user_id) {
     if (profile.equipped_title === 'diep_khuc') {
-        badgeHtml = `<span class="badge diep-khuc" data-user="${c.user_id}">Điệp Khúc Bất Tận</span>`;
+      badgeHtml = `<span class="badge diep-khuc" data-user="${c.user_id}">Điệp Khúc Bất Tận</span>`;
     } else if (profile.equipped_title === 'none') {
-        badgeHtml = ``; 
+      badgeHtml = ``;
     } else if (profile.bestAffinity) {
-        const best = profile.bestAffinity;
-        const charData = CHARS.find(ch => ch.id === best.char_id) || CHARS[0];
-        const charCleanName = charData.name.split(" (")[0];
-        const [l, cls] = levelOf(best.points || 0);
-        const titleStr = `${l} của ${charCleanName}`;
-        badgeHtml = `<span class="badge ${cls}" data-user="${c.user_id}">${escapeHtml(titleStr)}</span>`;
+      const best = profile.bestAffinity;
+      const charData = CHARS.find(ch => ch.id === best.char_id) || CHARS[0];
+      const charCleanName = charData.name.split(" (")[0];
+      const [l, cls] = levelOf(best.points || 0);
+      badgeHtml = `<span class="badge ${cls}" data-user="${c.user_id}">${escapeHtml(l + " của " + charCleanName)}</span>`;
     } else {
-        const defaultName = CHARS[0].name.split(" (")[0];
-        badgeHtml = `<span class="badge normal" data-user="${c.user_id}">Đã biết của ${defaultName}</span>`;
+      const defaultName = CHARS[0].name.split(" (")[0];
+      badgeHtml = `<span class="badge normal" data-user="${c.user_id}">Đã biết của ${defaultName}</span>`;
     }
-}
+  }
 
-const adminBadge = c.is_admin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : "";
-const frameHtml = profile.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(profile.equipped_frame)}">` : '';
-const avatarInner = av ? `<img class="comment-avatar" style="width:100%;height:100%;" src="${escapeHtml(av)}">` : `<div class="avatar-letter" style="width:100%;height:100%;">${escapeHtml((name||"K")[0].toUpperCase())}</div>`;
-const avatarHtml = `<div class="avatar-wrapper-relative" style="width:36px; height:36px;">${avatarInner}${frameHtml}</div>`;
+  const adminBadge = c.is_admin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : "";
+  const frameHtml = profile.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(profile.equipped_frame)}">` : '';
+  const avatarInner = av ? `<img class="comment-avatar" style="width:100%;height:100%;" src="${escapeHtml(av)}">` : `<div class="avatar-letter" style="width:100%;height:100%;">${escapeHtml((name || "K")[0].toUpperCase())}</div>`;
+  const avatarHtml = `<div class="avatar-wrapper-relative" style="width:36px; height:36px;">${avatarInner}${frameHtml}</div>`;
 
-const isLiked = localStorage.getItem("liked-cmt-" + c.id);
-const heartChar = isLiked ? "♥" : "♡";
-const cachedCmtLikes = localStorage.getItem("count-cmt-" + c.id) || (isLiked ? "1" : "0");
+  const isLiked = localStorage.getItem("liked-cmt-" + c.id);
+  const heartChar = isLiked ? "♥" : "♡";
+  const cachedCmtLikes = localStorage.getItem("count-cmt-" + c.id) || (isLiked ? "1" : "0");
 
-setTimeout(() => {
-    fetch(`${STATS_API}/get/VanillaDaydream_Cmt/${c.id}`).then(r=>r.json()).then(d=>{
-        if(d.value !== undefined){
-            const el = document.getElementById(`cmt-like-count-${c.id}`);
-            if(el) {
-                let finalVal = Math.max(d.value, isLiked ? 1 : 0);
-                el.textContent = finalVal;
-                localStorage.setItem("count-cmt-" + c.id, finalVal);
-            }
+  setTimeout(() => {
+    fetch(`${STATS_API}/get/VanillaDaydream_Cmt/${c.id}`).then(r => r.json()).then(d => {
+      if (d.value !== undefined) {
+        const el = document.getElementById(`cmt-like-count-${c.id}`);
+        if (el) {
+          let finalVal = Math.max(d.value, isLiked ? 1 : 0);
+          el.textContent = finalVal;
+          localStorage.setItem("count-cmt-" + c.id, finalVal);
         }
-    }).catch(()=>{});
-}, 100);
+      }
+    }).catch(() => {});
+  }, 100);
 
-// Xử lý nội dung văn bản dài
-let rawContent = c.content || "";
-let textHtml = "";
-if (rawContent.length > 150) {
-    const shortStr = escapeHtml(rawContent.substring(0, 150)) + "...";
-    const fullStr = escapeHtml(rawContent);
+  // XỬ LÝ TEXT DÀI (Hiển thị / Ẩn bớt)
+  let rawText = escapeHtml(c.content || "");
+  let textHtml = "";
+  if (rawText.length > 150) {
+    let shortText = rawText.substring(0, 150) + "...";
     textHtml = `
-      <span style="display:inline">${shortStr}</span>
-      <span style="display:none">${fullStr}</span>
-      <span onclick="toggleCmtText(this)" style="color:var(--light); font-weight:600; cursor:pointer; margin-left:4px; font-size:0.82rem;">Hiển thị ▾</span>
-    `;
-} else {
-    textHtml = escapeHtml(rawContent);
-}
+      <div class="comment-text" id="text-wrap-${c.id}">
+        <span id="text-short-${c.id}">${shortText}</span>
+        <span id="text-full-${c.id}" style="display:none;">${rawText}</span>
+        <span class="cmt-read-more" id="text-btn-${c.id}" onclick="toggleCmtText('${c.id}')">Hiển thị ▾</span>
+      </div>`;
+  } else {
+    textHtml = `<div class="comment-text">${rawText}</div>`;
+  }
 
-// Xử lý Phản hồi (Replies) - Nếu đang không phải là context của 1 reply đệ quy bên trong `rest-replies`
-let repliesHtml = "";
-if (!isReplyContext) {
-    const childReplies = all.filter(r => r.parent_id === c.id);
-    if (childReplies.length > 0) {
-        repliesHtml += `<div class="reply-list">`;
-        // Luôn hiển thị reply đầu tiên
-        repliesHtml += commentHTML(childReplies[0], all, true); 
-        
-        // Nếu có nhiều hơn 1, gộp phần còn lại vào thẻ div ẩn
-        if (childReplies.length > 1) {
-            const restHtml = childReplies.slice(1).map(r => commentHTML(r, all, true)).join("");
-            repliesHtml += `
-              <div style="display:none">${restHtml}</div>
-              <div onclick="toggleReplies(this, ${childReplies.length - 1})" style="color:var(--blue); font-weight:600; font-size:0.8rem; cursor:pointer; margin-top:5px; margin-left:10px;">Xem thêm ${childReplies.length - 1} câu trả lời ▾</div>
-            `;
-        }
-        repliesHtml += `</div>`;
+  // XỬ LÝ HÌNH ẢNH HOẶC STICKER
+  let imgHtml = "";
+  if (c.image_url) {
+    if (c.image_url.startsWith("images/sticker")) {
+      imgHtml = `<img src="${c.image_url}" style="width: 100px; height: 100px; object-fit: contain; margin-top: 6px; display: block;">`;
+    } else {
+      imgHtml = `<img src="${escapeHtml(c.image_url)}" class="comment-img">`;
     }
-} else {
-    // Nếu là context đệ quy thì chỉ lặp đơn giản (trong trường hợp có reply lồng nhau sâu hơn)
-    const childReplies = all.filter(r => r.parent_id === c.id);
-    if (childReplies.length > 0) {
-        repliesHtml += `<div class="reply-list">${childReplies.map(r => commentHTML(r, all, true)).join("")}</div>`;
+  }
+
+  // XỬ LÝ REPLY (Chỉ hiện 1, giấu phần còn lại)
+  const childReplies = all.filter(r => r.parent_id === c.id);
+  let repliesHtml = "";
+  if (childReplies.length > 0) {
+    repliesHtml += commentHTML(childReplies[0], all); // Luôn hiện cái đầu tiên
+    
+    if (childReplies.length > 1) {
+      const restReplies = childReplies.slice(1).map(r => commentHTML(r, all)).join("");
+      repliesHtml += `
+        <div id="hidden-replies-${c.id}" style="display:none;">${restReplies}</div>
+        <div class="view-more-replies" id="view-replies-btn-${c.id}" onclick="toggleReplies('${c.id}', ${childReplies.length - 1})">Xem thêm ${childReplies.length - 1} câu trả lời ▾</div>
+      `;
     }
-}
+  }
 
-const imgHtml=c.image_url?`<img src="${escapeHtml(c.image_url)}" class="comment-img">`:'';
-
-let rootCharId = c.char_id;
-if (!rootCharId && c.parent_id) {
+  let rootCharId = c.char_id;
+  if (!rootCharId && c.parent_id) {
     let p = all.find(x => x.id === c.parent_id);
     while (p && !rootCharId) {
-        rootCharId = p.char_id;
-        p = all.find(x => x.id === p.parent_id);
+      rootCharId = p.char_id;
+      p = all.find(x => x.id === p.parent_id);
     }
-}
-const safeCharId = rootCharId ? `'${rootCharId}'` : 'null';
+  }
+  const safeCharId = rootCharId ? `'${rootCharId}'` : 'null';
 
-return `<div class="comment">
-<div>${avatarHtml}</div>
-<div style="flex:1; min-width:0;">
-<div class="comment-body">
-<div class="comment-head"><span class="comment-name">${escapeHtml(name)}</span> ${badgeHtml}</div>
-${adminBadge}
-<div class="comment-text">${textHtml}</div>
-${imgHtml}
-<div class="comment-time">${formatDate(c.created_at)}</div>
-<div class="comment-tools">
-<button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked?'liked':''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">${cachedCmtLikes}</span></button>
-<button class="cmt-action-btn" onclick="toggleReplyBox('${c.id}')">💬 Trả lời</button>
-${isAdmin?`<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>`:""}
-</div>
-</div>
-</div>
-</div>
-<div id="reply-box-${c.id}" class="inline-reply-box">
-  ${!currentUser ? `<input id="nick-reply-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">` : ''}
-  <div class="cmt-box-wrapper">
-    <textarea id="input-reply-${c.id}" class="cmt-textarea" rows="1" placeholder="Viết phản hồi dưới tên ${escapeHtml(currentProfile?.display_name || 'Kẻ Mộng Mơ Vô Danh')}..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
-    <div id="preview-reply-${c.id}" class="cmt-preview-area"></div>
-    <div class="cmt-action-bar">
-      <div style="display:flex; gap:8px;">
-        <label class="cmt-camera-btn" title="Thêm ảnh">
-          📷<input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')">
-        </label>
-        <div class="cmt-sticker-btn" title="Thêm nhãn dán" onclick="toggleStickerPicker('reply-${c.id}')">☺</div>
+  return `<div class="comment">
+    <div>${avatarHtml}</div>
+    <div style="flex:1">
+      <div class="comment-body">
+        <div class="comment-head"><span class="comment-name">${escapeHtml(name)}</span> ${badgeHtml}</div>
+        ${adminBadge}
+        ${textHtml}
+        ${imgHtml}
+        <div class="comment-time">${formatDate(c.created_at)}</div>
+        <div class="comment-tools">
+          <button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked ? 'liked' : ''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">${cachedCmtLikes}</span></button>
+          <button class="cmt-action-btn" onclick="toggleReplyBox('${c.id}')">💬 Trả lời</button>
+          ${isAdmin ? `<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>` : ""}
+        </div>
       </div>
-      ${getStickerPickerHTML(`reply-${c.id}`)}
-      <button class="cmt-send-btn" onclick="submitComment('reply-${c.id}', ${safeCharId}, '${c.id}')">Gửi</button>
     </div>
   </div>
-</div>
-${repliesHtml}`;
+  <div id="reply-box-${c.id}" class="inline-reply-box">
+    ${!currentUser ? `<input id="nick-reply-${c.id}" class="nickname-input" placeholder="Danh xưng">` : ''}
+    <div class="cmt-box-wrapper">
+      <textarea id="input-reply-${c.id}" class="cmt-textarea" rows="1" placeholder="Viết phản hồi..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
+      <div id="preview-reply-${c.id}" class="cmt-preview-area"></div>
+      
+      <div class="cmt-action-bar">
+        <div style="display:flex; gap:8px;">
+          <label class="cmt-camera-btn" title="Thêm ảnh">📷<input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')"></label>
+          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('reply-${c.id}')">😀</button>
+        </div>
+        <button class="cmt-send-btn" onclick="submitComment('reply-${c.id}', ${safeCharId}, '${c.id}')">Gửi</button>
+      </div>
+      <div id="sticker-picker-reply-${c.id}" class="sticker-picker"></div>
+
+    </div>
+  </div>
+  <div class="reply-list">${repliesHtml}</div>`;
 }
 
 function toggleReplyBox(id){
@@ -1858,10 +2220,11 @@ async function submitComment(inputId, charId, parentId) {
 
   const textarea = document.getElementById("input-" + inputId);
   const content = textarea ? textarea.value.trim() : "";
-  const imageFile = commentImages[inputId];
-  const stickerUrl = commentStickers[inputId];
   
-  if (!content && !imageFile && !stickerUrl) return toast("Hãy viết gì đó hoặc đính kèm ảnh/nhãn dán nhé.");
+  const imageFile = commentImages[inputId];
+  const selectedSticker = selectedStickersMap[inputId]; // Biến lấy link sticker
+  
+  if (!content && !imageFile && !selectedSticker) return toast("Hãy viết gì đó hoặc đính kèm ảnh/nhãn dán nhé.");
 
   let guestName = null;
   if (!currentUser) {
@@ -1870,6 +2233,7 @@ async function submitComment(inputId, charId, parentId) {
     if (!guestName) guestName = "Kẻ Mộng Mơ Vô Danh";
   }
 
+  // Tạm khóa nút Gửi
   const sendBtn = textarea.closest('.cmt-box-wrapper').querySelector('.cmt-send-btn');
   let originalBtnText = "Gửi";
   if (sendBtn) {
@@ -1880,10 +2244,14 @@ async function submitComment(inputId, charId, parentId) {
 
   try {
     let uploadedImgUrl = null;
+    
+    // Nếu có up file ảnh, đẩy lên supabase
     if (imageFile) {
       uploadedImgUrl = await uploadAvatar(imageFile);
-    } else if (stickerUrl) {
-      uploadedImgUrl = stickerUrl; // Sử dụng trực tiếp URL của sticker
+    } 
+    // Nếu bấm chọn sticker, gán thẳng link sticker vào url ảnh
+    else if (selectedSticker) {
+      uploadedImgUrl = selectedSticker; 
     }
 
     const { error } = await db.from("comments").insert({
@@ -1898,11 +2266,15 @@ async function submitComment(inputId, charId, parentId) {
 
     if (error) throw error;
 
+    // Reset Form
     textarea.value = "";
     textarea.style.height = '';
-    removeCommentImage(inputId);
+    removeCommentImage(inputId); // Xóa ảnh file
+    if(typeof removeSticker === "function") removeSticker(inputId); // Xóa sticker preview
+    
     if(parentId) toggleReplyBox(parentId);
 
+    // Tặng thưởng nếu có đăng nhập
     if (currentUser) {
       if(charId && !parentId) await addAffinity(charId, 20, "comment");
       await rewardSnowflakes(5);
@@ -1911,6 +2283,7 @@ async function submitComment(inputId, charId, parentId) {
       toast("Đã gửi bình luận!");
     }
 
+    // Tải lại vùng cmt
     if (charId) {
       await loadMiniComments(charId);
       if (currentChar && currentChar.id === charId) await loadAppComments(charId);
@@ -2047,6 +2420,7 @@ async function refreshUserBadges(){
 
   let hideBadge = false;
 
+  // Ghi đè nếu user chọn danh hiệu tùy chỉnh hoặc ẩn
   if(currentProfile && currentProfile.equipped_title) {
     if (currentProfile.equipped_title === 'none') {
         hideBadge = true;
@@ -2055,6 +2429,7 @@ async function refreshUserBadges(){
     }
   }
 
+  // Cập nhật tất cả các badge trong phần bình luận
   document.querySelectorAll(`[data-user="${currentUser.id}"]`).forEach(el=>{
     if (hideBadge) {
         el.style.display = "none";
@@ -2065,6 +2440,7 @@ async function refreshUserBadges(){
     }
   });
 
+  // Cập nhật badge ở phần Profile
   const g=document.getElementById("globalBadge");
   if(g) {
       if (hideBadge) {
@@ -2073,115 +2449,6 @@ async function refreshUserBadges(){
           g.innerHTML=`<span class="badge ${cls}">${escapeHtml(title)}</span>`;
       }
   }
-}
-
-// Chuyển Tab trong App Detail
-function switchAppTab(tab) {
-  document.querySelectorAll('.app-tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.app-tab-content').forEach(c => c.classList.remove('active'));
-  
-  const targetBtn = document.querySelector(`.app-tab-btn[onclick*="${tab}"]`);
-  if (targetBtn) targetBtn.classList.add('active');
-  
-  const targetContent = document.getElementById('tab-' + tab);
-  if (targetContent) targetContent.classList.add('active');
-  
-  if (tab === 'leaderboard' && currentChar) {
-    loadLeaderboard(currentChar.id);
-  }
-}
-
-// Tải Bảng xếp hạng Hảo cảm
-async function loadLeaderboard(charId) {
-  const container = document.getElementById("tab-leaderboard");
-  container.innerHTML = '<div style="text-align:center; padding: 25px; color:#8797a9; font-size:0.9rem;">Đang tải dữ liệu kết nối linh hồn...</div>';
-  
-  // Lấy Top 10 Hảo cảm
-  const { data: affs, error } = await db.from('affinities').select('user_id, points').eq('char_id', charId).order('points', { ascending: false }).limit(10);
-  
-  if (error || !affs || affs.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding: 25px; color:#8797a9; font-style:italic;">Chưa có dữ liệu liên kết nào với nhân vật này.</div>';
-    return;
-  }
-  
-  // Lấy Profile tương ứng
-  const userIds = affs.map(a => a.user_id);
-  const { data: profs } = await db.from('profiles').select('id, display_name, avatar_url, equipped_frame').in('id', userIds);
-  
-  let top10 = affs.map(a => {
-    const p = profs?.find(x => x.id === a.user_id) || {};
-    return { 
-      ...a, 
-      name: p.display_name || "Kẻ Mộng Mơ", 
-      avatar: p.avatar_url || "", 
-      frame: p.equipped_frame || "" 
-    };
-  });
-  
-  // Tách Top 3 và Phần còn lại
-  const top3 = top10.slice(0, 3);
-  const restList = top10.slice(3);
-  
-  let html = `<div class="lb-top3-container">`;
-  
-  // Hàm render card Top 3
-  const renderTopCard = (user, rankIndex) => {
-    if(!user) return `<div class="lb-card" style="visibility:hidden"></div>`;
-    const rankNum = rankIndex + 1;
-    let crownIcon = rankNum === 1 ? '👑' : rankNum === 2 ? '🥈' : '🥉';
-    const avLetter = user.name.charAt(0).toUpperCase();
-    const avHtml = user.avatar 
-        ? `<img src="${escapeHtml(user.avatar)}" style="width:100%;height:100%;">` 
-        : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem;border-radius:50%;">${avLetter}</div>`;
-    const frameHtml = user.frame ? `<img class="frame-overlay" src="${escapeHtml(user.frame)}">` : '';
-
-    return `
-      <div class="lb-card rank-${rankNum}">
-        <div class="lb-rank-icon">${crownIcon}</div>
-        <div class="lb-avatar-wrap">
-          ${avHtml}
-          ${frameHtml}
-        </div>
-        <div class="lb-name">${escapeHtml(user.name)}</div>
-        <div class="lb-points">🤍 ${user.points}</div>
-      </div>
-    `;
-  };
-
-  // Trật tự Flexbox Order: Hạng 2 (Trái) - Hạng 1 (Giữa) - Hạng 3 (Phải)
-  // Xử lý cẩn thận nếu mảng không đủ 3 người
-  let rank1Html = renderTopCard(top3[0], 0);
-  let rank2Html = top3[1] ? renderTopCard(top3[1], 1) : "";
-  let rank3Html = top3[2] ? renderTopCard(top3[2], 2) : "";
-
-  html += rank2Html + rank1Html + rank3Html;
-  html += `</div>`;
-  
-  // Render danh sách Top 4-10
-  if (restList.length > 0) {
-    html += `<div style="margin-top:10px;">`;
-    html += restList.map((user, index) => {
-      const rankNum = index + 4;
-      const avLetter = user.name.charAt(0).toUpperCase();
-      const avHtml = user.avatar 
-          ? `<img src="${escapeHtml(user.avatar)}" class="lb-list-avatar">` 
-          : `<div class="lb-list-avatar" style="background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1rem;">${avLetter}</div>`;
-      
-      return `
-        <div class="lb-list-item">
-          <div class="lb-list-rank">${rankNum}</div>
-          ${avHtml}
-          <div class="lb-list-info">
-            <div class="lb-list-name">${escapeHtml(user.name)}</div>
-          </div>
-          <div class="lb-list-points">🤍 ${user.points}</div>
-        </div>
-      `;
-    }).join("");
-    html += `</div>`;
-  }
-  
-  container.innerHTML = html;
 }
 
 async function openAppDetail(id){
@@ -2198,6 +2465,7 @@ document.getElementById("appTags").innerHTML=c.tags.map(t=>`<span class="tag" on
 
 document.getElementById("appProfile").innerHTML=c.profile?escapeHtml(c.profile):`<span style="color:#a0acb9;font-style:italic">Chưa có thông tin công khai.</span>`;
 
+// --- ĐỀ XUẤT NGẪU NHIÊN NHÂN VẬT ---
 let recommendList = CHARS.filter(x => x.id !== id).sort(() => 0.5 - Math.random()).slice(0, 5);
 document.getElementById("recommendRow").innerHTML = recommendList.map(x => {
   const clickAction = `openAppDetail('${x.id}')`;
@@ -2209,6 +2477,7 @@ document.getElementById("recommendRow").innerHTML = recommendList.map(x => {
   </div>`;
 }).join("");
 
+// --- GẮN PASS VÀO NÚT GGAI (NẾU CÓ PASS) ---
 let linksHtml = "";
 if(c.doki) linksHtml += `<a class="link-doki" href="${c.doki}" target="_blank" rel="noopener" onclick="clickJourney('${id}')">Doki</a>`;
 if(c.ggList) {
@@ -2234,17 +2503,14 @@ document.getElementById("appCommentForm").innerHTML = `
         <label class="cmt-camera-btn" title="Thêm ảnh">
           📷<input type="file" id="file-app-${id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'app-${id}')">
         </label>
-        <div class="cmt-sticker-btn" title="Thêm nhãn dán" onclick="toggleStickerPicker('app-${id}')">☺</div>
+        <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('app-${id}')">😀</button>
       </div>
-      ${getStickerPickerHTML(`app-${id}`)}
       <button class="cmt-send-btn" onclick="submitComment('app-${id}', '${id}', null)">Gửi</button>
     </div>
+    <div id="sticker-picker-app-${id}" class="sticker-picker"></div>
   </div>`;
 
 await refreshAffinity(id);
-
-// Đảm bảo mở lại tab Chi tiết mỗi khi click vào Char
-switchAppTab('detail');
 
 document.getElementById("appView").classList.add("show");
 document.querySelector('.glass-action-bar').style.display = 'none';
@@ -2283,7 +2549,7 @@ let currentR21Url = null;
 
 function openR21ForLink(id, url) {
   currentR21 = id;
-  currentR21Url = url; 
+  currentR21Url = url; // Lưu lại link ggAI để mở sau khi nhập đúng
   document.getElementById("r21Input").value = "";
   document.getElementById("r21Error").style.display = "none";
   document.getElementById("r21Box").classList.remove("shake");
@@ -2298,6 +2564,7 @@ function verifyR21() {
 
   if(inputVal === c.pass){
     closeModal("r21Modal");
+    // Nhập đúng thì mở tab ggAI
     window.open(currentR21Url, "_blank"); 
   } else {
     err.style.display="block";
@@ -2360,6 +2627,8 @@ let allMails = [];
 let readMails = [];
 let currentMailTab = 'system';
 
+// 1. HÀM CẬP NHẬT CHẤM ĐỎ VÀ SỐ LƯỢNG THƯ CHƯA ĐỌC (MỚI THÊM)
+  // --- HỆ THỐNG CHẤM ĐỎ VẬT PHẨM MỚI ---
 function getNewItems() {
     if(!currentUser) return {frames: [], titles: []};
     return JSON.parse(localStorage.getItem('new_items_' + currentUser.id) || '{"frames":[], "titles":[]}');
@@ -2377,7 +2646,7 @@ function removeNewItem(type, id, dotElement) {
     items[type] = items[type].filter(x => x !== id);
     localStorage.setItem('new_items_' + currentUser.id, JSON.stringify(items));
     updateEditProfileBadge();
-    if(dotElement) dotElement.style.display = 'none'; 
+    if(dotElement) dotElement.style.display = 'none'; // Tắt chấm đỏ ngay khi bấm
 }
 function updateEditProfileBadge() {
     const badge = document.getElementById("editProfileBadge");
@@ -2392,7 +2661,7 @@ function updateEditProfileBadge() {
     const titleDot = document.getElementById("tab-dot-titles");
     if(titleDot) titleDot.style.display = items.titles.length > 0 ? "inline-block" : "none";
 }
-
+// -------------------------------------
 function updateMailBadge() {
   const badge = document.getElementById("mailBadge");
   const dotSys = document.getElementById("dot-sys-mail");
@@ -2410,9 +2679,11 @@ function updateMailBadge() {
   if (dotChar) dotChar.style.display = unreadChar > 0 ? "block" : "none";
 }
 
+// 2. HÀM MỞ HÒM THƯ (MỚI THÊM)
 function openMailbox() {
   switchMailTab(currentMailTab || 'system');
   
+  // Hiển thị công cụ soạn thư cho Admin
   const adminTools = document.getElementById("adminMailTools");
   if (adminTools) {
     if (isAdmin) {
@@ -2422,6 +2693,7 @@ function openMailbox() {
     }
   }
 
+  // Ẩn chi tiết thư cũ
   const mailDetail = document.getElementById("mailDetail");
   if (mailDetail) mailDetail.style.display = "none";
   currentOpenMailId = null;
@@ -2429,6 +2701,7 @@ function openMailbox() {
   openModal("mailboxModal");
 }
 
+// 3. HÀM CHUYỂN ĐỔI TAB TRONG HÒM THƯ (MỚI THÊM)
 function switchMailTab(tab) {
   currentMailTab = tab;
   document.getElementById("tab-sys-mail")?.classList.toggle("active", tab === 'system');
@@ -2468,6 +2741,7 @@ async function loadMailbox() {
   allMails = (data || []).map(m => {
     try { 
       const content = JSON.parse(m.content); 
+      // Sửa lỗi 3: Phân loại theo người gửi. Yuna => admin (Thư hệ thống), ngược lại => character (Thư nhân vật)
       const mailType = content.sender === "Yuna" ? 'admin' : 'character';
       return { id: m.id, ...content, time: m.created_at, type: mailType }; 
     } 
@@ -2482,16 +2756,17 @@ async function loadMailbox() {
   if (currentUser) {
     const { count } = await db.from("comments").select("*", { count: 'exact', head: true }).eq("user_id", currentUser.id);
     if (count >= 50) {
-      allMails.push({ 
+      allMails.push({ // Dùng push thay vì unshift để có thể sort lại
         id: 'auto_reward_50', 
         title: "Phần thưởng Tri Ân từ Tuyết Trắng", 
         sender: "Yuna", 
-        time: "2024-01-01T00:00:00.000Z", 
+        time: "2024-01-01T00:00:00.000Z", // Sửa lỗi 2: Fix thời gian cũ để không trồi lên đầu bảng
         type: 'reward',
         body: "Thân gửi Kẻ Mộng Mơ vừa đi qua bão tuyết,\n\nGiữa vạn dặm sương mù và cái lạnh khắc nghiệt của mùa đông, bạn không chỉ là một lữ khách ghé ngang, mà đã chọn dừng bước để sưởi ấm cho vùng đất này. Từng dấu chân kiên nhẫn bạn để lại trên nền tuyết trắng, từng sự đồng hành thầm lặng đã hòa quyện lại, kết tinh rực rỡ thành 'Điệp Khúc Bất Tận'.\n\nTrong bất kỳ bản tình ca nào, điệp khúc luôn là giai điệu da diết nhất và vương vấn mãi trong tâm trí. Danh hiệu này chính là sự tri ân chân thành nhất cho ngọn lửa bạn đã thắp lên, xua tan đi màn đêm cô độc và giữ cho những giấc mơ của chúng ta không bao giờ bị lãng quên.\n\nCảm ơn bạn vì đã kiên trì đồng hành cùng Bản tình ca ngày đông. Miễn là bạn còn mơ mộng, bản tình ca này sẽ vì bạn mà mãi mãi cất lời."
       });
     }
   }
+  // Sắp xếp lại toàn bộ thư theo thời gian (từ mới nhất đến cũ nhất)
   allMails.sort((a, b) => new Date(b.time) - new Date(a.time));
   updateMailBadge();
 }
@@ -2887,6 +3162,7 @@ function previewNewAvatar(e) {
   const newName = document.getElementById("editDisplayName").value.trim();
   if (!newName) return toast("Biệt danh không được để trống!");
 
+  // Hiển thị trạng thái đang tải trên nút bấm
   const btn = document.querySelector("#editProfileModal .auth-submit");
   if(btn) {
     btn.textContent = "Đang lưu...";
@@ -2895,9 +3171,13 @@ function previewNewAvatar(e) {
 
   try {
     let newAvatarUrl = currentProfile?.avatar_url || null;
+    
+    // Nếu người dùng có upload ảnh mới
     if (tempAvatarFile) {
       newAvatarUrl = await uploadAvatar(tempAvatarFile);
     }
+
+    // BẮT BUỘC DÙNG UPSERT: Tránh lỗi người dùng không tồn tại trong bảng profiles
     const { error } = await db.from("profiles").upsert({
       id: currentUser.id,
       display_name: newName,
@@ -2907,6 +3187,8 @@ function previewNewAvatar(e) {
     });
 
     if (error) throw error;
+
+    // Cập nhật giao diện ngay lập tức mà không cần F5
     if (currentProfile) {
       currentProfile.display_name = newName;
       currentProfile.avatar_url = newAvatarUrl;
@@ -2917,6 +3199,7 @@ function previewNewAvatar(e) {
     toast("✨ Cập nhật thông tin thành công!");
     closeModal("editProfileModal");
     
+    // Tải lại các thành phần giao diện
     renderAuth();
     refreshUserBadges();
     renderCards();
@@ -2927,6 +3210,7 @@ function previewNewAvatar(e) {
     console.error("Lỗi Supabase:", err);
     toast("Lỗi khi lưu: " + err.message);
   } finally {
+    // Trả lại trạng thái nút bấm
     if(btn) {
       btn.textContent = "Lưu";
       btn.disabled = false;
@@ -2978,6 +3262,7 @@ async function openEditProfile() {
   }).join("");
   grid.innerHTML = framesHtml;
 
+// Lấy dữ liệu điểm hảo cảm thật sự từ Database
   let defaultAffinityTitle = "Đã biết của " + CHARS[0].name.split(" (")[0];
   let defaultAffinityCls = "normal";
 
@@ -3012,3 +3297,484 @@ async function openEditProfile() {
   ownedT.forEach(tid => {
     if(allTitles[tid]) {
       const isNew = newItems.titles.includes(tid);
+      titlesHtml += `<div class="title-item ${tempEquippedTitle === tid ? 'selected' : ''}" onclick="selectTitle('${tid}', this, '${tid}')">
+        <div style="flex: 1; display: flex; justify-content: center; position:relative;">
+          ${isNew ? '<div class="item-new-dot" style="position:relative; right:auto; top:auto; margin-right:10px;"></div>' : ''}
+          <span class="badge ${allTitles[tid].cls}" style="font-size:0.8rem; padding: 6px 12px;">${allTitles[tid].name}</span>
+        </div>
+      </div>`;
+    }
+  });
+  titlesList.innerHTML = titlesHtml;
+  
+  document.querySelector('.edit-tabs').innerHTML = `
+    <div class="edit-tab active" onclick="switchEditTab('frames')">Khung Avatar <span class="tab-new-dot" id="tab-dot-frames"></span></div>
+    <div class="edit-tab" onclick="switchEditTab('titles')">Danh Hiệu <span class="tab-new-dot" id="tab-dot-titles"></span></div>
+  `;
+  updateEditProfileBadge();
+
+  switchEditTab('frames'); 
+  openModal("editProfileModal");
+}
+
+function selectFrame(src, el, id) {
+  tempEquippedFrame = src;
+  document.querySelectorAll(".edit-frame-item").forEach(item => item.classList.remove("selected"));
+  el.classList.add("selected");
+  const preview = document.getElementById("editPreviewFrame");
+  if(src) { preview.src = src; preview.style.display = "block"; }
+  else { preview.style.display = "none"; }
+  if(id) removeNewItem('frames', id, el.querySelector('.item-new-dot'));
+}
+
+function selectTitle(tid, el, id) {
+  tempEquippedTitle = tid;
+  document.querySelectorAll(".title-item").forEach(item => item.classList.remove("selected"));
+  el.classList.add("selected");
+  if(id) removeNewItem('titles', id, el.querySelector('.item-new-dot'));
+}
+
+// Ghi đè lại để fix click ngoài của modal chúc mừng
+window.addEventListener('click', function(e) {
+  const cm = document.getElementById('congratsModal');
+  if (e.target === cm) cm.style.display = 'none';
+});
+
+async function setup(){
+  createSnow(); 
+
+  const urlStr = window.location.hash + window.location.search;
+  if (urlStr.includes("access_token") || urlStr.includes("code=") || urlStr.includes("error_description")) {
+    sessionStorage.setItem("dream_entered", "true"); // Tự động xác nhận đã qua intro
+    showView('auth'); // Mở sẵn thẻ Đăng nhập / Profile
+  }
+
+  if (sessionStorage.getItem("dream_entered") === "true") {
+    document.getElementById("dream-intro").classList.add("hide");
+  }
+
+  renderCards();
+
+  initAuth();
+  initSpotify();
+  loadJournal();
+  initRandomNotification();
+  initRealtimeSubscriptions();
+
+  fetch(`${STATS_API}/hit/${VISITOR_NS}/total_visits`)
+    .then(r => r.json())
+    .then(vData => {
+      const el = document.getElementById("total-visitor-count");
+      if (el) el.textContent = vData.value ?? 1;
+    })
+    .catch(() => {
+      const el = document.getElementById("total-visitor-count");
+      if (el) el.textContent = "100+";
+    });
+
+  loadPublicStats();
+  loadMailbox(); // Tải hộp thư tự động
+}
+setup();
+  // --- LOGIC ĐÓNG/MỞ DROPDOWN MENU TÙY CHỈNH ---
+function toggleMenuDropdown(e, btn) {
+    e.stopPropagation(); // Ngăn chặn sự kiện click lan ra ngoài
+    const content = btn.nextElementSibling;
+    const isCurrentlyShowing = content.classList.contains('show');
+
+    // 1. Đóng tất cả các menu khác đang mở (nếu có)
+    document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
+
+    // 2. Nếu menu này chưa mở, thì mở nó lên
+    if (!isCurrentlyShowing) {
+        content.classList.add('show');
+    }
+}
+
+// 3. Nếu người dùng click ra vùng trống bất kỳ trên màn hình -> Đóng toàn bộ menu
+document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
+});
+
+  // ==========================================
+// TÍNH NĂNG KHÚC NGUYỆN CẦU (ẢNH TĨNH + HIỆU ỨNG KAOMOJI)
+// ==========================================
+let isWishing = false;
+let todayWishCount = 0;
+let earnedSnowflakes = 0;
+let snowInterval; // Biến lặp tuyết rơi
+
+async function checkWishLimit() {
+  const todayStr = getLocalYYYYMMDD();
+  if (currentProfile.last_wish_date !== todayStr) {
+    todayWishCount = 0; 
+  } else {
+    todayWishCount = currentProfile.wish_count || 0;
+  }
+}
+
+function openWishModal() {
+  if (!currentUser) {
+    toast("Bạn cần đăng nhập để Cầu Nguyện!");
+    return showView('auth');
+  }
+  
+  checkWishLimit().then(() => {
+    document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+    document.getElementById('wishImage').className = "wish-img-float"; // Bật hiệu ứng nhấp nhô
+    document.getElementById('wishParticleContainer').innerHTML = ""; // Xóa tuyết cũ
+    openModal('wishModal');
+  });
+}
+
+function closeWishModal() {
+  if (isWishing) return; 
+  closeModal('wishModal');
+}
+
+async function doWish() {
+  if (isWishing) return;
+  if (todayWishCount >= 3) {
+    toast("Hôm nay bạn đã hết lượt cầu nguyện. Hãy quay lại vào ngày mai nhé!");
+    return;
+  }
+
+  isWishing = true;
+  document.getElementById('wishBtn').disabled = true;
+  document.getElementById('wishBtn').innerText = "Đang cầu nguyện...";
+
+  // 1. Đổi class ảnh: Tắt nhấp nhô, bật hiệu ứng Lắc Lư
+  const img = document.getElementById('wishImage');
+  img.className = "wish-img-shake";
+
+  // 2. Cho tuyết rơi liên tục (mỗi 80 mili-giây tạo ra 1 bông)
+  snowInterval = setInterval(spawnKaomojiSnowflake, 80);
+
+  // 3. Random số lượng bông tuyết
+  earnedSnowflakes = getRandomWishAmount();
+
+// 4. Chờ 1.4 giây cho lắc lư xong rồi hiện kết quả
+  setTimeout(async () => {
+    // Ngừng rải tuyết và xóa tuyết cũ
+    clearInterval(snowInterval);
+    document.getElementById('wishParticleContainer').innerHTML = ""; 
+    
+    img.className = "wish-img-float"; // Trả lại hiệu ứng nhấp nhô
+    await saveWishResult(earnedSnowflakes);
+    
+    // Thêm dấu + đằng trước số lượng
+    document.getElementById('wishAmount').innerText = '+' + earnedSnowflakes;
+    
+    // Khởi động Modal
+    document.getElementById('wishResultModal').classList.add('show');
+    
+    // Bật hiệu ứng bụi vàng li ti
+    startGoldDustEffect();
+  }, 1400);
+}
+
+// Hàm rải ký tự bông tuyết rơi thẳng xuống có to nhỏ ngẫu nhiên
+function spawnKaomojiSnowflake() {
+  const container = document.getElementById('wishParticleContainer');
+  if(!container) return;
+
+  let p = document.createElement('div');
+  p.className = 'wish-particle';
+  p.innerText = '❄';
+  
+  // 1. Tạo độ to nhỏ ngẫu nhiên bằng font-size thay vì scale (để fix lỗi Safari/Mobile)
+  let scale = 0.6 + Math.random() * 0.9;
+  p.style.fontSize = (24 * scale) + 'px'; // 24px là kích thước gốc
+
+  // 2. Vị trí X ngang ngẫu nhiên gán thẳng vào thuộc tính left
+  let xOffset = Math.random() * 130 - 65; 
+  p.style.left = `calc(50% + ${xOffset}px)`;
+  p.style.top = '15%'; // Bắt đầu từ phía trên ảnh
+
+  container.appendChild(p);
+
+  // Tự động xóa bông tuyết khi rơi xong
+  setTimeout(() => {
+    if(p.parentNode) p.parentNode.removeChild(p);
+  }, 1400);
+}
+
+function getRandomWishAmount() {
+  const rand = Math.random() * 100;
+  if (rand < 0.1) return 100;                 
+  if (rand < 0.4) return 50;                  
+  if (rand < 0.9) return 20;                  
+  if (rand < 1.6) return 10;                  
+  if (rand < 16.6) return 5;                  
+  if (rand < 50.0) return 2;                  
+  return 1;                                   
+}
+
+function closeWishResult() {
+  document.getElementById('wishResultModal').classList.remove('show');
+  isWishing = false;
+  document.getElementById('wishBtn').disabled = false;
+  document.getElementById('wishBtn').innerText = "Cầu Nguyện";
+  document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
+
+    // Dừng bụi vàng rơi
+  stopGoldDustEffect();
+  
+  // Hiện thông báo nhỏ để báo đã cộng dồn bông tuyết thành công
+  toast("✨ Đã cất giữ " + earnedSnowflakes + "❄️ vào túi!");
+}
+
+async function saveWishResult(amount) {
+  const todayStr = getLocalYYYYMMDD();
+  todayWishCount++; 
+  let newSnowflakes = (currentProfile.snowflakes || 0) + amount; 
+
+  const {error} = await db.from("profiles").update({
+    last_wish_date: todayStr,
+    wish_count: todayWishCount,
+    snowflakes: newSnowflakes
+  }).eq("id", currentUser.id);
+
+  if(!error) {
+    currentProfile.last_wish_date = todayStr;
+    currentProfile.wish_count = todayWishCount;
+    currentProfile.snowflakes = newSnowflakes;
+    
+    const shopSnowText = document.getElementById("shop-snowflakes");
+    if(shopSnowText) shopSnowText.textContent = newSnowflakes;
+    renderCheckin();
+  } else {
+    toast("Lỗi lưu kết quả cầu nguyện!");
+  }
+}
+
+// --- HIỆU ỨNG BỤI VÀNG RƠI LI TI ---
+let goldDustInterval;
+
+// Hàm tạo 1 hạt bụi
+function createDustParticle(container) {
+    let dust = document.createElement('div');
+    dust.className = 'gold-dust';
+    
+    // Kích thước li ti (1px đến 3px)
+    let size = Math.random() * 2.5 + 1; 
+    dust.style.width = size + 'px';
+    dust.style.height = size + 'px';
+    
+    dust.style.left = Math.random() * 100 + 'vw';
+    dust.style.top = (Math.random() * 30 - 10) + 'vh'; // Hiện từ trên cao một chút để chảy xuống
+    
+let duration = Math.random() * 15 + 15;
+    dust.style.animationDuration = duration + 's';
+    
+    container.appendChild(dust);
+    
+    setTimeout(() => {
+      if(dust.parentNode) dust.parentNode.removeChild(dust);
+    }, duration * 1000);
+}
+
+function startGoldDustEffect() {
+  const container = document.getElementById('goldDustContainer');
+  if (!container) return;
+  container.innerHTML = ""; 
+  
+  // BÙNG NỔ NGAY LẬP TỨC 60 HẠT BỤI KHI VỪA HIỆN KẾT QUẢ
+  for(let i = 0; i < 60; i++) {
+      createDustParticle(container);
+  }
+  
+  // Sau đó tiếp tục đẻ thêm bụi duy trì
+  goldDustInterval = setInterval(() => {
+    createDustParticle(container);
+  }, 30);
+}
+function stopGoldDustEffect() {
+  clearInterval(goldDustInterval);
+  const container = document.getElementById('goldDustContainer');
+  if (container) container.innerHTML = "";
+}
+
+  // ==========================================
+// LOGIC STICKER, RÚT GỌN CMT, TABS & BẢNG XẾP HẠNG
+// ==========================================
+
+// 1. LOGIC STICKER (15 ảnh sticker bạn tự lưu tên từ sticker1.png đến sticker15.png trong thư mục images)
+const STICKERS = Array.from({length: 15}, (_, i) => `images/sticker${i+1}.png`);
+const selectedStickersMap = {};
+
+function toggleStickerPicker(inputId) {
+  const picker = document.getElementById("sticker-picker-" + inputId);
+  if (!picker) return;
+  
+  if (picker.classList.contains("show")) {
+    picker.classList.remove("show");
+  } else {
+    // Render sticker nếu chưa render
+    if (picker.innerHTML === "") {
+      picker.innerHTML = STICKERS.map(url => 
+        `<img src="${url}" class="sticker-item" onclick="selectSticker('${inputId}', '${url}')">`
+      ).join("");
+    }
+    picker.classList.add("show");
+  }
+}
+
+function selectSticker(inputId, url) {
+  // Xóa ảnh file nếu có
+  removeCommentImage(inputId);
+  
+  selectedStickersMap[inputId] = url;
+  const previewBox = document.getElementById("preview-" + inputId);
+  if (previewBox) {
+    previewBox.innerHTML = `
+      <div class="sticker-selected-preview">
+        <img src="${url}">
+        <button class="sticker-remove-btn" onclick="removeSticker('${inputId}')">✕</button>
+      </div>`;
+  }
+  document.getElementById("sticker-picker-" + inputId).classList.remove("show");
+}
+
+function removeSticker(inputId) {
+  delete selectedStickersMap[inputId];
+  const previewBox = document.getElementById("preview-" + inputId);
+  if (previewBox && !commentImages[inputId]) {
+    previewBox.innerHTML = "";
+  }
+}
+
+// 2. LOGIC RÚT GỌN CHỮ VÀ BÌNH LUẬN
+function toggleCmtText(id) {
+  const shortEl = document.getElementById(`text-short-${id}`);
+  const fullEl = document.getElementById(`text-full-${id}`);
+  const btn = document.getElementById(`text-btn-${id}`);
+  
+  if (fullEl.style.display === "none") {
+    shortEl.style.display = "none";
+    fullEl.style.display = "inline";
+    btn.textContent = "Ẩn bớt ▴";
+  } else {
+    shortEl.style.display = "inline";
+    fullEl.style.display = "none";
+    btn.textContent = "Hiển thị ▾";
+  }
+}
+
+function toggleReplies(id, count) {
+  const hiddenDiv = document.getElementById(`hidden-replies-${id}`);
+  const btn = document.getElementById(`view-replies-btn-${id}`);
+  
+  if (hiddenDiv.style.display === "none") {
+    hiddenDiv.style.display = "block";
+    btn.textContent = "Ẩn bớt bình luận ▴";
+  } else {
+    hiddenDiv.style.display = "none";
+    btn.textContent = `Xem thêm ${count} câu trả lời ▾`;
+  }
+}
+
+// 3. LOGIC TABS CHI TIẾT & BẢNG XẾP HẠNG
+function switchAppTab(tabId) {
+  document.querySelectorAll('.app-tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.app-tab-content').forEach(content => content.classList.remove('active'));
+  
+  document.getElementById(`tabBtn-${tabId}`).classList.add('active');
+  document.getElementById(`app-tab-${tabId}`).classList.add('active');
+
+  if (tabId === 'leaderboard' && currentChar) {
+    loadLeaderboard(currentChar.id);
+  }
+}
+
+// Ghi đè hàm openAppDetail để luôn mở tab 'details' đầu tiên
+const originalOpenAppDetail = openAppDetail;
+openAppDetail = async function(id) {
+  await originalOpenAppDetail(id);
+  switchAppTab('details'); // Reset tab
+}
+
+async function loadLeaderboard(charId) {
+  const container = document.getElementById("leaderboardContent");
+  container.innerHTML = `<div style="text-align:center; padding:20px; color:#8797a9;">Đang xếp hạng...</div>`;
+  
+  // Lấy danh sách những người có điểm hảo cảm cao nhất
+  const { data, error } = await db.from("affinities")
+    .select("user_id, points")
+    .eq("char_id", charId)
+    .order("points", { ascending: false })
+    .limit(10);
+    
+  if (error || !data || data.length === 0) {
+    container.innerHTML = `<div style="text-align:center; padding:20px; color:#8797a9;">Chưa có ai trong danh sách.</div>`;
+    return;
+  }
+
+  // Lấy thông tin user (Avatar, Tên)
+  const userIds = data.map(d => d.user_id);
+  const { data: profiles } = await db.from("profiles").select("id, display_name, avatar_url, equipped_frame").in("id", userIds);
+
+  const leaderboardData = data.map(d => {
+    const p = profiles?.find(prof => prof.id === d.user_id) || {};
+    return {
+      points: d.points,
+      name: p.display_name || "Kẻ Mộng Mơ",
+      avatar: p.avatar_url || "images/avatar.jpg", // Thay bằng ảnh mặc định nếu ko có
+      frame: p.equipped_frame
+    };
+  });
+
+  // Render Top 3
+  let html = `<div class="lb-top3-container">`;
+  
+  // Sắp xếp thứ tự hiển thị Top 2 - Top 1 - Top 3 cho đẹp giống ảnh
+  const top2 = leaderboardData[1];
+  const top1 = leaderboardData[0];
+  const top3 = leaderboardData[2];
+
+  if(top2) html += renderTopCard(top2, 2);
+  if(top1) html += renderTopCard(top1, 1);
+  if(top3) html += renderTopCard(top3, 3);
+  html += `</div>`;
+
+  // Render từ Top 4 trở đi
+  if (leaderboardData.length > 3) {
+    html += `<div style="background:#fff; border-radius:16px; overflow:hidden; border:1px solid #f0f6fb; margin: 0 16px;">`;
+    for(let i = 3; i < leaderboardData.length; i++) {
+      let item = leaderboardData[i];
+      let frameHtml = item.frame ? `<img class="frame-overlay" src="${escapeHtml(item.frame)}">` : '';
+      html += `
+        <div class="lb-list-item">
+          <div class="lb-list-rank">${i + 1}</div>
+          <div class="avatar-wrapper-relative" style="width:36px; height:36px; margin-right:12px;">
+            <img class="lb-list-avatar" style="margin:0; width:100%; height:100%" src="${escapeHtml(item.avatar)}">
+            ${frameHtml}
+          </div>
+          <div class="lb-list-name">${escapeHtml(item.name)}</div>
+          <div class="lb-list-points">${item.points}</div>
+        </div>`;
+    }
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderTopCard(user, rank) {
+  let crowns = { 1: "👑", 2: "🥈", 3: "🥉" };
+  let frameHtml = user.frame ? `<img class="frame-overlay" src="${escapeHtml(user.frame)}">` : '';
+  
+  return `
+    <div class="lb-card top${rank}">
+      <div class="lb-crown">${crowns[rank]}</div>
+      <div class="avatar-wrapper-relative" style="width:${rank === 1 ? '65px' : '50px'}; height:${rank === 1 ? '65px' : '50px'}; margin-bottom: 8px;">
+         <img class="lb-avatar" style="margin:0; width:100%; height:100%" src="${escapeHtml(user.avatar)}">
+         ${frameHtml}
+      </div>
+      <div class="lb-name">${escapeHtml(user.name)}</div>
+      <div class="lb-points">❤️ ${user.points}</div>
+    </div>`;
+}
+</script>
+</body>
+</html>
