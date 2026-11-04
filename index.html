@@ -825,7 +825,26 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 
 /* Huy hiệu đếm số ảnh (1/N) */
 .gallery-counter-badge { position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(6px); color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; z-index: 5; pointer-events: none; }
-
+/* Dãy chấm tròn phong cách Instagram */
+.gallery-dots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+.gallery-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: all 0.25s ease;
+}
+.gallery-dot.active {
+  background: #4d8fca;
+  width: 7px;
+  height: 7px;
+}
 /* Thanh tác vụ: Tăng kích thước Icon tim và bình luận */
 .gallery-actions { display: flex; gap: 24px; margin-top: 14px; border-top: 1px solid #f0f6fb; padding-top: 12px; }
 .gallery-action-btn { background: none; border: none; color: #5f6e80; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 1rem; transition: transform 0.15s ease; padding: 2px 4px; }
@@ -952,9 +971,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 
 <section id="shop" class="view">
   <div class="content-box">
-    <div style="text-align: center;">
-  <div class="menu-title gradient-title">⊹ TIỆM KÝ GỬI TUYẾT TRẮNG ⊹</div>
-</div>
+    <h2 class="page-title gradient-title" style="display:block; text-align:center; margin: 12px 0 6px;">⊹ TIỆM KÝ GỬI TUYẾT TRẮNG ⊹</h2>
     <div class="total-visitors" style="margin-bottom: 5px;">Hiện đang có: <b id="shop-snowflakes">0</b> ❄️ Bông tuyết</div>
     <div class="shop-grid" id="shopGrid"></div>
   </div>
@@ -1069,9 +1086,22 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 <div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
 
 <div class="glass-action-bar">
-  <button class="glass-btn" id="mailBtn" onclick="openMailbox()">📩<span class="notif-badge" id="mailBadge" style="display:none">0</span></button>
-  <button class="glass-btn" id="notifBtn" onclick="openWeChatModal()">📱<span class="notif-badge" id="notifBadge" style="display:none">1</span></button>
-  <button class="glass-btn" id="music-toggle" onclick="openSpotify()">🎵</button>
+  <!-- Nút Hòm Thư (Biểu tượng nét mảnh) -->
+  <button class="glass-btn" id="mailBtn" onclick="openMailbox()">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    <span class="notif-badge" id="mailBadge" style="display:none">0</span>
+  </button>
+
+  <!-- Nút Điện Thoại / Chat (Biểu tượng nét mảnh) -->
+  <button class="glass-btn" id="notifBtn" onclick="openWeChatModal()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+    <span class="notif-badge" id="notifBadge" style="display:none">1</span>
+  </button>
+
+  <!-- Nút Nhạc (Biểu tượng nốt nhạc nét mảnh) -->
+  <button class="glass-btn" id="music-toggle" onclick="openSpotify()">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+  </button>
 </div>
 
 <!-- Modal Hòm Thư -->
@@ -3891,8 +3921,8 @@ async function loadGalleryFeed() {
   data = await attachProfiles(data);
   
   const container = document.getElementById("galleryFeed");
-  if(!data || data.length === 0) {
-    container.innerHTML = `<div style="text-align:center; color:#8797a9; padding: 20px;">Có vẻ như phòng tranh vẫn đang chờ những tác phẩm đầu tiên... Bạn có muốn để lại một chút sắc màu của riêng mình không?</div>`;
+if(!data || data.length === 0) {
+    container.innerHTML = `<div style="text-align:center; color:#8797a9; padding: 20px; font-size: 0.8rem; font-style: italic; line-height: 1.6; max-width: 400px; margin: 0 auto;">Có vẻ như phòng tranh vẫn đang chờ những tác phẩm đầu tiên... Bạn có muốn để lại một chút sắc màu của riêng mình không?</div>`;
     return;
   }
 
@@ -3970,7 +4000,7 @@ async function loadGalleryFeed() {
       }
     }
 
-    let mediaHtml = "";
+let mediaHtml = "";
     if (images.length === 1) {
       mediaHtml = `<div class="gallery-carousel-wrapper"><img src="${escapeHtml(images[0])}" style="width:100%; max-height:500px; object-fit:contain; display:block;"></div>`;
     } else if (images.length > 1) {
@@ -3984,6 +4014,9 @@ async function loadGalleryFeed() {
               </div>
             `).join("")}
           </div>
+        </div>
+        <div class="gallery-dots-container" id="dots-${post.id}">
+          ${images.map((_, i) => `<span class="gallery-dot ${i === 0 ? 'active' : ''}"></span>`).join("")}
         </div>
       `;
     }
@@ -4040,11 +4073,20 @@ async function loadGalleryFeed() {
   }).join("");
 }
 
-// HÀM TỰ ĐỘNG CẬP NHẬT CHỈ SỐ ẢNH 1/N KHI VUỐT
+// HÀM TỰ ĐỘNG CẬP NHẬT CHỈ SỐ ẢNH 1/N VÀ CHẤM TRÒN KHI VUỐT
 function updateCarouselIndex(el, postId, total) {
   const index = Math.round(el.scrollLeft / el.clientWidth) + 1;
   const badge = document.getElementById(`badge-${postId}`);
   if (badge) badge.textContent = `${index}/${total}`;
+
+  // Cập nhật chấm tròn active tương ứng với ảnh đang xem
+  const dotsBox = document.getElementById(`dots-${postId}`);
+  if (dotsBox) {
+    const dots = dotsBox.querySelectorAll('.gallery-dot');
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === (index - 1));
+    });
+  }
 }
 
 async function reactGalleryPost(id, btn) {
