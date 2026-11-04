@@ -948,8 +948,8 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   <section id="gallery" class="view">
   <div class="journal-page" style="position:relative; padding-bottom: 60px;">
     <button class="back-library" onclick="showView('library')">‹ Về Thư viện giấc mơ</button>
-    <h2 class="page-title gradient-title" style="display:block;text-align:center">Triển lãm tranh</h2>
-    <p class="page-sub">Nơi lưu giữ những khoảnh khắc tuyệt đẹp qua từng nét vẽ.</p>
+    <h2 class="page-title gradient-title" style="display:block;text-align:center">Thư Họa Trong Mộng</h2>
+    <p class="page-sub">Nơi những khoảnh khắc đẹp đẽ được lưu giữ qua từng nét vẽ.</p>
     
     <div id="galleryFeed" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;"></div>
     
@@ -971,10 +971,21 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
     
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <label class="file-upload-btn">
-        📷 Chọn ảnh
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; margin-right: 4px;"><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg> Chọn ảnh
         <input type="file" id="gallery-file" accept="image/*" class="hidden-file" onchange="previewGalleryImage(event)">
       </label>
       <button class="auth-submit" style="width: auto; padding: 8px 25px;" onclick="submitGalleryPost()">Đăng</button>
+    </div>
+  </div>
+</div>
+  <!-- Modal Chỉnh sửa Caption Triển lãm -->
+<div id="editGalleryPostModal" class="custom-modal">
+  <div class="modal-box" style="text-align: left; width: min(500px, 94%);">
+    <button class="close-modal" onclick="closeModal('editGalleryPostModal')">×</button>
+    <h2 style="margin-bottom: 15px;">Chỉnh sửa Caption</h2>
+    <textarea id="edit-gallery-status" class="cmt-textarea" rows="4" style="background: #f5faff; padding: 10px; border-radius: 12px; border: 1px solid #cfe2f1; width: 100%; margin-bottom: 10px;"></textarea>
+    <div style="text-align: right;">
+      <button class="auth-submit" style="width: auto; padding: 8px 25px;" id="btn-save-gallery-edit" onclick="saveEditGalleryPost()">Lưu thay đổi</button>
     </div>
   </div>
 </div>
@@ -1989,7 +2000,7 @@ const pagedChars=filteredChars.slice(start,start+PER_PAGE);
 grid.innerHTML=pagedChars.map(c=>{
 // Bấm vào luôn mở bảng thông tin (Detail)
 const clickAction = `openAppDetail('${c.id}')`;
-const pass = `<button class="btn-see-more" onclick="${clickAction}">✦ Tìm hiểu ➟</button>`;
+const pass = `<button class="btn-see-more" onclick="${clickAction}">Tìm hiểu đối phương</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
 
 const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
@@ -2023,9 +2034,9 @@ ${pass}
       <div class="cmt-action-bar">
         <div style="display:flex; gap:8px;">
           <label class="cmt-camera-btn" title="Thêm ảnh">
-            📷<input type="file" id="file-mini-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'mini-${c.id}')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg><input type="file" id="file-mini-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'mini-${c.id}')">
           </label>
-          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('mini-${c.id}')">😀</button>
+          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('mini-${c.id}')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
         </div>
         <button class="cmt-send-btn" onclick="submitComment('mini-${c.id}', '${c.id}', null)">Gửi</button>
       </div>
@@ -2250,10 +2261,12 @@ function commentHTML(c, all) {
         ${textHtml}
         ${imgHtml}
         <div class="comment-time">${formatDate(c.created_at)}</div>
-        <div class="comment-tools">
+<div class="comment-tools">
           <button onclick="reactComment('${c.id}', this)" class="cmt-action-btn ${isLiked ? 'liked' : ''}"><span class="cmt-heart">${heartChar}</span> <span id="cmt-like-count-${c.id}">${cachedCmtLikes}</span></button>
-          <button class="cmt-action-btn" onclick="toggleReplyBox('${c.id}')">💬 Trả lời</button>
-          ${isAdmin ? `<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">🗑️ Xóa</button>` : ""}
+          <button class="cmt-action-btn" onclick="toggleReplyBox('${c.id}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> Trả lời
+          </button>
+          ${isAdmin ? `<button class="cmt-action-btn" onclick="deleteComment('${c.id}')" style="color:#c85b64">✖ Xóa</button>` : ""}
         </div>
       </div>
     </div>
@@ -2266,8 +2279,8 @@ function commentHTML(c, all) {
       
       <div class="cmt-action-bar">
         <div style="display:flex; gap:8px;">
-          <label class="cmt-camera-btn" title="Thêm ảnh">📷<input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')"></label>
-          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('reply-${c.id}')">😀</button>
+          <label class="cmt-camera-btn" title="Thêm ảnh"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg><input type="file" id="file-reply-${c.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${c.id}')"></label>
+          <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('reply-${c.id}')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
         </div>
         <button class="cmt-send-btn" onclick="submitComment('reply-${c.id}', ${safeCharId}, '${c.id}')">Gửi</button>
       </div>
@@ -2588,9 +2601,9 @@ document.getElementById("appCommentForm").innerHTML = `
     <div class="cmt-action-bar">
       <div style="display:flex; gap:8px;">
         <label class="cmt-camera-btn" title="Thêm ảnh">
-          📷<input type="file" id="file-app-${id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'app-${id}')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg><input type="file" id="file-app-${id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'app-${id}')">
         </label>
-        <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('app-${id}')">😀</button>
+        <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('app-${id}')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
       </div>
       <button class="cmt-send-btn" onclick="submitComment('app-${id}', '${id}', null)">Gửi</button>
     </div>
@@ -3891,6 +3904,26 @@ async function loadGalleryFeed() {
       }).catch(() => {});
     }, 100);
 
+    // KIỂM TRA QUYỀN ĐỂ HIỂN THỊ NÚT 3 CHẤM
+    let menuItems = "";
+    if (currentUser && currentUser.id === post.user_id) {
+        menuItems += `<a onclick="openEditGalleryPost('${post.id}')" style="text-align: left; cursor: pointer;">✎ Chỉnh sửa</a>`;
+    }
+    if (isAdmin) {
+        menuItems += `<a onclick="deleteComment('${post.id}')" style="color:#e53e3e; text-align: left; cursor: pointer;">✖ Xóa bài</a>`;
+    }
+
+    let optionsHtml = "";
+    if (menuItems !== "") {
+        optionsHtml = `
+        <div class="dropdown" style="margin-left: auto; align-self: flex-start;">
+            <button class="cmt-action-btn" style="font-size: 20px; padding: 0 5px;" onclick="toggleMenuDropdown(event, this)">⋮</button>
+            <div class="dropdown-content" style="right: 0; left: auto; transform: none; min-width: 130px; box-shadow: 0 5px 20px rgba(0,0,0,0.15);">
+                ${menuItems}
+            </div>
+        </div>`;
+    }
+
     return `
       <div class="gallery-post">
         <div class="gallery-post-header">
@@ -3899,14 +3932,14 @@ async function loadGalleryFeed() {
             <div style="font-weight:700; color:#214e76; font-size:0.95rem; display:flex; align-items:center;">${escapeHtml(name)} ${badgeHtml}</div>
             <div style="font-size:0.75rem; color:#9aa7b6;">${formatDate(post.created_at)}</div>
           </div>
+          ${optionsHtml}
         </div>
-        <div style="font-size:0.9rem; color:#4d5e72; white-space:pre-wrap; margin-top:10px;">${escapeHtml(post.content)}</div>
+        <div style="font-size:0.9rem; color:#4d5e72; white-space:pre-wrap; margin-top:10px;" id="gal-content-${post.id}">${escapeHtml(post.content)}</div>
         ${post.image_url ? `<img src="${escapeHtml(post.image_url)}" class="gallery-post-img">` : ''}
         <div class="gallery-actions">
           <button class="gallery-action-btn ${isLiked ? 'liked' : ''}" onclick="reactGalleryPost('${post.id}', this)">
             <span class="gal-heart">${isLiked ? '♥' : '♡'}</span> <span id="gal-like-${post.id}">${cachedLikes}</span>
           </button>
-          ${isAdmin ? `<button class="gallery-action-btn" onclick="deleteComment('${post.id}')" style="color:#c85b64; margin-left:auto;">🗑 Xóa</button>` : ''}
         </div>
       </div>
     `;
@@ -3930,6 +3963,44 @@ async function reactGalleryPost(id, btn) {
 
   try{ await fetch(`${STATS_API}/hit/VanillaDaydream_Cmt/${id}`); }catch(e){}
   toast("Đã thả tim tác phẩm 💙");
+}
+
+  let currentEditGalleryId = null;
+
+function openEditGalleryPost(id) {
+  currentEditGalleryId = id;
+  // Lấy text từ bài viết hiện tại đưa vào khung sửa
+  const currentContent = document.getElementById("gal-content-" + id).innerText;
+  document.getElementById("edit-gallery-status").value = currentContent;
+  openModal('editGalleryPostModal');
+  
+  // Ẩn menu 3 chấm đi sau khi bấm
+  document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
+}
+
+async function saveEditGalleryPost() {
+  if(!currentEditGalleryId || !currentUser) return;
+  const newContent = document.getElementById("edit-gallery-status").value.trim();
+  
+  const btn = document.getElementById("btn-save-gallery-edit");
+  btn.textContent = "Đang lưu..."; btn.disabled = true;
+
+  try {
+    // Chỉ cập nhật nội dung (content), giữ nguyên ảnh
+    const { error } = await db.from("comments")
+                            .update({ content: newContent })
+                            .eq("id", currentEditGalleryId)
+                            .eq("user_id", currentUser.id); 
+    if (error) throw error;
+    
+    toast("Đã cập nhật Caption thành công!");
+    closeModal('editGalleryPostModal');
+    loadGalleryFeed(); // Tải lại trang tranh
+  } catch(err) {
+    toast("Lỗi khi sửa: " + err.message);
+  } finally {
+    btn.textContent = "Lưu thay đổi"; btn.disabled = false;
+  }
 }
 
 // 3. LOGIC TABS CHI TIẾT & BẢNG XẾP HẠNG
@@ -4028,13 +4099,14 @@ function renderTopCard(user, rank) {
   
   return `
     <div class="lb-card top${rank}">
-      <!-- Biểu tượng Vương miện / Huy chương -->
-      <div style="font-size: ${rank === 1 ? '1.5rem' : '1.25rem'}; margin-bottom: 2px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12)); line-height: 1;">
-        ${crowns[rank]}
-      </div>
-
-<!-- Avatar & Khung -->
+      <!-- Avatar & Khung & Vương Miện -->
       <div class="avatar-wrapper-relative" style="width:${rank === 1 ? '64px' : '52px'}; height:${rank === 1 ? '64px' : '52px'}; margin-bottom: 8px;">
+         
+         <!-- Vương miện đè lên góc trên ở giữa -->
+         <div style="position: absolute; top: ${rank === 1 ? '-18px' : '-14px'}; left: 50%; transform: translateX(-50%); font-size: ${rank === 1 ? '1.8rem' : '1.3rem'}; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+            ${crowns[rank]}
+         </div>
+
          ${user.avatar 
            ? `<img class="lb-avatar" style="margin:0; width:100%; height:100%; object-fit:cover; border-radius:50%;" src="${escapeHtml(user.avatar)}">` 
            : `<div class="avatar-letter lb-avatar" style="margin:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#4d8fca,#b3d5f2); color:#fff; font-size:${rank === 1 ? '24px' : '20px'};">${escapeHtml(user.name[0].toUpperCase())}</div>`
