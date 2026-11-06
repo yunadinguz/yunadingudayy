@@ -863,6 +863,28 @@ body.modal-open #snow-container { display: none !important; }
     font-weight: 700 !important;
     letter-spacing: 2px; /* Tạo khoảng cách chữ */
 }
+
+  /* Tách chữ Winter Serenade làm 2 dòng giống mẫu */
+.x-name {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0 !important;
+    line-height: 1 !important;
+    margin-top: -10px !important; /* Đẩy toàn bộ cụm chữ lên một chút cho cân đối với Avatar */
+}
+.word-winter {
+    color: #ffffff !important;
+    text-shadow: 0 2px 6px rgba(0, 20, 50, 0.5); /* Đổ bóng nhẹ để chữ trắng không bị chìm vào nền tuyết */
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
+    letter-spacing: 4px; /* Giãn cách chữ rộng ra */
+    margin-bottom: -2px; /* Kéo chữ Serenade ở dưới lên cho sát */
+    padding-left: 2px;
+}
+.word-serenade {
+    font-size: clamp(1.6rem, 6vw, 2.1rem);
+    letter-spacing: 2px;
+}
 </style>
 </head>
 <body>
@@ -885,8 +907,11 @@ body.modal-open #snow-container { display: none !important; }
 <div class="x-profile-row">
 <img src="images/avatar.jpg" class="x-avatar" alt="Winter Serenade.">
 <div class="x-info">
-<h1 class="x-name gradient-title">Winter Serenade.</h1>
-<div class="x-friends">𝑢𝑛𝑡𝑖𝑙 𝑤𝑖𝑛𝑡𝑒𝑟 𝑓𝑎𝑑𝑒𝑠 𝑎𝑤𝑎𝑦. . .</div>
+<h1 class="x-name">
+    <span class="word-winter">WINTER</span>
+    <span class="word-serenade gradient-title">SERENADE.</span>
+</h1>
+<div class="x-friends" style="font-family: var(--serif); font-size: 1.05rem; color: #16456f; font-style: italic; margin-top: 4px;">until winter fades away...</div>
 </div>
 </div>
 <hr class="fb-divider">
