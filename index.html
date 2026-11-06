@@ -8,10 +8,10 @@
 <title>Yuna Đi Ngủ — Winter Serenade</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--navy:#060E26;--blue:#033E8C;--mid:#023E73;--light:#79ACD9;--pale:#B3D5F2;--ice:#EAF5FF;--text:#68778C;--line:#E1EDF7;--white:#fff;--shadow:0 8px 28px rgba(3,62,140,.10);--serif:"Playfair Display",serif;--sans:"Quicksand",sans-serif}
+:root{--navy:#060E26;--blue:#033E8C;--mid:#023E73;--light:#79ACD9;--pale:#B3D5F2;--ice:#EAF5FF;--text:#68778C;--line:#E1EDF7;--white:#fff;--shadow:0 8px 28px rgba(3,62,140,.10);--serif:"Lora", serif;--sans:"Mulish", sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef7ff;color:var(--navy);font-family:var(--sans);overflow-x:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
 
 /* 1. DREAM INTRO */
@@ -852,6 +852,17 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 .gallery-action-btn.liked { color: #e53e3e; }
 .gal-heart { font-size: 22px; line-height: 1; display: inline-block; }
 .gallery-action-btn svg { width: 22px; height: 22px; }
+
+/* Sửa lỗi lag GPU khi mở Modal */
+body.modal-open .main-background { animation: none !important; }
+body.modal-open #snow-container { display: none !important; }
+
+  /* Đổi font chữ riêng cho chữ Winter Serenade */
+.intro-title, .x-name {
+    font-family: 'Cinzel Decorative', serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 2px; /* Tạo khoảng cách chữ */
+}
 </style>
 </head>
 <body>
@@ -875,7 +886,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 <img src="images/avatar.jpg" class="x-avatar" alt="Winter Serenade.">
 <div class="x-info">
 <h1 class="x-name gradient-title">Winter Serenade.</h1>
-<div class="x-friends">𝓫𝓮𝓪𝓬𝓪𝓾𝓼𝓮 𝓵𝓸𝓿𝓮 𝓾 𝓮𝓿𝓮𝓻𝔂𝓭𝓪𝔂.</div>
+<div class="x-friends">𝑢𝑛𝑡𝑖𝑙 𝑤𝑖𝑛𝑡𝑒𝑟 𝑓𝑎𝑑𝑒𝑠 𝑎𝑤𝑎𝑦. . .</div>
 </div>
 </div>
 <hr class="fb-divider">
@@ -977,7 +988,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 
 <section id="shop" class="view">
   <div class="content-box">
-    <h2 class="page-title gradient-title" style="display:block; text-align:center; margin: 12px 0 6px;">⊹ Tiệm Ký Gửi Tuyết Trắng ⊹</h2>
+    <h2 class="page-title gradient-title" style="display:block; text-align:center; margin: 12px 0 6px;">⊹ Cửa Hàng Tuyết Trắng ⊹</h2>
     <div class="total-visitors" style="margin-bottom: 5px;">Hiện đang có: <b id="shop-snowflakes">0</b> ❄️ Bông tuyết</div>
     <div class="shop-grid" id="shopGrid"></div>
   </div>
@@ -985,7 +996,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
   <section id="gallery" class="view">
   <div class="journal-page" style="position:relative; padding-bottom: 60px;">
     <button class="back-library" onclick="showView('library')">‹ Về Thư viện giấc mơ</button>
-    <h2 class="page-title gradient-title" style="display:block;text-align:center">⊹ Những Mảnh Màu Ký Ức ⊹</h2>
+    <h2 class="page-title gradient-title" style="display:block;text-align:center">⊹ Phòng Tranh Ký Ức ⊹</h2>
     <p class="page-sub">Nơi những giấc mơ tìm thấy hình hài qua từng nét vẽ.</p>
     
     <div id="galleryFeed" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;"></div>
@@ -1089,7 +1100,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 
 <div id="r21Modal" class="custom-modal"><div class="modal-box" id="r21Box"><button class="close-modal" onclick="closeModal('r21Modal')">×</button><h2>🔐 Giấc Mộng Đóng Băng</h2><p style="color:var(--text);font-size:.86rem">Thần chú để phá vỡ phong ấn là gì?</p><input id="r21Input" type="password" placeholder="Nhập câu thần chú..."><p id="r21Error" style="color:#e53e3e;font-weight:600;display:none;margin-top:8px;font-size:.85rem">Băng vẫn chưa tan... Bạn có muốn truyền thêm hơi ấm không?</p><div style="display:flex;gap:10px;justify-content:center;margin-top:14px"><button class="modal-primary" onclick="verifyR21()">Phá băng</button><button class="pill-btn reset" onclick="closeModal('r21Modal')">Hủy</button></div></div></div>
 
-<div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">Giao Phó Định Mệnh</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button></div></div></div>
+<div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">⊹ Giao Phó Định Mệnh ⊹</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh ✧</button></div></div></div>
 
 <div class="glass-action-bar">
   <!-- Nút Hòm Thư -->
@@ -1229,7 +1240,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 <div id="wishModal" class="custom-modal">
   <div class="modal-box" style="text-align: center;">
     <button class="close-modal" onclick="closeWishModal()">×</button>
-    <h2 class="gradient-title" style="margin-bottom: 5px;">Khúc Nguyện Cầu</h2>
+    <h2 class="gradient-title" style="margin-bottom: 5px;">⊹ Khúc Nguyện Cầu ⊹</h2>
     <div style="font-size: 0.8rem; color: #8797a9; font-style: italic; margin-bottom: 15px; line-height: 1.5;">
       Khúc hát dành cho những điều lòng người vẫn chưa gọi thành tên... Hãy thì thầm điều ước của bạn...
     </div>
@@ -2153,7 +2164,8 @@ document.getElementById("list-top-anchor")?.scrollIntoView({behavior:"smooth",bl
 }
 
 async function loadPublicStats(){
-  const promises = CHARS.map(async (c) => {
+  // ĐÃ SỬA: Chuyển sang tải tuần tự để không làm nghẽn cổ chai trình duyệt
+  for (const c of CHARS) {
     try {
       let lRes = await fetch(`${STATS_API}/get/${LIKE_NS}/${c.id}`);
       let lData = await lRes.json();
@@ -2169,8 +2181,11 @@ async function loadPublicStats(){
       let jEl = document.getElementById("journey-" + c.id);
       if (jEl) jEl.textContent = `${charJourneyMap[c.id] || 0} lượt đồng hành`;
     } catch (e) {}
-  });
-  await Promise.all(promises);
+    
+    // Nghỉ 50ms giữa mỗi nhân vật
+    await new Promise(r => setTimeout(r, 50));
+  }
+  
   localStorage.setItem("cache_char_likes", JSON.stringify(charLikesMap));
   localStorage.setItem("cache_char_journey", JSON.stringify(charJourneyMap));
 }
@@ -2684,13 +2699,16 @@ document.getElementById("appCommentForm").innerHTML = `
 await refreshAffinity(id);
 
 document.getElementById("appView").classList.add("show");
+document.body.classList.add("modal-open"); // Tắt tuyết và nền động để chống lag
 document.querySelector('.glass-action-bar').style.display = 'none';
 document.getElementById("appScroll").scrollTop=0;
 
-document.querySelectorAll(".app-section").forEach(sec=>{
-  sec.style.animation = "none";
-  void sec.offsetWidth;
-  sec.style.animation = "fadeInView .35s ease forwards";
+const sections = document.querySelectorAll(".app-section");
+sections.forEach(sec => sec.style.animation = "none");
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    sections.forEach(sec => sec.style.animation = "fadeInView .35s ease forwards");
+  });
 });
 
 await loadAppComments(id);
@@ -2698,6 +2716,7 @@ await loadAppComments(id);
 
 function closeAppDetail(){
   document.getElementById("appView").classList.remove("show");
+  document.body.classList.remove("modal-open"); // Bật lại tuyết và nền động
   document.querySelector('.glass-action-bar').style.display = 'flex';
   currentChar=null;
   const player = document.getElementById("voice-player");
@@ -2762,17 +2781,27 @@ function openGgListModal(id) {
 function toggleMiniComments(id){const el=document.getElementById("mini-"+id);el.classList.toggle("open");if(el.classList.contains("open"))loadMiniComments(id)}
 
 function openModal(id){
+  document.body.classList.add("modal-open"); // ĐÃ SỬA: Tắt tuyết khi mở bất kỳ Modal nào
   const m = document.getElementById(id);
   m.classList.add("show");
   const box = m.querySelector(".modal-box") || m.querySelector(".spotify-card");
   if(box) {
     box.style.animation = "none";
-    void box.offsetWidth;
-    box.style.animation = "modalPop .35s cubic-bezier(.175,.885,.32,1.275) forwards";
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        box.style.animation = "modalPop .35s cubic-bezier(.175,.885,.32,1.275) forwards";
+      });
+    });
   }
 }
 
-function closeModal(id){document.getElementById(id).classList.remove("show")}
+function closeModal(id){
+  document.getElementById(id).classList.remove("show");
+  // Bật lại tuyết nếu không còn modal nào mở
+  if (!document.querySelector('.custom-modal.show') && !document.getElementById("appView").classList.contains("show")) {
+      document.body.classList.remove("modal-open");
+  }
+}
 
 function openDestiny(){openModal("destinyModal");document.getElementById("destinyContent").innerHTML=`<div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button>`}
 
@@ -3545,8 +3574,8 @@ async function setup(){
   initAuth();
   initSpotify();
   loadJournal();
-  initRandomNotification();
-  initRealtimeSubscriptions();
+initRandomNotification();
+  // initRealtimeSubscriptions(); // Tạm tắt realtime để chống lag khi người khác spam cmt
 
   fetch(`${STATS_API}/hit/${VISITOR_NS}/total_visits`)
     .then(r => r.json())
@@ -3602,15 +3631,20 @@ async function checkWishLimit() {
 }
 
 function openWishModal() {
+  // Nếu chưa đăng nhập, vẫn mở Modal và để mặc định là 3/3 lượt
   if (!currentUser) {
-    toast("Bạn cần đăng nhập để Cầu Nguyện!");
-    return showView('auth');
+    document.getElementById('wishRemainingText').innerText = `Lượt còn lại: 3/3`;
+    document.getElementById('wishImage').className = "wish-img-float"; 
+    document.getElementById('wishParticleContainer').innerHTML = ""; 
+    openModal('wishModal');
+    return;
   }
   
+  // Nếu đã đăng nhập, chạy kiểm tra lượt bình thường
   checkWishLimit().then(() => {
     document.getElementById('wishRemainingText').innerText = `Lượt còn lại: ${3 - todayWishCount}/3`;
-    document.getElementById('wishImage').className = "wish-img-float"; // Bật hiệu ứng nhấp nhô
-    document.getElementById('wishParticleContainer').innerHTML = ""; // Xóa tuyết cũ
+    document.getElementById('wishImage').className = "wish-img-float"; 
+    document.getElementById('wishParticleContainer').innerHTML = ""; 
     openModal('wishModal');
   });
 }
@@ -3621,6 +3655,13 @@ function closeWishModal() {
 }
 
 async function doWish() {
+  // ĐÃ SỬA: Chặn người dùng chưa đăng nhập khi bấm nút Cầu Nguyện
+  if (!currentUser) {
+    closeModal('wishModal'); // Đóng bảng cầu nguyện lại
+    toast("Bạn cần đăng nhập hoặc đăng ký để Cầu Nguyện!");
+    return showView('auth'); // Chuyển sang trang Đăng nhập
+  }
+
   if (isWishing) return;
   if (todayWishCount >= 3) {
     toast("Hôm nay bạn đã hết lượt cầu nguyện. Hãy quay lại vào ngày mai nhé!");
@@ -3750,9 +3791,10 @@ function createDustParticle(container) {
     dust.style.height = size + 'px';
     
     dust.style.left = Math.random() * 100 + 'vw';
-    dust.style.top = (Math.random() * 30 - 10) + 'vh'; // Hiện từ trên cao một chút để chảy xuống
+    dust.style.top = (Math.random() * 30 - 10) + 'vh'; 
     
-let duration = Math.random() * 15 + 15;
+    // ĐÃ SỬA: Giảm thời gian tồn tại xuống 2-4 giây để giải phóng RAM
+    let duration = Math.random() * 2 + 2;
     dust.style.animationDuration = duration + 's';
     
     container.appendChild(dust);
@@ -3767,15 +3809,14 @@ function startGoldDustEffect() {
   if (!container) return;
   container.innerHTML = ""; 
   
-  // BÙNG NỔ NGAY LẬP TỨC 60 HẠT BỤI KHI VỪA HIỆN KẾT QUẢ
-  for(let i = 0; i < 60; i++) {
+  for(let i = 0; i < 40; i++) {
       createDustParticle(container);
   }
   
-  // Sau đó tiếp tục đẻ thêm bụi duy trì
+  // Giãn cách tạo hạt bụi từ 30ms lên 150ms
   goldDustInterval = setInterval(() => {
     createDustParticle(container);
-  }, 30);
+  }, 150);
 }
 function stopGoldDustEffect() {
   clearInterval(goldDustInterval);
@@ -3974,19 +4015,6 @@ if(!data || data.length === 0) {
     
     const isLiked = localStorage.getItem("liked-cmt-" + post.id);
     const cachedLikes = localStorage.getItem("count-cmt-" + post.id) || (isLiked ? "1" : "0");
-
-    setTimeout(() => {
-      fetch(`${STATS_API}/get/VanillaDaydream_Cmt/${post.id}`).then(r => r.json()).then(d => {
-        if (d.value !== undefined) {
-          const el = document.getElementById(`gal-like-${post.id}`);
-          if (el) {
-            let finalVal = Math.max(d.value, isLiked ? 1 : 0);
-            el.textContent = finalVal;
-            localStorage.setItem("count-cmt-" + post.id, finalVal);
-          }
-        }
-      }).catch(() => {});
-    }, 100);
 
     let menuItems = "";
     if (currentUser && currentUser.id === post.user_id) {
