@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#79ACD9">
 <meta property="og:image" content="images/avatar.jpg">
-<title>Yuna Đi Ngủ — Winter Serenade</title>
+<title>Bản tình ca ngày đông - Winter Serenade</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -307,21 +307,34 @@
   box-shadow: 0 -5px 25px rgba(3, 62, 140, 0.1);
 }
 .glass-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color: var(--navy);
-  font-size: 18px;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px; /* Bo góc mềm mại như hình mẫu */
+  background: transparent; /* Mặc định trong suốt, KHÔNG CÓ HÌNH TRÒN */
+  border: none;
+  color: #7995ae; /* Màu icon khi chưa chọn (nhạt hơn một chút) */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   outline: none;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* ICON MẶC ĐỊNH */
+.glass-btn svg {
+  width: 25px !important; 
+  height: 25px !important;
+  stroke: currentColor;
+  transition: all 0.25s ease;
+}
+
+/* KHI ĐANG ĐƯỢC CHỌN (HIỆN HÌNH KHỐI ÔM LẤY ICON NHƯ MẪU) */
+.glass-btn.active {
+  background: rgba(121, 172, 217, 0.28) !important; /* Màu nền êm dịu làm nổi bật */
+  color: #033E8C !important; /* Đậm màu icon lên */
+  box-shadow: 0 4px 12px rgba(3, 62, 140, 0.08);
 }
 .glass-btn:hover {
   background: rgba(255, 255, 255, 0.8);
@@ -945,7 +958,8 @@ body.modal-open #snow-container { display: none !important; }
 <div class="dropdown-content">
 <a href="https://www.facebook.com/yuna.zdayy" target="_blank">Facebook</a>
 <a href="https://discord.gg/FSU3de4cs6" target="_blank">Discord</a>
-<a href="https://www.dokichat.club/en/profile" target="_blank">Doki</a>
+<a href="https://www.dokichat.club/en/profile" target="_blank">Dokichat</a>
+<a href="https://ngl.link/yunadingu" target="_blank">NGL</a>
 </div>
 </div>
 <button class="nav-item" id="nav-shop" onclick="showView('shop')">Cửa hàng</button>
@@ -1069,7 +1083,7 @@ body.modal-open #snow-container { display: none !important; }
 </div>
 </main>
 
-<footer class="dream-footer"><p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p><div class="copyright-text">Yuna đi ngủ © 2026</div></footer>
+<footer class="dream-footer"><p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p><div class="copyright-text">Bản tình ca ngày đông © 2026</div></footer>
 </div>
 
 <div id="appView" class="app-view">
@@ -1133,31 +1147,31 @@ body.modal-open #snow-container { display: none !important; }
 <div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">⊹ Giao Phó Định Mệnh ⊹</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh ✧</button></div></div></div>
 
 <div class="glass-action-bar">
-  <!-- Nút Home (Trang chủ Nhân vật) -->
-  <button class="glass-btn" onclick="showView('library')">
-    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#16456f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+  <!-- Nút Home (Mặc định có active vì đang ở trang Nhân vật) -->
+  <button class="glass-btn active" id="btn-nav-home" onclick="showView('library')">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
   </button>
 
   <!-- Nút Hòm Thư -->
   <button class="glass-btn" id="mailBtn" onclick="openMailbox()">
-    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#16456f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
     <span class="notif-badge" id="mailBadge" style="display:none">0</span>
   </button>
 
   <!-- Nút Điện Thoại / Chat -->
   <button class="glass-btn" id="notifBtn" onclick="openWeChatModal()">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16456f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
     <span class="notif-badge" id="notifBadge" style="display:none">1</span>
   </button>
 
   <!-- Nút Nhạc -->
   <button class="glass-btn" id="music-toggle" onclick="openSpotify()">
-    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#16456f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
   </button>
   
-  <!-- Nút Profile (Đăng nhập / Hồ sơ) -->
-  <button class="glass-btn" onclick="showView('auth')">
-    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#16456f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+  <!-- Nút Profile -->
+  <button class="glass-btn" id="btn-nav-auth" onclick="showView('auth')">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
   </button>
 </div>
 
@@ -1986,11 +2000,21 @@ function showView(id){
 document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
-if(id==="library")document.getElementById("nav-library").classList.add("active");
-if(id==="journal"){document.getElementById("nav-journal").classList.add("active");loadJournal()}
-if(id==="auth")document.getElementById("nav-auth").classList.add("active");
-if(id==="shop") { document.getElementById("nav-shop").classList.add("active"); renderShop(); }
-if(id==="gallery") { document.getElementById("nav-gallery").classList.add("active"); loadGalleryFeed(); }
+
+// Xóa trạng thái chọn của tất cả các nút thanh dưới
+document.querySelectorAll(".glass-action-bar .glass-btn").forEach(b=>b.classList.remove("active"));
+
+if(id==="library"){
+  document.getElementById("nav-library")?.classList.add("active");
+  document.getElementById("btn-nav-home")?.classList.add("active");
+}
+if(id==="journal"){document.getElementById("nav-journal")?.classList.add("active");loadJournal()}
+if(id==="auth"){
+  document.getElementById("nav-auth")?.classList.add("active");
+  document.getElementById("btn-nav-auth")?.classList.add("active");
+}
+if(id==="shop") { document.getElementById("nav-shop")?.classList.add("active"); renderShop(); }
+if(id==="gallery") { document.getElementById("nav-gallery")?.classList.add("active"); loadGalleryFeed(); }
 window.scrollTo({top:0,behavior:"smooth"})
 }
 
@@ -2843,7 +2867,7 @@ function closeModal(id){
   }
 }
 
-function openDestiny(){openModal("destinyModal");document.getElementById("destinyContent").innerHTML=`<div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh</button>`}
+function openDestiny(){openModal("destinyModal");document.getElementById("destinyContent").innerHTML=`<div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh ✧</button>`}
 
 function rollDestiny(){
 const c=CHARS[Math.floor(Math.random()*CHARS.length)];
