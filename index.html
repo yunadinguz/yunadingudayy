@@ -460,7 +460,45 @@
   transform: translateY(-3px);
 }
 .glass-btn.ring { animation: ringBell .8s ease infinite; }
-.glass-btn.music-playing { animation: spin 4s linear infinite; }
+.glass-btn.music-playing { color: #033E8C !important; background: rgba(121, 172, 217, 0.28) !important; }
+
+/* Dấu gạch chéo màu đỏ khi nhạc đang TẮT (Pause) */
+.glass-btn.music-paused::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 2.5px;
+  background: #e53e3e;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(255,255,255,0.9);
+  transition: all 0.3s ease;
+}
+
+/* CSS làm đẹp cho việc phân loại Nhạc trong Modal */
+.sp-category-title {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #033E8C;
+  margin: 20px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #eaf5ff;
+  text-align: left;
+}
+.sp-subcategory-title {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #68778C;
+  margin: 10px 0 6px 12px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.spotify-playlist {
+  padding-bottom: 15px; /* Thêm khoảng trống dưới cùng để dễ cuộn */
+}
 
 /* SPOTIFY GIAO DIỆN LIGHT THEME */
 .spotify-modal{display:none;position:fixed;inset:0;z-index:15000;background:rgba(5,18,35,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
@@ -1610,19 +1648,55 @@ const CHARS=[
 {id:"baek-dohyun",name:"Baek Dohyun (백도현)",img:"images/baekdohyun.png",tagline:"Tại sao chị lại tốt bụng với cả những kẻ khác như vậy? Chị chỉ nên dịu dàng với mình em thôi...",tags:["Hiện Đại","Công Sở", "Ngọt", "Hồng Hài Nhi","Yêu Thầm"],profile:"",doki:"https://www.dokichat.club/vi/role/4d89f461-f6a3-4acd-baac-005a5c01cf09?isShare=true",gg:"https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221yB27Fso9Uiug-kv7F-IV6dx90RkbmeJG%22%5D,%22action%22:%22open%22,%22userId%22:%22113052263516781120995%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing",story:"https://ellipsus.com/read/6rjYOysmdiYfbkEG0SxHvW/Baek-Dohyun?theme=icicle",created:"2026-09-28T12:00:00Z"}
 ];
 
-const PLAYLIST = [
-  { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/limkim.png" },
-  { title: "snow flower", artist: "V feat peakboy", file: "MUSIC/snowflower.mp3", cover: "images/snowflower.jpg" },
-  { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/lastchristmas.jpg" },
-  { title: "chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/changgionggiangsinh.jpg" },
-  { title: "snowman", artist: "sia", file: "MUSIC/snowman.mp3", cover: "images/snowman.jpeg" },
-  { title: "đợi", artist: "52Hz", file: "MUSIC/doi.mp3", cover: "images/doi.jpg" },
-  { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/pages.jpeg" },
-  { title: "lỡ một mai tôi quên tên người", artist: "Khiem", file: "MUSIC/lomotmaitoiquentennguoi.mp3", cover: "images/lomotmaitoiquentennguoi.jpg" },
-  { title: "all i want for christmas is you", artist: "Mariah Carey", file: "MUSIC/alliwant.mp3", cover: "images/alliwant.jpeg" },
-  { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/springsnow.jpeg" },
-  { title: "dạo bước hồng kông 1999", artist: "Bố Lỗ Tích", file: "MUSIC/daobuochongkong.mp3", cover: "images/daobuochongkong.png" }
-];
+const MUSIC_LIBRARY = {
+  "Mùa Đông": [
+    { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/limkim.png" },
+    { title: "snow flower", artist: "V feat peakboy", file: "MUSIC/snowflower.mp3", cover: "images/snowflower.jpg" },
+    { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/lastchristmas.jpg" },
+    { title: "chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/changgionggiangsinh.jpg" },
+    { title: "snowman", artist: "sia", file: "MUSIC/snowman.mp3", cover: "images/snowman.jpeg" },
+    { title: "đợi", artist: "52Hz", file: "MUSIC/doi.mp3", cover: "images/doi.jpg" },
+    { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/pages.jpeg" },
+    { title: "lỡ một mai tôi quên tên người", artist: "Khiem", file: "MUSIC/lomotmaitoiquentennguoi.mp3", cover: "images/lomotmaitoiquentennguoi.jpg" },
+    { title: "all i want for christmas is you", artist: "Mariah Carey", file: "MUSIC/alliwant.mp3", cover: "images/alliwant.jpeg" },
+    { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/springsnow.jpeg" }
+  ],
+  "C-Pop": {
+    "Giai điệu buồn": [
+      { title: "dạo bước hồng kông 1999", artist: "Bố Lỗ Tích", file: "MUSIC/daobuochongkong.mp3", cover: "images/daobuochongkong.png" },
+      { title: "thiếu niên hoa hồng", artist: "Vương Tĩnh Văn", file: "MUSIC/thieunienhoahong.mp3", cover: "images/thich.jpg" },
+      { title: "vây giữ", artist: "Vương Tĩnh Văn", file: "MUSIC/vaygiu.mp3", cover: "images/vaygiu.jpg" },
+      { title: "khiêm nhường", artist: "Vương Tĩnh Văn", file: "MUSIC/khiemnhuong.mp3", cover: "images/khiemnhuong.jpg" },
+      { title: "tháp rơi tự do", artist: "LBI Lợi Bỉ", file: "MUSIC/thaproitudo.mp3", cover: "imagesthaproitudo.jpg" },
+      { title: "biển, đảo và em", artist: "Mã Dã (Crabbit)", file: "MUSIC/biendaovaem.mp3", cover: "biendaovaem.jpg" },
+      { title: "buông bỏ sự phụ thuộc nơi anh", artist: "Vương Diễm Vi", file: "MUSIC/buongbosuphuthuocnoianh.mp3", cover: "buongbosuphuthuocnoianh.jpg" },
+      { title: "dễ thay đổi", artist: "Vương Tĩnh Văn", file: "MUSIC/dethaydoi.mp3", cover: "dethaydoi.jpg" },
+      { title: "sau khi anh đi", artist: "Tiểu Mị", file: "MUSIC/saukhianhdi.mp3", cover: "saukhianhdi.jpg" },
+      { title: "trống rỗng x sa vào nguy hiểm x không có nước mắt", artist: "Quang Trạch x Cát Đông Kỳ", file: "MUSIC/trongrong.mp3", cover: "trongrong.jpg" },
+      { title: "trong nháy mắt", artist: "Trịnh Nhuận Trạch", file: "MUSIC/trongnhaymat.mp3", cover: "trongnhaymat.jpg" },
+      { title: "nếu tình yêu đã lãng quên", artist: "Uông Tô Lang x Thiện Y Thuần", file: "MUSIC/neutinhyeudalangquen.mp3", cover: "neutinhyeudalangquen.jpg" },
+      { title: "tình yêu bị làm sao vậy", artist: "Trần Thôn Trưởng (Giang Thủ)", file: "MUSIC/tinhyeubilamsaovay.mp3", cover: "tinhyeubilamsaovay.jpg" },
+      { title: "không đáng", artist: "Đại Đầu Trâm", file: "MUSIC/khongdang.mp3", cover: "khongdang.jpg" },
+      { title: "xóa đi", artist: "Yên ( Hứa Giai Hào)", file: "MUSIC/xoadi.mp3", cover: "xoadi.jpg" },
+      { title: "quên rồi", artist: "Chu Lâm Phong", file: "MUSIC/quenroi.mp3", cover: "quenroi.jpg" },
+      { title: "good things", artist: "NINE PERCENT", file: "MUSIC/goodthings.mp3", cover: "goodthings.jpg" },
+      { title: "tình yêu vĩnh viễn không mất đi", artist: "Thiện Y Thuần", file: "MUSIC/tinhyeuvinhvienkhongmatdi.mp3", cover: "tinhyeuvinhvienkhongmatdi.jpg" }
+    ],
+    "Khúc nhạc vui": [
+      { title: "thích", artist: "A Tứ", file: "MUSIC/thich.mp3", cover: "images/thich.jpg" },
+      { title: "có chút ngọt ngào", artist: "Uông Tô Lang", file: "MUSIC/cochutngotngao.mp3", cover: "images/cochutngotngao.jpg" },
+      { title: "thứ tình cảm đáng chết", artist: "A Sài", file: "MUSIC/thutinhcamdangchet.mp3", cover: "images/thutinhcamdangchet.jpg" },
+      { title: "for ya", artist: "Tưởng Tiểu Ni", file: "MUSIC/forya.mp3", cover: "images/forya.jpg" },
+      { title: "melody", artist: "ZIV & KIPES", file: "MUSIC/melody.mp3", cover: "images/melody.jpg" },
+      { title: "ring ring ring", artist: "Bất Thị Hoa Hỏa Nha", file: "MUSIC/ringringring.mp3", cover: "images/ringringring.jpg" },
+      { title: "ta", artist: "Bất Thị Hoa Hỏa Nha", file: "MUSIC/ta.mp3", cover: "images/ta.jpg" },
+      { title: "tình tiết mặn nồng", artist: "Ngô Tử Kiện REmi x kiya", file: "MUSIC/tinhtietmannong.mp3", cover: "images/tinhtietmannong.jpg" },
+      { title: "đường màu đỏ", artist: "Châu Bái Bái x Pank", file: "MUSIC/duongmaudo.mp3", cover: "duongmaudo.jpg" },
+      { title: "đắm chìm", artist: "Châu Bái Bái x Pank", file: "MUSIC/damchim.mp3", cover: "damchim.jpg" },
+      { title: "1022", artist: "Bomb Bỉ Nhĩ", file: "MUSIC/1022.mp3", cover: "images/1022.jpg" }
+    ]
+  }
+};
 
 const VOICE_MAP = {
   "tri-triet-minh": "MUSIC/tritrietminh (1).mp3",
@@ -1861,7 +1935,10 @@ let currentPage=1; const PER_PAGE=5;
 const profileCache=new Map();
 const charLikesMap = JSON.parse(localStorage.getItem("cache_char_likes") || "{}");
 const charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || "{}");
-let currentTrackIdx = Math.floor(Math.random() * PLAYLIST.length);
+// Các biến quản lý Nhạc chia mục
+let currentPlaylistQueue = MUSIC_LIBRARY["Mùa Đông"];
+let currentPlaylistContext = "Mùa Đông";
+let currentTrackIdx = Math.floor(Math.random() * currentPlaylistQueue.length);
 let wasMusicPlaying = false;
 let commentImages = {};
   let searchTimeout = null;
@@ -2148,7 +2225,12 @@ window.scrollTo({top:0,behavior:"smooth"})
 function enterDream(){
   sessionStorage.setItem("dream_entered","true");
   document.getElementById("dream-intro").classList.add("hide");
-  playSpotifyTrack(currentTrackIdx);
+  
+  // Tự động load mục Mùa Đông và Play nhạc khi ấn vào web
+  currentPlaylistQueue = MUSIC_LIBRARY["Mùa Đông"];
+  currentPlaylistContext = "Mùa Đông";
+  loadTrackInfo(currentTrackIdx);
+  audioEl.play().catch(()=>{});
 }
 
 function scrollToTop(){document.getElementById("top-anchor").scrollIntoView({behavior:"smooth"})}
@@ -2160,9 +2242,20 @@ const cdBtn = document.getElementById("music-toggle");
 let isLooping = false;
 
 function initSpotify(){
+  // Bật gạch chéo đỏ mặc định khi vào web (vì nhạc chưa tự kêu)
+  cdBtn.classList.add("music-paused");
+  
   loadTrackInfo(currentTrackIdx);
-  audioEl.onplay = () => { cdBtn.classList.add("music-playing"); updateSpotifyPlayBtn(true); };
-  audioEl.onpause = () => { cdBtn.classList.remove("music-playing"); updateSpotifyPlayBtn(false); };
+  audioEl.onplay = () => { 
+    cdBtn.classList.add("music-playing"); 
+    cdBtn.classList.remove("music-paused"); // Bỏ gạch chéo đỏ
+    updateSpotifyPlayBtn(true); 
+  };
+  audioEl.onpause = () => { 
+    cdBtn.classList.remove("music-playing"); 
+    cdBtn.classList.add("music-paused"); // Hiện gạch chéo đỏ
+    updateSpotifyPlayBtn(false); 
+  };
   audioEl.onended = () => { 
     if (isLooping) {
       audioEl.currentTime = 0; audioEl.play().catch(()=>{});
@@ -2183,7 +2276,7 @@ function toggleLoop() {
 }
 
 function loadTrackInfo(idx){
-  const item = PLAYLIST[idx];
+  const item = currentPlaylistQueue[idx];
   audioEl.src = item.file;
   document.getElementById("spTitle").textContent = item.title;
   document.getElementById("spArtist").textContent = item.artist;
@@ -2191,9 +2284,17 @@ function loadTrackInfo(idx){
   renderSpotifyPlaylist();
 }
 
-function playSpotifyTrack(idx){
+// Bấm vào bài nào, lấy cả list của mục đó nạp vào hàng chờ
+function playTrackFromCategory(mainCat, subCat, idx) {
+  if (subCat) {
+    currentPlaylistQueue = MUSIC_LIBRARY[mainCat][subCat];
+    currentPlaylistContext = `${mainCat} - ${subCat}`;
+  } else {
+    currentPlaylistQueue = MUSIC_LIBRARY[mainCat];
+    currentPlaylistContext = mainCat;
+  }
   currentTrackIdx = idx;
-  loadTrackInfo(idx);
+  loadTrackInfo(currentTrackIdx);
   audioEl.play().catch(()=>{});
 }
 
@@ -2207,9 +2308,11 @@ function updateSpotifyPlayBtn(isPlaying){
   if(btn) btn.textContent = isPlaying ? "❚❚" : "▶";
 }
 
+// Chạy bài tiếp theo trong mục HIỆN TẠI đang nghe
 function nextSpotifyTrack(){
-  currentTrackIdx = (currentTrackIdx + 1) % PLAYLIST.length;
-  playSpotifyTrack(currentTrackIdx);
+  currentTrackIdx = (currentTrackIdx + 1) % currentPlaylistQueue.length;
+  loadTrackInfo(currentTrackIdx);
+  audioEl.play().catch(()=>{});
 }
 
 function openSpotify(){
@@ -2218,12 +2321,44 @@ function openSpotify(){
 }
 function closeSpotify(){ closeModal('spotifyModal'); }
 
+// Render giao diện Modal Music phân chia theo mục cực xịn xò
 function renderSpotifyPlaylist(){
   const container = document.getElementById("spPlaylist");
   if(!container) return;
-  container.innerHTML = PLAYLIST.map((t, idx) => {
-    const isActive = idx === currentTrackIdx;
-    return `<div class="spotify-item ${isActive?'active':''}" onclick="playSpotifyTrack(${idx})">
+  
+  let html = "";
+  
+  for (let mainCat in MUSIC_LIBRARY) {
+    html += `<div class="sp-category-title">${mainCat}</div>`;
+    
+    // Nếu nó là Mảng (như Mùa Đông)
+    if (Array.isArray(MUSIC_LIBRARY[mainCat])) {
+       html += renderTrackGroupHtml(MUSIC_LIBRARY[mainCat], mainCat, null);
+    } 
+    // Nếu nó là Object chứa thư mục con (như C-Pop)
+    else {
+       for (let subCat in MUSIC_LIBRARY[mainCat]) {
+           html += `<div class="sp-subcategory-title">${subCat}</div>`;
+           html += renderTrackGroupHtml(MUSIC_LIBRARY[mainCat][subCat], mainCat, subCat);
+       }
+    }
+  }
+  
+  container.innerHTML = html;
+}
+
+// Hàm phụ hỗ trợ render danh sách bài hát gọn gàng
+function renderTrackGroupHtml(trackArray, mainCat, subCat) {
+  let contextName = subCat ? `${mainCat} - ${subCat}` : mainCat;
+  
+  return trackArray.map((t, idx) => {
+    // Check xem bài đang phát có nằm đúng mục này không
+    const isActive = (contextName === currentPlaylistContext) && (idx === currentTrackIdx);
+    
+    const clickParamMain = `'${mainCat}'`;
+    const clickParamSub = subCat ? `'${subCat}'` : `null`;
+    
+    return `<div class="spotify-item ${isActive?'active':''}" onclick="playTrackFromCategory(${clickParamMain}, ${clickParamSub}, ${idx})">
       <span class="spotify-item-num">${isActive ? '♫' : (idx + 1)}</span>
       <div class="spotify-item-info">
         <div class="spotify-item-title">${escapeHtml(t.title)}</div>
@@ -2232,7 +2367,6 @@ function renderSpotifyPlaylist(){
     </div>`;
   }).join("");
 }
-
 function playCharVoice(charId, btn){
   const voiceFile = VOICE_MAP[charId];
   if(!voiceFile) return toast("Giọng nói của nhân vật này đang được cập nhật...");
