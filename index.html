@@ -42,24 +42,24 @@
   50% { transform: translateY(-7px); }
 }
 
-/* NỐT NHẠC TỎA SÁNG NHẸ */
+/* NỐT NHẠC: Thu nhỏ lại thanh tao, vừa vặn */
 .intro-moon {
-  font-size: 42px;
+  font-size: 30px; /* Thu từ 42px xuống 30px */
   color: #033E8C;
-  margin-bottom: 8px;
-  filter: drop-shadow(0 2px 8px rgba(3, 62, 140, 0.25));
+  margin-bottom: 4px;
+  filter: drop-shadow(0 2px 6px rgba(3, 62, 140, 0.2));
   display: inline-block;
 }
 
-/* TIÊU ĐỀ XANH HOÀNG GIA CHUẨN ĐIỆN ẢNH */
+/* TIÊU ĐỀ: Phóng to hơn, uy nghiêm và chiếm trọn ánh nhìn */
 .intro-title {
   font-family: 'Cinzel Decorative', serif !important;
   font-weight: 700 !important;
-  font-size: clamp(1.6rem, 5.5vw, 2.1rem);
+  font-size: clamp(1.9rem, 6.8vw, 2.4rem); /* Tăng kích thước chữ trên mobile */
   color: #023E73;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 /* ĐƯỜNG KẺ HOA VĂN KIM CƯƠNG TINH TẾ */
@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin: 14px auto 16px;
+  margin: 12px auto 14px;
   width: 75%;
 }
 .intro-divider::before, .intro-divider::after {
@@ -86,10 +86,10 @@
 .intro-sub {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: #2b5278;
   line-height: 1.6;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .intro-body-text {
   font-size: 0.88rem;
@@ -99,25 +99,27 @@
 .intro-body-text p { margin: 4px 0; }
 .intro-body-text b { color: #023E73; }
 
-/* NÚT TIẾN VÀO GIẤC MỘNG - VIÊN NGỌC BĂNG */
+/* NÚT TIẾN VÀO GIẤC MỘNG: Đổi sang font Lora cổ điển, không còn thô */
 .begin-btn {
   position: relative;
   overflow: hidden;
   width: 100%;
   max-width: 280px;
-  padding: 14px 20px;
+  padding: 13px 20px;
   border-radius: 50px;
   border: none;
   background: linear-gradient(135deg, #0c4f86 0%, #3182ce 100%);
   color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  margin-top: 24px;
+  font-family: var(--serif) !important; /* Dùng font Lora mềm mại, cổ tích */
+  font-size: 0.96rem;
+  font-weight: 600;
+  letter-spacing: 2px; /* Giãn cách chữ sang trọng */
+  margin-top: 22px;
   cursor: pointer;
   box-shadow: 0 8px 22px rgba(12, 79, 134, 0.32);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+  
 /* Hiệu ứng tia sáng quét ngang nút */
 .begin-btn::before {
   content: "";
@@ -142,7 +144,7 @@
   transform: translateY(1px);
 }
 
-/* DÒNG NHẮC ĐEO TAI NGHE CHUẨN GAME */
+/* DÒNG NHẮC ĐEO TAI NGHE */
 .intro-tip {
   font-size: 0.72rem;
   color: #7d96af;
@@ -1038,7 +1040,7 @@ body.modal-open #snow-container { display: none !important; }
   <button class="begin-btn" onclick="enterDream()">
     <span>TIẾN VÀO GIẤC MỘNG</span>
   </button>
-  <div class="intro-tip">🎧 Đeo tai nghe để trải nghiệm 'Bản tình ca' một cách trọn vẹn</div>
+  <div class="intro-tip">🎧 Đeo tai nghe để trải nghiệm 'Bản tình ca' một cách trọn vẹn nhất</div>
 </div>
 </div>
 
