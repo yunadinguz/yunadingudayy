@@ -3353,6 +3353,9 @@ async function viewMail(id) {
   
   actionDiv.innerHTML = actionHtml;
   mailDetailBox.style.display = "block";
+setTimeout(() => {
+  mailDetailBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}, 50);
 }
 
 async function claimRewardTitle(tid, tname) {
@@ -3393,7 +3396,7 @@ async function sendAdminMail() {
   
   if(!title || !sender || !body) return toast("Vui lòng điền đầy đủ thông tin!");
   const mailData = JSON.stringify({ title, sender, body });
-  const {error} = await db.from("comments").insert({ char_id: 'ADMIN_MAIL', content: mailData, user_id: currentUser.id, is_admin: true });
+const {error} = await db.from("comments").insert({ char_id: 'ADMIN_MAIL', content: mailData, user_id: currentUser.id, is_admin: true, created_at: new Date().toISOString() });
   
   if(error) { toast("Lỗi: " + error.message); } 
   else { 
