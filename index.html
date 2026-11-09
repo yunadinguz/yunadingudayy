@@ -160,7 +160,7 @@
 
 /* HEADER STYLE */
 .x-header-container{max-width:100%;background:transparent;margin:auto;position:relative;overflow:visible;z-index:800;pointer-events:none}
-.x-header-container::before{content:"";position:absolute;top:0;left:0;width:100%;height:calc(100% - 150px);background:rgba(255, 255, 255, 0.5);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255, 255, 255, 0.6);box-shadow:0 10px 30px rgba(3,62,140,.08);z-index:-1;pointer-events:auto}
+.x-header-container::before{content:"";position:absolute;top:0;left:0;width:100%;height:calc(100% - 150px);background:#ffffff;box-shadow:0 4px 15px rgba(3,62,140,.05);z-index:-1;pointer-events:auto}
 .x-header-container > *{pointer-events:auto}
 .x-banner{width:100%;height:150px;object-fit:cover;display:block;background:#79acd9}
 .x-profile-row{display:flex;align-items:flex-end;gap:14px;padding:0 20px 14px;margin-top:-32px;position:relative;z-index:2}
@@ -192,10 +192,11 @@
 /* VIEWS & CONTENT BOX */
 .view{display:none}.view.active{display:block;animation:fadeInView .45s cubic-bezier(.25,.8,.25,1) forwards}
 @keyframes fadeInView{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.content-box{position:relative;z-index:10;width:min(580px, calc(100% - 16px));margin:14px auto 40px;padding:16px;border-radius:28px;background:rgba(255,255,255,.85);backdrop-filter:blur(9px);box-shadow:var(--shadow)}
 
 /* SEARCH BAR */
 .search-wrap{position:relative;margin-bottom:20px}
-.search-box{display:flex;align-items:center;width:100%;max-width:480px;margin:0 auto;border:1px solid rgba(255, 255, 255, 0.7);background:rgba(255, 255, 255, 0.45);backdrop-filter:blur(10px);border-radius:28px;padding:3px 8px 3px 16px;box-shadow:inset 0 2px 6px rgba(3, 62, 140, 0.05), 0 4px 12px rgba(3, 62, 140, 0.05)}
+.search-box{display:flex;align-items:center;width:100%;max-width:480px;margin:0 auto;border:1px solid #9fc5e5;background:#fff;border-radius:28px;padding:3px 8px 3px 16px;box-shadow:0 3px 12px rgba(3,62,140,.06)}
 #searchInput{border:0;outline:0;flex:1;min-width:0;padding:10px 4px;background:transparent;color:var(--navy);font-size:0.9rem}
 .action-row{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
 .pill-btn{border:0;border-radius:25px;padding:10px 18px;background:var(--light);color:#fff;font-weight:700;font-size:0.88rem;box-shadow:0 5px 14px rgba(120,170,235,.22);transition:.25s}
@@ -206,6 +207,7 @@
 
 /* CHAR CARDS */
 .char-grid{display:flex;flex-direction:column;gap:22px}
+.char-card{position:relative;background:#ffffff;border:1px solid #e1edf7;border-radius:28px;padding:16px;box-shadow:0 8px 24px rgba(3,62,140,.06);display:flex;flex-direction:column;gap:12px;animation:cardPop .35s ease forwards}
 @keyframes cardPop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 
 .char-media-wrap{position:relative;width:100%;border-radius:20px;overflow:hidden;background:#eef6fc;box-shadow:0 4px 15px rgba(0,0,0,.06)}
@@ -282,7 +284,7 @@
 /* APP VIEW MODAL */
 .app-view{position:fixed;inset:0;z-index:9000;background:rgba(7,22,43,.48);backdrop-filter:blur(7px);display:none;align-items:flex-end;opacity:0;transition:opacity .35s ease}
 .app-view.show{display:flex;opacity:1}
-.app-shell{width:min(540px,100%);height:92vh;margin:auto;background:linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 248, 255, 0.7) 100%);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:36px 36px 0 0;border-top:1.5px solid rgba(255,255,255,0.9);border-left:1px solid rgba(255,255,255,0.7);border-right:1px solid rgba(255,255,255,0.7);overflow:hidden;position:relative;box-shadow:0 -15px 45px rgba(3,62,140,.15);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.app-shell{width:min(540px,100%);height:92vh;margin:auto;background:#f5faff;border-radius:30px 30px 0 0;overflow:hidden;position:relative;box-shadow:0 -15px 45px rgba(0,0,0,.22);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .app-view.show .app-shell{transform:translateY(0)}
 .app-scroll{overflow-y:auto;flex:1;padding-bottom:90px}
 .app-close{position:absolute;z-index:20;top:12px;left:12px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.9);font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12)}
@@ -295,7 +297,7 @@
 @keyframes voicePulse{0%{transform:scale(1)}100%{transform:scale(1.15) translateY(-1px)}}
 
 .app-meta{padding:16px 20px 4px}.app-name{font:700 1.6rem var(--serif);margin:0 0 3px}.app-created{color:#9aa7b6;font-size:.75rem;font-style:italic}
-.app-section{background:rgba(255, 255, 255, 0.55);border:1px solid rgba(255,255,255,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);margin:12px 16px;border-radius:24px;padding:18px;box-shadow:0 8px 20px rgba(3,62,140,.05);animation:fadeInView .35s ease forwards}
+.app-section{background:#fff;margin:12px 16px;border-radius:23px;padding:16px;box-shadow:0 4px 15px rgba(3,62,140,.05);animation:fadeInView .35s ease forwards}
 .app-section h3{color:var(--blue);font:600 1.05rem var(--serif);margin:0 0 10px}
 .app-tagline-full{font-style:italic;color:#5f6e80;line-height:1.5;font-size:0.85rem}
 .public-info{color:#5f6f83;line-height:1.6;font-size:.9rem;min-height:24px}
@@ -322,8 +324,7 @@
 .link-doki{background:#75acd7}.link-gg{background:#034a82}.link-story{background:#a9d0ed}
 
 /* PAGES */
-.content-box, .journal-page, .auth-page {position:relative;z-index:10;width:min(580px, calc(100% - 16px));margin:14px auto 40px;padding:20px;border-radius:32px;background:linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.4) 100%);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1.5px solid rgba(255, 255, 255, 0.8);border-top:1.5px solid #ffffff;box-shadow:0 15px 35px rgba(3, 62, 140, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.5);}
-@media(max-width:600px){ .content-box, .journal-page, .auth-page {padding:14px; border-radius:24px;} }
+.journal-page,.auth-page{width:min(580px,calc(100% - 16px));margin:15px auto 50px;background:rgba(255,255,255,.86);border-radius:28px;padding:20px;box-shadow:var(--shadow)}
 .page-title{text-align:center;font:700 1.65rem var(--serif);color:var(--blue);margin:12px 0 6px}
 .page-sub{text-align:center;color:var(--text);font-style:italic;font-size:.85rem}
 .back-library{border:0;border-radius:22px;background:#eaf5ff;color:#25587f;padding:9px 16px;font-weight:700;margin-bottom:12px}
@@ -357,6 +358,8 @@
 
 .custom-modal{display:none;position:fixed;inset:0;z-index:12000;background:rgba(5,18,35,.45);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
 .custom-modal.show{display:flex;opacity:1}
+.modal-box{width:min(400px,94%);max-height:90vh;overflow:auto;background:rgba(255,255,255,.96);border-radius:26px;padding:22px;box-shadow:0 25px 60px rgba(0,0,0,.22);position:relative;text-align:center;transform:scale(.88) translateY(15px);transition:transform .35s cubic-bezier(.175,.885,.32,1.275)}
+.custom-modal.show .modal-box{transform:scale(1) translateY(0);animation:modalPop .35s cubic-bezier(.175,.885,.32,1.275) forwards}
 @keyframes modalPop{from{opacity:0;transform:scale(.88) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
 
 @keyframes shakeError{
@@ -400,7 +403,7 @@
 .float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.4);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);color:var(--mid);box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid rgba(255,255,255,0.6);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
 
 .float-btn:hover, .notif-btn:hover{background:rgba(255,255,255,0.8);transform:scale(1.1)}
-.music-playing{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.music-playing { color: #033E8C !important; background: rgba(121, 172, 217, 0.28) !important; }
 
 /* --- CSS THANH CÔNG CỤ MỚI --- */
 .glass-action-bar {
@@ -497,32 +500,65 @@
   padding-bottom: 15px; /* Thêm khoảng trống dưới cùng để dễ cuộn */
 }
 
-/* SPOTIFY GIAO DIỆN LIGHT THEME */
-.spotify-modal{display:none;position:fixed;inset:0;z-index:15000;background:rgba(5,18,35,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:15px;opacity:0;transition:opacity .3s ease}
-.spotify-modal.show{display:flex;opacity:1}
-.modal-box, .spotify-card {width:min(420px,94%);max-height:90vh;overflow:auto;background:linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.55) 100%);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);border-radius:32px;padding:24px;border:1.5px solid rgba(255, 255, 255, 0.9);box-shadow:0 25px 60px rgba(7, 30, 60, 0.15), inset 0 0 25px rgba(255, 255, 255, 0.6);position:relative;text-align:center;transform:scale(.88) translateY(15px);transition:transform .35s cubic-bezier(.175,.885,.32,1.275);color:var(--navy);}
-.spotify-card {transform:scale(.92); text-align: left;}
-.spotify-modal.show .spotify-card{transform:scale(1)}
-.spotify-close{position:absolute;top:14px;right:16px;border:0;background:transparent;color:#748293;font-size:22px;cursor:pointer;transition:.2s}
-.spotify-close:hover{color:var(--navy)}
-.spotify-now-playing{background:#f0f7ff;border-radius:18px;padding:14px;display:flex;align-items:center;gap:12px;margin-top:10px;border:1px solid #d0e4f5}
-.spotify-cover{width:56px;height:56px;border-radius:12px;object-fit:cover;box-shadow:0 4px 12px rgba(3,62,140,.15)}
-.spotify-info{flex:1;min-width:0;text-align:left}
-.spotify-title{font-weight:700;font-size:.95rem;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.spotify-artist{font-size:.8rem;color:#5f6e80;margin-top:3px;font-weight:500}
-.spotify-artist-dot{color:#8aa0b8;margin:0 4px;font-weight:bold}
-.spotify-play-btn{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg, #1d609b, #5ba4e5);border:0;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s;flex-shrink:0;box-shadow:0 4px 12px rgba(29,96,155,.3)}
-.spotify-play-btn:hover{transform:scale(1.08)}
+/* MUSIC BOX GIAO DIỆN MỚI XỊN XÒ */
+.spotify-modal { display:none; position:fixed; inset:0; z-index:15000; background:rgba(5,18,35,.55); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:15px; opacity:0; transition:opacity .3s ease; }
+.spotify-modal.show { display:flex; opacity:1; }
+.spotify-card { width:min(600px, 94%); max-height: 90vh; background:#ffffff; color:var(--navy); border-radius:24px; padding:24px; box-shadow:0 25px 60px rgba(3,62,140,.2); border:1px solid #dceaf5; position:relative; transform:scale(.92); transition:transform .3s ease; display: flex; flex-direction: column; }
+.spotify-modal.show .spotify-card { transform:scale(1); }
+.spotify-close { position:absolute; top:18px; right:20px; border:0; background:transparent; color:#748293; font-size:26px; cursor:pointer; transition:.2s; z-index: 10; line-height: 1; }
+.spotify-close:hover { color:var(--navy); }
 
-.spotify-list-title{font-size:.82rem;font-weight:700;color:#3b6d9a;text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px;text-align:left}
-.spotify-playlist{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding-right:4px}
-.spotify-item{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:12px;cursor:pointer;transition:background .2s;text-align:left}
-.spotify-item:hover{background:#f0f7ff}
-.spotify-item.active{background:#e6f2fc;border-left:3px solid #1d609b}
-.spotify-item-num{font-size:.8rem;color:#78889b;width:16px;text-align:center}
-.spotify-item-info{flex:1;min-width:0}
-.spotify-item-title{font-weight:700;font-size:.86rem;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.spotify-item-sub{font-size:.76rem;color:#68778c;margin-top:2px;font-weight:400}
+/* Header Music Box */
+.sp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.sp-header-title { font-family: var(--sans); font-weight: 800; font-size: 1.1rem; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+.sp-badge { background: #e0f2fe; color: #0284c7; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 12px; letter-spacing: 0.5px; }
+
+/* Khu vực Now Playing (Đang phát) */
+.spotify-now-playing { background:#f0f7ff; border-radius:20px; padding:20px; display:flex; flex-direction: column; position: relative; margin-bottom: 24px; border:1px solid #e1edf6; }
+.sp-now-info-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.spotify-cover { width:72px; height:72px; border-radius:14px; object-fit:cover; box-shadow:0 6px 16px rgba(3,62,140,.12); border: 2px solid #fff; }
+.spotify-info { flex:1; min-width:0; text-align:left; }
+.spotify-title { font-weight:800; font-size:1.15rem; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom: 4px; }
+.spotify-artist { font-size:.85rem; color:#64748b; font-weight:600; margin-bottom: 4px; }
+.sp-now-status { font-size: 0.75rem; color: #79acd9; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+
+/* Nút điều khiển */
+.sp-controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
+.sp-ctrl-btn { background: transparent; border: none; color: #79acd9; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.sp-ctrl-btn:hover { color: var(--blue); transform: scale(1.1); }
+.spotify-play-btn { width: 44px; height: 44px; border-radius: 50%; background: #1d609b; color: #fff; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 6px 16px rgba(29, 96, 155, 0.3); border: none; }
+.spotify-play-btn:hover { transform: scale(1.08); background: #154c7a; }
+
+/* Tabs Thư viện âm nhạc */
+.sp-lib-title { font-weight: 800; font-size: 1.05rem; margin-bottom: 12px; text-align: left; color: #1e293b; }
+.sp-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+.sp-tabs::-webkit-scrollbar { display: none; }
+.sp-tab-btn { padding: 8px 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.25s; white-space: nowrap; background: #f0f6fb; color: #64748b; }
+.sp-tab-btn.active { background: #1d609b; color: #fff; box-shadow: 0 4px 10px rgba(29,96,155,0.2); }
+
+/* Danh sách bài hát */
+.sp-list-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; border-bottom: 1px solid #f0f6fb; padding-bottom: 8px; }
+.sp-list-cat-name { font-weight: 800; font-size: 1.1rem; color: #1e293b; }
+.sp-list-count { font-size: 0.85rem; color: #8797a9; font-weight: 600; }
+.spotify-playlist { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; min-height: 200px; }
+
+/* Item bài hát */
+.spotify-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; cursor: pointer; transition: all 0.2s; text-align: left; background: #fff; border: 1px solid transparent; }
+.spotify-item:hover { background: #f8fafc; border-color: #e2e8f0; }
+.spotify-item.active { background: #eaf5ff; border-color: #cce4f7; }
+.spotify-item-num { font-size: 0.9rem; color: #94a3b8; width: 24px; text-align: center; font-weight: 700; font-family: var(--sans); }
+.spotify-item.active .spotify-item-num { color: #0284c7; font-size: 1.1rem; }
+.spotify-item-info { flex: 1; min-width: 0; }
+.spotify-item-title { font-weight: 800; font-size: 0.95rem; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.spotify-item-sub { font-size: 0.8rem; color: #64748b; font-weight: 500; }
+.sp-item-play-icon { color: #94a3b8; font-size: 1.2rem; }
+.spotify-item:hover .sp-item-play-icon { color: #1d609b; }
+.sp-badge-playing { background: #dbeafe; color: #1d4ed8; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 10px; white-space: nowrap; margin-left: auto; display: none; }
+.spotify-item.active .sp-badge-playing { display: block; }
+.spotify-item.active .sp-item-play-icon { display: none; }
+
+/* Tiêu đề mục con (Giai điệu buồn, Khúc nhạc vui) */
+.sp-subcategory-title { font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin: 10px 0 4px 10px; }
 
 /* WECHAT GIAO DIỆN CHÂN THỰC */
 .wechat-box{background:#ededed;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;height:430px;text-align:left;box-shadow:0 12px 35px rgba(0,0,0,.15)}
@@ -692,7 +728,7 @@
 .mail-content-view { background: #f5faff; border: 1px solid #dcebf5; border-radius: 12px; padding: 16px; margin-top: 15px; text-align: left; font-size: 0.9rem; line-height: 1.6; display: none; }
 
 /* GIAO DIỆN BÌNH LUẬN MỚI */
-.cmt-box-wrapper { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; box-shadow: inset 0 2px 8px rgba(3,62,140,0.03), 0 4px 15px rgba(3,62,140,0.05); }
+.cmt-box-wrapper { background: #ffffff; border: 1px solid #cfe2f1; border-radius: 18px; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; box-shadow: 0 2px 8px rgba(3,62,140,0.03); }
 .cmt-textarea { border: none; outline: none; resize: none; background: transparent; font-family: var(--sans); font-size: 0.88rem; color: var(--navy); padding: 4px 0; max-height: 120px; width: 100%; }
 .cmt-action-bar { display: flex; align-items: center; justify-content: space-between; width: 100%; padding-top: 4px; border-top: 1px solid #f0f6fb; }
 
@@ -986,8 +1022,7 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 .lb-list-points { color: #e53e3e; font-weight: bold; font-size: 0.85rem; }
 
 /* GIAO DIỆN TRIỂN LÃM TRANH */
-.char-card, .gallery-post {position:relative;background:rgba(255, 255, 255, 0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255, 255, 255, 0.9);border-bottom:1px solid rgba(255, 255, 255, 0.4);border-right:1px solid rgba(255, 255, 255, 0.4);border-radius:28px;padding:16px;box-shadow:0 8px 24px rgba(3, 62, 140, 0.08);display:flex;flex-direction:column;gap:12px;animation:cardPop .35s ease forwards; transition: transform 0.25s, box-shadow 0.25s;}
-.char-card:hover, .gallery-post:hover {transform: translateY(-3px); box-shadow:0 12px 30px rgba(3, 62, 140, 0.12);}
+.gallery-post { background: #fff; border: 1px solid #e1edf6; border-radius: 20px; padding: 16px; box-shadow: 0 4px 15px rgba(3,62,140,.03); }
 .gallery-post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 
 /* Khung trượt nhiều ảnh (Carousel) */
@@ -1399,23 +1434,60 @@ body.modal-open #snow-container { display: none !important; }
 </div>
 
 <div id="spotifyModal" class="spotify-modal">
-<div class="spotify-card">
-  <button class="spotify-close" onclick="closeSpotify()">×</button>
-  <div style="font-size:0.8rem;font-weight:700;color:#1d609b;text-align:left">PLAYING FROM PLAYLIST</div>
-  <div class="spotify-now-playing">
-    <img id="spCover" class="spotify-cover" src="images/avatar.jpg" alt="">
-    <div class="spotify-info">
-      <div id="spTitle" class="spotify-title">Dracula</div>
-      <div class="spotify-artist"><span id="spArtist">Tame Impala</span></div>
+  <div class="spotify-card">
+    <button class="spotify-close" onclick="closeSpotify()">×</button>
+    
+    <div class="sp-header">
+      <div class="sp-header-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+        WINTER SERENADE
+      </div>
+      <div class="sp-badge">MUSIC BOX</div>
     </div>
-    <div style="display:flex; gap: 8px;">
-  <button id="spLoopBtn" style="width:42px; height:42px; border-radius:50%; background:#f0f7ff; border:1px solid #dcebf5; color:#78889b; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s;" onclick="toggleLoop()">⇄</button>
-  <button class="spotify-play-btn" id="spPlayBtn" onclick="toggleSpotifyPlay()">▶</button>
-</div>
+
+    <div class="spotify-now-playing">
+      <div class="sp-now-info-row">
+        <img id="spCover" class="spotify-cover" src="images/avatar.jpg" alt="">
+        <div class="spotify-info">
+          <div id="spTitle" class="spotify-title">Tên bài hát</div>
+          <div id="spArtist" class="spotify-artist">Ca sĩ</div>
+          <div class="sp-now-status">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            Đang phát • <span id="spNowCat">Mùa Đông</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="sp-controls">
+        <button id="spLoopBtn" class="sp-ctrl-btn" style="font-size: 1.1rem;" onclick="toggleLoop()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+        </button>
+        <button class="sp-ctrl-btn" onclick="prevSpotifyTrack()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg>
+        </button>
+        <button class="spotify-play-btn" id="spPlayBtn" onclick="toggleSpotifyPlay()">
+          <svg id="spPlayIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </button>
+        <button class="sp-ctrl-btn" onclick="nextSpotifyTrack()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sp-lib-title">Thư viện âm nhạc</div>
+    <div class="sp-tabs" id="spTabsContainer">
+      <!-- Tabs sẽ được JS tạo tự động ở đây -->
+    </div>
+
+    <div class="sp-list-header">
+      <div class="sp-list-cat-name" id="spCurrentListTitle">Mùa Đông</div>
+      <div class="sp-list-count" id="spCurrentListCount">0 bài hát</div>
+    </div>
+
+    <div class="spotify-playlist" id="spPlaylist">
+      <!-- List bài hát sẽ được load ở đây -->
+    </div>
   </div>
-  <div class="spotify-list-title">Danh sách bài hát</div>
-  <div class="spotify-playlist" id="spPlaylist"></div>
-</div>
 </div>
 
 <div class="floating-right">
@@ -1649,7 +1721,6 @@ const CHARS=[
 
 const MUSIC_LIBRARY = {
   "Mùa Đông": [
-    { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/limkim.png" },
     { title: "snow flower", artist: "V feat peakboy", file: "MUSIC/snowflower.mp3", cover: "images/snowflower.jpg" },
     { title: "last christmas", artist: "Wham!", file: "MUSIC/lastchristmas.mp3", cover: "images/lastchristmas.jpg" },
     { title: "chẳng giống giáng sinh", artist: "Suni Hạ Linh", file: "MUSIC/giangsinhchanggionggiangsinh.mp3", cover: "images/changgionggiangsinh.jpg" },
@@ -1657,8 +1728,7 @@ const MUSIC_LIBRARY = {
     { title: "đợi", artist: "52Hz", file: "MUSIC/doi.mp3", cover: "images/doi.jpg" },
     { title: "pages", artist: "WIMY", file: "MUSIC/pages.mp3", cover: "images/pages.jpeg" },
     { title: "lỡ một mai tôi quên tên người", artist: "Khiem", file: "MUSIC/lomotmaitoiquentennguoi.mp3", cover: "images/lomotmaitoiquentennguoi.jpg" },
-    { title: "all i want for christmas is you", artist: "Mariah Carey", file: "MUSIC/alliwant.mp3", cover: "images/alliwant.jpeg" },
-    { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/springsnow.jpeg" }
+    { title: "all i want for christmas is you", artist: "Mariah Carey", file: "MUSIC/alliwant.mp3", cover: "images/alliwant.jpeg" }
   ],
   "C-Pop": {
     "Giai điệu buồn": [
@@ -1666,37 +1736,44 @@ const MUSIC_LIBRARY = {
       { title: "thiếu niên hoa hồng", artist: "Vương Tĩnh Văn", file: "MUSIC/thieunienhoahong.mp3", cover: "images/thich.jpg" },
       { title: "vây giữ", artist: "Vương Tĩnh Văn", file: "MUSIC/vaygiu.mp3", cover: "images/vaygiu.jpg" },
       { title: "khiêm nhường", artist: "Vương Tĩnh Văn", file: "MUSIC/khiemnhuong.mp3", cover: "images/khiemnhuong.jpg" },
-      { title: "tháp rơi tự do", artist: "LBI Lợi Bỉ", file: "MUSIC/thaproitudo.mp3", cover: "imagesthaproitudo.jpg" },
-      { title: "biển, đảo và em", artist: "Mã Dã (Crabbit)", file: "MUSIC/biendaovaem.mp3", cover: "biendaovaem.jpg" },
-      { title: "buông bỏ sự phụ thuộc nơi anh", artist: "Vương Diễm Vi", file: "MUSIC/buongbosuphuthuocnoianh.mp3", cover: "buongbosuphuthuocnoianh.jpg" },
-      { title: "dễ thay đổi", artist: "Vương Tĩnh Văn", file: "MUSIC/dethaydoi.mp3", cover: "dethaydoi.jpg" },
-      { title: "sau khi anh đi", artist: "Tiểu Mị", file: "MUSIC/saukhianhdi.mp3", cover: "saukhianhdi.jpg" },
-      { title: "trống rỗng x sa vào nguy hiểm x không có nước mắt", artist: "Quang Trạch x Cát Đông Kỳ", file: "MUSIC/trongrong.mp3", cover: "trongrong.jpg" },
-      { title: "trong nháy mắt", artist: "Trịnh Nhuận Trạch", file: "MUSIC/trongnhaymat.mp3", cover: "trongnhaymat.jpg" },
-      { title: "nếu tình yêu đã lãng quên", artist: "Uông Tô Lang x Thiện Y Thuần", file: "MUSIC/neutinhyeudalangquen.mp3", cover: "neutinhyeudalangquen.jpg" },
-      { title: "tình yêu bị làm sao vậy", artist: "Trần Thôn Trưởng (Giang Thủ)", file: "MUSIC/tinhyeubilamsaovay.mp3", cover: "tinhyeubilamsaovay.jpg" },
-      { title: "không đáng", artist: "Đại Đầu Trâm", file: "MUSIC/khongdang.mp3", cover: "khongdang.jpg" },
-      { title: "xóa đi", artist: "Yên ( Hứa Giai Hào)", file: "MUSIC/xoadi.mp3", cover: "xoadi.jpg" },
-      { title: "quên rồi", artist: "Chu Lâm Phong", file: "MUSIC/quenroi.mp3", cover: "quenroi.jpg" },
-      { title: "good things", artist: "NINE PERCENT", file: "MUSIC/goodthings.mp3", cover: "goodthings.jpg" },
-      { title: "tình yêu vĩnh viễn không mất đi", artist: "Thiện Y Thuần", file: "MUSIC/tinhyeuvinhvienkhongmatdi.mp3", cover: "tinhyeuvinhvienkhongmatdi.jpg" }
+      { title: "tháp rơi tự do", artist: "LBI Lợi Bỉ", file: "MUSIC/thaproitudo.mp3", cover: "images/thaproitudo.jpg" },
+      { title: "biển, đảo và em", artist: "Mã Dã (Crabbit)", file: "MUSIC/biendaovaem.mp3", cover: "images/biendaovaem.jpg" },
+      { title: "buông bỏ sự phụ thuộc nơi anh", artist: "Vương Diễm Vi", file: "MUSIC/buongbosuphuthuocnoianh.mp3", cover: "images/buongbosuphuthuocnoianh.jpg" },
+      { title: "dễ thay đổi", artist: "Vương Tĩnh Văn", file: "MUSIC/dethaydoi.mp3", cover: "images/dethaydoi.jpg" },
+      { title: "sau khi anh đi", artist: "Tiểu Mị", file: "MUSIC/saukhianhdi.mp3", cover: "images/saukhianhdi.jpg" }
     ],
     "Khúc nhạc vui": [
       { title: "thích", artist: "A Tứ", file: "MUSIC/thich.mp3", cover: "images/thich.jpg" },
       { title: "có chút ngọt ngào", artist: "Uông Tô Lang", file: "MUSIC/cochutngotngao.mp3", cover: "images/cochutngotngao.jpg" },
       { title: "thứ tình cảm đáng chết", artist: "A Sài", file: "MUSIC/thutinhcamdangchet.mp3", cover: "images/thutinhcamdangchet.jpg" },
       { title: "for ya", artist: "Tưởng Tiểu Ni", file: "MUSIC/forya.mp3", cover: "images/forya.jpg" },
-      { title: "melody", artist: "ZIV & KIPES", file: "MUSIC/melody.mp3", cover: "images/melody.jpg" },
-      { title: "ring ring ring", artist: "Bất Thị Hoa Hỏa Nha", file: "MUSIC/ringringring.mp3", cover: "images/ringringring.jpg" },
-      { title: "ta", artist: "Bất Thị Hoa Hỏa Nha", file: "MUSIC/ta.mp3", cover: "images/ta.jpg" },
-      { title: "tình tiết mặn nồng", artist: "Ngô Tử Kiện REmi x kiya", file: "MUSIC/tinhtietmannong.mp3", cover: "images/tinhtietmannong.jpg" },
-      { title: "đường màu đỏ", artist: "Châu Bái Bái x Pank", file: "MUSIC/duongmaudo.mp3", cover: "duongmaudo.jpg" },
-      { title: "đắm chìm", artist: "Châu Bái Bái x Pank", file: "MUSIC/damchim.mp3", cover: "damchim.jpg" },
-      { title: "1022", artist: "Bomb Bỉ Nhĩ", file: "MUSIC/1022.mp3", cover: "images/1022.jpg" }
+      { title: "melody", artist: "ZIV & KIPES", file: "MUSIC/melody.mp3", cover: "images/melody.jpg" }
+    ]
+  },
+  "K-Pop": {
+    "Giai điệu buồn": [
+      { title: "without knowing it all", artist: "lim kim", file: "MUSIC/withoutknowingitall.mp3", cover: "images/limkim.png" },
+      { title: "only", artist: "LeeHi", file: "MUSIC/only.mp3", cover: "images/only.jpg" },
+      { title: "can you hear my heart", artist: "Epik High ft Lee Hi", file: "MUSIC/canyouhearmyheart.mp3", cover: "images/canyouhearmyheart.jpg" },
+      { title: "sudden shower", artist: "ECLIPSE", file: "MUSIC/suddenshower.mp3", cover: "images/suddenshower.jpg" },
+      { title: "true", artist: "Yoari", file: "MUSIC/true.mp3", cover: "images/true.jpg" },
+      { title: "without words", artist: "9th Street", file: "MUSIC/withoutwords.mp3", cover: "images/withoutwords.jpg" },
+      { title: "for you", artist: "Chen x Baekhyun x Xiumin", file: "MUSIC/foryou.mp3", cover: "images/foryou.jpg" },
+      { title: "spring snow", artist: "10cm", file: "MUSIC/springsnow.mp3", cover: "images/springsnow.jpeg" }
+    ],
+    "Khúc nhạc vui": [
+      { title: "some", artist: "iKON", file: "MUSIC/some.mp3", cover: "images/some.jpg" },
+      { title: "some", artist: "BOL4", file: "MUSIC/someb.mp3", cover: "images/someb.jpg" },
+      { title: "you(=I)", artist: "BOL4", file: "MUSIC/youi.mp3", cover: "images/youi.jpg" },
+      { title: "love options", artist: "Color Coded", file: "MUSIC/loveoptions.mp3", cover: "images/loveoptions.jpg" },
+      { title: "miniskirt", artist: "AOA", file: "MUSIC/miniskirt.mp3", cover: "images/miniskirt.jpg" },
+      { title: "what is love", artist: "TWICE", file: "MUSIC/whatislove.mp3", cover: "images/whatislove.jpg" },
+      { title: "say yes", artist: "Loco x Punch", file: "MUSIC/sayyes.mp3", cover: "images/sayyes.jpg" },
+      { title: "blueming", artist: "IU", file: "MUSIC/blueming.mp3", cover: "images/avatar.jpg" }
     ]
   }
 };
-
+  
 const VOICE_MAP = {
   "tri-triet-minh": "MUSIC/tritrietminh (1).mp3",
   "tri-tieu-han": "MUSIC/tritieuhan.mp3",
@@ -1934,11 +2011,12 @@ let currentPage=1; const PER_PAGE=5;
 const profileCache=new Map();
 const charLikesMap = JSON.parse(localStorage.getItem("cache_char_likes") || "{}");
 const charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || "{}");
-// Các biến quản lý Nhạc chia mục
+// Các biến quản lý Nhạc chia mục (Đã update UI mới)
 let currentPlaylistQueue = MUSIC_LIBRARY["Mùa Đông"];
 let currentPlaylistContext = "Mùa Đông";
 let currentTrackIdx = Math.floor(Math.random() * currentPlaylistQueue.length);
 let wasMusicPlaying = false;
+let currentViewTab = "Mùa Đông";
 let commentImages = {};
   let searchTimeout = null;
 function debounceSearch() {
@@ -2237,23 +2315,23 @@ function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavi
 
 const audioEl = document.getElementById("bg-music");
 const cdBtn = document.getElementById("music-toggle");
-
 let isLooping = false;
 
 function initSpotify(){
-  // Bật gạch chéo đỏ mặc định khi vào web (vì nhạc chưa tự kêu)
   cdBtn.classList.add("music-paused");
   
   loadTrackInfo(currentTrackIdx);
   audioEl.onplay = () => { 
     cdBtn.classList.add("music-playing"); 
-    cdBtn.classList.remove("music-paused"); // Bỏ gạch chéo đỏ
+    cdBtn.classList.remove("music-paused"); 
     updateSpotifyPlayBtn(true); 
+    renderSpotifyPlaylist(); // Cập nhật lại UI list để hiện icon đang phát
   };
   audioEl.onpause = () => { 
     cdBtn.classList.remove("music-playing"); 
-    cdBtn.classList.add("music-paused"); // Hiện gạch chéo đỏ
+    cdBtn.classList.add("music-paused"); 
     updateSpotifyPlayBtn(false); 
+    renderSpotifyPlaylist();
   };
   audioEl.onended = () => { 
     if (isLooping) {
@@ -2268,9 +2346,9 @@ function toggleLoop() {
   isLooping = !isLooping;
   const loopBtn = document.getElementById("spLoopBtn");
   if(isLooping) {
-    loopBtn.style.background = "#e6f2fc"; loopBtn.style.color = "var(--blue)"; loopBtn.style.borderColor = "var(--blue)";
+    loopBtn.style.color = "var(--blue)";
   } else {
-    loopBtn.style.background = "#f0f7ff"; loopBtn.style.color = "#78889b"; loopBtn.style.borderColor = "#dcebf5";
+    loopBtn.style.color = "#79acd9";
   }
 }
 
@@ -2280,10 +2358,10 @@ function loadTrackInfo(idx){
   document.getElementById("spTitle").textContent = item.title;
   document.getElementById("spArtist").textContent = item.artist;
   document.getElementById("spCover").src = item.cover;
-  renderSpotifyPlaylist();
+  
+  document.getElementById("spNowCat").textContent = currentPlaylistContext;
 }
 
-// Bấm vào bài nào, lấy cả list của mục đó nạp vào hàng chờ
 function playTrackFromCategory(mainCat, subCat, idx) {
   if (subCat) {
     currentPlaylistQueue = MUSIC_LIBRARY[mainCat][subCat];
@@ -2304,12 +2382,21 @@ function toggleSpotifyPlay(){
 
 function updateSpotifyPlayBtn(isPlaying){
   const btn = document.getElementById("spPlayBtn");
-  if(btn) btn.textContent = isPlaying ? "❚❚" : "▶";
+  if(btn) {
+    btn.innerHTML = isPlaying 
+      ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>` 
+      : `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+  }
 }
 
-// Chạy bài tiếp theo trong mục HIỆN TẠI đang nghe
 function nextSpotifyTrack(){
   currentTrackIdx = (currentTrackIdx + 1) % currentPlaylistQueue.length;
+  loadTrackInfo(currentTrackIdx);
+  audioEl.play().catch(()=>{});
+}
+
+function prevSpotifyTrack(){
+  currentTrackIdx = (currentTrackIdx - 1 + currentPlaylistQueue.length) % currentPlaylistQueue.length;
   loadTrackInfo(currentTrackIdx);
   audioEl.play().catch(()=>{});
 }
@@ -2320,52 +2407,72 @@ function openSpotify(){
 }
 function closeSpotify(){ closeModal('spotifyModal'); }
 
-// Render giao diện Modal Music phân chia theo mục cực xịn xò
+function switchMusicTab(catName) {
+  currentViewTab = catName;
+  renderSpotifyPlaylist();
+}
+
 function renderSpotifyPlaylist(){
+  const tabsContainer = document.getElementById("spTabsContainer");
+  const categories = Object.keys(MUSIC_LIBRARY);
+  
+  tabsContainer.innerHTML = categories.map(cat => {
+    return `<button class="sp-tab-btn ${cat === currentViewTab ? 'active' : ''}" onclick="switchMusicTab('${cat}')">${cat}</button>`;
+  }).join("");
+
   const container = document.getElementById("spPlaylist");
-  if(!container) return;
+  document.getElementById("spCurrentListTitle").textContent = currentViewTab;
   
   let html = "";
+  let totalSongs = 0;
+  const selectedData = MUSIC_LIBRARY[currentViewTab];
   
-  for (let mainCat in MUSIC_LIBRARY) {
-    html += `<div class="sp-category-title">${mainCat}</div>`;
-    
-    // Nếu nó là Mảng (như Mùa Đông)
-    if (Array.isArray(MUSIC_LIBRARY[mainCat])) {
-       html += renderTrackGroupHtml(MUSIC_LIBRARY[mainCat], mainCat, null);
-    } 
-    // Nếu nó là Object chứa thư mục con (như C-Pop)
-    else {
-       for (let subCat in MUSIC_LIBRARY[mainCat]) {
-           html += `<div class="sp-subcategory-title">${subCat}</div>`;
-           html += renderTrackGroupHtml(MUSIC_LIBRARY[mainCat][subCat], mainCat, subCat);
-       }
+  if (Array.isArray(selectedData)) {
+    totalSongs = selectedData.length;
+    html += renderTrackGroupHtml(selectedData, currentViewTab, null);
+  } else {
+    for (let subCat in selectedData) {
+      const subArray = selectedData[subCat];
+      totalSongs += subArray.length;
+      html += `<div class="sp-subcategory-title">${subCat}</div>`;
+      html += renderTrackGroupHtml(subArray, currentViewTab, subCat);
     }
   }
   
+  document.getElementById("spCurrentListCount").textContent = `${totalSongs} bài hát`;
   container.innerHTML = html;
 }
 
-// Hàm phụ hỗ trợ render danh sách bài hát gọn gàng
 function renderTrackGroupHtml(trackArray, mainCat, subCat) {
   let contextName = subCat ? `${mainCat} - ${subCat}` : mainCat;
   
   return trackArray.map((t, idx) => {
-    // Check xem bài đang phát có nằm đúng mục này không
     const isActive = (contextName === currentPlaylistContext) && (idx === currentTrackIdx);
+    const isPlayingNow = isActive && !audioEl.paused;
     
+    let num = (idx + 1).toString().padStart(2, '0');
+    let numHtml = isPlayingNow 
+      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>` 
+      : num;
+
     const clickParamMain = `'${mainCat}'`;
     const clickParamSub = subCat ? `'${subCat}'` : `null`;
     
-    return `<div class="spotify-item ${isActive?'active':''}" onclick="playTrackFromCategory(${clickParamMain}, ${clickParamSub}, ${idx})">
-      <span class="spotify-item-num">${isActive ? '♫' : (idx + 1)}</span>
+    return `
+    <div class="spotify-item ${isActive ? 'active' : ''}" onclick="playTrackFromCategory(${clickParamMain}, ${clickParamSub}, ${idx})">
+      <span class="spotify-item-num">${numHtml}</span>
       <div class="spotify-item-info">
         <div class="spotify-item-title">${escapeHtml(t.title)}</div>
         <div class="spotify-item-sub">${escapeHtml(t.artist)}</div>
       </div>
+      <div class="sp-badge-playing">Đang phát</div>
+      <div class="sp-item-play-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+      </div>
     </div>`;
   }).join("");
 }
+  
 function playCharVoice(charId, btn){
   const voiceFile = VOICE_MAP[charId];
   if(!voiceFile) return toast("Giọng nói của nhân vật này đang được cập nhật...");
