@@ -509,9 +509,13 @@
 .spotify-close:hover { color:var(--navy); }
 
 /* Header Music Box */
-.sp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.sp-header-title { font-family: var(--sans); font-weight: 800; font-size: 1.1rem; color: #1e293b; display: flex; align-items: center; gap: 8px; }
-.sp-badge { background: #e0f2fe; color: #0284c7; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 12px; letter-spacing: 0.5px; }
+.sp-header { display: flex; align-items: center; margin-bottom: 16px; padding-right: 35px; gap: 8px; flex-wrap: wrap; }
+.sp-header-title { font-family: var(--sans); font-weight: 800; font-size: clamp(0.9rem, 4vw, 1.1rem); color: #1e293b; display: flex; align-items: center; gap: 6px; }
+.sp-badge { background: #e0f2fe; color: #0284c7; font-size: clamp(0.65rem, 3vw, 0.75rem); font-weight: 800; padding: 4px 8px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap; }
+
+/* Icon ký hiệu âm nhạc (Kaomoji) */
+.playing-note { color: #0284c7; font-size: 1.3rem; display: inline-block; animation: noteBounce 0.8s infinite alternate ease-in-out; line-height: 1; }
+@keyframes noteBounce { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
 
 /* Khu vực Now Playing (Đang phát) */
 .spotify-now-playing { background:#f0f7ff; border-radius:20px; padding:20px; display:flex; flex-direction: column; position: relative; margin-bottom: 24px; border:1px solid #e1edf6; }
@@ -531,9 +535,9 @@
 
 /* Tabs Thư viện âm nhạc */
 .sp-lib-title { font-weight: 800; font-size: 1.05rem; margin-bottom: 12px; text-align: left; color: #1e293b; }
-.sp-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+.sp-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
 .sp-tabs::-webkit-scrollbar { display: none; }
-.sp-tab-btn { padding: 8px 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.25s; white-space: nowrap; background: #f0f6fb; color: #64748b; }
+.sp-tab-btn { flex-shrink: 0; padding: 8px 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.25s; white-space: nowrap; background: #f0f6fb; color: #64748b; }
 .sp-tab-btn.active { background: #1d609b; color: #fff; box-shadow: 0 4px 10px rgba(29,96,155,0.2); }
 
 /* Danh sách bài hát */
@@ -1212,11 +1216,37 @@ body.modal-open #snow-container { display: none !important; }
 <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuth('login')">Đăng nhập</button><button class="auth-tab" onclick="switchAuth('register')">Đăng ký</button></div>
 
 <form id="loginForm" class="auth-form" onsubmit="event.preventDefault(); window.handleLogin(event);">
-<div class="field-wrap"><span>📧</span><input id="loginEmail" type="email" placeholder="Email" required></div>
-<div class="field-wrap"><span>🔒︎</span><input id="loginPassword" type="password" placeholder="Mật khẩu" required><button type="button" class="password-toggle" onclick="togglePassword('loginPassword',this)">◉</button></div>
+<div class="field-wrap">
+  <span style="color:#8aa0b8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+  <input id="loginEmail" type="email" placeholder="Email" required>
+</div>
+<div class="field-wrap">
+  <span style="color:#8aa0b8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+  <input id="loginPassword" type="password" placeholder="Mật khẩu" required>
+  <button type="button" class="password-toggle" onclick="togglePassword('loginPassword',this)">◉</button>
+</div>
 <label class="auth-check"><input type="checkbox" id="rememberLogin" checked> Lưu đăng nhập cho lần sau</label>
 <button type="submit" class="auth-submit">Đăng nhập</button>
 <button type="button" class="google-btn" onclick="loginGoogle()">Tiếp tục với Google</button>
+</form>
+
+<form id="registerForm" class="auth-form" style="display:none" onsubmit="event.preventDefault(); window.handleRegister(event);">
+<div style="text-align:center"><label class="profile-avatar-wrap"><img id="registerPreview" class="profile-avatar" src="" alt=""><button type="button" class="edit-icon" onclick="document.getElementById('registerAvatar').click()">＋</button><input id="registerAvatar" class="hidden-file" type="file" accept="image/*" onchange="previewAvatar(event,'registerPreview')"></label><div style="color:#66809a;font-size:.78rem;margin:5px">Ảnh đại diện</div></div>
+<div class="field-wrap">
+  <span style="color:#8aa0b8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+  <input id="registerDisplay" placeholder="Tên hiển thị" required>
+</div>
+<div class="field-wrap">
+  <span style="color:#8aa0b8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+  <input id="registerEmail" type="email" placeholder="Email" required>
+</div>
+<div class="field-wrap">
+  <span style="color:#8aa0b8;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+  <input id="registerPassword" type="password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" minlength="6" required>
+  <button type="button" class="password-toggle" onclick="togglePassword('registerPassword',this)">◉</button>
+</div>
+<label class="auth-check"><input type="checkbox" id="rememberRegister" checked> Lưu thông tin đăng nhập cho lần sau</label>
+<button type="submit" class="auth-submit">Đăng ký</button>
 </form>
 
 <form id="registerForm" class="auth-form" style="display:none" onsubmit="event.preventDefault(); window.handleRegister(event);">
@@ -2451,8 +2481,8 @@ function renderTrackGroupHtml(trackArray, mainCat, subCat) {
     const isPlayingNow = isActive && !audioEl.paused;
     
     let num = (idx + 1).toString().padStart(2, '0');
-    let numHtml = isPlayingNow 
-      ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>` 
+let numHtml = isPlayingNow 
+      ? `<span class="playing-note">♫</span>` 
       : num;
 
     const clickParamMain = `'${mainCat}'`;
