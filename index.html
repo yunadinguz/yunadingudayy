@@ -504,79 +504,124 @@
 /* MUSIC BOX GIAO DIỆN MỚI XỊN XÒ */
 .spotify-modal { display:none; position:fixed; inset:0; z-index:15000; background:rgba(5,18,35,.55); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:15px; opacity:0; transition:opacity .3s ease; }
 .spotify-modal.show { display:flex; opacity:1; }
-.spotify-card { width:min(600px, 94%); max-height: 90vh; background:#ffffff; color:var(--navy); border-radius:24px; padding:24px; box-shadow:0 25px 60px rgba(3,62,140,.2); border:1px solid #dceaf5; position:relative; transform:scale(.92); transition:transform .3s ease; display: flex; flex-direction: column; }
-.spotify-modal.show .spotify-card { transform:scale(1); }
-.spotify-close { position:absolute; top:18px; right:20px; border:0; background:transparent; color:#748293; font-size:26px; cursor:pointer; transition:.2s; z-index: 10; line-height: 1; }
-.spotify-close:hover { color:var(--navy); }
+.spotify-card { 
+  width: min(600px, 94%); 
+  max-height: 88vh; 
+  background: #ffffff; 
+  color: var(--navy); 
+  border-radius: 24px; 
+  padding: 16px 16px 20px; /* Thu gọn padding để chừa không gian hiển thị nút trọn vẹn */
+  box-shadow: 0 25px 60px rgba(3,62,140,.2); 
+  border: 1px solid #dceaf5; 
+  position: relative; 
+  transform: scale(.92); 
+  transition: transform .3s ease; 
+  display: flex; 
+  flex-direction: column; 
+  box-sizing: border-box;
+}
+.spotify-modal.show .spotify-card { transform: scale(1); }
+.spotify-close { position: absolute; top: 14px; right: 16px; border: 0; background: transparent; color: #748293; font-size: 26px; cursor: pointer; transition: .2s; z-index: 10; line-height: 1; }
+.spotify-close:hover { color: var(--navy); }
 
 /* Header Music Box */
-.sp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-right: 25px; gap: 5px; flex-shrink: 0; }
-.sp-header-title { font-family: var(--sans); font-weight: 800; font-size: 1rem; color: #1e293b; display: flex; align-items: center; gap: 6px; }
-.sp-badge { background: #e0f2fe; color: #0284c7; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 0; }
+.sp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-right: 25px; gap: 5px; flex-shrink: 0 !important; }
+.sp-header-title { font-family: var(--sans); font-weight: 800; font-size: 0.95rem; color: #1e293b; display: flex; align-items: center; gap: 6px; }
+.sp-badge { background: #e0f2fe; color: #0284c7; font-size: 0.7rem; font-weight: 800; padding: 3px 8px; border-radius: 12px; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 0; }
 
 /* Icon ký hiệu âm nhạc (Kaomoji) */
 .playing-note { color: #0284c7; font-size: 1.3rem; display: inline-block; animation: noteBounce 0.8s infinite alternate ease-in-out; line-height: 1; }
 @keyframes noteBounce { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
 
 /* Khu vực Now Playing (Đang phát) */
-.spotify-now-playing { background:#f0f7ff; border-radius:20px; padding:14px 16px; display:flex; flex-direction: column; position: relative; margin-bottom: 16px; border:1px solid #e1edf6; flex-shrink: 0; }
-.sp-now-info-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-.spotify-cover { width:64px; height:64px; border-radius:14px; object-fit:cover; box-shadow:0 6px 16px rgba(3,62,140,.12); border: 2px solid #fff; flex-shrink: 0; }
-.spotify-info { flex:1; min-width:0; text-align:left; }
-.spotify-title { font-weight:800; font-size:1.05rem; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom: 3px; }
-.spotify-artist { font-size:.82rem; color:#64748b; font-weight:600; margin-bottom: 3px; }
-.sp-now-status { font-size: 0.72rem; color: #79acd9; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.spotify-now-playing { 
+  background: #f0f7ff; 
+  border-radius: 18px; 
+  padding: 12px 14px; 
+  display: flex; 
+  flex-direction: column; 
+  position: relative; 
+  margin-bottom: 12px; 
+  border: 1px solid #e1edf6; 
+  flex-shrink: 0 !important; /* Không cho phép khung này co giãn đè các nút khác */
+}
+.sp-now-info-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.spotify-cover { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 12px rgba(3,62,140,.12); border: 2px solid #fff; flex-shrink: 0; }
+.spotify-info { flex: 1; min-width: 0; text-align: left; }
+.spotify-title { font-weight: 800; font-size: 1rem; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.spotify-artist { font-size: .8rem; color: #64748b; font-weight: 600; margin-bottom: 2px; }
+.sp-now-status { font-size: 0.7rem; color: #79acd9; font-weight: 600; display: flex; align-items: center; gap: 4px; }
 
 /* Nút điều khiển */
-.sp-controls { display: flex; align-items: center; justify-content: center; gap: 20px; }
-.sp-ctrl-btn { background: transparent; border: none; color: #79acd9; font-size: 1.2rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+.sp-controls { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.sp-ctrl-btn { background: transparent; border: none; color: #79acd9; font-size: 1.1rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
 .sp-ctrl-btn:hover { color: var(--blue); transform: scale(1.1); }
-.spotify-play-btn { width: 42px; height: 42px; border-radius: 50%; background: #1d609b; color: #fff; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 6px 16px rgba(29, 96, 155, 0.3); border: none; }
+.spotify-play-btn { width: 38px; height: 38px; border-radius: 50%; background: #1d609b; color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 12px rgba(29, 96, 155, 0.3); border: none; }
 .spotify-play-btn:hover { transform: scale(1.08); background: #154c7a; }
 
-/* Tabs Thư viện âm nhạc (ĐÃ SỬA: Chống bẹp dọc + Cho phép vuốt ngang mượt mà như menu chính) */
-.sp-lib-title { font-weight: 800; font-size: 1rem; margin-bottom: 8px; text-align: left; color: #1e293b; flex-shrink: 0; }
-.sp-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 4px 2px 8px 2px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  flex-shrink: 0; /* Giữ nguyên chiều cao của thanh tab, không bao giờ bị ép bẹp */
-  touch-action: pan-x; /* Cho phép dùng ngón tay vuốt trượt ngang qua lại mượt mà */
-}
-.sp-tabs::-webkit-scrollbar { display: none; }
+/* Tiêu đề thư viện */
+.sp-lib-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 6px; text-align: left; color: #1e293b; flex-shrink: 0 !important; }
 
-.sp-tab-btn {
-  flex-shrink: 0; /* Ngăn nút bị co dúm khi thêm nhiều thể loại nhạc */
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: none;
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: 0.25s;
-  white-space: nowrap;
-  background: #f0f6fb;
-  color: #64748b;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* THANH CHỨA TAB DANH MỤC */
+.sp-tabs { 
+  display: flex !important; 
+  align-items: center !important;
+  gap: 8px !important; 
+  height: 48px !important;
+  min-height: 48px !important;
+  margin-bottom: 8px !important; 
+  overflow-x: auto !important;
+  overflow-y: hidden !important; 
+  padding: 0 4px !important; 
+  box-sizing: border-box !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important; 
+  flex-shrink: 0 !important;
+  touch-action: pan-x !important;
 }
-.sp-tab-btn.active {
-  background: #1d609b;
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(29,96,155,0.2);
+.sp-tabs::-webkit-scrollbar { display: none !important; }
+
+/* TỪNG NÚT DANH MỤC TRẮNG/XANH */
+.sp-tab-btn { 
+  flex: 0 0 auto !important;
+  flex-shrink: 0 !important; 
+  height: 36px !important;
+  line-height: 36px !important; 
+  padding: 0 16px !important; 
+  border-radius: 999px !important; 
+  border: none !important; 
+  font-weight: 700 !important; 
+  font-size: 0.85rem !important; 
+  cursor: pointer !important; 
+  transition: 0.25s !important; 
+  white-space: nowrap !important; 
+  background: #f0f6fb !important; 
+  color: #64748b !important; 
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+.sp-tab-btn.active { 
+  background: #1d609b !important; 
+  color: #fff !important; 
+  box-shadow: 0 4px 10px rgba(29,96,155,0.2) !important; 
 }
 
 /* Danh sách bài hát */
-.sp-list-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; border-bottom: 1px solid #f0f6fb; padding-bottom: 8px; flex-shrink: 0; }
-.sp-list-cat-name { font-weight: 800; font-size: 1.05rem; color: #1e293b; }
-.sp-list-count { font-size: 0.82rem; color: #8797a9; font-weight: 600; }
-.spotify-playlist { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; min-height: 100px; -webkit-overflow-scrolling: touch; }
+.sp-list-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px; border-bottom: 1px solid #f0f6fb; padding-bottom: 6px; flex-shrink: 0 !important; }
+.sp-list-cat-name { font-weight: 800; font-size: 1rem; color: #1e293b; }
+.sp-list-count { font-size: 0.8rem; color: #8797a9; font-weight: 600; }
+.spotify-playlist { 
+  flex: 1 1 auto !important; 
+  overflow-y: auto !important; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+  padding-right: 4px; 
+  min-height: 0 !important;
+  -webkit-overflow-scrolling: touch !important;
+}
 
 /* Item bài hát */
 .spotify-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; cursor: pointer; transition: all 0.2s; text-align: left; background: #fff; border: 1px solid transparent; }
