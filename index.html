@@ -2183,11 +2183,13 @@ function removeCommentImage(id){
 }
 
 async function uploadAvatar(file){
-  if(!file||!currentUser)return null;
-  const ext=file.name.split(".").pop().toLowerCase()||"jpg";
-  const path=`${currentUser.id}/${Date.now()}.${ext}`;
-  const up=await db.storage.from("avatars").upload(path,file,{upsert:true,contentType:file.type});
-  if(up.error)throw up.error;
+  if(!file) return null;
+  const ext = file.name.split(".").pop().toLowerCase() || "jpg";
+  // Nếu là user thì dùng ID, nếu là khách thì lưu vào thư mục 'guests'
+  const folderName = currentUser ? currentUser.id : "guests";
+  const path = `${folderName}/${Date.now()}_${Math.random().toString(36).substr(2, 5)}.${ext}`;
+  const up = await db.storage.from("avatars").upload(path, file, {upsert:true, contentType:file.type});
+  if(up.error) throw up.error;
   return db.storage.from("avatars").getPublicUrl(path).data.publicUrl;
 }
 
@@ -3100,6 +3102,7 @@ requestAnimationFrame(() => {
 });
 
 await loadAppComments(id);
+switchAppTab('details')
 }
 
 function closeAppDetail(){
@@ -4595,13 +4598,6 @@ function switchAppTab(tabId) {
   if (tabId === 'leaderboard' && currentChar) {
     loadLeaderboard(currentChar.id);
   }
-}
-
-// Ghi đè hàm openAppDetail để luôn mở tab 'details' đầu tiên
-const originalOpenAppDetail = openAppDetail;
-openAppDetail = async function(id) {
-  await originalOpenAppDetail(id);
-  switchAppTab('details'); // Reset tab
 }
 
 async function loadLeaderboard(charId) {
