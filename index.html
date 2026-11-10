@@ -2558,9 +2558,12 @@ ${pass}
 </article>`}).join("");
 
 renderPaginationControls(Math.ceil(filteredChars.length/PER_PAGE));
-pagedChars.forEach(c=>{loadMiniComments(c.id)});
+pagedChars.forEach(async c => {
+  let { count } = await db.from("comments").select("*", { count: 'exact', head: true }).eq("char_id", c.id);
+  const cEl = document.getElementById("ccount-" + c.id);
+  if(cEl) cEl.textContent = count || 0;
+});
 refreshUserBadges();
-}
 
 function renderPaginationControls(totalPages){
 const ctrl=document.getElementById("pagination-controls");
