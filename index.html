@@ -1562,18 +1562,18 @@ try {
   }
 } catch(e) { console.warn("Lỗi nạp Supabase:", e); }
 if (!db) {
-  // Bộ dự phòng tạm thời nếu mạng chập chờn để web không bị đơ
   db = {
-    from: () => ({ 
-      select: () => ({ 
-        eq: () => ({ order: () => Promise.resolve({ data: [] }), maybeSingle: () => Promise.resolve({ data: null }) }), 
-        in: () => Promise.resolve({ data: [] }),
-        is: () => ({ order: () => Promise.resolve({ data: [] }) }) // Fix lỗi thiếu hàm .is() gây sập trang
-      }), 
-      insert: () => Promise.resolve({ error: null }), 
-      update: () => Promise.resolve({ error: null }), 
-      upsert: () => Promise.resolve({ error: null }), // Fix lỗi thiếu hàm .upsert()
-      delete: () => Promise.resolve({ error: null }) 
+    from: () => ({
+      select: () => {
+        const chain = {
+          eq: () => chain, in: () => chain, is: () => chain, order: () => chain, limit: () => chain,
+          maybeSingle: () => Promise.resolve({ data: null }),
+          then: (resolve) => resolve({ data: [] })
+        };
+        return chain;
+      },
+      insert: () => Promise.resolve({ error: null }), update: () => Promise.resolve({ error: null }),
+      upsert: () => Promise.resolve({ error: null }), delete: () => Promise.resolve({ error: null })
     }),
     auth: { getSession: () => Promise.resolve({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }), signInWithPassword: () => Promise.resolve({error: {message: "Offline"}}), signUp: () => Promise.resolve({error: {message: "Offline"}}) },
     storage: { from: () => ({ upload: () => Promise.resolve({error: {message: "Offline"}}), getPublicUrl: () => ({data: {publicUrl: ""}}) }) },
@@ -3168,7 +3168,13 @@ let currentMailTab = 'system';
 // 1. HÀM CẬP NHẬT CHẤM ĐỎ VÀ SỐ LƯỢNG THƯ CHƯA ĐỌC
 function getNewItems() {
     if(!currentUser) return { titles: [] };
-    return JSON.parse(localStorage.getItem('new_items_' + currentUser.id) || '{"titles":[]}');
+    try {
+        let items = JSON.parse(localStorage.getItem('new_items_' + currentUser.id));
+        if (!items || !items.titles) return { titles: [] };
+        return items;
+    } catch(e) {
+        return { titles: [] };
+    }
 }
 function addNewItem(type, id) { 
     if(!currentUser || type !== 'titles') return;
@@ -3690,8 +3696,8 @@ async function openEditProfile() {
     defaultAffinityCls = cls;
   } catch (err) {}
 
-  const ownedT = currentProfile.owned_titles || [];
-  const titlesList = document.getElementById("editTitlesList");
+const ownedT = Array.isArray(currentProfile.owned_titles) ? currentProfile.owned_titles : [];
+          const titlesList = document.getElementById("editTitlesList");
   
   let titlesHtml = `<div class="title-item ${tempEquippedTitle === 'none' ? 'selected' : ''}" onclick="selectTitle('none', this, null)">
       <div style="flex: 1; display: flex; justify-content: center;"><span class="badge no-title" style="font-size:0.8rem; padding: 6px 12px;">Không sử dụng Danh Hiệu</span></div>
