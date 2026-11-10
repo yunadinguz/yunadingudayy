@@ -17,7 +17,7 @@
 /* 1. DREAM INTRO */
 #dream-intro{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:url('images/introdaydream.jpg') center/cover no-repeat, url('introdaydream.jpg') center/cover no-repeat, #071426;overflow:hidden;transition:opacity .8s ease,visibility .8s ease}
 #dream-intro::before{content:"";position:absolute;left:0;top:0;width:calc(100% + 60px);height:calc(100% + 60px);background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.15),transparent 35%),radial-gradient(circle at 80% 30%,rgba(170,210,255,.18),transparent 45%),radial-gradient(circle at 50% 90%,rgba(120,170,255,.15),transparent 40%);pointer-events:none}
-#dream-intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+#dream-intro.hide{opacity:0 !important;visibility:hidden !important;pointer-events:none !important;display:none !important}
 
 /* GIAO DIỆN HỘP KÍNH PHA LÊ CAO CẤP */
 .intro-box {
@@ -131,6 +131,7 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transform: skewX(-25deg);
   animation: shine 3.5s infinite;
+  pointer-events: none;
 }
 @keyframes shine {
   0% { left: -100%; }
@@ -1720,7 +1721,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const SUPABASE_URL="https://vuosxgzudybicpcviwuu.supabase.co";
 const SUPABASE_KEY="sb_publishable_HndAzWR-S4YUF9ew1msDJA_ILDDPCrE";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let db = null;
+try {
+  if (window.supabase && typeof window.supabase.createClient === "function") {
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  }
+} catch(e) { console.warn("Lỗi nạp Supabase:", e); }
+if (!db) {
+  // Bộ dự phòng tạm thời nếu mạng chập chờn để web không bị đơ
+  db = {
+    from: () => ({ select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [] }), maybeSingle: () => Promise.resolve({ data: null }) }), in: () => Promise.resolve({ data: [] }) }), insert: () => Promise.resolve({ error: null }), update: () => Promise.resolve({ error: null }), delete: () => Promise.resolve({ error: null }) }),
+    auth: { getSession: () => Promise.resolve({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }) }
+  };
+}
 
 const LIKE_NS = "VanillaDaydream";
 const CLICK_NS = "VanillaDaydream_Clicks";
@@ -2032,8 +2045,15 @@ let currentUser=null,currentProfile=null,isAdmin=false,currentChar=null,currentR
 let filteredChars=[...CHARS]; let currentSortMode="normal";
 let currentPage=1; const PER_PAGE=5;
 const profileCache=new Map();
-const charLikesMap = JSON.parse(localStorage.getItem("cache_char_likes") || "{}");
-const charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || "{}");
+let charLikesMap = {};
+let charJourneyMap = {};
+try {
+  charLikesMap = JSON.parse(localStorage.getItem("cache_char_likes") || "{}");
+  charJourneyMap = JSON.parse(localStorage.getItem("cache_char_journey") || "{}");
+} catch (e) {
+  charLikesMap = {};
+  charJourneyMap = {};
+}
 
 // Các biến quản lý Nhạc chia mục (Đã update UI mới chuẩn chỉnh)
 let currentPlaylistQueue = MUSIC_LIBRARY["Mùa Đông"];
@@ -2263,22 +2283,43 @@ function showView(id){
   window.scrollTo({top:0,behavior:"smooth"})
 }
 
-function enterDream(){
-  sessionStorage.setItem("dream_entered","true");
-  document.getElementById("dream-intro").classList.add("hide");
-  
-  currentPlaylistQueue = MUSIC_LIBRARY["Mùa Đông"];
-  currentPlaylistContext = "Mùa Đông";
-  loadTrackInfo(currentTrackIdx);
-  audioEl.play().catch(()=>{});
-}
+// Đưa khai báo thẻ Audio và nút CD lên trước để hàm enterDream luôn đọc được
+const audioEl = document.getElementById("bg-music");
+const cdBtn = document.getElementById("music-toggle");
+let isLooping = false;
 
 function scrollToTop(){document.getElementById("top-anchor").scrollIntoView({behavior:"smooth"})}
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
 
-const audioEl = document.getElementById("bg-music");
-const cdBtn = document.getElementById("music-toggle");
-let isLooping = false;
+function enterDream(){
+  // 1. Ép ẩn màn hình Intro ngay lập tức
+  const intro = document.getElementById("dream-intro");
+  if (intro) {
+    intro.classList.add("hide");
+    intro.style.setProperty("display", "none", "important");
+  }
+
+  // 2. Lưu trạng thái an toàn (chống lỗi Safari/Zalo/Ẩn danh chặn bộ nhớ)
+  try {
+    sessionStorage.setItem("dream_entered", "true");
+  } catch(e) {}
+
+  // 3. Tự động phát nhạc an toàn
+  try {
+    if (typeof MUSIC_LIBRARY !== "undefined" && MUSIC_LIBRARY["Mùa Đông"]) {
+      currentPlaylistQueue = MUSIC_LIBRARY["Mùa Đông"];
+      currentPlaylistContext = "Mùa Đông";
+      if (typeof loadTrackInfo === "function") {
+        loadTrackInfo(currentTrackIdx || 0);
+      }
+    }
+    const player = document.getElementById("bg-music");
+    if (player) {
+      player.play().catch(() => {});
+    }
+  } catch(e) {}
+}
+window.enterDream = enterDream; // Khai báo toàn cục đảm bảo nút bấm HTML luôn gọi được
 
 function initSpotify(){
   cdBtn.classList.add("music-paused");
@@ -4018,10 +4059,10 @@ let snowInterval; // Biến lặp tuyết rơi
 
 async function checkWishLimit() {
   const todayStr = getLocalYYYYMMDD();
-  if (currentProfile.last_wish_date !== todayStr) {
+  if (!currentProfile || currentProfile.last_wish_date !== todayStr) {
     todayWishCount = 0; 
   } else {
-    todayWishCount = currentProfile.wish_count || 0;
+    todayWishCount = currentProfile?.wish_count || 0;
   }
 }
 
