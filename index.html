@@ -3374,11 +3374,26 @@ async function loadMailbox() {
   allMails = (data || []).map(m => {
     try { 
       const content = JSON.parse(m.content); 
-      // Sửa lỗi 3: Phân loại theo người gửi. Yuna => admin (Thư hệ thống), ngược lại => character (Thư nhân vật)
       const mailType = content.sender === "Yuna" ? 'admin' : 'character';
-      return { id: m.id, ...content, time: m.created_at, type: mailType }; 
+      // Đảm bảo id luôn là dạng chuỗi và body luôn lấy được nội dung dù lưu dưới bất kỳ tên biến nào
+      return { 
+        id: String(m.id), 
+        ...content, 
+        body: content.body || content.content || content.message || "", 
+        time: m.created_at, 
+        type: mailType 
+      }; 
     } 
-    catch(e) { return { id: m.id, title: "Thư hệ thống", sender: "Admin", body: m.content, time: m.created_at, type: 'admin' }; }
+    catch(e) { 
+      return { 
+        id: String(m.id), 
+        title: "Thư hệ thống", 
+        sender: "Admin", 
+        body: m.content || "", 
+        time: m.created_at, 
+        type: 'admin' 
+      }; 
+    }
   });
 
   const storageKey = 'read_mails_' + (currentUser ? currentUser.id : 'guest');
@@ -3407,8 +3422,10 @@ async function loadMailbox() {
 let currentOpenMailId = null;
 
 async function viewMail(id) {
+  id = String(id); // Ép kiểu ID thành chuỗi để tránh lỗi so sánh
   const mailDetailBox = document.getElementById("mailDetail");
-  if (currentOpenMailId === id && mailDetailBox.style.display === "block") {
+  
+  if (String(currentOpenMailId) === id && mailDetailBox.style.display === "block") {
     mailDetailBox.style.display = "none";
     document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
     currentOpenMailId = null;
@@ -3416,13 +3433,16 @@ async function viewMail(id) {
   }
   
   currentOpenMailId = id;
-  const m = allMails.find(x => x.id === id); if(!m) return;
+  // Tìm thư theo String ID để khớp 100%
+  const m = allMails.find(x => String(x.id) === id); 
+  if(!m) return;
   
   document.querySelectorAll(".mail-item").forEach(el => el.classList.remove("active-mail"));
   document.getElementById("mail-item-" + id)?.classList.add("active-mail");
   
-  if (!readMails.includes(id)) {
-    readMails.push(id);
+  const strId = String(id);
+  if (!readMails.map(String).includes(strId)) {
+    readMails.push(strId);
     localStorage.setItem('read_mails_' + (currentUser ? currentUser.id : 'guest'), JSON.stringify(readMails));
     if(currentUser) {
       try {
@@ -3434,16 +3454,19 @@ async function viewMail(id) {
     updateMailBadge();
   }
 
-  document.getElementById("mDetailTitle").textContent = m.title;
-  document.getElementById("mDetailSender").textContent = "Người gửi: " + m.sender;
+  document.getElementById("mDetailTitle").textContent = m.title || "Không có tiêu đề";
+  document.getElementById("mDetailSender").textContent = "Người gửi: " + (m.sender || "Hệ thống");
   document.getElementById("mDetailTime").textContent = formatDate(m.time);
   
   const actionDiv = document.getElementById("mDetailAction");
   let actionHtml = "";
   
-  if(m.id === 'auto_reward_50') {
+  // Đảm bảo luôn lấy được nội dung thư dù ở dạng nào
+  const mailBodyContent = String(m.body || m.content || m.message || "");
+
+  if(String(m.id) === 'auto_reward_50') {
     const badgeUI = `<div style="text-align:center; margin: 25px 0 15px;"><span class="badge diep-khuc" style="font-size:1.1rem; padding: 10px 22px;">Điệp Khúc Bất Tận</span></div>`;
-    document.getElementById("mDetailBody").innerHTML = escapeHtml(m.body).replace(/\n/g, '<br>') + badgeUI;
+    document.getElementById("mDetailBody").innerHTML = escapeHtml(mailBodyContent).replace(/\n/g, '<br>') + badgeUI;
     
     const hasClaimed = currentProfile?.owned_titles?.includes('diep_khuc');
     if(hasClaimed) {
@@ -3452,18 +3475,18 @@ async function viewMail(id) {
       actionHtml += `<button class="auth-submit" style="width: auto; padding: 10px 25px;" onclick="claimRewardTitle('diep_khuc', 'Điệp Khúc Bất Tận')">Nhận Danh Hiệu</button>`;
     }
   } else {
-    document.getElementById("mDetailBody").innerHTML = escapeHtml(m.body).replace(/\n/g, '<br>');
+    document.getElementById("mDetailBody").innerHTML = escapeHtml(mailBodyContent).replace(/\n/g, '<br>');
   }
   
-  if (isAdmin && m.type === 'admin') {
+  if (isAdmin && (m.type === 'admin' || m.sender === 'Yuna')) {
     actionHtml += `<button class="pill-btn" style="background:#fee2e2; color:#dc2626;" onclick="deleteAdminMail('${m.id}')">🗑️ Thu hồi thư</button>`;
   }
   
   actionDiv.innerHTML = actionHtml;
   mailDetailBox.style.display = "block";
-setTimeout(() => {
-  mailDetailBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}, 50);
+  setTimeout(() => {
+    mailDetailBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
 }
 
 async function claimRewardTitle(tid, tname) {
