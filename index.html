@@ -17,8 +17,7 @@
 /* 1. DREAM INTRO */
 #dream-intro{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:url('images/introdaydream.jpg') center/cover no-repeat, url('introdaydream.jpg') center/cover no-repeat, #071426;overflow:hidden;transition:opacity .8s ease,visibility .8s ease}
 #dream-intro::before{content:"";position:absolute;left:0;top:0;width:calc(100% + 60px);height:calc(100% + 60px);background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.15),transparent 35%),radial-gradient(circle at 80% 30%,rgba(170,210,255,.18),transparent 45%),radial-gradient(circle at 50% 90%,rgba(120,170,255,.15),transparent 40%);pointer-events:none}
-#dream-intro.hide{opacity:0 !important;visibility:hidden !important;pointer-events:none !important;display:none !important}
-
+#dream-intro.hide{opacity:0 !important;visibility:hidden !important;pointer-events:none !important;}
 /* GIAO DIỆN HỘP KÍNH PHA LÊ CAO CẤP */
 .intro-box {
   position: relative;
@@ -1565,8 +1564,20 @@ try {
 if (!db) {
   // Bộ dự phòng tạm thời nếu mạng chập chờn để web không bị đơ
   db = {
-    from: () => ({ select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [] }), maybeSingle: () => Promise.resolve({ data: null }) }), in: () => Promise.resolve({ data: [] }) }), insert: () => Promise.resolve({ error: null }), update: () => Promise.resolve({ error: null }), delete: () => Promise.resolve({ error: null }) }),
-    auth: { getSession: () => Promise.resolve({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }) }
+    from: () => ({ 
+      select: () => ({ 
+        eq: () => ({ order: () => Promise.resolve({ data: [] }), maybeSingle: () => Promise.resolve({ data: null }) }), 
+        in: () => Promise.resolve({ data: [] }),
+        is: () => ({ order: () => Promise.resolve({ data: [] }) }) // Fix lỗi thiếu hàm .is() gây sập trang
+      }), 
+      insert: () => Promise.resolve({ error: null }), 
+      update: () => Promise.resolve({ error: null }), 
+      upsert: () => Promise.resolve({ error: null }), // Fix lỗi thiếu hàm .upsert()
+      delete: () => Promise.resolve({ error: null }) 
+    }),
+    auth: { getSession: () => Promise.resolve({ data: { session: null } }), onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }), signInWithPassword: () => Promise.resolve({error: {message: "Offline"}}), signUp: () => Promise.resolve({error: {message: "Offline"}}) },
+    storage: { from: () => ({ upload: () => Promise.resolve({error: {message: "Offline"}}), getPublicUrl: () => ({data: {publicUrl: ""}}) }) },
+    rpc: () => Promise.resolve({error: null})
   };
 }
 
@@ -2167,11 +2178,13 @@ function scrollToTop(){document.getElementById("top-anchor").scrollIntoView({beh
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
 
 function enterDream(){
-  // 1. Ép ẩn màn hình Intro ngay lập tức
   const intro = document.getElementById("dream-intro");
   if (intro) {
     intro.classList.add("hide");
-    intro.style.setProperty("display", "none", "important");
+    // Chờ 800ms cho hiệu ứng mờ dần (opacity) chạy xong rồi mới ẩn hoàn toàn
+    setTimeout(() => {
+      intro.style.display = "none";
+    }, 800);
   }
 
   // 2. Lưu trạng thái an toàn (chống lỗi Safari/Zalo/Ẩn danh chặn bộ nhớ)
