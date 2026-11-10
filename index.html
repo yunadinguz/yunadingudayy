@@ -2769,8 +2769,14 @@ async function attachProfiles(data) {
 }
 
 function commentHTML(c, all, visited = new Set()) {
-  // KHẮC PHỤC TRIỆT ĐỂ LỖI MAXIMUM CALL STACK SIZE: Chặn đệ quy vô tận nếu dữ liệu bị lặp vòng
-  if (!c || !c.id || visited.has(c.id)) {
+  if (!c) return "";
+  
+  // Tự tạo ID tạm thời nếu bình luận bị thiếu ID từ database để không bao giờ bị biến mất
+  if (!c.id) {
+    c.id = 'cmt_' + Math.random().toString(36).substr(2, 9);
+  }
+  
+  if (visited.has(c.id)) {
     return "";
   }
   visited.add(c.id);
