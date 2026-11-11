@@ -2390,7 +2390,7 @@ const clickAction = `openAppDetail('${c.id}')`;
 const pass = `<button class="btn-see-more" onclick="${clickAction}">Tìm hiểu đối phương</button>`;
 const isLiked=localStorage.getItem("liked-"+c.id);
 
-const nickField=!currentUser?`<input id="mini-nick-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
+const nickField=!currentUser?`<input id="nick-mini-${c.id}" class="nickname-input" placeholder="Danh xưng (Bỏ trống sẽ là Kẻ mộng mơ vô danh)">`:"";
 
 return `<article class="char-card" data-id="${c.id}">
 <div class="char-media-wrap">
@@ -2750,18 +2750,19 @@ async function submitComment(inputId, charId, parentId) {
   
   if (!content && !imageFile && !selectedSticker) return toast("Hãy viết gì đó hoặc đính kèm ảnh/nhãn dán nhé.");
 
-  let guestName = null;
+let guestName = null;
+  let nickInput = null;
   if (!currentUser) {
-    const nickInput = document.getElementById("nick-" + inputId);
+    nickInput = document.getElementById("nick-" + inputId);
     guestName = nickInput ? nickInput.value.trim() : "Kẻ Mộng Mơ Vô Danh";
     if (!guestName) guestName = "Kẻ Mộng Mơ Vô Danh";
   }
 
   const sendBtn = textarea.closest('.cmt-box-wrapper')?.querySelector('.cmt-send-btn');
-  let originalBtnText = "Gửi";
+  let originalBtnHTML = "";
   if (sendBtn) {
-    originalBtnText = sendBtn.textContent;
-    sendBtn.textContent = "..."; 
+    originalBtnHTML = sendBtn.innerHTML;
+    sendBtn.innerHTML = "<span style='font-size:16px; font-weight:bold; color:#8797a9;'>...</span>"; 
     sendBtn.disabled = true;
   }
 
@@ -2787,9 +2788,10 @@ async function submitComment(inputId, charId, parentId) {
 
     if (error) throw error;
 
-    // Xóa trắng ô nhập sau khi gửi
+// Xóa trắng ô nhập sau khi gửi
     textarea.value = "";
     textarea.style.height = '';
+    if (nickInput) nickInput.value = "";
     removeCommentImage(inputId);
     if(typeof removeSticker === "function") removeSticker(inputId);
     
@@ -2821,7 +2823,7 @@ if (currentUser) {
     toast("Lỗi hệ thống: " + err.message);
   } finally {
     if (sendBtn) {
-      sendBtn.textContent = originalBtnText; 
+      sendBtn.innerHTML = originalBtnHTML; 
       sendBtn.disabled = false;
     }
   }
