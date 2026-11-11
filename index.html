@@ -1299,7 +1299,7 @@ body.modal-open #snow-container { display: none !important; }
           <div id="spTitle" class="spotify-title">Tên bài hát</div>
           <div id="spArtist" class="spotify-artist">Ca sĩ</div>
           <div class="sp-now-status">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
             Đang phát • <span id="spNowCat">Mùa Đông</span>
           </div>
         </div>
@@ -1966,9 +1966,9 @@ function renderAuth(){
   } else {
     g.style.display="none"; u.style.display="block";
     const p=currentProfile||{};
-    const av=p.avatar_url?`<img class="profile-avatar" style="width:100%;height:100%" src="${escapeHtml(p.avatar_url)}">`:`<div class="profile-avatar" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
+    const av=p.avatar_url?`<img class="profile-avatar" style="width:100%;height:100%" src="${escapeHtml(p.avatar_url)}" onerror="this.style.display='none'">`:`<div class="profile-avatar" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#4d8fca,#b3d5f2);color:#fff;font-size:25px">${escapeHtml((p.display_name||"K")[0].toUpperCase())}</div>`;
     const adminBadgeText = isAdmin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : '';
-    const frameHtml = p.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(p.equipped_frame)}">` : '';
+    const frameHtml = p.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(p.equipped_frame)}" onerror="this.style.display='none'">` : '';
 
     u.innerHTML=`
       <div class="profile-panel">
@@ -2252,13 +2252,27 @@ function updateSpotifyPlayBtn(isPlaying){
 }
 
 function nextSpotifyTrack(){
-  currentTrackIdx = (currentTrackIdx + 1) % currentPlaylistQueue.length;
+  let nextIdx = currentTrackIdx;
+  // Bốc random bài mới, đảm bảo không trùng với bài vừa nghe
+  if (currentPlaylistQueue.length > 1) {
+    while(nextIdx === currentTrackIdx) {
+      nextIdx = Math.floor(Math.random() * currentPlaylistQueue.length);
+    }
+  }
+  currentTrackIdx = nextIdx;
   loadTrackInfo(currentTrackIdx);
   audioEl.play().catch(()=>{});
 }
 
 function prevSpotifyTrack(){
-  currentTrackIdx = (currentTrackIdx - 1 + currentPlaylistQueue.length) % currentPlaylistQueue.length;
+  let prevIdx = currentTrackIdx;
+  // Bốc random bài cũ
+  if (currentPlaylistQueue.length > 1) {
+    while(prevIdx === currentTrackIdx) {
+      prevIdx = Math.floor(Math.random() * currentPlaylistQueue.length);
+    }
+  }
+  currentTrackIdx = prevIdx;
   loadTrackInfo(currentTrackIdx);
   audioEl.play().catch(()=>{});
 }
@@ -2591,8 +2605,8 @@ function commentHTML(c, all, visited = new Set()) {
   }
 
   const adminBadge = c.is_admin ? '<div style="font-size:.65rem; color:#dc2626; font-weight:800; margin-top:2px;">MỘNG CHỦ</div>' : "";
-  const frameHtml = profile.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(profile.equipped_frame)}">` : '';
-  const avatarInner = av ? `<img class="comment-avatar" style="width:100%;height:100%;" src="${escapeHtml(av)}">` : `<div class="avatar-letter" style="width:100%;height:100%;">${escapeHtml((name || "K")[0].toUpperCase())}</div>`;
+  const frameHtml = profile.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(profile.equipped_frame)}" onerror="this.style.display='none'">` : '';
+  const avatarInner = av ? `<img class="comment-avatar" style="width:100%;height:100%;" src="${escapeHtml(av)}" onerror="this.style.display='none'">` : `<div class="avatar-letter" style="width:100%;height:100%;">${escapeHtml((name || "K")[0].toUpperCase())}</div>`;
   const avatarHtml = `<div class="avatar-wrapper-relative" style="width:36px; height:36px;">${avatarInner}${frameHtml}</div>`;
 
   const isLiked = localStorage.getItem("liked-cmt-" + c.id);
@@ -3959,9 +3973,9 @@ const leaderboardData = data.map(d => {
     html += `<div style="background:#fff; border-radius:16px; overflow:hidden; border:1px solid #f0f6fb; margin: 0 16px;">`;
     for(let i = 3; i < leaderboardData.length; i++) {
       let item = leaderboardData[i];
-      let frameHtml = item.frame ? `<img class="frame-overlay" src="${escapeHtml(item.frame)}">` : '';
+      let frameHtml = item.frame ? `<img class="frame-overlay" src="${escapeHtml(item.frame)}" onerror="this.style.display='none'">` : '';
 let listAvatarInner = item.avatar 
-        ? `<img class="lb-list-avatar" style="margin:0; width:100%; height:100%; object-fit:cover; border-radius:50%;" src="${escapeHtml(item.avatar)}">` 
+        ? `<img class="lb-list-avatar" style="margin:0; width:100%; height:100%; object-fit:cover; border-radius:50%;" src="${escapeHtml(item.avatar)}" onerror="this.style.display='none'">` 
         : `<div class="avatar-letter lb-list-avatar" style="margin:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#4d8fca,#b3d5f2); color:#fff; font-size:16px;">${escapeHtml(item.name[0].toUpperCase())}</div>`;
         
       html += `
@@ -3983,7 +3997,7 @@ let listAvatarInner = item.avatar
 
 function renderTopCard(user, rank) {
   let crowns = { 1: "👑", 2: "🥈", 3: "🥉" };
-  let frameHtml = user.frame ? `<img class="frame-overlay" src="${escapeHtml(user.frame)}">` : '';
+  let frameHtml = user.frame ? `<img class="frame-overlay" src="${escapeHtml(user.frame)}" onerror="this.style.display='none'">` : '';
   
   return `
     <div class="lb-card top${rank}">
@@ -3996,7 +4010,7 @@ function renderTopCard(user, rank) {
          </div>
 
          ${user.avatar 
-           ? `<img class="lb-avatar" style="margin:0; width:100%; height:100%; object-fit:cover; border-radius:50%;" src="${escapeHtml(user.avatar)}">` 
+           ? `<img class="lb-avatar" style="margin:0; width:100%; height:100%; object-fit:cover; border-radius:50%;" src="${escapeHtml(user.avatar)}" onerror="this.style.display='none'">` 
            : `<div class="avatar-letter lb-avatar" style="margin:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#4d8fca,#b3d5f2); color:#fff; font-size:${rank === 1 ? '24px' : '20px'};">${escapeHtml(user.name[0].toUpperCase())}</div>`
          }
          ${frameHtml}
