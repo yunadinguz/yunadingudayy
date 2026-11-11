@@ -940,47 +940,6 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 .lb-list-name { flex: 1; font-weight: 600; color: var(--navy); font-size: 0.9rem; }
 .lb-list-points { color: #e53e3e; font-weight: bold; font-size: 0.85rem; }
 
-/* GIAO DIỆN TRIỂN LÃM TRANH */
-.gallery-post { background: #fff; border: 1px solid #e1edf6; border-radius: 20px; padding: 16px; box-shadow: 0 4px 15px rgba(3,62,140,.03); }
-.gallery-post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-
-/* Khung trượt nhiều ảnh (Carousel) */
-.gallery-carousel-wrapper { position: relative; width: 100%; border-radius: 16px; overflow: hidden; margin-top: 10px; background: #f5faff; border: 1px solid #e1edf6; }
-.gallery-carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.gallery-carousel-track::-webkit-scrollbar { display: none; }
-.gallery-carousel-item { flex: 0 0 100%; width: 100%; scroll-snap-align: start; position: relative; }
-.gallery-carousel-item img { width: 100%; max-height: 500px; object-fit: contain; display: block; }
-
-/* Huy hiệu đếm số ảnh (1/N) */
-.gallery-counter-badge { position: absolute; top: 12px; right: 12px; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(6px); color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; z-index: 5; pointer-events: none; }
-/* Dãy chấm tròn phong cách Instagram */
-.gallery-dots-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin-top: 8px;
-}
-.gallery-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #cbd5e1;
-  transition: all 0.25s ease;
-}
-.gallery-dot.active {
-  background: #4d8fca;
-  width: 7px;
-  height: 7px;
-}
-/* Thanh tác vụ: Tăng kích thước Icon tim và bình luận */
-.gallery-actions { display: flex; gap: 24px; margin-top: 14px; border-top: 1px solid #f0f6fb; padding-top: 12px; }
-.gallery-action-btn { background: none; border: none; color: #5f6e80; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 1rem; transition: transform 0.15s ease; padding: 2px 4px; }
-.gallery-action-btn:hover { color: var(--navy); }
-.gallery-action-btn.liked { color: #e53e3e; }
-.gal-heart { font-size: 22px; line-height: 1; display: inline-block; }
-.gallery-action-btn svg { width: 22px; height: 22px; }
-
 /* Sửa lỗi lag GPU khi mở Modal */
 body.modal-open .main-background { animation: none !important; }
 body.modal-open #snow-container { display: none !important; }
@@ -1062,7 +1021,6 @@ body.modal-open #snow-container { display: none !important; }
 
 <button class="nav-item" onclick="openModal('howToPassModal')">Cách lấy pass</button>
 <button class="nav-item" id="nav-journal" onclick="showView('journal')">Lưu bút &amp; Góp ideas</button>
-<button class="nav-item" id="nav-gallery" onclick="showView('gallery')">Triển lãm tranh</button>
 
 <div class="dropdown">
 <button class="nav-item" onclick="toggleMenuDropdown(event, this)">Lệnh ▾</button>
@@ -1169,51 +1127,6 @@ body.modal-open #snow-container { display: none !important; }
 </div>
 <div id="authUser" style="display:none"></div>
 </div></section>
-
-  <section id="gallery" class="view">
-  <div class="journal-page" style="position:relative; padding-bottom: 60px;">
-    <button class="back-library" onclick="showView('library')">‹ Về Thư viện giấc mơ</button>
-    <h2 class="page-title gradient-title" style="display:block;text-align:center">⊹ Phòng Tranh Ký Ức ⊹</h2>
-    <p class="page-sub">Nơi những giấc mơ tìm thấy hình hài qua từng nét vẽ.</p>
-    
-    <div id="galleryFeed" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;"></div>
-    
-    <!-- Floating Add Button -->
-    <button style="position: absolute; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg,#1d5f99,#6aa5d7); color: white; border: none; font-size: 24px; box-shadow: 0 4px 15px rgba(29,95,153,0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;" onclick="openGalleryPostModal()">+</button>
-  </div>
-</section>
-
-<!-- Modal Đăng bài Triển lãm -->
-<div id="galleryPostModal" class="custom-modal">
-  <div class="modal-box" style="text-align: left; width: min(500px, 94%);">
-    <button class="close-modal" onclick="closeModal('galleryPostModal')">×</button>
-    <h2 style="margin-bottom: 15px;">Đăng tác phẩm</h2>
-    
-    <div id="galleryGuestInput"></div>
-    <textarea id="gallery-status" class="cmt-textarea" rows="4" placeholder="Bạn đang nghĩ gì..." style="background: #f5faff; padding: 10px; border-radius: 12px; border: 1px solid #cfe2f1; width: 100%; margin-bottom: 10px;"></textarea>
-    
-    <div id="gallery-preview" style="margin-bottom: 10px;"></div>
-    
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-<label class="file-upload-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6e80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; margin-right: 4px;"><rect x="3" y="8" width="18" height="12" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg> Chọn ảnh (Nhiều ảnh)
-        <input type="file" id="gallery-file" accept="image/*" multiple class="hidden-file" onchange="previewGalleryImages(event)">
-      </label>
-      <button class="auth-submit" style="width: auto; padding: 8px 25px;" onclick="submitGalleryPost()">Đăng</button>
-    </div>
-  </div>
-</div>
-  <!-- Modal Chỉnh sửa Caption Triển lãm -->
-<div id="editGalleryPostModal" class="custom-modal">
-  <div class="modal-box" style="text-align: left; width: min(500px, 94%);">
-    <button class="close-modal" onclick="closeModal('editGalleryPostModal')">×</button>
-    <h2 style="margin-bottom: 15px;">Chỉnh sửa Caption</h2>
-    <textarea id="edit-gallery-status" class="cmt-textarea" rows="4" style="background: #f5faff; padding: 10px; border-radius: 12px; border: 1px solid #cfe2f1; width: 100%; margin-bottom: 10px;"></textarea>
-    <div style="text-align: right;">
-      <button class="auth-submit" style="width: auto; padding: 8px 25px;" id="btn-save-gallery-edit" onclick="saveEditGalleryPost()">Lưu thay đổi</button>
-    </div>
-  </div>
-</div>
 </main>
 
 <footer class="dream-footer"><p>Tuyết rồi sẽ tan, mộng rồi cũng tỉnh. Nhưng những linh hồn nơi đây vẫn sẽ luôn giữ lại ngọn lửa ấm, kiên nhẫn chờ ngày bạn quay về...</p><div class="copyright-text">Bản tình ca ngày đông © 2026</div></footer>
@@ -2205,7 +2118,6 @@ function showView(id){
   if(id==="library"){ document.getElementById("nav-library")?.classList.add("active"); document.getElementById("btn-nav-home")?.classList.add("active"); }
   if(id==="journal"){document.getElementById("nav-journal")?.classList.add("active");loadJournal()}
 if(id==="auth"){ document.getElementById("nav-auth")?.classList.add("active"); document.getElementById("btn-nav-auth")?.classList.add("active"); }
-  if(id==="gallery") { document.getElementById("nav-gallery")?.classList.add("active"); loadGalleryFeed(); }
   window.scrollTo({top:0,behavior:"smooth"})
 }
 
@@ -2869,10 +2781,8 @@ if (currentUser) {
       toast("Đã gửi bình luận!");
     }
 
-    // Tải lại bình luận và tự động cuộn xuống dưới cùng để người dùng thấy ngay
-    if (charId === 'GALLERY_POST') {
-      await loadGalleryFeed();
-    } else if (charId) {
+// Tải lại bình luận và tự động cuộn xuống dưới cùng để người dùng thấy ngay
+    if (charId) {
       await loadMiniComments(charId);
       if (currentChar && currentChar.id === charId) await loadAppComments(charId);
       
@@ -3984,303 +3894,6 @@ function toggleReplies(id, count) {
   } else {
     hiddenDiv.style.display = "none";
     btn.textContent = `Xem thêm ${count} câu trả lời ▾`;
-  }
-}
-
-// ==========================================
-// TÍNH NĂNG TRIỂN LÃM TRANH
-// ==========================================
-let galleryUploadFiles = [];
-
-function previewGalleryImages(e) {
-  const files = Array.from(e.target.files);
-  if (files.length > 0) {
-    galleryUploadFiles = files;
-    document.getElementById("gallery-preview").innerHTML = `
-      <div style="display:flex; gap:8px; overflow-x:auto; padding:6px 0;">
-        ${files.map(f => `<img src="${URL.createObjectURL(f)}" style="width:75px; height:75px; border-radius:10px; object-fit:cover; flex-shrink:0; border:1px solid #cfe2f1;">`).join("")}
-      </div>
-      <div style="font-size:0.75rem; color:#68778c; margin-top:4px;">Đã chọn ${files.length} ảnh</div>
-    `;
-  }
-}
-
-function openGalleryPostModal() {
-  galleryUploadFiles = [];
-  document.getElementById("gallery-status").value = "";
-  document.getElementById("gallery-preview").innerHTML = "";
-  if(document.getElementById("gallery-file")) document.getElementById("gallery-file").value = "";
-  
-  if(!currentUser) {
-    document.getElementById("galleryGuestInput").innerHTML = `<input id="gallery-nick" class="nickname-input" placeholder="Danh xưng của bạn" style="margin-bottom:10px;">`;
-  } else {
-    document.getElementById("galleryGuestInput").innerHTML = "";
-  }
-  openModal('galleryPostModal');
-}
-
-async function submitGalleryPost() {
-  const status = document.getElementById("gallery-status").value.trim();
-  if(galleryUploadFiles.length === 0) return toast("Vui lòng chọn ít nhất 1 ảnh!");
-  
-  let guestName = null;
-  if(!currentUser) {
-    const nickIn = document.getElementById("gallery-nick");
-    guestName = (nickIn && nickIn.value.trim()) ? nickIn.value.trim() : "Kẻ Mộng Mơ Vô Danh";
-  }
-
-  const btn = document.querySelector("#galleryPostModal .auth-submit");
-  btn.textContent = "Đang tải..."; btn.disabled = true;
-
-  try {
-    // Tải toàn bộ ảnh lên Supabase
-    const uploadPromises = galleryUploadFiles.map(file => uploadAvatar(file));
-    const uploadedUrls = await Promise.all(uploadPromises);
-    
-    // Lưu danh sách đường dẫn dạng JSON chuỗi
-    const imageUrlData = JSON.stringify(uploadedUrls);
-
-    const { error } = await db.from("comments").insert({
-      char_id: "GALLERY_POST",
-      content: status,
-      image_url: imageUrlData,
-      user_id: currentUser?.id || null,
-      guest_name: currentUser ? null : guestName,
-      is_admin: !!isAdmin
-    });
-
-    if (error) throw error;
-    toast("Đã đăng tác phẩm thành công!");
-    closeModal('galleryPostModal');
-    loadGalleryFeed();
-  } catch(err) {
-    toast("Lỗi đăng bài: " + err.message);
-  } finally {
-    btn.textContent = "Đăng"; btn.disabled = false;
-  }
-}
-
-async function loadGalleryFeed() {
-  let {data} = await db.from("comments").select("*").eq("char_id", "GALLERY_POST").order("created_at", {ascending: false});
-  data = await attachProfiles(data);
-  
-  const container = document.getElementById("galleryFeed");
-if(!data || data.length === 0) {
-    container.innerHTML = `<div style="text-align:center; color:#8797a9; padding: 20px; font-size: 0.8rem; font-style: italic; line-height: 1.6; max-width: 400px; margin: 0 auto;">Có vẻ như phòng tranh vẫn đang chờ những tác phẩm đầu tiên... Bạn có muốn để lại một chút sắc màu của riêng mình không?</div>`;
-    return;
-  }
-
-  const roots = data.filter(post => !post.parent_id);
-
-  container.innerHTML = roots.map(post => {
-    const profile = post._profile || {};
-    const name = post.user_id ? (profile.display_name || "Kẻ Mộng Mơ Vô Danh") : (post.guest_name || "Kẻ Mộng Mơ Vô Danh");
-    const av = post.user_id ? profile.avatar_url : "";
-    
-    let badgeHtml = "";
-    if (post.user_id) {
-      if (profile.equipped_title === 'diep_khuc') { badgeHtml = `<span class="badge diep-khuc" style="margin-left:5px">Điệp Khúc Bất Tận</span>`; } 
-      else if (profile.equipped_title === 'none') { badgeHtml = ``; } 
-      else if (profile.bestAffinity) {
-        const best = profile.bestAffinity;
-        const charData = CHARS.find(ch => ch.id === best.char_id) || CHARS[0];
-        const charCleanName = charData.name.split(" (")[0];
-        const [l, cls] = levelOf(best.points || 0);
-        badgeHtml = `<span class="badge ${cls}" style="margin-left:5px">${escapeHtml(l + " của " + charCleanName)}</span>`;
-      } else {
-        const defaultName = CHARS[0].name.split(" (")[0];
-        badgeHtml = `<span class="badge normal" style="margin-left:5px">Đã biết của ${defaultName}</span>`;
-      }
-    }
-
-    const frameHtml = profile.equipped_frame ? `<img class="frame-overlay" src="${escapeHtml(profile.equipped_frame)}">` : '';
-    const avatarInner = av ? `<img class="comment-avatar" style="width:100%;height:100%;" src="${escapeHtml(av)}">` : `<div class="avatar-letter" style="width:100%;height:100%;">${escapeHtml((name || "K")[0].toUpperCase())}</div>`;
-    const avatarHtml = `<div class="avatar-wrapper-relative" style="width:44px; height:44px; flex-shrink: 0;">${avatarInner}${frameHtml}</div>`;
-    
-    const isLiked = localStorage.getItem("liked-cmt-" + post.id);
-    const cachedLikes = localStorage.getItem("count-cmt-" + post.id) || (isLiked ? "1" : "0");
-
-    let menuItems = "";
-    if (currentUser && currentUser.id === post.user_id) {
-        menuItems += `<a onclick="openEditGalleryPost('${post.id}')" style="text-align: left; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Chỉnh sửa</a>`;
-    }
-    if (isAdmin) {
-        menuItems += `<a onclick="deleteComment('${post.id}')" style="color:#e53e3e; text-align: left; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:3px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Xóa bài</a>`;
-    }
-
-    let optionsHtml = "";
-    if (menuItems !== "") {
-        optionsHtml = `
-        <div class="dropdown" style="margin-left: auto; align-self: flex-start;">
-            <button class="cmt-action-btn" style="font-size: 20px; padding: 0 5px;" onclick="toggleMenuDropdown(event, this)">⋮</button>
-            <div class="dropdown-content" style="right: 0; left: auto; transform: none; min-width: 130px; box-shadow: 0 5px 20px rgba(0,0,0,0.15);">
-                ${menuItems}
-            </div>
-        </div>`;
-    }
-
-    // XỬ LÝ NHIỀU ẢNH (CAROUSEL & COUNTER 1/N)
-    let images = [];
-    if (post.image_url) {
-      try {
-        const parsed = JSON.parse(post.image_url);
-        if (Array.isArray(parsed)) images = parsed;
-        else images = [post.image_url];
-      } catch(e) {
-        images = [post.image_url];
-      }
-    }
-
-let mediaHtml = "";
-    if (images.length === 1) {
-      mediaHtml = `<div class="gallery-carousel-wrapper"><img src="${escapeHtml(images[0])}" style="width:100%; max-height:500px; object-fit:contain; display:block;"></div>`;
-    } else if (images.length > 1) {
-      mediaHtml = `
-        <div class="gallery-carousel-wrapper">
-          <div class="gallery-counter-badge" id="badge-${post.id}">1/${images.length}</div>
-          <div class="gallery-carousel-track" onscroll="updateCarouselIndex(this, '${post.id}', ${images.length})">
-            ${images.map(imgSrc => `
-              <div class="gallery-carousel-item">
-                <img src="${escapeHtml(imgSrc)}">
-              </div>
-            `).join("")}
-          </div>
-        </div>
-        <div class="gallery-dots-container" id="dots-${post.id}">
-          ${images.map((_, i) => `<span class="gallery-dot ${i === 0 ? 'active' : ''}"></span>`).join("")}
-        </div>
-      `;
-    }
-
-    const childReplies = data.filter(r => r.parent_id === post.id);
-    childReplies.sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
-    let repliesHtml = childReplies.map(r => commentHTML(r, data)).join("");
-
-    return `
-      <div class="gallery-post">
-        <div class="gallery-post-header">
-          ${avatarHtml}
-          <div>
-            <div style="font-weight:700; color:#214e76; font-size:0.95rem; display:flex; align-items:center;">${escapeHtml(name)} ${badgeHtml}</div>
-            <div style="font-size:0.75rem; color:#9aa7b6;">${formatDate(post.created_at)}</div>
-          </div>
-          ${optionsHtml}
-        </div>
-        
-        <div style="font-size:0.9rem; color:#4d5e72; white-space:pre-wrap; margin-top:10px;" id="gal-content-${post.id}">${escapeHtml(post.content)}</div>
-        ${mediaHtml}
-        
-        <div class="gallery-actions">
-          <!-- NÚT TIM (Icon to hơn & rõ ràng) -->
-          <button class="gallery-action-btn ${isLiked ? 'liked' : ''}" onclick="reactGalleryPost('${post.id}', this)">
-            <span class="gal-heart">${isLiked ? '♥' : '♡'}</span> <span id="gal-like-${post.id}">${cachedLikes}</span>
-          </button>
-          
-          <!-- NÚT BÌNH LUẬN (Icon to hơn & rõ ràng) -->
-          <button class="gallery-action-btn" onclick="toggleReplyBox('${post.id}')">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> <span>${childReplies.length}</span>
-          </button>
-        </div>
-
-        <div id="reply-box-${post.id}" class="inline-reply-box" style="margin-top: 15px; padding-left: 0; border-top: 1px solid #f0f6fb; padding-top: 15px;">
-          ${!currentUser ? `<input id="nick-reply-${post.id}" class="nickname-input" placeholder="Danh xưng">` : ''}
-          <div class="cmt-box-wrapper">
-            <textarea id="input-reply-${post.id}" class="cmt-textarea" rows="1" placeholder="Viết bình luận..." oninput="this.style.height='';this.style.height=this.scrollHeight+'px'"></textarea>
-            <div id="preview-reply-${post.id}" class="cmt-preview-area"></div>
-<div class="cmt-action-bar">
-              <div style="display:flex; gap:4px;">
-                <label class="cmt-camera-btn" title="Thêm ảnh">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2" ry="2"></rect><circle cx="12" cy="14" r="3"></circle></svg>
-                  <input type="file" id="file-reply-${post.id}" accept="image/*" class="hidden-file" onchange="previewCommentImage(event, 'reply-${post.id}')">
-                </label>
-                <button class="cmt-camera-btn" title="Nhãn dán" onclick="toggleStickerPicker('reply-${post.id}')">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                </button>
-              </div>
-              <button class="cmt-send-btn" onclick="submitComment('reply-${post.id}', 'GALLERY_POST', '${post.id}')">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-              </button>
-            </div>
-            <div id="sticker-picker-reply-${post.id}" class="sticker-picker"></div>
-          </div>
-        </div>
-
-        <div class="reply-list" style="margin-left: 0; margin-top: 15px;">${repliesHtml}</div>
-      </div>
-    `;
-  }).join("");
-}
-
-// HÀM TỰ ĐỘNG CẬP NHẬT CHỈ SỐ ẢNH 1/N VÀ CHẤM TRÒN KHI VUỐT
-function updateCarouselIndex(el, postId, total) {
-  const index = Math.round(el.scrollLeft / el.clientWidth) + 1;
-  const badge = document.getElementById(`badge-${postId}`);
-  if (badge) badge.textContent = `${index}/${total}`;
-
-  // Cập nhật chấm tròn active tương ứng với ảnh đang xem
-  const dotsBox = document.getElementById(`dots-${postId}`);
-  if (dotsBox) {
-    const dots = dotsBox.querySelectorAll('.gallery-dot');
-    dots.forEach((dot, idx) => {
-      dot.classList.toggle('active', idx === (index - 1));
-    });
-  }
-}
-
-async function reactGalleryPost(id, btn) {
-  const localKey="liked-cmt-"+id;
-  if(localStorage.getItem(localKey)) return toast("Bạn đã thả tim tác phẩm này rồi.");
-  localStorage.setItem(localKey,"1");
-
-  const heartSpan = btn.querySelector('.gal-heart');
-  if(heartSpan) heartSpan.textContent = "♥";
-  btn.classList.add("liked");
-
-  const countSpan = document.getElementById("gal-like-"+id);
-  let currentCount = parseInt(countSpan.textContent) || 0;
-  let newCount = currentCount + 1;
-  countSpan.textContent = newCount;
-  localStorage.setItem("count-cmt-" + id, newCount);
-
-  try{ await fetch(`${STATS_API}/hit/VanillaDaydream_Cmt/${id}`); }catch(e){}
-  toast("Đã thả tim tác phẩm 💙");
-}
-
-  let currentEditGalleryId = null;
-
-function openEditGalleryPost(id) {
-  currentEditGalleryId = id;
-  // Lấy text từ bài viết hiện tại đưa vào khung sửa
-  const currentContent = document.getElementById("gal-content-" + id).innerText;
-  document.getElementById("edit-gallery-status").value = currentContent;
-  openModal('editGalleryPostModal');
-  
-  // Ẩn menu 3 chấm đi sau khi bấm
-  document.querySelectorAll('.dropdown-content.show').forEach(el => el.classList.remove('show'));
-}
-
-async function saveEditGalleryPost() {
-  if(!currentEditGalleryId || !currentUser) return;
-  const newContent = document.getElementById("edit-gallery-status").value.trim();
-  
-  const btn = document.getElementById("btn-save-gallery-edit");
-  btn.textContent = "Đang lưu..."; btn.disabled = true;
-
-  try {
-    // Chỉ cập nhật nội dung (content), giữ nguyên ảnh
-    const { error } = await db.from("comments")
-                            .update({ content: newContent })
-                            .eq("id", currentEditGalleryId)
-                            .eq("user_id", currentUser.id); 
-    if (error) throw error;
-    
-    toast("Đã cập nhật Caption thành công!");
-    closeModal('editGalleryPostModal');
-    loadGalleryFeed(); // Tải lại trang tranh
-  } catch(err) {
-    toast("Lỗi khi sửa: " + err.message);
-  } finally {
-    btn.textContent = "Lưu thay đổi"; btn.disabled = false;
   }
 }
 
