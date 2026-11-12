@@ -950,13 +950,18 @@ body.modal-open #snow-container { display: none !important; }
 .destiny-banner {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.55);
+  /* Thêm margin-top để không dính vào thanh search */
+  margin-top: 18px; 
+  /* Nền xanh gradient nhạt để khung nổi bật hơn trên nền trắng */
+  background: linear-gradient(135deg, rgba(234, 245, 255, 0.85), rgba(210, 235, 255, 0.6));
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  /* Viền xanh lấp lánh nhẹ */
+  border: 1.5px solid rgba(121, 172, 217, 0.4);
   border-radius: 24px;
   padding: 10px;
-  box-shadow: 0 8px 24px rgba(3, 62, 140, 0.08);
+  /* Đổ bóng đậm hơn một chút để tách khối */
+  box-shadow: 0 10px 30px rgba(3, 62, 140, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.8);
   margin-bottom: 15px;
   gap: 12px;
   width: 100%;
@@ -967,11 +972,11 @@ body.modal-open #snow-container { display: none !important; }
   border-radius: 18px;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(3, 62, 140, 0.15);
 }
 .destiny-banner-info {
   flex: 1;
-  min-width: 0; /* Giúp text không bị tràn */
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -989,7 +994,7 @@ body.modal-open #snow-container { display: none !important; }
 }
 .destiny-banner-desc {
   font-size: 0.75rem;
-  color: #68778C;
+  color: #5f7086;
   font-style: italic;
   line-height: 1.35;
   margin-bottom: 8px;
@@ -1012,9 +1017,7 @@ body.modal-open #snow-container { display: none !important; }
   cursor: pointer;
   white-space: nowrap;
 }
-.destiny-banner-btn:active {
-  transform: scale(0.95);
-}
+.destiny-banner-btn:active { transform: scale(0.95); }
 
 /* =========================================
    2. CSS CHO ANIMATION ĐỊNH MỆNH (NEW)
@@ -1029,95 +1032,114 @@ body.modal-open #snow-container { display: none !important; }
   margin: 10px 0;
 }
 
-/* Cầu tuyết (Globe) */
-.globe-wrap { animation: globeFloat 3s ease-in-out infinite; }
+/* Quả cầu tuyết (Darker gradient, no border) */
+.globe-wrap { 
+  animation: globeFloat 3s ease-in-out infinite; 
+  position: relative; 
+  z-index: 5; 
+}
 .snow-globe {
-  width: 120px;
-  height: 120px;
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(121, 172, 217, 0.2));
-  border: 2px solid rgba(255,255,255,0.6);
+  /* Gradient xanh đậm sâu thẳm ở giữa, mờ dần ra rìa */
+  background: radial-gradient(circle at 40% 40%, rgba(15, 45, 80, 0.85), rgba(2, 15, 35, 0.95));
+  border: none;
   position: relative;
-  box-shadow: inset -10px -10px 20px rgba(3, 62, 140, 0.1), 0 10px 20px rgba(3, 62, 140, 0.15);
+  box-shadow: inset -10px -10px 25px rgba(0,0,0,0.6), 0 15px 30px rgba(3, 62, 140, 0.25), inset 5px 5px 15px rgba(255,255,255,0.15);
   overflow: hidden;
 }
 .globe-base {
-  width: 80px;
-  height: 20px;
-  background: linear-gradient(to right, #0b4b80, #3182ce, #0b4b80);
+  width: 75px;
+  height: 18px;
+  background: linear-gradient(to right, #072a4f, #1b538c, #072a4f);
   border-radius: 10px 10px 20px 20px;
-  margin: -5px auto 0;
+  margin: -4px auto 0;
   position: relative;
   z-index: 2;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 .globe-snow {
   position: absolute;
-  width: 6px; height: 6px;
-  background: white;
+  width: 5px; height: 5px;
+  background: #ffffff;
   border-radius: 50%;
-  animation: swirl 2s linear infinite;
+  box-shadow: 0 0 6px #fff;
+  animation: swirl 2.5s linear infinite;
 }
-@keyframes globeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-@keyframes swirl { 0% { transform: rotate(0deg) translateX(40px) rotate(0deg); opacity: 0; } 50% { opacity: 1; } 100% { transform: rotate(360deg) translateX(10px) rotate(-360deg); opacity: 0; } }
+@keyframes globeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes swirl { 0% { transform: rotate(0deg) translateX(35px) rotate(0deg) scale(0.5); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: rotate(360deg) translateX(15px) rotate(-360deg) scale(1.2); opacity: 0; } }
 
-/* Dấu chân (Footprints) */
-.footprint-path {
-  fill: none;
-  stroke: #79ACD9;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 10 15;
-  animation: drawPath 3s linear forwards, glowPath 1.5s ease-in-out infinite alternate;
+/* Dấu chân động vật (Glow) */
+.animal-paw {
+  position: absolute;
+  width: 28px; height: 28px;
+  color: #79ACD9;
+  filter: drop-shadow(0 0 4px rgba(121, 172, 217, 0.8)) drop-shadow(0 0 10px rgba(121, 172, 217, 0.5));
+  opacity: 0;
+  z-index: 2;
+  animation: pawStep 3s forwards ease-in-out;
 }
-@keyframes drawPath { 0% { stroke-dashoffset: 100; } 100% { stroke-dashoffset: 0; } }
-@keyframes glowPath { 0% { filter: drop-shadow(0 0 2px #79ACD9); } 100% { filter: drop-shadow(0 0 8px #79ACD9); } }
+@keyframes pawStep { 0% { opacity: 0; transform: scale(0.5) translateY(10px); } 15% { opacity: 1; transform: scale(1) translateY(0); } 80% { opacity: 0.8; } 100% { opacity: 0; } }
 
-/* Lá thư (Envelope) */
+/* Lá thư (Cao cấp, 3D hơn) */
 .envelope-wrapper {
   position: relative;
-  width: 160px;
-  height: 110px;
+  width: 170px;
+  height: 115px;
   cursor: pointer;
   transition: transform 0.3s;
-  animation: modalPop 0.5s ease;
+  animation: modalPop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  filter: drop-shadow(0 15px 25px rgba(3, 62, 140, 0.15));
 }
-.envelope-wrapper:hover { transform: scale(1.05); }
+.envelope-wrapper:hover { transform: scale(1.04) translateY(-5px); }
 .env-back {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: #a9d0ed; border-radius: 8px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  border-radius: 8px;
+  border: 1px solid #93c5fd;
 }
 .env-card {
-  position: absolute; top: 10px; left: 10px; width: 140px; height: 90px;
-  background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: absolute; top: 12px; left: 15px; width: 140px; height: 90px;
+  background: #fff; border-radius: 6px; 
+  box-shadow: 0 0 15px rgba(0,0,0,0.08);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 1;
+  border: 1px solid #f0f6fb;
 }
-.env-card img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-bottom: 5px; }
-.env-card span { font-size: 0.7rem; font-weight: bold; color: var(--navy); }
+.env-card img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; margin-bottom: 6px; border: 1.5px solid #dcebf5;}
+.env-card span { font-size: 0.75rem; font-weight: 800; color: var(--navy); }
 .env-front {
   position: absolute; bottom: 0; left: 0; width: 0; height: 0;
-  border-left: 80px solid #eaf5ff; border-right: 80px solid #eaf5ff;
-  border-bottom: 60px solid #d7eaf9; border-top: 50px solid transparent;
+  border-left: 85px solid #e0f2fe; border-right: 85px solid #e0f2fe;
+  border-bottom: 65px solid #bae6fd; border-top: 50px solid transparent;
   z-index: 2; border-radius: 0 0 8px 8px;
+  filter: drop-shadow(0 -2px 3px rgba(0,0,0,0.03));
 }
 .env-flap {
   position: absolute; top: 0; left: 0; width: 0; height: 0;
-  border-left: 80px solid transparent; border-right: 80px solid transparent;
-  border-top: 65px solid #c4def5;
-  transform-origin: top; transition: transform 0.6s ease; z-index: 3;
+  border-left: 85px solid transparent; border-right: 85px solid transparent;
+  border-top: 70px solid #f0f9ff;
+  transform-origin: top; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3;
+  filter: drop-shadow(0 4px 4px rgba(3, 62, 140, 0.08));
 }
 .env-seal {
-  position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
-  width: 30px; height: 30px; background: #e53e3e; border-radius: 50%;
+  position: absolute; top: 55px; left: 50%; transform: translateX(-50%);
+  width: 34px; height: 34px; 
+  background: radial-gradient(circle at 30% 30%, #a9d0ed, #5c9ed5); 
+  border-radius: 50%;
   z-index: 4; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: opacity 0.3s;
+  box-shadow: 0 4px 10px rgba(92, 158, 213, 0.5), inset 0 0 5px rgba(255,255,255,0.8); 
+  transition: opacity 0.3s, transform 0.3s;
+  border: 1.5px solid #fff;
 }
-.env-seal svg { width: 18px; height: 18px; color: #fff; }
+.env-seal svg { width: 18px; height: 18px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));}
+
 /* Khi bấm mở thư */
-.envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 0; }
-.envelope-wrapper.open .env-seal { opacity: 0; }
-.envelope-wrapper.open .env-card { transform: translateY(-75px); z-index: 3; }
+.envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 0; filter: none; }
+.envelope-wrapper.open .env-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
+.envelope-wrapper.open .env-card { transform: translateY(-75px); z-index: 3; box-shadow: 0 10px 25px rgba(3,62,140,0.15); }
 
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
@@ -3348,11 +3370,8 @@ let currentDestinyTimeout = [];
 
 function openDestiny() {
   openModal("destinyModal");
-  // Xóa các timeout cũ nếu người dùng đóng mở liên tục
   currentDestinyTimeout.forEach(clearTimeout);
   currentDestinyTimeout = [];
-  
-  // Chạy thẳng vào hiệu ứng luôn khi bấm từ Banner
   rollDestiny();
 }
 
@@ -3360,57 +3379,80 @@ function rollDestiny() {
   const c = CHARS[Math.floor(Math.random() * CHARS.length)];
   const content = document.getElementById("destinyContent");
 
-  // Giai đoạn 1: Quả cầu tuyết
+  // Giai đoạn 1: Quả cầu tuyết xuất hiện
   content.innerHTML = `
-    <div class="destiny-note" style="margin-bottom: 20px;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
-    <div class="anim-stage-container">
+    <div class="destiny-note" id="destinyNoteText" style="margin-bottom: 20px; transition: opacity 0.5s;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
+    <div class="anim-stage-container" id="destinyStageAnim">
       <div class="globe-wrap">
         <div class="snow-globe">
-          <div class="globe-snow" style="top:20%; left:20%; animation-delay: 0s;"></div>
-          <div class="globe-snow" style="top:40%; left:50%; animation-delay: 0.5s;"></div>
-          <div class="globe-snow" style="top:60%; left:30%; animation-delay: 1s;"></div>
-          <div class="globe-snow" style="top:30%; left:70%; animation-delay: 1.5s;"></div>
+          <div class="globe-snow" style="top:30%; left:20%; animation-delay: 0s;"></div>
+          <div class="globe-snow" style="top:50%; left:50%; animation-delay: 0.6s;"></div>
+          <div class="globe-snow" style="top:70%; left:30%; animation-delay: 1.2s;"></div>
+          <div class="globe-snow" style="top:25%; left:65%; animation-delay: 1.8s;"></div>
         </div>
         <div class="globe-base"></div>
       </div>
     </div>
   `;
 
-  // Giai đoạn 2: Dấu chân ánh sáng (Sau 2.5s)
+  // Giai đoạn 2: Dấu chân bước quanh quả cầu (Sau 1.5s)
   let t1 = setTimeout(() => {
-    content.innerHTML = `
-      <div class="destiny-note" style="margin-bottom: 20px;">Xuyên qua màn sương, có ai đó đang khẽ gọi tên bạn...</div>
-      <div class="anim-stage-container">
-        <svg width="200" height="150" viewBox="0 0 200 150">
-          <path class="footprint-path" d="M10,130 Q50,110 80,80 T150,20" />
-          <circle cx="155" cy="15" r="5" fill="#79ACD9" style="animation: glowPath 1s infinite alternate;"/>
-        </svg>
-      </div>
-    `;
-  }, 2500);
+    const text = document.getElementById("destinyNoteText");
+    if(text) {
+        text.style.opacity = 0;
+        setTimeout(() => { text.textContent = "Một bóng hình nhỏ khẽ bước tới gần..."; text.style.opacity = 1; }, 500);
+    }
+    
+    const stage = document.getElementById("destinyStageAnim");
+    if(!stage) return;
+    
+    // SVG dấu chân (nhẹ, không lag)
+    const pawSvg = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8.5c1.4 0 2.5-1.1 2.5-2.5S13.4 3.5 12 3.5 9.5 4.6 9.5 6 10.6 8.5 12 8.5zm-4.5.5c-1.4 0-2.5-1.1-2.5-2.5S6.1 4 7.5 4 10 5.1 10 6.5 8.9 9 7.5 9zm9 0c-1.4 0-2.5-1.1-2.5-2.5S15.1 4 16.5 4 19 5.1 19 6.5 17.9 9 16.5 9zm-4.5 2c-3 0-5.5 2.2-5.5 5 0 2.2 2 3 3.5 3 1.1 0 1.5-.5 2-.5s.9.5 2 .5c1.5 0 3.5-.8 3.5-3 0-2.8-2.5-5-5.5-5z"/></svg>`;
+    
+    // Tạo 4 dấu chân bao quanh quả cầu với các góc độ và delay khác nhau
+    const paws = [
+      { left: "20%", top: "60%", rot: "45deg", delay: "0s" },
+      { left: "15%", top: "40%", rot: "70deg", delay: "0.5s" },
+      { left: "25%", top: "20%", rot: "110deg", delay: "1s" },
+      { left: "45%", top: "10%", rot: "140deg", delay: "1.5s" }
+    ];
 
-  // Giai đoạn 3: Bức thư phong ấn (Sau 5s)
+    paws.forEach(p => {
+      let div = document.createElement('div');
+      div.className = 'animal-paw';
+      div.innerHTML = pawSvg;
+      div.style.left = p.left;
+      div.style.top = p.top;
+      div.style.transform = `rotate(${p.rot})`;
+      div.style.animationDelay = p.delay;
+      stage.appendChild(div);
+    });
+  }, 1500);
+
+  // Giai đoạn 3: Bức thư phong ấn xuất hiện (Sau 4.5s)
   let t2 = setTimeout(() => {
-    content.innerHTML = `
-      <div class="destiny-note" style="margin-bottom: 20px;">Một phong thư được gửi đến từ phía bên kia cánh rừng...</div>
-      <div class="anim-stage-container">
-        <div class="envelope-wrapper" id="destinyEnvelope" onclick="openDestinyLetter('${c.id}')">
-          <div class="env-back"></div>
-          <div class="env-card">
-            <img src="${c.img}" alt="">
-            <span>${escapeHtml(c.name.split(" (")[0])}</span>
-          </div>
-          <div class="env-front"></div>
-          <div class="env-flap"></div>
-          <div class="env-seal">
-            <!-- Icon hoa tuyết SVG thuần -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line></svg>
-          </div>
+    const text = document.getElementById("destinyNoteText");
+    if(text) text.textContent = "Một phong thư được gửi đến từ phía bên kia cánh rừng...";
+    
+    const stage = document.getElementById("destinyStageAnim");
+    if(!stage) return;
+
+    stage.innerHTML = `
+      <div class="envelope-wrapper" id="destinyEnvelope" onclick="openDestinyLetter('${c.id}')">
+        <div class="env-back"></div>
+        <div class="env-card">
+          <img src="${c.img}" alt="">
+          <span>${escapeHtml(c.name.split(" (")[0])}</span>
+        </div>
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+        <div class="env-seal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line></svg>
         </div>
       </div>
-      <div style="font-size:0.75rem; color:#8797a9; margin-top: -10px; animation: glowPath 1.5s infinite alternate;">(Nhấn vào lá thư để mở)</div>
+      <div style="position:absolute; bottom: 0; font-size:0.75rem; color:#8797a9; animation: glowPath 1.5s infinite alternate;">(Nhấn vào lá thư để mở)</div>
     `;
-  }, 5000);
+  }, 4500);
 
   currentDestinyTimeout.push(t1, t2);
 }
