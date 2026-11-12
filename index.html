@@ -1021,14 +1021,15 @@ body.modal-open #snow-container { display: none !important; }
    2. CSS CHO ANIMATION ĐỊNH MỆNH (NEW)
    ========================================= */
 .anim-stage-container {
-  min-height: 260px;
+  min-height: 235px;
   height: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Kéo thẻ bài sát lên trên */
   justify-content: center;
   position: relative;
   overflow: visible;
-  margin: 10px 0;
+  margin: 0;
+  padding-top: 4px;
 }
 
 /* Quả cầu tuyết: Bỏ viền, nền gradient xanh thẫm sâu thẳm */
@@ -1127,37 +1128,46 @@ body.modal-open #snow-container { display: none !important; }
   height: 100%;
   display: block;
 }
-/* Mặt ngửa (Đổi sang xanh của web) */
+/* Mặt ngửa (Bố cục thẻ bài Tarot: ảnh chữ nhật viền đôi + tên ở đáy) */
 .card-back {
-  background: linear-gradient(180deg, #051430 0%, #0b2247 100%);
-  border: 2px solid #79ACD9;
+  background: #040e24;
+  border: 1.5px solid #79ACD9;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 12px 10px;
-  text-align: center;
-  box-shadow: inset 0 0 20px rgba(121, 172, 217, 0.3);
+  padding: 7px 7px 5px;
+  box-shadow: inset 0 0 15px rgba(121, 172, 217, 0.25);
+  box-sizing: border-box;
+}
+.card-back-img-frame {
+  width: 100%;
+  height: 175px;
+  border: 1.5px solid #0f2e54;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #020813;
 }
 .card-back img {
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  margin-bottom: 12px;
-  border: 2.5px solid #79ACD9;
-  box-shadow: 0 0 15px rgba(121, 172, 217, 0.6);
+  display: block;
 }
-.card-back span {
+.card-back-name {
   font-family: var(--serif);
-  font-size: 0.95rem;
+  font-size: 0.78rem;
   font-weight: 800;
   color: #EAF5FF;
-  line-height: 1.3;
-  text-shadow: 0 0 8px rgba(121, 172, 217, 0.7);
+  letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding-top: 5px;
 }
-
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
     font-family: 'Cinzel Decorative', serif !important;
@@ -3398,7 +3408,7 @@ function rollDestiny() {
 
   // Giai đoạn 1: Quả cầu tuyết với hạt tuyết hình ❄
   content.innerHTML = `
-    <div class="destiny-note" id="destinyNoteText" style="margin-bottom: 20px; transition: opacity 0.5s;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
+    <div class="destiny-note" id="destinyNoteText" style="margin-bottom: 8px; transition: opacity 0.5s;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
     <div class="anim-stage-container" id="destinyStageAnim">
       <div class="globe-wrap">
         <div class="snow-globe">
@@ -3545,10 +3555,12 @@ function rollDestiny() {
               </g>
             </svg>
           </div>
-          <!-- Mặt ngửa (Lộ nhân vật sắc nét cùng viền tím đồng bộ) -->
+<!-- Mặt ngửa (Bố cục Tarot: ảnh chữ nhật và tên) -->
           <div class="card-face card-back">
-            <img src="${c.img}" alt="">
-            <span>${escapeHtml(c.name.split(" (")[0])}</span>
+            <div class="card-back-img-frame">
+              <img src="${c.img}" alt="${escapeHtml(c.name)}">
+            </div>
+            <div class="card-back-name">${escapeHtml(c.name.split(" (")[0])}</div>
           </div>
         </div>
       </div>
