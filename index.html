@@ -950,18 +950,16 @@ body.modal-open #snow-container { display: none !important; }
 .destiny-banner {
   display: flex;
   align-items: center;
-  /* Thêm margin-top để không dính vào thanh search */
   margin-top: 18px; 
-  /* Nền xanh gradient nhạt để khung nổi bật hơn trên nền trắng */
-  background: linear-gradient(135deg, rgba(234, 245, 255, 0.85), rgba(210, 235, 255, 0.6));
+  /* Kỹ thuật tạo viền Gradient mà nền vẫn Glass */
+  background: linear-gradient(135deg, rgba(234, 245, 255, 0.7), rgba(210, 235, 255, 0.4)) padding-box,
+              linear-gradient(135deg, #79acd9, #ffffff, #2b6cb0) border-box;
+  border: 2px solid transparent;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  /* Viền xanh lấp lánh nhẹ */
-  border: 1.5px solid rgba(121, 172, 217, 0.4);
   border-radius: 24px;
   padding: 10px;
-  /* Đổ bóng đậm hơn một chút để tách khối */
-  box-shadow: 0 10px 30px rgba(3, 62, 140, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(3, 62, 140, 0.12), inset 0 0 15px rgba(255, 255, 255, 0.8);
   margin-bottom: 15px;
   gap: 12px;
   width: 100%;
@@ -1032,7 +1030,7 @@ body.modal-open #snow-container { display: none !important; }
   margin: 10px 0;
 }
 
-/* Quả cầu tuyết (Darker gradient, no border) */
+/* Quả cầu tuyết: Bỏ viền, nền gradient xanh thẫm sâu thẳm */
 .globe-wrap { 
   animation: globeFloat 3s ease-in-out infinite; 
   position: relative; 
@@ -1042,104 +1040,141 @@ body.modal-open #snow-container { display: none !important; }
   width: 125px;
   height: 125px;
   border-radius: 50%;
-  /* Gradient xanh đậm sâu thẳm ở giữa, mờ dần ra rìa */
-  background: radial-gradient(circle at 40% 40%, rgba(15, 45, 80, 0.85), rgba(2, 15, 35, 0.95));
+  background: radial-gradient(circle at 35% 35%, #0a2e5c, #021124);
   border: none;
   position: relative;
-  box-shadow: inset -10px -10px 25px rgba(0,0,0,0.6), 0 15px 30px rgba(3, 62, 140, 0.25), inset 5px 5px 15px rgba(255,255,255,0.15);
+  box-shadow: inset -15px -15px 30px rgba(0,0,0,0.8), 0 15px 30px rgba(3, 62, 140, 0.3), inset 5px 5px 15px rgba(255,255,255,0.15);
   overflow: hidden;
 }
 .globe-base {
   width: 75px;
   height: 18px;
-  background: linear-gradient(to right, #072a4f, #1b538c, #072a4f);
+  background: linear-gradient(to right, #051c36, #123e6b, #051c36);
   border-radius: 10px 10px 20px 20px;
   margin: -4px auto 0;
   position: relative;
   z-index: 2;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.3);
 }
 .globe-snow {
   position: absolute;
   width: 5px; height: 5px;
   background: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 6px #fff;
+  box-shadow: 0 0 8px #fff, 0 0 15px rgba(255,255,255,0.8);
   animation: swirl 2.5s linear infinite;
 }
 @keyframes globeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes swirl { 0% { transform: rotate(0deg) translateX(35px) rotate(0deg) scale(0.5); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: rotate(360deg) translateX(15px) rotate(-360deg) scale(1.2); opacity: 0; } }
 
-/* Dấu chân động vật (Glow) */
+/* Dấu chân động vật sáng rực (SVG dạ quang) */
 .animal-paw {
   position: absolute;
-  width: 28px; height: 28px;
-  color: #79ACD9;
-  filter: drop-shadow(0 0 4px rgba(121, 172, 217, 0.8)) drop-shadow(0 0 10px rgba(121, 172, 217, 0.5));
+  width: 26px; height: 26px;
+  color: #8cc3f5;
+  filter: drop-shadow(0 0 5px #79ACD9) drop-shadow(0 0 12px rgba(121, 172, 217, 0.8));
   opacity: 0;
   z-index: 2;
   animation: pawStep 3s forwards ease-in-out;
 }
-@keyframes pawStep { 0% { opacity: 0; transform: scale(0.5) translateY(10px); } 15% { opacity: 1; transform: scale(1) translateY(0); } 80% { opacity: 0.8; } 100% { opacity: 0; } }
+@keyframes pawStep { 0% { opacity: 0; transform: scale(0.5) translateY(10px); } 15% { opacity: 1; transform: scale(1.2) translateY(0); } 80% { opacity: 0.9; } 100% { opacity: 0; } }
 
-/* Lá thư (Cao cấp, 3D hơn) */
+/* PHONG THƯ 3D CẮT LỚP CAO CẤP */
 .envelope-wrapper {
   position: relative;
-  width: 170px;
-  height: 115px;
+  width: 320px;
+  height: 200px;
   cursor: pointer;
   transition: transform 0.3s;
   animation: modalPop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  filter: drop-shadow(0 15px 25px rgba(3, 62, 140, 0.15));
+  transform: scale(0.85); /* Thu nhỏ lại xíu cho vừa modal trên điện thoại */
 }
-.envelope-wrapper:hover { transform: scale(1.04) translateY(-5px); }
-.env-back {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  border-radius: 8px;
-  border: 1px solid #93c5fd;
+.envelope-wrapper:hover { transform: scale(0.88) translateY(-5px); }
+.env-base {
+  width: 100%; height: 100%;
+  position: absolute;
+  overflow: hidden; /* Cắt gọn các cạnh dư thừa của flaps */
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f5faff, #e1effa);
+  box-shadow: 0 15px 35px rgba(3, 62, 140, 0.15);
 }
+/* Chữ trang trí trên phong bì */
+.env-text-left {
+  position: absolute; bottom: 16px; left: 18px;
+  font-family: var(--serif); font-style: italic; color: #628ab3; font-size: 0.85rem; z-index: 1;
+}
+.env-text-right {
+  position: absolute; bottom: 16px; right: 18px;
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--sans); font-size: 0.65rem; color: #8797a9; text-align: right; line-height: 1.3; z-index: 1; letter-spacing: 0.5px;
+}
+.env-stamp {
+  width: 24px; height: 24px; border: 1px dashed #a2c4e0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: #79acd9;
+}
+/* Ruột thư bên trong (Card) */
 .env-card {
-  position: absolute; top: 12px; left: 15px; width: 140px; height: 90px;
-  background: #fff; border-radius: 6px; 
-  box-shadow: 0 0 15px rgba(0,0,0,0.08);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: absolute; top: 12px; left: 20px; right: 20px; bottom: 12px;
+  background: #fff; border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.06);
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 1;
-  border: 1px solid #f0f6fb;
+  z-index: 2; border: 1px solid #e1edf7;
+  padding: 8px;
 }
-.env-card img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; margin-bottom: 6px; border: 1.5px solid #dcebf5;}
-.env-card span { font-size: 0.75rem; font-weight: 800; color: var(--navy); }
-.env-front {
-  position: absolute; bottom: 0; left: 0; width: 0; height: 0;
-  border-left: 85px solid #e0f2fe; border-right: 85px solid #e0f2fe;
-  border-bottom: 65px solid #bae6fd; border-top: 50px solid transparent;
-  z-index: 2; border-radius: 0 0 8px 8px;
-  filter: drop-shadow(0 -2px 3px rgba(0,0,0,0.03));
+.env-card-inner {
+  width: 100%; height: 100%; border: 1px dashed #c2dcf0; border-radius: 6px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
 }
-.env-flap {
-  position: absolute; top: 0; left: 0; width: 0; height: 0;
-  border-left: 85px solid transparent; border-right: 85px solid transparent;
-  border-top: 70px solid #f0f9ff;
-  transform-origin: top; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3;
-  filter: drop-shadow(0 4px 4px rgba(3, 62, 140, 0.08));
-}
-.env-seal {
-  position: absolute; top: 55px; left: 50%; transform: translateX(-50%);
-  width: 34px; height: 34px; 
-  background: radial-gradient(circle at 30% 30%, #a9d0ed, #5c9ed5); 
-  border-radius: 50%;
-  z-index: 4; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 10px rgba(92, 158, 213, 0.5), inset 0 0 5px rgba(255,255,255,0.8); 
-  transition: opacity 0.3s, transform 0.3s;
-  border: 1.5px solid #fff;
-}
-.env-seal svg { width: 18px; height: 18px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));}
+.env-card-header { font-size: 0.7rem; color: #79acd9; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+.env-card-title { font-family: var(--serif); font-size: 1.3rem; color: #1e3a8a; font-weight: 800; margin-bottom: 12px; }
+.env-card img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-bottom: 6px; border: 2px solid #eef7ff; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
+.env-card span { font-size: 0.8rem; font-weight: 800; color: var(--navy); }
 
-/* Khi bấm mở thư */
-.envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 0; filter: none; }
+/* Các nắp gập 3D bên hông và dưới */
+.env-flap-left {
+  position: absolute; top: 10px; left: -140px; width: 220px; height: 220px;
+  background: #f0f7ff; transform: rotate(45deg);
+  border: 1.5px dashed rgba(121, 172, 217, 0.35); box-shadow: 5px -5px 12px rgba(0,0,0,0.03); z-index: 3;
+}
+.env-flap-right {
+  position: absolute; top: 10px; right: -140px; width: 220px; height: 220px;
+  background: #f0f7ff; transform: rotate(45deg);
+  border: 1.5px dashed rgba(121, 172, 217, 0.35); box-shadow: -5px 5px 12px rgba(0,0,0,0.03); z-index: 3;
+}
+.env-flap-bottom {
+  position: absolute; bottom: -160px; left: 50px; width: 220px; height: 220px;
+  background: #f7fbff; transform: rotate(45deg);
+  border: 1.5px dashed rgba(121, 172, 217, 0.35); box-shadow: 0 -5px 15px rgba(0,0,0,0.04); z-index: 4;
+}
+
+/* Nắp gập phía trên (Bọc khối ngoài để có thể lật mở 3D) */
+.env-flap-top-wrapper {
+  position: absolute; top: 0; left: 0; width: 100%; height: 120px;
+  transform-origin: top; z-index: 6; overflow: hidden;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.env-flap-top-inner {
+  position: absolute; top: -160px; left: 50px; width: 220px; height: 220px;
+  background: #ffffff; transform: rotate(45deg);
+  border: 1.5px dashed rgba(121, 172, 217, 0.4); box-shadow: 0 5px 12px rgba(3, 62, 140, 0.05);
+}
+
+/* Con dấu sáp cao cấp */
+.env-seal {
+  position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+  width: 44px; height: 44px; 
+  background: radial-gradient(circle at 30% 30%, #a9d0ed, #5c9ed5); 
+  border-radius: 50%; z-index: 7; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 5px 12px rgba(92, 158, 213, 0.5), inset 0 2px 4px rgba(255,255,255,0.7), inset 0 -2px 4px rgba(0,0,0,0.15); 
+  transition: opacity 0.3s, transform 0.3s;
+  border: 2px solid #fff;
+}
+.env-seal svg { width: 22px; height: 22px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
+
+/* HIỆU ỨNG KHI MỞ THƯ */
+.envelope-wrapper.open .env-flap-top-wrapper { transform: rotateX(180deg); z-index: 0; }
 .envelope-wrapper.open .env-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
-.envelope-wrapper.open .env-card { transform: translateY(-75px); z-index: 3; box-shadow: 0 10px 25px rgba(3,62,140,0.15); }
+.envelope-wrapper.open .env-card { transform: translateY(-160px); z-index: 10; box-shadow: 0 15px 35px rgba(3,62,140,0.15); }
 
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
@@ -3379,23 +3414,24 @@ function rollDestiny() {
   const c = CHARS[Math.floor(Math.random() * CHARS.length)];
   const content = document.getElementById("destinyContent");
 
-  // Giai đoạn 1: Quả cầu tuyết xuất hiện
+  // Giai đoạn 1: Quả cầu tuyết xuất hiện (Không bị thay thế ở giai đoạn 2)
   content.innerHTML = `
     <div class="destiny-note" id="destinyNoteText" style="margin-bottom: 20px; transition: opacity 0.5s;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
     <div class="anim-stage-container" id="destinyStageAnim">
+      <!-- Cấu trúc quả cầu -->
       <div class="globe-wrap">
         <div class="snow-globe">
-          <div class="globe-snow" style="top:30%; left:20%; animation-delay: 0s;"></div>
-          <div class="globe-snow" style="top:50%; left:50%; animation-delay: 0.6s;"></div>
-          <div class="globe-snow" style="top:70%; left:30%; animation-delay: 1.2s;"></div>
-          <div class="globe-snow" style="top:25%; left:65%; animation-delay: 1.8s;"></div>
+          <div class="globe-snow" style="top:25%; left:20%; animation-delay: 0s;"></div>
+          <div class="globe-snow" style="top:45%; left:55%; animation-delay: 0.6s;"></div>
+          <div class="globe-snow" style="top:75%; left:30%; animation-delay: 1.2s;"></div>
+          <div class="globe-snow" style="top:35%; left:75%; animation-delay: 1.8s;"></div>
         </div>
         <div class="globe-base"></div>
       </div>
     </div>
   `;
 
-  // Giai đoạn 2: Dấu chân bước quanh quả cầu (Sau 1.5s)
+  // Giai đoạn 2: Dấu chân bước quanh quả cầu TẠI CÙNG 1 KHUNG HÌNH (Sau 2s)
   let t1 = setTimeout(() => {
     const text = document.getElementById("destinyNoteText");
     if(text) {
@@ -3406,17 +3442,18 @@ function rollDestiny() {
     const stage = document.getElementById("destinyStageAnim");
     if(!stage) return;
     
-    // SVG dấu chân (nhẹ, không lag)
+    // SVG bàn chân sắc nét
     const pawSvg = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8.5c1.4 0 2.5-1.1 2.5-2.5S13.4 3.5 12 3.5 9.5 4.6 9.5 6 10.6 8.5 12 8.5zm-4.5.5c-1.4 0-2.5-1.1-2.5-2.5S6.1 4 7.5 4 10 5.1 10 6.5 8.9 9 7.5 9zm9 0c-1.4 0-2.5-1.1-2.5-2.5S15.1 4 16.5 4 19 5.1 19 6.5 17.9 9 16.5 9zm-4.5 2c-3 0-5.5 2.2-5.5 5 0 2.2 2 3 3.5 3 1.1 0 1.5-.5 2-.5s.9.5 2 .5c1.5 0 3.5-.8 3.5-3 0-2.8-2.5-5-5.5-5z"/></svg>`;
     
-    // Tạo 4 dấu chân bao quanh quả cầu với các góc độ và delay khác nhau
+    // Tọa độ bước chân chạy chéo quanh quả cầu
     const paws = [
-      { left: "20%", top: "60%", rot: "45deg", delay: "0s" },
-      { left: "15%", top: "40%", rot: "70deg", delay: "0.5s" },
-      { left: "25%", top: "20%", rot: "110deg", delay: "1s" },
-      { left: "45%", top: "10%", rot: "140deg", delay: "1.5s" }
+      { left: "15%", top: "70%", rot: "35deg", delay: "0s" },
+      { left: "10%", top: "40%", rot: "55deg", delay: "0.6s" },
+      { left: "20%", top: "10%", rot: "90deg", delay: "1.2s" },
+      { left: "55%", top: "5%", rot: "135deg", delay: "1.8s" }
     ];
 
+    // Gắn trực tiếp vào khung quả cầu (không đổi HTML)
     paws.forEach(p => {
       let div = document.createElement('div');
       div.className = 'animal-paw';
@@ -3427,9 +3464,9 @@ function rollDestiny() {
       div.style.animationDelay = p.delay;
       stage.appendChild(div);
     });
-  }, 1500);
+  }, 2000);
 
-  // Giai đoạn 3: Bức thư phong ấn xuất hiện (Sau 4.5s)
+  // Giai đoạn 3: Bức thư phong ấn 3D xuất hiện (Sau 5.5s)
   let t2 = setTimeout(() => {
     const text = document.getElementById("destinyNoteText");
     if(text) text.textContent = "Một phong thư được gửi đến từ phía bên kia cánh rừng...";
@@ -3439,20 +3476,41 @@ function rollDestiny() {
 
     stage.innerHTML = `
       <div class="envelope-wrapper" id="destinyEnvelope" onclick="openDestinyLetter('${c.id}')">
-        <div class="env-back"></div>
-        <div class="env-card">
-          <img src="${c.img}" alt="">
-          <span>${escapeHtml(c.name.split(" (")[0])}</span>
+        <!-- Khối thân phong bì và ruột thư -->
+        <div class="env-base">
+            <div class="env-text-left">Gửi người thương mùa tuyết</div>
+            <div class="env-text-right">
+                <div class="env-stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5l-14 14"/></svg></div>
+                <div>WINTER POST<br>2026 • SNOW</div>
+            </div>
+            
+            <div class="env-card">
+                <div class="env-card-inner">
+                    <div class="env-card-header">✦ Gửi người ghé thăm mùa đông ✦</div>
+                    <div class="env-card-title">Thư Gửi Mùa Tuyết</div>
+                    <img src="${c.img}" alt="">
+                    <span>${escapeHtml(c.name.split(" (")[0])}</span>
+                </div>
+            </div>
+            
+            <div class="env-flap-left"></div>
+            <div class="env-flap-right"></div>
+            <div class="env-flap-bottom"></div>
         </div>
-        <div class="env-front"></div>
-        <div class="env-flap"></div>
+        
+        <!-- Nắp gập đóng mở phía trên -->
+        <div class="env-flap-top-wrapper">
+            <div class="env-flap-top-inner"></div>
+        </div>
+        
+        <!-- Con dấu sáp -->
         <div class="env-seal">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5l-14 14"/></svg>
         </div>
       </div>
-      <div style="position:absolute; bottom: 0; font-size:0.75rem; color:#8797a9; animation: glowPath 1.5s infinite alternate;">(Nhấn vào lá thư để mở)</div>
+      <div style="position:absolute; bottom: -15px; font-size:0.75rem; color:#8797a9; animation: glowPath 1.5s infinite alternate;">(Nhấn vào lá thư để mở)</div>
     `;
-  }, 4500);
+  }, 5500);
 
   currentDestinyTimeout.push(t1, t2);
 }
