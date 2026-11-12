@@ -951,15 +951,15 @@ body.modal-open #snow-container { display: none !important; }
   display: flex;
   align-items: center;
   margin-top: 18px; 
-  /* Kỹ thuật tạo viền Gradient mà nền vẫn Glass */
-  background: linear-gradient(135deg, rgba(234, 245, 255, 0.7), rgba(210, 235, 255, 0.4)) padding-box,
-              linear-gradient(135deg, #79acd9, #ffffff, #2b6cb0) border-box;
-  border: 2px solid transparent;
+  /* Nền trong suốt sáng hơn, ít xanh hơn */
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  /* Viền mỏng 1px, màu xanh cực nhạt */
+  border: 1px solid rgba(121, 172, 217, 0.3);
   border-radius: 24px;
   padding: 10px;
-  box-shadow: 0 10px 30px rgba(3, 62, 140, 0.12), inset 0 0 15px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 24px rgba(3, 62, 140, 0.08);
   margin-bottom: 15px;
   gap: 12px;
   width: 100%;
@@ -970,7 +970,7 @@ body.modal-open #snow-container { display: none !important; }
   border-radius: 18px;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(3, 62, 140, 0.15);
+  box-shadow: 0 4px 12px rgba(3, 62, 140, 0.1);
 }
 .destiny-banner-info {
   flex: 1;
@@ -1056,18 +1056,20 @@ body.modal-open #snow-container { display: none !important; }
   z-index: 2;
   box-shadow: 0 8px 15px rgba(0,0,0,0.3);
 }
+
+/* Bông tuyết trong quả cầu (Hình bông tuyết ❄) */
 .globe-snow {
   position: absolute;
-  width: 5px; height: 5px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #fff, 0 0 15px rgba(255,255,255,0.8);
+  font-size: 14px; /* Kích thước bông tuyết */
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
   animation: swirl 2.5s linear infinite;
+  display: flex; align-items: center; justify-content: center;
 }
 @keyframes globeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes swirl { 0% { transform: rotate(0deg) translateX(35px) rotate(0deg) scale(0.5); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: rotate(360deg) translateX(15px) rotate(-360deg) scale(1.2); opacity: 0; } }
 
-/* Dấu chân động vật sáng rực (SVG dạ quang) */
+/* Dấu chân động vật sáng rực */
 .animal-paw {
   position: absolute;
   width: 26px; height: 26px;
@@ -1079,102 +1081,60 @@ body.modal-open #snow-container { display: none !important; }
 }
 @keyframes pawStep { 0% { opacity: 0; transform: scale(0.5) translateY(10px); } 15% { opacity: 1; transform: scale(1.2) translateY(0); } 80% { opacity: 0.9; } 100% { opacity: 0; } }
 
-/* PHONG THƯ 3D CẮT LỚP CAO CẤP */
-.envelope-wrapper {
+/* THẺ BÀI ĐỊNH MỆNH (CARD FLIP) */
+.destiny-card-container {
   position: relative;
-  width: 320px;
-  height: 200px;
+  width: 135px;
+  height: 190px;
+  perspective: 1000px;
   cursor: pointer;
-  transition: transform 0.3s;
   animation: modalPop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transform: scale(0.85); /* Thu nhỏ lại xíu cho vừa modal trên điện thoại */
+  margin: 0 auto;
 }
-.envelope-wrapper:hover { transform: scale(0.88) translateY(-5px); }
-.env-base {
+.destiny-card {
   width: 100%; height: 100%;
+  position: relative;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.destiny-card-container:hover .destiny-card {
+  transform: translateY(-5px) rotateY(10deg);
+}
+/* Hiệu ứng xoay khi thẻ được bấm */
+.destiny-card.flipped {
+  transform: rotateY(180deg) scale(1.1) !important;
+}
+.card-face {
   position: absolute;
-  overflow: hidden; /* Cắt gọn các cạnh dư thừa của flaps */
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
   border-radius: 12px;
-  background: linear-gradient(135deg, #f5faff, #e1effa);
-  box-shadow: 0 15px 35px rgba(3, 62, 140, 0.15);
+  box-shadow: 0 12px 25px rgba(3, 62, 140, 0.18);
+  overflow: hidden;
 }
-/* Chữ trang trí trên phong bì */
-.env-text-left {
-  position: absolute; bottom: 16px; left: 18px;
-  font-family: var(--serif); font-style: italic; color: #628ab3; font-size: 0.85rem; z-index: 1;
+/* Mặt sau lá bài (Mặt đang úp) */
+.card-front {
+  background: linear-gradient(135deg, #eef7ff, #c4def5);
+  border: 1.5px solid #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-.env-text-right {
-  position: absolute; bottom: 16px; right: 18px;
-  display: flex; align-items: center; gap: 6px;
-  font-family: var(--sans); font-size: 0.65rem; color: #8797a9; text-align: right; line-height: 1.3; z-index: 1; letter-spacing: 0.5px;
+.card-front::before {
+  content: "✧"; font-size: 50px; color: #79acd9; opacity: 0.7;
 }
-.env-stamp {
-  width: 24px; height: 24px; border: 1px dashed #a2c4e0; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; color: #79acd9;
+.card-front::after {
+  content: ""; position: absolute; width: 85%; height: 85%;
+  border: 1.5px dashed rgba(121, 172, 217, 0.4); border-radius: 8px;
 }
-/* Ruột thư bên trong (Card) */
-.env-card {
-  position: absolute; top: 12px; left: 20px; right: 20px; bottom: 12px;
-  background: #fff; border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.06);
-  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 2; border: 1px solid #e1edf7;
-  padding: 8px;
+/* Mặt trước lá bài (Mặt hiện nhân vật) */
+.card-back {
+  background: #fff;
+  border: 1.5px solid #dcebf5;
+  transform: rotateY(180deg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 10px; text-align: center;
 }
-.env-card-inner {
-  width: 100%; height: 100%; border: 1px dashed #c2dcf0; border-radius: 6px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-}
-.env-card-header { font-size: 0.7rem; color: #79acd9; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
-.env-card-title { font-family: var(--serif); font-size: 1.3rem; color: #1e3a8a; font-weight: 800; margin-bottom: 12px; }
-.env-card img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-bottom: 6px; border: 2px solid #eef7ff; box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
-.env-card span { font-size: 0.8rem; font-weight: 800; color: var(--navy); }
-
-/* Các nắp gập 3D bên hông và dưới */
-.env-flap-left {
-  position: absolute; top: 10px; left: -140px; width: 220px; height: 220px;
-  background: #f0f7ff; transform: rotate(45deg);
-  border: 1.5px dashed rgba(121, 172, 217, 0.35); box-shadow: 5px -5px 12px rgba(0,0,0,0.03); z-index: 3;
-}
-.env-flap-right {
-  position: absolute; top: 10px; right: -140px; width: 220px; height: 220px;
-  background: #f0f7ff; transform: rotate(45deg);
-  border: 1.5px dashed rgba(121, 172, 217, 0.35); box-shadow: -5px 5px 12px rgba(0,0,0,0.03); z-index: 3;
-}
-.env-flap-bottom {
-  position: absolute; bottom: -160px; left: 50px; width: 220px; height: 220px;
-  background: #f7fbff; transform: rotate(45deg);
-  border: 1.5px dashed rgba(121, 172, 217, 0.35); box-shadow: 0 -5px 15px rgba(0,0,0,0.04); z-index: 4;
-}
-
-/* Nắp gập phía trên (Bọc khối ngoài để có thể lật mở 3D) */
-.env-flap-top-wrapper {
-  position: absolute; top: 0; left: 0; width: 100%; height: 120px;
-  transform-origin: top; z-index: 6; overflow: hidden;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.env-flap-top-inner {
-  position: absolute; top: -160px; left: 50px; width: 220px; height: 220px;
-  background: #ffffff; transform: rotate(45deg);
-  border: 1.5px dashed rgba(121, 172, 217, 0.4); box-shadow: 0 5px 12px rgba(3, 62, 140, 0.05);
-}
-
-/* Con dấu sáp cao cấp */
-.env-seal {
-  position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
-  width: 44px; height: 44px; 
-  background: radial-gradient(circle at 30% 30%, #a9d0ed, #5c9ed5); 
-  border-radius: 50%; z-index: 7; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 5px 12px rgba(92, 158, 213, 0.5), inset 0 2px 4px rgba(255,255,255,0.7), inset 0 -2px 4px rgba(0,0,0,0.15); 
-  transition: opacity 0.3s, transform 0.3s;
-  border: 2px solid #fff;
-}
-.env-seal svg { width: 22px; height: 22px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
-
-/* HIỆU ỨNG KHI MỞ THƯ */
-.envelope-wrapper.open .env-flap-top-wrapper { transform: rotateX(180deg); z-index: 0; }
-.envelope-wrapper.open .env-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
-.envelope-wrapper.open .env-card { transform: translateY(-160px); z-index: 10; box-shadow: 0 15px 35px rgba(3,62,140,0.15); }
+.card-back img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2.5px solid #eef7ff; box-shadow: 0 4px 12px rgba(0,0,0,0.08);}
+.card-back span { font-size: 0.9rem; font-weight: 800; color: var(--navy); line-height: 1.2; }
 
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
@@ -1298,7 +1258,7 @@ body.modal-open #snow-container { display: none !important; }
 </div>
 <!-- BẮT ĐẦU: Banner Theo Dấu Tuyết Rơi Mới -->
 <div class="destiny-banner">
-  <img src="images/theodautuyetroi.png" class="destiny-banner-img" alt="Theo dấu tuyết rơi">
+  <img src="images/theodautuyetroi.jpg" class="destiny-banner-img" alt="Theo dấu tuyết rơi">
   <div class="destiny-banner-info">
     <div class="destiny-banner-title">Theo Dấu Tuyết Rơi</div>
     <div class="destiny-banner-desc">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div>
@@ -3414,17 +3374,16 @@ function rollDestiny() {
   const c = CHARS[Math.floor(Math.random() * CHARS.length)];
   const content = document.getElementById("destinyContent");
 
-  // Giai đoạn 1: Quả cầu tuyết xuất hiện (Không bị thay thế ở giai đoạn 2)
+  // Giai đoạn 1: Quả cầu tuyết với hạt tuyết hình ❄
   content.innerHTML = `
     <div class="destiny-note" id="destinyNoteText" style="margin-bottom: 20px; transition: opacity 0.5s;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
     <div class="anim-stage-container" id="destinyStageAnim">
-      <!-- Cấu trúc quả cầu -->
       <div class="globe-wrap">
         <div class="snow-globe">
-          <div class="globe-snow" style="top:25%; left:20%; animation-delay: 0s;"></div>
-          <div class="globe-snow" style="top:45%; left:55%; animation-delay: 0.6s;"></div>
-          <div class="globe-snow" style="top:75%; left:30%; animation-delay: 1.2s;"></div>
-          <div class="globe-snow" style="top:35%; left:75%; animation-delay: 1.8s;"></div>
+          <div class="globe-snow" style="top:25%; left:20%; animation-delay: 0s;">❄</div>
+          <div class="globe-snow" style="top:45%; left:55%; animation-delay: 0.6s;">❄</div>
+          <div class="globe-snow" style="top:75%; left:30%; animation-delay: 1.2s;">❄</div>
+          <div class="globe-snow" style="top:35%; left:75%; animation-delay: 1.8s;">❄</div>
         </div>
         <div class="globe-base"></div>
       </div>
@@ -3453,7 +3412,6 @@ function rollDestiny() {
       { left: "55%", top: "5%", rot: "135deg", delay: "1.8s" }
     ];
 
-    // Gắn trực tiếp vào khung quả cầu (không đổi HTML)
     paws.forEach(p => {
       let div = document.createElement('div');
       div.className = 'animal-paw';
@@ -3466,65 +3424,44 @@ function rollDestiny() {
     });
   }, 2000);
 
-  // Giai đoạn 3: Bức thư phong ấn 3D xuất hiện (Sau 5.5s)
+  // Giai đoạn 3: Thẻ Bài (Card) Xuất hiện thay cho phong thư (Sau 5.5s)
   let t2 = setTimeout(() => {
     const text = document.getElementById("destinyNoteText");
-    if(text) text.textContent = "Một phong thư được gửi đến từ phía bên kia cánh rừng...";
+    if(text) text.textContent = "Một lá bài định mệnh vừa được lật mở từ tuyết trắng...";
     
     const stage = document.getElementById("destinyStageAnim");
     if(!stage) return;
 
     stage.innerHTML = `
-      <div class="envelope-wrapper" id="destinyEnvelope" onclick="openDestinyLetter('${c.id}')">
-        <!-- Khối thân phong bì và ruột thư -->
-        <div class="env-base">
-            <div class="env-text-left">Gửi người thương mùa tuyết</div>
-            <div class="env-text-right">
-                <div class="env-stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5l-14 14"/></svg></div>
-                <div>WINTER POST<br>2026 • SNOW</div>
-            </div>
-            
-            <div class="env-card">
-                <div class="env-card-inner">
-                    <div class="env-card-header">✦ Gửi người ghé thăm mùa đông ✦</div>
-                    <div class="env-card-title">Thư Gửi Mùa Tuyết</div>
-                    <img src="${c.img}" alt="">
-                    <span>${escapeHtml(c.name.split(" (")[0])}</span>
-                </div>
-            </div>
-            
-            <div class="env-flap-left"></div>
-            <div class="env-flap-right"></div>
-            <div class="env-flap-bottom"></div>
-        </div>
-        
-        <!-- Nắp gập đóng mở phía trên -->
-        <div class="env-flap-top-wrapper">
-            <div class="env-flap-top-inner"></div>
-        </div>
-        
-        <!-- Con dấu sáp -->
-        <div class="env-seal">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M5 5l14 14M19 5l-14 14"/></svg>
+      <div class="destiny-card-container" id="destinyCard" onclick="flipDestinyCard('${c.id}')">
+        <div class="destiny-card">
+          <!-- Mặt úp (Mặt hiển thị đầu tiên) -->
+          <div class="card-face card-front"></div>
+          <!-- Mặt ngửa (Lộ nhân vật) -->
+          <div class="card-face card-back">
+            <img src="${c.img}" alt="">
+            <span>${escapeHtml(c.name.split(" (")[0])}</span>
+          </div>
         </div>
       </div>
-      <div style="position:absolute; bottom: -15px; font-size:0.75rem; color:#8797a9; animation: glowPath 1.5s infinite alternate;">(Nhấn vào lá thư để mở)</div>
+      <div style="position:absolute; bottom: -15px; font-size:0.75rem; color:#8797a9; animation: glowPath 1.5s infinite alternate;">(Nhấn vào thẻ bài để lật mở)</div>
     `;
   }, 5500);
 
   currentDestinyTimeout.push(t1, t2);
 }
 
-// Xử lý khi user nhấn vào bức thư
-function openDestinyLetter(charId) {
+// Xử lý khi user nhấn lật Thẻ Bài
+function flipDestinyCard(charId) {
   const c = CHARS.find(x => x.id === charId);
-  const env = document.getElementById("destinyEnvelope");
-  if (!env || env.classList.contains("open")) return;
+  const card = document.getElementById("destinyCard").querySelector('.destiny-card');
   
-  // Mở nắp thư và trồi card lên
-  env.classList.add("open");
+  if (!card || card.classList.contains("flipped")) return;
+  
+  // Lật thẻ
+  card.classList.add("flipped");
 
-  // Đợi 1.2s cho animation kết thúc, sau đó hiện nút kết quả
+  // Đợi 1.2s cho thẻ lật xong và phình to ra, sau đó hiện nút kết quả
   let t3 = setTimeout(() => {
     document.getElementById("destinyContent").innerHTML = `
       <div class="destiny-result" style="animation: modalPop 0.5s ease;">
