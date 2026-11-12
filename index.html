@@ -1021,15 +1021,12 @@ body.modal-open #snow-container { display: none !important; }
    2. CSS CHO ANIMATION ĐỊNH MỆNH (NEW)
    ========================================= */
 .anim-stage-container {
-  min-height: 235px;
-  height: auto;
+  height: 220px;
   display: flex;
-  align-items: flex-start; /* Kéo thẻ bài sát lên trên */
+  align-items: center;
   justify-content: center;
   position: relative;
-  overflow: visible;
-  margin: 0;
-  padding-top: 4px;
+  margin: 8px 0;
 }
 
 /* Quả cầu tuyết: Bỏ viền, nền gradient xanh thẫm sâu thẳm */
@@ -1086,11 +1083,11 @@ body.modal-open #snow-container { display: none !important; }
 /* THẺ BÀI ĐỊNH MỆNH TAROT (CARD FLIP) */
 .destiny-card-container {
   position: relative;
-  width: 138px;
-  height: 228px; /* Tỉ lệ lá bài Tarot chuẩn như ảnh */
+  width: 128px;
+  height: 210px;
   perspective: 1000px;
   cursor: pointer;
-  animation: modalPop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: modalPop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   margin: 0 auto;
 }
 .destiny-card {
@@ -1143,7 +1140,7 @@ body.modal-open #snow-container { display: none !important; }
 }
 .card-back-img-frame {
   width: 100%;
-  height: 175px;
+  height: 160px;
   border: 1.5px solid #0f2e54;
   border-radius: 6px;
   overflow: hidden;
@@ -3437,11 +3434,12 @@ function rollDestiny() {
     const pawSvg = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8.5c1.4 0 2.5-1.1 2.5-2.5S13.4 3.5 12 3.5 9.5 4.6 9.5 6 10.6 8.5 12 8.5zm-4.5.5c-1.4 0-2.5-1.1-2.5-2.5S6.1 4 7.5 4 10 5.1 10 6.5 8.9 9 7.5 9zm9 0c-1.4 0-2.5-1.1-2.5-2.5S15.1 4 16.5 4 19 5.1 19 6.5 17.9 9 16.5 9zm-4.5 2c-3 0-5.5 2.2-5.5 5 0 2.2 2 3 3.5 3 1.1 0 1.5-.5 2-.5s.9.5 2 .5c1.5 0 3.5-.8 3.5-3 0-2.8-2.5-5-5.5-5z"/></svg>`;
     
     // Tọa độ bước chân chạy chéo quanh quả cầu
+   // Căn lại 4 bước chân ôm sát xung quanh quả cầu ở giữa:
     const paws = [
-      { left: "15%", top: "70%", rot: "35deg", delay: "0s" },
-      { left: "10%", top: "40%", rot: "55deg", delay: "0.6s" },
-      { left: "20%", top: "10%", rot: "90deg", delay: "1.2s" },
-      { left: "55%", top: "5%", rot: "135deg", delay: "1.8s" }
+      { left: "22%", top: "62%", rot: "35deg", delay: "0s" },
+      { left: "18%", top: "35%", rot: "65deg", delay: "0.5s" },
+      { left: "30%", top: "12%", rot: "110deg", delay: "1s" },
+      { left: "62%", top: "12%", rot: "145deg", delay: "1.5s" }
     ];
 
     paws.forEach(p => {
@@ -3456,118 +3454,91 @@ function rollDestiny() {
     });
   }, 2000);
 
- // Giai đoạn 3: Thẻ Bài Tarot Huyền Bí Xuất Hiện (Sau 5.5s)
+// Giai đoạn 3: Thẻ Bài Tarot Huyền Bí Xuất Hiện (Sau 5.5s)
   let t2 = setTimeout(() => {
     const text = document.getElementById("destinyNoteText");
     if(text) text.textContent = "Một lá bài định mệnh vừa được lật mở từ tuyết trắng...";
     
-    const stage = document.getElementById("destinyStageAnim");
-    if(!stage) return;
-
-    stage.innerHTML = `
-      <div class="destiny-card-container" id="destinyCard" onclick="flipDestinyCard('${c.id}')">
-        <div class="destiny-card">
-          <!-- Mặt úp (Vẽ hoa văn Tarot giống 100% ảnh mẫu) -->
-          <div class="card-face card-front">
-            <svg viewBox="0 0 200 330" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Viền góc và khung ngoài -->
-              <rect x="8" y="8" width="184" height="314" rx="10" stroke="#79ACD9" stroke-width="2.2" opacity="0.9"/>
-              <path d="M 24 16 L 176 16 M 184 24 L 184 306 M 176 314 L 24 314 M 16 306 L 16 24" stroke="#79ACD9" stroke-width="1.2" opacity="0.6"/>
-              <path d="M 16 24 C 16 16, 24 16, 24 16 M 176 16 C 184 16, 184 24, 184 24 M 184 306 C 184 314, 176 314, 176 314 M 24 314 C 16 314, 16 306, 16 306" stroke="#79ACD9" stroke-width="1.2" fill="none" opacity="0.6"/>
-              
-              <!-- 4 ngôi sao 4 cánh ở 4 góc -->
-              <g fill="#B3D5F2">
-                <path d="M 22 22 Q 22 17 22 15 Q 22 17 22 22 Q 27 22 29 22 Q 27 22 22 22 Q 22 27 22 29 Q 22 27 22 22 Q 17 22 15 22 Q 17 22 22 22 Z"/>
-                <path d="M 178 22 Q 178 17 178 15 Q 178 17 178 22 Q 183 22 185 22 Q 183 22 178 22 Q 178 27 178 29 Q 178 27 178 22 Q 173 22 171 22 Q 173 22 178 22 Z"/>
-                <path d="M 22 308 Q 22 303 22 301 Q 22 303 22 308 Q 27 308 29 308 Q 27 308 22 308 Q 22 313 22 315 Q 22 313 22 308 Q 17 308 15 308 Q 17 308 22 308 Z"/>
-                <path d="M 178 308 Q 178 303 178 301 Q 178 303 178 308 Q 183 308 185 308 Q 183 308 178 308 Q 178 313 178 315 Q 178 313 178 308 Q 173 308 171 308 Q 173 308 178 308 Z"/>
-              </g>
-
-              <!-- Họa tiết các pha mặt trăng phía trên -->
-              <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
-                <circle cx="100" cy="33" r="5"/>
-                <path d="M 85 33 A 5 5 0 0 0 91 37 A 5 5 0 0 1 91 29 A 5 5 0 0 0 85 33 Z"/>
-                <path d="M 72 33 A 5 5 0 0 0 76 37 A 5 5 0 0 1 76 29 A 5 5 0 0 0 72 33 Z"/>
-                <path d="M 115 33 A 5 5 0 0 1 109 37 A 5 5 0 0 0 109 29 A 5 5 0 0 1 115 33 Z"/>
-                <path d="M 128 33 A 5 5 0 0 1 124 37 A 5 5 0 0 0 124 29 A 5 5 0 0 1 128 33 Z"/>
-                <line x1="65" y1="33" x2="69" y2="33" stroke-width="1.2"/>
-                <line x1="131" y1="33" x2="135" y2="33" stroke-width="1.2"/>
-              </g>
-
-              <!-- Họa tiết các pha mặt trăng phía dưới -->
-              <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
-                <circle cx="100" cy="297" r="5"/>
-                <path d="M 85 297 A 5 5 0 0 0 91 301 A 5 5 0 0 1 91 293 A 5 5 0 0 0 85 297 Z"/>
-                <path d="M 72 297 A 5 5 0 0 0 76 301 A 5 5 0 0 1 76 293 A 5 5 0 0 0 72 297 Z"/>
-                <path d="M 115 297 A 5 5 0 0 1 109 301 A 5 5 0 0 0 109 293 A 5 5 0 0 1 115 297 Z"/>
-                <path d="M 128 297 A 5 5 0 0 1 124 301 A 5 5 0 0 0 124 293 A 5 5 0 0 1 128 297 Z"/>
-                <line x1="65" y1="297" x2="69" y2="297" stroke-width="1.2"/>
-                <line x1="131" y1="297" x2="135" y2="297" stroke-width="1.2"/>
-              </g>
-
-              <!-- Khung đường kẻ bên phải và các góc chéo -->
-              <line x1="164" y1="65" x2="164" y2="265" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-              <line x1="80" y1="165" x2="164" y2="165" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-              <line x1="80" y1="165" x2="164" y2="70" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-              <line x1="80" y1="165" x2="164" y2="250" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-
-              <!-- Các đường cung trăng tròn đồng tâm mở rộng sang phải -->
-              <path d="M 52 120 A 55 55 0 0 1 135 165 A 55 55 0 0 1 52 210" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
-              <path d="M 60 128 A 45 45 0 0 1 125 165 A 45 45 0 0 1 60 202" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
-              <path d="M 68 136 A 35 35 0 0 1 115 165 A 35 35 0 0 1 68 194" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
-
-              <!-- Vầng trăng khuyết chính lớn bên trái -->
-              <path d="M 50 115 C 80 115 110 135 110 165 C 110 195 80 215 50 215 C 85 200 95 180 95 165 C 95 150 85 130 50 115 Z" fill="#B3D5F2" opacity="0.95"/>
-
-              <!-- Ngôi sao 6 cánh trung tâm có vòng tròn lõi -->
-              <g transform="translate(80, 165)">
-                <!-- 2 tam giác đan nhau tạo sao 6 cánh -->
-                <polygon points="0,-16 13,8 -13,8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
-                <polygon points="0,16 13,-8 -13,-8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
-                <!-- Vòng tròn lõi sao -->
-                <circle cx="0" cy="0" r="5" fill="#EAF5FF"/>
-                <circle cx="0" cy="0" r="2.5" fill="#040e24"/>
-              </g>
-
-              <!-- Các ngôi sao tỏa sáng xung quanh trăng (trên, dưới, 2 bên) -->
-              <g fill="#EAF5FF">
-                <!-- Sao trên -->
-                <path d="M 95 72 Q 95 62 95 58 Q 95 62 95 72 Q 100 72 104 72 Q 100 72 95 72 Q 95 82 95 86 Q 95 82 95 72 Q 90 72 86 72 Q 90 72 95 72 Z"/>
-                <!-- Sao dưới -->
-                <path d="M 95 258 Q 95 248 95 244 Q 95 248 95 258 Q 100 258 104 258 Q 100 258 95 258 Q 95 268 95 272 Q 95 268 95 258 Q 90 258 86 258 Q 90 258 95 258 Z"/>
-                <!-- Sao trái trên -->
-                <path d="M 46 118 Q 46 110 46 106 Q 46 110 46 118 Q 50 118 54 118 Q 50 118 46 118 Q 46 126 46 130 Q 46 126 46 118 Q 42 118 38 118 Q 42 118 46 118 Z"/>
-                <!-- Sao trái dưới -->
-                <path d="M 46 212 Q 46 204 46 200 Q 46 204 46 212 Q 50 212 54 212 Q 50 212 46 212 Q 46 220 46 224 Q 46 220 46 212 Q 42 212 38 212 Q 42 212 46 212 Z"/>
-                <!-- Sao phải trên -->
-                <path d="M 142 118 Q 142 110 142 106 Q 142 110 142 118 Q 146 118 150 118 Q 146 118 142 118 Q 142 126 142 130 Q 142 126 142 118 Q 138 118 134 118 Q 138 118 142 118 Z"/>
-                <!-- Sao phải dưới -->
-                <path d="M 142 212 Q 142 204 142 200 Q 142 204 142 212 Q 146 212 150 212 Q 146 212 142 212 Q 142 220 142 224 Q 142 220 142 212 Q 138 212 134 212 Q 138 212 142 212 Z"/>
-              </g>
-
-              <!-- Những hạt bụi sao tí hon lấp lánh rải rác -->
-              <g fill="#79ACD9" opacity="0.65">
-                <circle cx="40" cy="70" r="1"/>
-                <circle cx="160" cy="180" r="1.2"/>
-                <circle cx="120" cy="240" r="1"/>
-                <circle cx="70" cy="270" r="1.2"/>
-                <circle cx="150" cy="285" r="1"/>
-              </g>
-            </svg>
-          </div>
-<!-- Mặt ngửa (Bố cục Tarot: ảnh chữ nhật và tên) -->
-          <div class="card-face card-back">
-            <div class="card-back-img-frame">
-              <img src="${c.img}" alt="${escapeHtml(c.name)}">
+    // Đưa thẻ bài vào giữa và dòng chữ nhắc nhở nằm ngay ngắn phía dưới (không bị đè)
+    content.innerHTML = `
+      <div class="destiny-note" style="min-height:36px; margin-bottom: 4px;">Một lá bài định mệnh vừa được lật mở từ tuyết trắng...</div>
+      <div class="anim-stage-container">
+        <div class="destiny-card-container" id="destinyCard" onclick="flipDestinyCard('${c.id}')">
+          <div class="destiny-card">
+            <!-- Mặt úp -->
+            <div class="card-face card-front">
+              <svg viewBox="0 0 200 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="8" width="184" height="314" rx="10" stroke="#79ACD9" stroke-width="2.2" opacity="0.9"/>
+                <path d="M 24 16 L 176 16 M 184 24 L 184 306 M 176 314 L 24 314 M 16 306 L 16 24" stroke="#79ACD9" stroke-width="1.2" opacity="0.6"/>
+                <path d="M 16 24 C 16 16, 24 16, 24 16 M 176 16 C 184 16, 184 24, 184 24 M 184 306 C 184 314, 176 314, 176 314 M 24 314 C 16 314, 16 306, 16 306" stroke="#79ACD9" stroke-width="1.2" fill="none" opacity="0.6"/>
+                <g fill="#B3D5F2">
+                  <path d="M 22 22 Q 22 17 22 15 Q 22 17 22 22 Q 27 22 29 22 Q 27 22 22 22 Q 22 27 22 29 Q 22 27 22 22 Q 17 22 15 22 Q 17 22 22 22 Z"/>
+                  <path d="M 178 22 Q 178 17 178 15 Q 178 17 178 22 Q 183 22 185 22 Q 183 22 178 22 Q 178 27 178 29 Q 178 27 178 22 Q 173 22 171 22 Q 173 22 178 22 Z"/>
+                  <path d="M 22 308 Q 22 303 22 301 Q 22 303 22 308 Q 27 308 29 308 Q 27 308 22 308 Q 22 313 22 315 Q 22 313 22 308 Q 17 308 15 308 Q 17 308 22 308 Z"/>
+                  <path d="M 178 308 Q 178 303 178 301 Q 178 303 178 308 Q 183 308 185 308 Q 183 308 178 308 Q 178 313 178 315 Q 178 313 178 308 Q 173 308 171 308 Q 173 308 178 308 Z"/>
+                </g>
+                <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
+                  <circle cx="100" cy="33" r="5"/>
+                  <path d="M 85 33 A 5 5 0 0 0 91 37 A 5 5 0 0 1 91 29 A 5 5 0 0 0 85 33 Z"/>
+                  <path d="M 72 33 A 5 5 0 0 0 76 37 A 5 5 0 0 1 76 29 A 5 5 0 0 0 72 33 Z"/>
+                  <path d="M 115 33 A 5 5 0 0 1 109 37 A 5 5 0 0 0 109 29 A 5 5 0 0 1 115 33 Z"/>
+                  <path d="M 128 33 A 5 5 0 0 1 124 37 A 5 5 0 0 0 124 29 A 5 5 0 0 1 128 33 Z"/>
+                  <line x1="65" y1="33" x2="69" y2="33" stroke-width="1.2"/>
+                  <line x1="131" y1="33" x2="135" y2="33" stroke-width="1.2"/>
+                </g>
+                <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
+                  <circle cx="100" cy="297" r="5"/>
+                  <path d="M 85 297 A 5 5 0 0 0 91 301 A 5 5 0 0 1 91 293 A 5 5 0 0 0 85 297 Z"/>
+                  <path d="M 72 297 A 5 5 0 0 0 76 301 A 5 5 0 0 1 76 293 A 5 5 0 0 0 72 297 Z"/>
+                  <path d="M 115 297 A 5 5 0 0 1 109 301 A 5 5 0 0 0 109 293 A 5 5 0 0 1 115 297 Z"/>
+                  <path d="M 128 297 A 5 5 0 0 1 124 301 A 5 5 0 0 0 124 293 A 5 5 0 0 1 128 297 Z"/>
+                  <line x1="65" y1="297" x2="69" y2="297" stroke-width="1.2"/>
+                  <line x1="131" y1="297" x2="135" y2="297" stroke-width="1.2"/>
+                </g>
+                <line x1="164" y1="65" x2="164" y2="265" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+                <line x1="80" y1="165" x2="164" y2="165" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+                <line x1="80" y1="165" x2="164" y2="70" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+                <line x1="80" y1="165" x2="164" y2="250" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+                <path d="M 52 120 A 55 55 0 0 1 135 165 A 55 55 0 0 1 52 210" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
+                <path d="M 60 128 A 45 45 0 0 1 125 165 A 45 45 0 0 1 60 202" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
+                <path d="M 68 136 A 35 35 0 0 1 115 165 A 35 35 0 0 1 68 194" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
+                <path d="M 50 115 C 80 115 110 135 110 165 C 110 195 80 215 50 215 C 85 200 95 180 95 165 C 95 150 85 130 50 115 Z" fill="#B3D5F2" opacity="0.95"/>
+                <g transform="translate(80, 165)">
+                  <polygon points="0,-16 13,8 -13,8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
+                  <polygon points="0,16 13,-8 -13,-8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
+                  <circle cx="0" cy="0" r="5" fill="#EAF5FF"/>
+                  <circle cx="0" cy="0" r="2.5" fill="#040e24"/>
+                </g>
+                <g fill="#EAF5FF">
+                  <path d="M 95 72 Q 95 62 95 58 Q 95 62 95 72 Q 100 72 104 72 Q 100 72 95 72 Q 95 82 95 86 Q 95 82 95 72 Q 90 72 86 72 Q 90 72 95 72 Z"/>
+                  <path d="M 95 258 Q 95 248 95 244 Q 95 248 95 258 Q 100 258 104 258 Q 100 258 95 258 Q 95 268 95 272 Q 95 268 95 258 Q 90 258 86 258 Q 90 258 95 258 Z"/>
+                  <path d="M 46 118 Q 46 110 46 106 Q 46 110 46 118 Q 50 118 54 118 Q 50 118 46 118 Q 46 126 46 130 Q 46 126 46 118 Q 42 118 38 118 Q 42 118 46 118 Z"/>
+                  <path d="M 46 212 Q 46 204 46 200 Q 46 204 46 212 Q 50 212 54 212 Q 50 212 46 212 Q 46 220 46 224 Q 46 220 46 212 Q 42 212 38 212 Q 42 212 46 212 Z"/>
+                  <path d="M 142 118 Q 142 110 142 106 Q 142 110 142 118 Q 146 118 150 118 Q 146 118 142 118 Q 142 126 142 130 Q 142 126 142 118 Q 138 118 134 118 Q 138 118 142 118 Z"/>
+                  <path d="M 142 212 Q 142 204 142 200 Q 142 204 142 212 Q 146 212 150 212 Q 146 212 142 212 Q 142 220 142 224 Q 142 220 142 212 Q 138 212 134 212 Q 138 212 142 212 Z"/>
+                </g>
+                <g fill="#79ACD9" opacity="0.65">
+                  <circle cx="40" cy="70" r="1"/>
+                  <circle cx="160" cy="180" r="1.2"/>
+                  <circle cx="120" cy="240" r="1"/>
+                  <circle cx="70" cy="270" r="1.2"/>
+                  <circle cx="150" cy="285" r="1"/>
+                </g>
+              </svg>
             </div>
-            <div class="card-back-name">${escapeHtml(c.name.split(" (")[0])}</div>
+            <!-- Mặt ngửa dạng thẻ Tarot -->
+            <div class="card-face card-back">
+              <div class="card-back-img-frame">
+                <img src="${c.img}" alt="${escapeHtml(c.name)}">
+              </div>
+              <div class="card-back-name">${escapeHtml(c.name.split(" (")[0])}</div>
+            </div>
           </div>
         </div>
       </div>
-      <div style="position:absolute; bottom: -15px; font-size:0.75rem; color:#8797a9; animation: glowPath 1.5s infinite alternate;">(Nhấn vào thẻ bài để lật mở)</div>
+      <div style="font-size:0.75rem; color:#8797a9; margin-top: 6px; text-align: center;">(Nhấn vào thẻ bài để lật mở)</div>
     `;
   }, 5500);
-
   currentDestinyTimeout.push(t1, t2);
 }
 
