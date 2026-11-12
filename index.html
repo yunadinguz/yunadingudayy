@@ -1125,26 +1125,26 @@ body.modal-open #snow-container { display: none !important; }
   height: 100%;
   display: block;
 }
-/* Mặt ngửa (Bố cục thẻ bài Tarot: ảnh chữ nhật viền đôi + tên ở đáy) */
+/* Mặt ngửa (Bố cục thẻ bài Tarot: ảnh chữ nhật + tên căn giữa bên dưới) */
 .card-back {
   background: #040e24;
   border: 1.5px solid #79ACD9;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 7px 7px 5px;
+  padding: 7px;
   box-shadow: inset 0 0 15px rgba(121, 172, 217, 0.25);
   box-sizing: border-box;
 }
 .card-back-img-frame {
   width: 100%;
-  height: 160px;
+  height: 155px; /* Giữ ảnh vừa vặn, nhường chỗ thoáng cho tên */
   border: 1.5px solid #0f2e54;
   border-radius: 6px;
   overflow: hidden;
   background: #020813;
+  flex-shrink: 0;
 }
 .card-back img {
   width: 100%;
@@ -1154,7 +1154,7 @@ body.modal-open #snow-container { display: none !important; }
 }
 .card-back-name {
   font-family: var(--serif);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 800;
   color: #EAF5FF;
   letter-spacing: 0.5px;
@@ -1163,7 +1163,12 @@ body.modal-open #snow-container { display: none !important; }
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
-  padding-top: 5px;
+  /* Căn tên nhân vật nằm chính giữa khoảng trống bên dưới ảnh */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
 }
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
