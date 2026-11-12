@@ -944,6 +944,181 @@ button:active, .nav-item:active, .recommend-card:active, .wechat-choice-btn:acti
 body.modal-open .main-background { animation: none !important; }
 body.modal-open #snow-container { display: none !important; }
 
+/* =========================================
+   1. CSS CHO BANNER THEO DẤU TUYẾT RƠI (NEW)
+   ========================================= */
+.destiny-banner {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
+  padding: 10px;
+  box-shadow: 0 8px 24px rgba(3, 62, 140, 0.08);
+  margin-bottom: 15px;
+  gap: 12px;
+  width: 100%;
+}
+.destiny-banner-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 18px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.destiny-banner-info {
+  flex: 1;
+  min-width: 0; /* Giúp text không bị tràn */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.destiny-banner-title {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--blue);
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.destiny-banner-desc {
+  font-size: 0.75rem;
+  color: #68778C;
+  font-style: italic;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.destiny-banner-btn {
+  background: linear-gradient(135deg, #1d5f99, #6aa5d7);
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  align-self: flex-start;
+  box-shadow: 0 4px 10px rgba(29, 95, 153, 0.2);
+  transition: transform 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.destiny-banner-btn:active {
+  transform: scale(0.95);
+}
+
+/* =========================================
+   2. CSS CHO ANIMATION ĐỊNH MỆNH (NEW)
+   ========================================= */
+.anim-stage-container {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+/* Cầu tuyết (Globe) */
+.globe-wrap { animation: globeFloat 3s ease-in-out infinite; }
+.snow-globe {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(121, 172, 217, 0.2));
+  border: 2px solid rgba(255,255,255,0.6);
+  position: relative;
+  box-shadow: inset -10px -10px 20px rgba(3, 62, 140, 0.1), 0 10px 20px rgba(3, 62, 140, 0.15);
+  overflow: hidden;
+}
+.globe-base {
+  width: 80px;
+  height: 20px;
+  background: linear-gradient(to right, #0b4b80, #3182ce, #0b4b80);
+  border-radius: 10px 10px 20px 20px;
+  margin: -5px auto 0;
+  position: relative;
+  z-index: 2;
+}
+.globe-snow {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: swirl 2s linear infinite;
+}
+@keyframes globeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes swirl { 0% { transform: rotate(0deg) translateX(40px) rotate(0deg); opacity: 0; } 50% { opacity: 1; } 100% { transform: rotate(360deg) translateX(10px) rotate(-360deg); opacity: 0; } }
+
+/* Dấu chân (Footprints) */
+.footprint-path {
+  fill: none;
+  stroke: #79ACD9;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 10 15;
+  animation: drawPath 3s linear forwards, glowPath 1.5s ease-in-out infinite alternate;
+}
+@keyframes drawPath { 0% { stroke-dashoffset: 100; } 100% { stroke-dashoffset: 0; } }
+@keyframes glowPath { 0% { filter: drop-shadow(0 0 2px #79ACD9); } 100% { filter: drop-shadow(0 0 8px #79ACD9); } }
+
+/* Lá thư (Envelope) */
+.envelope-wrapper {
+  position: relative;
+  width: 160px;
+  height: 110px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  animation: modalPop 0.5s ease;
+}
+.envelope-wrapper:hover { transform: scale(1.05); }
+.env-back {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: #a9d0ed; border-radius: 8px;
+}
+.env-card {
+  position: absolute; top: 10px; left: 10px; width: 140px; height: 90px;
+  background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
+}
+.env-card img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-bottom: 5px; }
+.env-card span { font-size: 0.7rem; font-weight: bold; color: var(--navy); }
+.env-front {
+  position: absolute; bottom: 0; left: 0; width: 0; height: 0;
+  border-left: 80px solid #eaf5ff; border-right: 80px solid #eaf5ff;
+  border-bottom: 60px solid #d7eaf9; border-top: 50px solid transparent;
+  z-index: 2; border-radius: 0 0 8px 8px;
+}
+.env-flap {
+  position: absolute; top: 0; left: 0; width: 0; height: 0;
+  border-left: 80px solid transparent; border-right: 80px solid transparent;
+  border-top: 65px solid #c4def5;
+  transform-origin: top; transition: transform 0.6s ease; z-index: 3;
+}
+.env-seal {
+  position: absolute; top: 50px; left: 50%; transform: translateX(-50%);
+  width: 30px; height: 30px; background: #e53e3e; border-radius: 50%;
+  z-index: 4; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: opacity 0.3s;
+}
+.env-seal svg { width: 18px; height: 18px; color: #fff; }
+/* Khi bấm mở thư */
+.envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+.envelope-wrapper.open .env-seal { opacity: 0; }
+.envelope-wrapper.open .env-card { transform: translateY(-75px); z-index: 3; }
+
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
     font-family: 'Cinzel Decorative', serif !important;
@@ -1064,10 +1239,19 @@ body.modal-open #snow-container { display: none !important; }
     </div>
   </div>
 </div>
+<!-- BẮT ĐẦU: Banner Theo Dấu Tuyết Rơi Mới -->
+<div class="destiny-banner">
+  <img src="images/theodautuyetroi.png" class="destiny-banner-img" alt="Theo dấu tuyết rơi">
+  <div class="destiny-banner-info">
+    <div class="destiny-banner-title">Theo Dấu Tuyết Rơi</div>
+    <div class="destiny-banner-desc">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div>
+    <button class="destiny-banner-btn" onclick="openDestiny()">✮ Bắt lấy định mệnh ✮</button>
+  </div>
+</div>
 <div class="action-row" style="flex-direction: column; gap: 10px;">
-  <button class="pill-btn" style="width: 190px;" onclick="openDestiny()">🔮 Theo Dấu Tuyết Rơi</button>
   <button id="resetFilter" class="pill-btn reset" style="display:none" onclick="resetFilter()">Bỏ lọc</button>
 </div>
+<!-- KẾT THÚC: Banner Theo Dấu Tuyết Rơi Mới -->
 </div>
 
 <div class="menu-title" id="list-top-anchor">⊹ THƯ VIỆN GIẤC MƠ ⊹</div>
@@ -1190,7 +1374,16 @@ body.modal-open #snow-container { display: none !important; }
 
 <div id="r21Modal" class="custom-modal"><div class="modal-box" id="r21Box"><button class="close-modal" onclick="closeModal('r21Modal')">×</button><h2>🔐 Giấc Mộng Đóng Băng</h2><p style="color:var(--text);font-size:.86rem">Thần chú để phá vỡ phong ấn là gì?</p><input id="r21Input" type="password" placeholder="Nhập câu thần chú..."><p id="r21Error" style="color:#e53e3e;font-weight:600;display:none;margin-top:8px;font-size:.85rem">Băng vẫn chưa tan... Bạn có muốn truyền thêm hơi ấm không?</p><div style="display:flex;gap:10px;justify-content:center;margin-top:14px"><button class="modal-primary" onclick="verifyR21()">Phá băng</button><button class="pill-btn reset" onclick="closeModal('r21Modal')">Hủy</button></div></div></div>
 
-<div id="destinyModal" class="custom-modal"><div class="modal-box"><button class="close-modal" onclick="closeModal('destinyModal')">×</button><h2 class="gradient-title" style="margin-bottom: 5px;">⊹ Giao Phó Định Mệnh ⊹</h2><div id="destinyContent"><div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh ✧</button></div></div></div>
+<!-- Modal Định Mệnh Mới -->
+<div id="destinyModal" class="custom-modal">
+  <div class="modal-box" style="width: min(400px, 94%); min-height: 350px; display: flex; flex-direction: column; justify-content: center;">
+    <button class="close-modal" onclick="closeModal('destinyModal')">×</button>
+    <h2 class="gradient-title" style="margin-bottom: 5px;">⊹ Giao Phó Định Mệnh ⊹</h2>
+    <div id="destinyContent" style="width: 100%;">
+      <!-- Nội dung sẽ được JS chèn vào đây -->
+    </div>
+  </div>
+</div>
 
 <div class="glass-action-bar">
   <!-- Nút Home (Mặc định có active vì đang ở trang Nhân vật) -->
@@ -3151,23 +3344,103 @@ function closeModal(id){
   }
 }
 
-function openDestiny(){openModal("destinyModal");document.getElementById("destinyContent").innerHTML=`<div class="destiny-note">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div><button class="modal-primary" onclick="rollDestiny()" style="margin-top:10px">✧ Bắt lấy định mệnh ✧</button>`}
+let currentDestinyTimeout = [];
 
-function rollDestiny(){
-const c=CHARS[Math.floor(Math.random()*CHARS.length)];
-document.getElementById("destinyContent").innerHTML=`<div class="destiny-note" id="destinyNote">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div><div class="destiny-stage"><div class="crystal">🔮</div><div class="wand">🪄</div></div><div class="loading-track"><div id="destinyFill" class="loading-fill"></div></div><div id="destinyPercent" class="loading-percent">0%</div>`;
-let p=0;
-const timer=setInterval(()=>{
-p++;
-document.getElementById("destinyFill").style.width=p+"%";
-document.getElementById("destinyPercent").textContent=p+"%";
-if(p%25===0)document.getElementById("destinyNote").textContent=["Đang lắng nghe...","Xuyên qua màn sương lạnh...","Có ai đó đang khẽ gọi tên bạn...","Định mệnh đang khép vòng tròn..."][Math.floor(p/25)%4];
-if(p>=100){
-clearInterval(timer);
-setTimeout(()=>{
-document.getElementById("destinyContent").innerHTML=`<div class="destiny-result"><div style="font-size:.78rem;color:#6e8aa3;margin-bottom:6px">✨ Đêm nay, người được số phận gửi đến chính là...</div><img src="${c.img}" alt=""><h3>${escapeHtml(c.name)}</h3><p>"${escapeHtml(short(c.tagline,95))}"</p><div style="display:flex;gap:10px;justify-content:center;margin-top:10px"><button class="modal-primary" onclick="closeModal('destinyModal');setTimeout(()=>openAppDetail('${c.id}'),220)">Xem giấc mộng</button><button class="pill-btn reset" onclick="closeModal('destinyModal')">Hủy</button></div></div>`;
-},400)}
-},50);
+function openDestiny() {
+  openModal("destinyModal");
+  // Xóa các timeout cũ nếu người dùng đóng mở liên tục
+  currentDestinyTimeout.forEach(clearTimeout);
+  currentDestinyTimeout = [];
+  
+  // Chạy thẳng vào hiệu ứng luôn khi bấm từ Banner
+  rollDestiny();
+}
+
+function rollDestiny() {
+  const c = CHARS[Math.floor(Math.random() * CHARS.length)];
+  const content = document.getElementById("destinyContent");
+
+  // Giai đoạn 1: Quả cầu tuyết
+  content.innerHTML = `
+    <div class="destiny-note" style="margin-bottom: 20px;">Đang lắng nghe những mảnh ký ức vùi trong tuyết trắng...</div>
+    <div class="anim-stage-container">
+      <div class="globe-wrap">
+        <div class="snow-globe">
+          <div class="globe-snow" style="top:20%; left:20%; animation-delay: 0s;"></div>
+          <div class="globe-snow" style="top:40%; left:50%; animation-delay: 0.5s;"></div>
+          <div class="globe-snow" style="top:60%; left:30%; animation-delay: 1s;"></div>
+          <div class="globe-snow" style="top:30%; left:70%; animation-delay: 1.5s;"></div>
+        </div>
+        <div class="globe-base"></div>
+      </div>
+    </div>
+  `;
+
+  // Giai đoạn 2: Dấu chân ánh sáng (Sau 2.5s)
+  let t1 = setTimeout(() => {
+    content.innerHTML = `
+      <div class="destiny-note" style="margin-bottom: 20px;">Xuyên qua màn sương, có ai đó đang khẽ gọi tên bạn...</div>
+      <div class="anim-stage-container">
+        <svg width="200" height="150" viewBox="0 0 200 150">
+          <path class="footprint-path" d="M10,130 Q50,110 80,80 T150,20" />
+          <circle cx="155" cy="15" r="5" fill="#79ACD9" style="animation: glowPath 1s infinite alternate;"/>
+        </svg>
+      </div>
+    `;
+  }, 2500);
+
+  // Giai đoạn 3: Bức thư phong ấn (Sau 5s)
+  let t2 = setTimeout(() => {
+    content.innerHTML = `
+      <div class="destiny-note" style="margin-bottom: 20px;">Một phong thư được gửi đến từ phía bên kia cánh rừng...</div>
+      <div class="anim-stage-container">
+        <div class="envelope-wrapper" id="destinyEnvelope" onclick="openDestinyLetter('${c.id}')">
+          <div class="env-back"></div>
+          <div class="env-card">
+            <img src="${c.img}" alt="">
+            <span>${escapeHtml(c.name.split(" (")[0])}</span>
+          </div>
+          <div class="env-front"></div>
+          <div class="env-flap"></div>
+          <div class="env-seal">
+            <!-- Icon hoa tuyết SVG thuần -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line></svg>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:0.75rem; color:#8797a9; margin-top: -10px; animation: glowPath 1.5s infinite alternate;">(Nhấn vào lá thư để mở)</div>
+    `;
+  }, 5000);
+
+  currentDestinyTimeout.push(t1, t2);
+}
+
+// Xử lý khi user nhấn vào bức thư
+function openDestinyLetter(charId) {
+  const c = CHARS.find(x => x.id === charId);
+  const env = document.getElementById("destinyEnvelope");
+  if (!env || env.classList.contains("open")) return;
+  
+  // Mở nắp thư và trồi card lên
+  env.classList.add("open");
+
+  // Đợi 1.2s cho animation kết thúc, sau đó hiện nút kết quả
+  let t3 = setTimeout(() => {
+    document.getElementById("destinyContent").innerHTML = `
+      <div class="destiny-result" style="animation: modalPop 0.5s ease;">
+        <div style="font-size:.78rem; color:#6e8aa3; margin-bottom:12px">✨ Đêm nay, người được số phận gửi đến chính là...</div>
+        <img src="${c.img}" alt="" style="width: 110px; height: 140px; border-radius: 15px; box-shadow: 0 8px 25px rgba(3,62,140,.2); object-fit: cover; margin-bottom: 12px;">
+        <h3>${escapeHtml(c.name)}</h3>
+        <p style="margin-bottom: 16px;">"${escapeHtml(short(c.tagline, 95))}"</p>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="modal-primary" onclick="closeModal('destinyModal'); setTimeout(()=>openAppDetail('${c.id}'), 250)">Xem giấc mộng</button>
+          <button class="pill-btn reset" onclick="closeModal('destinyModal')">Đóng</button>
+        </div>
+      </div>
+    `;
+  }, 1200);
+  
+  currentDestinyTimeout.push(t3);
 }
 
 // ====== SYSTEM MAIL & REWARDS ======
