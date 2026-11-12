@@ -1021,12 +1021,13 @@ body.modal-open #snow-container { display: none !important; }
    2. CSS CHO ANIMATION ĐỊNH MỆNH (NEW)
    ========================================= */
 .anim-stage-container {
-  height: 220px;
+  min-height: 260px;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 10px 0;
 }
 
@@ -1112,10 +1113,10 @@ body.modal-open #snow-container { display: none !important; }
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(5, 12, 30, 0.35);
 }
-/* Mặt úp (Mặt lưng Tarot chuẩn theo ảnh) */
+/* Mặt úp (Mặt lưng Tarot tông đen xanh) */
 .card-front {
-  background: #090a14;
-  border: 1.5px solid #1a1e36;
+  background: #040e24;
+  border: 1.5px solid #0f2e54;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1126,10 +1127,10 @@ body.modal-open #snow-container { display: none !important; }
   height: 100%;
   display: block;
 }
-/* Mặt ngửa (Mặt lộ thông tin nhân vật) */
+/* Mặt ngửa (Đổi sang xanh của web) */
 .card-back {
-  background: linear-gradient(180deg, #0e1222 0%, #171d36 100%);
-  border: 2px solid #8e82d8;
+  background: linear-gradient(180deg, #051430 0%, #0b2247 100%);
+  border: 2px solid #79ACD9;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
@@ -1137,7 +1138,7 @@ body.modal-open #snow-container { display: none !important; }
   justify-content: center;
   padding: 12px 10px;
   text-align: center;
-  box-shadow: inset 0 0 20px rgba(142, 130, 216, 0.25);
+  box-shadow: inset 0 0 20px rgba(121, 172, 217, 0.3);
 }
 .card-back img {
   width: 76px;
@@ -1145,16 +1146,16 @@ body.modal-open #snow-container { display: none !important; }
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 12px;
-  border: 2.5px solid #a394f7;
-  box-shadow: 0 0 15px rgba(163, 148, 247, 0.5);
+  border: 2.5px solid #79ACD9;
+  box-shadow: 0 0 15px rgba(121, 172, 217, 0.6);
 }
 .card-back span {
   font-family: var(--serif);
   font-size: 0.95rem;
   font-weight: 800;
-  color: #f1edff;
+  color: #EAF5FF;
   line-height: 1.3;
-  text-shadow: 0 0 8px rgba(163, 148, 247, 0.6);
+  text-shadow: 0 0 8px rgba(121, 172, 217, 0.7);
 }
 
   /* Đổi font chữ riêng cho chữ Winter Serenade */
@@ -3460,12 +3461,12 @@ function rollDestiny() {
           <div class="card-face card-front">
             <svg viewBox="0 0 200 330" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Viền góc và khung ngoài -->
-              <rect x="8" y="8" width="184" height="314" rx="10" stroke="#8e82d8" stroke-width="2.2" opacity="0.9"/>
-              <path d="M 24 16 L 176 16 M 184 24 L 184 306 M 176 314 L 24 314 M 16 306 L 16 24" stroke="#8e82d8" stroke-width="1.2" opacity="0.6"/>
-              <path d="M 16 24 C 16 16, 24 16, 24 16 M 176 16 C 184 16, 184 24, 184 24 M 184 306 C 184 314, 176 314, 176 314 M 24 314 C 16 314, 16 306, 16 306" stroke="#8e82d8" stroke-width="1.2" fill="none" opacity="0.6"/>
+              <rect x="8" y="8" width="184" height="314" rx="10" stroke="#79ACD9" stroke-width="2.2" opacity="0.9"/>
+              <path d="M 24 16 L 176 16 M 184 24 L 184 306 M 176 314 L 24 314 M 16 306 L 16 24" stroke="#79ACD9" stroke-width="1.2" opacity="0.6"/>
+              <path d="M 16 24 C 16 16, 24 16, 24 16 M 176 16 C 184 16, 184 24, 184 24 M 184 306 C 184 314, 176 314, 176 314 M 24 314 C 16 314, 16 306, 16 306" stroke="#79ACD9" stroke-width="1.2" fill="none" opacity="0.6"/>
               
               <!-- 4 ngôi sao 4 cánh ở 4 góc -->
-              <g fill="#9f92ed">
+              <g fill="#B3D5F2">
                 <path d="M 22 22 Q 22 17 22 15 Q 22 17 22 22 Q 27 22 29 22 Q 27 22 22 22 Q 22 27 22 29 Q 22 27 22 22 Q 17 22 15 22 Q 17 22 22 22 Z"/>
                 <path d="M 178 22 Q 178 17 178 15 Q 178 17 178 22 Q 183 22 185 22 Q 183 22 178 22 Q 178 27 178 29 Q 178 27 178 22 Q 173 22 171 22 Q 173 22 178 22 Z"/>
                 <path d="M 22 308 Q 22 303 22 301 Q 22 303 22 308 Q 27 308 29 308 Q 27 308 22 308 Q 22 313 22 315 Q 22 313 22 308 Q 17 308 15 308 Q 17 308 22 308 Z"/>
@@ -3473,7 +3474,7 @@ function rollDestiny() {
               </g>
 
               <!-- Họa tiết các pha mặt trăng phía trên -->
-              <g fill="#9f92ed" stroke="#9f92ed" stroke-width="0.5">
+              <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
                 <circle cx="100" cy="33" r="5"/>
                 <path d="M 85 33 A 5 5 0 0 0 91 37 A 5 5 0 0 1 91 29 A 5 5 0 0 0 85 33 Z"/>
                 <path d="M 72 33 A 5 5 0 0 0 76 37 A 5 5 0 0 1 76 29 A 5 5 0 0 0 72 33 Z"/>
@@ -3484,7 +3485,7 @@ function rollDestiny() {
               </g>
 
               <!-- Họa tiết các pha mặt trăng phía dưới -->
-              <g fill="#9f92ed" stroke="#9f92ed" stroke-width="0.5">
+              <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
                 <circle cx="100" cy="297" r="5"/>
                 <path d="M 85 297 A 5 5 0 0 0 91 301 A 5 5 0 0 1 91 293 A 5 5 0 0 0 85 297 Z"/>
                 <path d="M 72 297 A 5 5 0 0 0 76 301 A 5 5 0 0 1 76 293 A 5 5 0 0 0 72 297 Z"/>
@@ -3495,31 +3496,31 @@ function rollDestiny() {
               </g>
 
               <!-- Khung đường kẻ bên phải và các góc chéo -->
-              <line x1="164" y1="65" x2="164" y2="265" stroke="#8e82d8" stroke-width="1.8" opacity="0.85"/>
-              <line x1="80" y1="165" x2="164" y2="165" stroke="#8e82d8" stroke-width="1.8" opacity="0.85"/>
-              <line x1="80" y1="165" x2="164" y2="70" stroke="#8e82d8" stroke-width="1.8" opacity="0.85"/>
-              <line x1="80" y1="165" x2="164" y2="250" stroke="#8e82d8" stroke-width="1.8" opacity="0.85"/>
+              <line x1="164" y1="65" x2="164" y2="265" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+              <line x1="80" y1="165" x2="164" y2="165" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+              <line x1="80" y1="165" x2="164" y2="70" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
+              <line x1="80" y1="165" x2="164" y2="250" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
 
               <!-- Các đường cung trăng tròn đồng tâm mở rộng sang phải -->
-              <path d="M 52 120 A 55 55 0 0 1 135 165 A 55 55 0 0 1 52 210" stroke="#8e82d8" stroke-width="1.6" opacity="0.75" fill="none"/>
-              <path d="M 60 128 A 45 45 0 0 1 125 165 A 45 45 0 0 1 60 202" stroke="#8e82d8" stroke-width="1.6" opacity="0.75" fill="none"/>
-              <path d="M 68 136 A 35 35 0 0 1 115 165 A 35 35 0 0 1 68 194" stroke="#8e82d8" stroke-width="1.6" opacity="0.75" fill="none"/>
+              <path d="M 52 120 A 55 55 0 0 1 135 165 A 55 55 0 0 1 52 210" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
+              <path d="M 60 128 A 45 45 0 0 1 125 165 A 45 45 0 0 1 60 202" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
+              <path d="M 68 136 A 35 35 0 0 1 115 165 A 35 35 0 0 1 68 194" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
 
               <!-- Vầng trăng khuyết chính lớn bên trái -->
-              <path d="M 50 115 C 80 115 110 135 110 165 C 110 195 80 215 50 215 C 85 200 95 180 95 165 C 95 150 85 130 50 115 Z" fill="#9f92ed" opacity="0.95"/>
+              <path d="M 50 115 C 80 115 110 135 110 165 C 110 195 80 215 50 215 C 85 200 95 180 95 165 C 95 150 85 130 50 115 Z" fill="#B3D5F2" opacity="0.95"/>
 
               <!-- Ngôi sao 6 cánh trung tâm có vòng tròn lõi -->
               <g transform="translate(80, 165)">
                 <!-- 2 tam giác đan nhau tạo sao 6 cánh -->
-                <polygon points="0,-16 13,8 -13,8" stroke="#a99bf8" stroke-width="1.8" fill="#090a14"/>
-                <polygon points="0,16 13,-8 -13,-8" stroke="#a99bf8" stroke-width="1.8" fill="#090a14"/>
+                <polygon points="0,-16 13,8 -13,8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
+                <polygon points="0,16 13,-8 -13,-8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
                 <!-- Vòng tròn lõi sao -->
-                <circle cx="0" cy="0" r="5" fill="#a99bf8"/>
-                <circle cx="0" cy="0" r="2.5" fill="#090a14"/>
+                <circle cx="0" cy="0" r="5" fill="#EAF5FF"/>
+                <circle cx="0" cy="0" r="2.5" fill="#040e24"/>
               </g>
 
               <!-- Các ngôi sao tỏa sáng xung quanh trăng (trên, dưới, 2 bên) -->
-              <g fill="#a99bf8">
+              <g fill="#EAF5FF">
                 <!-- Sao trên -->
                 <path d="M 95 72 Q 95 62 95 58 Q 95 62 95 72 Q 100 72 104 72 Q 100 72 95 72 Q 95 82 95 86 Q 95 82 95 72 Q 90 72 86 72 Q 90 72 95 72 Z"/>
                 <!-- Sao dưới -->
@@ -3535,7 +3536,7 @@ function rollDestiny() {
               </g>
 
               <!-- Những hạt bụi sao tí hon lấp lánh rải rác -->
-              <g fill="#8e82d8" opacity="0.65">
+              <g fill="#79ACD9" opacity="0.65">
                 <circle cx="40" cy="70" r="1"/>
                 <circle cx="160" cy="180" r="1.2"/>
                 <circle cx="120" cy="240" r="1"/>
