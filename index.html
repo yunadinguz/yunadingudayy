@@ -118,45 +118,59 @@
   100% { transform: translate3d(var(--drift-x, 20px), -10vh, 0); opacity: 0; }
 }
 
-/* SAO BĂNG NỀN BAY VÚT LIÊN TỤC TỪ NGẮN SANG DÀI */
-.shooting-star {
-  position: absolute;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(160,205,255,0.8), #ffffff);
-  border-radius: 50%;
-  filter: drop-shadow(0 0 6px #90caf9);
-  transform: rotate(-35deg);
-  opacity: 0;
-  pointer-events: none;
-  animation: shootMeteor 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-@keyframes shootMeteor {
-  0% { opacity: 0; width: 30px; transform: translate3d(0, 0, 0) rotate(-35deg); }
-  10% { opacity: 1; width: 140px; }
-  25% { opacity: 0; width: 220px; transform: translate3d(40vw, 35vh, 0) rotate(-35deg); }
-  100% { opacity: 0; width: 30px; transform: translate3d(40vw, 35vh, 0) rotate(-35deg); }
+/* NỀN BẦU TRỜI: THÊM CÁC VÙNG SÁNG HUYỀN ẢO TƯƠI SÁNG HƠN (Ảnh 1) */
+#dream-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: 
+    radial-gradient(circle at 80% 20%, rgba(95, 160, 255, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 20% 75%, rgba(65, 125, 230, 0.22) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 40%, #203e82 0%, #0e1d47 50%, #050a1c 100%);
+  overflow: hidden;
+  transition: opacity .8s ease, visibility .8s ease;
 }
 
-/* SAO BĂNG TO & SÁNG NHẤT XẸT QUA KÉO CHỮ HIỆN RA */
+/* ĐỔI HƯỚNG SAO BĂNG: BAY CONG TỪ TRÊN XUỐNG, TỪ PHẢI QUA TRÁI */
+.shooting-star {
+  position: absolute;
+  height: 2.2px;
+  background: linear-gradient(-90deg, rgba(255,255,255,0), rgba(160,215,255,0.9), #ffffff);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px #90caf9);
+  opacity: 0;
+  pointer-events: none;
+  animation: shootMeteorCurved 7s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+@keyframes shootMeteorCurved {
+  0% { opacity: 0; width: 25px; transform: translate3d(0, 0, 0) rotate(145deg); }
+  8% { opacity: 1; width: 140px; }
+  22% { opacity: 0; width: 230px; transform: translate3d(-38vw, 36vh, 0) rotate(148deg); }
+  100% { opacity: 0; width: 25px; transform: translate3d(-38vw, 36vh, 0) rotate(148deg); }
+}
+
+/* SAO BĂNG TO NHẤT KÉO CHỮ HIỆN RA: QUÉT TỪ GÓC TRÊN PHẢI XUỐNG DƯỚI TRÁI */
 .hero-meteor {
   position: absolute;
-  top: 25%;
-  left: -20%;
-  width: 260px;
-  height: 3.5px;
-  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(144, 202, 249, 0.7) 40%, #ffffff 100%);
-  filter: drop-shadow(0 0 12px #ffffff) drop-shadow(0 0 25px #64b5f6);
+  top: 10%;
+  right: -15%;
+  width: 290px;
+  height: 4px;
+  background: linear-gradient(-90deg, rgba(255,255,255,0), rgba(150, 210, 255, 0.8) 45%, #ffffff 100%);
+  filter: drop-shadow(0 0 14px #ffffff) drop-shadow(0 0 28px #64b5f6);
   border-radius: 50%;
-  transform: rotate(-30deg);
   pointer-events: none;
   z-index: 20;
-  animation: heroSweep 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+  animation: heroSweepDownLeft 1.3s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s forwards;
 }
-@keyframes heroSweep {
-  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(-30deg) scaleX(0.5); }
-  25% { opacity: 1; transform: translate3d(40vw, 25vh, 0) rotate(-30deg) scaleX(1.3); }
-  75% { opacity: 1; transform: translate3d(95vw, 60vh, 0) rotate(-30deg) scaleX(1.6); }
-  100% { opacity: 0; transform: translate3d(130vw, 85vh, 0) rotate(-30deg) scaleX(0.2); }
+@keyframes heroSweepDownLeft {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(142deg) scaleX(0.5); }
+  25% { opacity: 1; transform: translate3d(-40vw, 30vh, 0) rotate(145deg) scaleX(1.3); }
+  75% { opacity: 1; transform: translate3d(-95vw, 70vh, 0) rotate(148deg) scaleX(1.6); }
+  100% { opacity: 0; transform: translate3d(-130vw, 95vh, 0) rotate(150deg) scaleX(0.2); }
 }
 
 /* NỘI DUNG INTRO (BỎ KHUNG GLASS, CHỮ HIỆN RA KHI SAO BĂNG QUÉT QUA) */
@@ -198,14 +212,15 @@
 .intro-title {
   font-family: 'Cinzel Decorative', serif !important;
   font-weight: 700 !important;
-  font-size: clamp(1.9rem, 6.8vw, 2.45rem);
-  background: linear-gradient(180deg, #ffffff 0%, #e1efff 35%, #a6ceff 70%, #68aaff 100%);
+  /* Đã tăng kích thước chữ to nổi bật hơn hẳn */
+  font-size: clamp(2.35rem, 8.5vw, 3.4rem);
+  background: linear-gradient(180deg, #ffffff 0%, #eaf4ff 35%, #b4d5ff 70%, #68aaff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   margin: 0;
-  line-height: 1.15;
-  filter: drop-shadow(0 0 15px rgba(104, 170, 255, 0.65));
+  line-height: 1.12;
+  filter: drop-shadow(0 0 20px rgba(120, 185, 255, 0.75));
 }
 
 .intro-divider {
@@ -314,6 +329,22 @@
   animation: shine 3.5s infinite;
   pointer-events: none;
   z-index: 3;
+}
+
+   /* HIỆU ỨNG BÔNG TUYẾT TRẮNG PHÁT SÁNG BAY RA KHI BẤM NÚT (SỬA LỖI CHỮ ĐEN) */
+.burst-snow {
+  position: absolute;
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #90caf9, 0 0 16px #ffffff, 0 0 24px #64b5f6 !important;
+  pointer-events: none;
+  z-index: 999999;
+  user-select: none;
+  animation: burstSnowFly ease-out forwards;
+}
+@keyframes burstSnowFly {
+  0% { transform: translate(-50%, -50%) translate3d(0,0,0) scale(0.3); opacity: 1; }
+  60% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate3d(var(--tx), var(--ty), 0) scale(1.4) rotate(180deg); opacity: 0; }
 }
 
 .intro-tip {
@@ -1343,69 +1374,83 @@ body.modal-open #snow-container { display: none !important; }
 </style>
 </head>
 <body>
-<div id="dream-intro">
-  <!-- SAO BĂNG LỚN XẸT QUA KÉO CHỮ HIỆN LÊN -->
+<!-- SAO BĂNG LỚN QUÉT TỪ PHẢI QUA TRÁI -->
   <div class="hero-meteor"></div>
 
-  <!-- SAO BĂNG NHỎ BAY LIÊN TỤC (TỪ NGẮN SANG DÀI) -->
-  <div class="shooting-star" style="top: 18%; left: 10%; animation-delay: 0s;"></div>
-  <div class="shooting-star" style="top: 35%; left: 45%; animation-delay: 2.5s; animation-duration: 7s;"></div>
-  <div class="shooting-star" style="top: 60%; left: 15%; animation-delay: 4.8s; animation-duration: 8s;"></div>
+  <!-- SAO BĂNG NỀN LIÊN TỤC (TỪ TRÊN PHẢI XUỐNG DƯỚI TRÁI) -->
+  <div class="shooting-star" style="top: 8%; right: 10%; animation-delay: 0s;"></div>
+  <div class="shooting-star" style="top: 25%; right: 25%; animation-delay: 2.8s; animation-duration: 7.5s;"></div>
+  <div class="shooting-star" style="top: 48%; right: 8%; animation-delay: 5s; animation-duration: 8.5s;"></div>
 
-  <!-- BÔNG TUYẾT TĨNH PHÁT SÁNG RẢI RÁC -->
-  <div class="glowing-flake" style="top: 14%; left: 18%; font-size: 16px;">❅</div>
-  <div class="glowing-flake" style="top: 22%; right: 18%; font-size: 18px; animation-delay: 1.2s;">❄</div>
-  <div class="glowing-flake" style="bottom: 18%; left: 14%; font-size: 20px; animation-delay: 0.8s;">❄</div>
-  <div class="glowing-flake" style="bottom: 25%; right: 15%; font-size: 15px; animation-delay: 2s;">❅</div>
-  <div class="glowing-flake" style="top: 70%; left: 28%; font-size: 13px; animation-delay: 1.5s;">✧</div>
-  <div class="glowing-flake" style="top: 30%; right: 28%; font-size: 14px; animation-delay: 0.5s;">✧</div>
+  <!-- BÔNG TUYẾT PHÁT SÁNG TỰ NHIÊN RẢI RÁC -->
+  <div class="glowing-flake" style="top: 14%; left: 16%; font-size: 18px;">❅</div>
+  <div class="glowing-flake" style="top: 22%; right: 18%; font-size: 20px; animation-delay: 1.2s;">❄</div>
+  <div class="glowing-flake" style="bottom: 18%; left: 14%; font-size: 22px; animation-delay: 0.8s;">❄</div>
+  <div class="glowing-flake" style="bottom: 22%; right: 16%; font-size: 16px; animation-delay: 2s;">❅</div>
+  <div class="glowing-flake" style="top: 65%; left: 22%; font-size: 14px; animation-delay: 1.5s;">✧</div>
+  <div class="glowing-flake" style="top: 32%; right: 26%; font-size: 15px; animation-delay: 0.5s;">✧</div>
+  <div class="glowing-flake" style="top: 45%; left: 10%; font-size: 17px; animation-delay: 2.3s;">❄</div>
+  <div class="glowing-flake" style="top: 55%; right: 12%; font-size: 19px; animation-delay: 1.8s;">❅</div>
 
-  <!-- HẠT BỤI PHÁT SÁNG BAY TỪ DƯỚI LÊN -->
-  <div class="rising-dust" style="left: 15%; animation-duration: 7s; animation-delay: 0s; --drift-x: 25px;"></div>
-  <div class="rising-dust" style="left: 28%; animation-duration: 9s; animation-delay: 1.5s; --drift-x: -30px;"></div>
-  <div class="rising-dust" style="left: 42%; animation-duration: 6s; animation-delay: 3s; --drift-x: 15px;"></div>
-  <div class="rising-dust" style="left: 58%; animation-duration: 8.5s; animation-delay: 0.8s; --drift-x: -20px;"></div>
-  <div class="rising-dust" style="left: 72%; animation-duration: 10s; animation-delay: 2s; --drift-x: 35px;"></div>
-  <div class="rising-dust" style="left: 85%; animation-duration: 7.5s; animation-delay: 4s; --drift-x: -15px;"></div>
+  <!-- TĂNG CƯỜNG HẠT BỤI SÁNG LẤP LÁNH BAY TỪ DƯỚI LÊN (LÀM SÁNG TOÀN NỀN) -->
+  <div class="rising-dust" style="left: 8%; animation-duration: 6.5s; animation-delay: 0s; --drift-x: 20px;"></div>
+  <div class="rising-dust" style="left: 18%; animation-duration: 8s; animation-delay: 1.2s; --drift-x: -25px; width:3.5px; height:3.5px;"></div>
+  <div class="rising-dust" style="left: 28%; animation-duration: 9s; animation-delay: 2.5s; --drift-x: -30px;"></div>
+  <div class="rising-dust" style="left: 38%; animation-duration: 7s; animation-delay: 0.5s; --drift-x: 15px;"></div>
+  <div class="rising-dust" style="left: 48%; animation-duration: 8.5s; animation-delay: 3.2s; --drift-x: -20px; width:3px; height:3px;"></div>
+  <div class="rising-dust" style="left: 58%; animation-duration: 6s; animation-delay: 1.8s; --drift-x: 25px;"></div>
+  <div class="rising-dust" style="left: 68%; animation-duration: 9.5s; animation-delay: 0.2s; --drift-x: -15px;"></div>
+  <div class="rising-dust" style="left: 78%; animation-duration: 7.5s; animation-delay: 2.1s; --drift-x: 30px; width:3.5px; height:3.5px;"></div>
+  <div class="rising-dust" style="left: 88%; animation-duration: 8.2s; animation-delay: 3.7s; --drift-x: -20px;"></div>
+  <div class="rising-dust" style="left: 94%; animation-duration: 6.8s; animation-delay: 1s; --drift-x: 10px;"></div>
 
-  <!-- KHUNG VIỀN TUYẾT & HOA VĂN (Ảnh 3) -->
+  <!-- KHUNG VIỀN NGOÀI -->
   <div class="intro-outer-frame"></div>
   
-  <!-- 4 Góc hoa văn uốn lượn kết hợp tuyết trắng -->
+  <!-- 4 GÓC HOA VĂN UỐN LƯỢN CỔ ĐIỂN VÀ BÔNG TUYẾT (ĐÃ XÓA HÌNH CON MẮT - GIỐNG ẢNH 1) -->
   <svg class="intro-corner-decor top-left" viewBox="0 0 100 100" fill="none">
-    <path d="M 8 92 V 22 Q 8 8 22 8 H 92" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" fill="none"/>
-    <path d="M 14 85 V 26 Q 14 14 26 14 H 85" stroke="rgba(255,255,255,0.35)" stroke-width="1" fill="none"/>
-    <!-- Nhánh hoa văn góc -->
-    <path d="M 8 8 Q 30 12 35 35 Q 12 30 8 8 Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="0.8"/>
-    <circle cx="20" cy="20" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 4px #90caf9)"/>
-    <!-- Bông tuyết góc -->
-    <text x="35" y="48" fill="#ffffff" font-size="20" opacity="0.9" filter="drop-shadow(0 0 6px #82b1ff)">❄</text>
-    <text x="50" y="28" fill="#ffffff" font-size="14" opacity="0.75">❅</text>
-  </svg>
-  <svg class="intro-corner-decor top-right" viewBox="0 0 100 100" fill="none">
-    <path d="M 8 92 V 22 Q 8 8 22 8 H 92" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" fill="none"/>
-    <path d="M 14 85 V 26 Q 14 14 26 14 H 85" stroke="rgba(255,255,255,0.35)" stroke-width="1" fill="none"/>
-    <path d="M 8 8 Q 30 12 35 35 Q 12 30 8 8 Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="0.8"/>
-    <circle cx="20" cy="20" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 4px #90caf9)"/>
-    <text x="35" y="48" fill="#ffffff" font-size="20" opacity="0.9" filter="drop-shadow(0 0 6px #82b1ff)">❄</text>
-    <text x="50" y="28" fill="#ffffff" font-size="14" opacity="0.75">❅</text>
-  </svg>
-  <svg class="intro-corner-decor bottom-left" viewBox="0 0 100 100" fill="none">
-    <path d="M 8 92 V 22 Q 8 8 22 8 H 92" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" fill="none"/>
-    <path d="M 14 85 V 26 Q 14 14 26 14 H 85" stroke="rgba(255,255,255,0.35)" stroke-width="1" fill="none"/>
-    <path d="M 8 8 Q 30 12 35 35 Q 12 30 8 8 Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="0.8"/>
-    <circle cx="20" cy="20" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 4px #90caf9)"/>
-    <text x="35" y="48" fill="#ffffff" font-size="20" opacity="0.9" filter="drop-shadow(0 0 6px #82b1ff)">❄</text>
-  </svg>
-  <svg class="intro-corner-decor bottom-right" viewBox="0 0 100 100" fill="none">
-    <path d="M 8 92 V 22 Q 8 8 22 8 H 92" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" fill="none"/>
-    <path d="M 14 85 V 26 Q 14 14 26 14 H 85" stroke="rgba(255,255,255,0.35)" stroke-width="1" fill="none"/>
-    <path d="M 8 8 Q 30 12 35 35 Q 12 30 8 8 Z" fill="rgba(255,255,255,0.18)" stroke="#fff" stroke-width="0.8"/>
-    <circle cx="20" cy="20" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 4px #90caf9)"/>
-    <text x="35" y="48" fill="#ffffff" font-size="20" opacity="0.9" filter="drop-shadow(0 0 6px #82b1ff)">❄</text>
+    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
+    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
+    <!-- Nhánh hoa văn uốn lượn cổ điển tròn xòe (Victorian Filigree) -->
+    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <!-- Chùm bông tuyết viền góc -->
+    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
+    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
   </svg>
 
-  <!-- DÂY TREO CÁC NGÔI SAO SÁNG (Ảnh 4) -->
+  <svg class="intro-corner-decor top-right" viewBox="0 0 100 100" fill="none">
+    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
+    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
+    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
+    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+  </svg>
+
+  <svg class="intro-corner-decor bottom-left" viewBox="0 0 100 100" fill="none">
+    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
+    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
+    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
+    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+  </svg>
+
+  <svg class="intro-corner-decor bottom-right" viewBox="0 0 100 100" fill="none">
+    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
+    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
+    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
+    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
+    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
+  </svg>
+
+  <!-- DÂY TREO CÁC NGÔI SAO SÁNG Ở TRÊN ĐỈNH -->
   <div class="hanging-garlands">
     <div class="star-thread" style="height: 48px; animation-delay: 0s;"></div>
     <div class="star-thread" style="height: 78px; animation-delay: 0.7s;"></div>
@@ -1418,7 +1463,7 @@ body.modal-open #snow-container { display: none !important; }
     <div class="star-thread" style="height: 40px; animation-delay: 1.2s;"></div>
   </div>
 
-  <!-- NỘI DUNG CHỮ (ĐÃ BỎ KHUNG KÍNH THEO YÊU CẦU THỨ 1) -->
+  <!-- NỘI DUNG CHỮ INTRO -->
   <div class="intro-box">
     <div class="intro-moon">𝄞</div>
     <div class="intro-title">WINTER SERENADE</div>
@@ -1430,7 +1475,7 @@ body.modal-open #snow-container { display: none !important; }
       <p>Mỗi linh hồn nơi đây đều đã luôn chờ đợi sự xuất hiện của bạn.</p>
     </div>
     
-    <!-- NÚT BÀN VÉ BILLETS VỚI VẾT KHẮC CẮT GÓC VÀ VIỀN TRẮNG MẢNH -->
+    <!-- NÚT BÀN VÉ BILLETS VỚI ĐƯỜNG VIỀN SIÊU MẢNH 0.75PX (THỨ 4) -->
     <button class="begin-btn" onclick="enterDream()">
       <svg class="btn-billet-svg" viewBox="0 0 270 48" preserveAspectRatio="none">
         <defs>
@@ -1440,11 +1485,10 @@ body.modal-open #snow-container { display: none !important; }
             <stop offset="100%" stop-color="#070d24"/>
           </linearGradient>
         </defs>
-        <!-- Đường cong cắt góc vé chuẩn xác (concave corners) viền mảnh 1.2px -->
-        <path d="M 13 1.5 L 257 1.5 A 11 11 0 0 0 268.5 13 L 268.5 35 A 11 11 0 0 0 257 46.5 L 13 46.5 A 11 11 0 0 0 1.5 35 L 1.5 13 A 11 11 0 0 0 13 1.5 Z"
-              fill="url(#billetBgGrad)" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- stroke-width giảm xuống 0.75 cực mảnh và thanh thoát -->
+        <path d="M 13 1 L 257 1 A 11 11 0 0 0 269 13 L 269 35 A 11 11 0 0 0 257 47 L 13 47 A 11 11 0 0 0 1 35 L 1 13 A 11 11 0 0 0 13 1 Z"
+              fill="url(#billetBgGrad)" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.85" stroke-linecap="round"/>
       </svg>
-      <!-- Hạt bụi lấp lánh bên trong nút -->
       <span class="btn-dust-particle" style="top:25%; left:18%; animation-delay:0s;"></span>
       <span class="btn-dust-particle" style="top:60%; left:30%; animation-delay:0.8s;"></span>
       <span class="btn-dust-particle" style="top:30%; right:22%; animation-delay:1.4s;"></span>
@@ -2621,7 +2665,42 @@ let isLooping = false;
 function scrollToTop(){document.getElementById("top-anchor").scrollIntoView({behavior:"smooth"})}
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}
 
+// HÀM TẠO TIẾNG CHUÔNG GIÓ LENG KENG THỦ CÔNG BẰNG WEB AUDIO API (KHÔNG CẦN TẢI FILE MP3 NGOÀI)
+function playWindChimeSound() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    
+    // Tần số các nốt chuông bạc pha lê trong trẻo
+    const notes = [1567.98, 2093.00, 2637.02, 3135.96, 3951.07]; 
+    
+    notes.forEach((freq, index) => {
+      setTimeout(() => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        
+        // Tạo độ ngân vang dịu nhẹ như chuông gió ngày đông
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.8);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start();
+        osc.stop(ctx.currentTime + 1.8);
+      }, index * 90); // Rải âm cách nhau 90ms tạo tiếng leng keng du dương
+    });
+  } catch(e) {}
+}
+
 function enterDream(){
+  // 1. Kích hoạt tiếng chuông gió ngân vang
+  playWindChimeSound();
+
   try {
     sessionStorage.setItem("dream_entered", "true");
     if (typeof MUSIC_LIBRARY !== "undefined" && MUSIC_LIBRARY["Mùa Đông"]) {
@@ -2639,33 +2718,34 @@ function enterDream(){
   if (intro && introBox) {
     introBox.classList.add("melt-away");
 
-    // Tạo 40 hạt tuyết phát sáng vỡ tung ra rất mượt
-    for(let i = 0; i < 40; i++) {
+    // 2. Bắn các bông tuyết phát sáng trắng muốt bay tỏa ra rồi chuyển mượt vào web
+    for(let i = 0; i < 45; i++) {
       let sf = document.createElement("div");
-      sf.innerHTML = ["❄","❅","✧"][Math.floor(Math.random()*3)];
+      sf.innerHTML = ["❄","❅","❆"][Math.floor(Math.random()*3)];
       sf.className = "burst-snow";
       
       let angle = Math.random() * Math.PI * 2;
-      let distance = 80 + Math.random() * 260;
+      let distance = 90 + Math.random() * 320;
       let tx = Math.cos(angle) * distance;
       let ty = Math.sin(angle) * distance;
       
       sf.style.left = "50%";
       sf.style.top = "50%";
-      sf.style.fontSize = (10 + Math.random() * 16) + "px";
+      sf.style.fontSize = (12 + Math.random() * 18) + "px";
       sf.style.setProperty('--tx', `${tx}px`);
       sf.style.setProperty('--ty', `${ty}px`);
-      sf.style.animationDuration = (0.7 + Math.random() * 0.5) + "s";
+      sf.style.animationDuration = (0.75 + Math.random() * 0.45) + "s";
       
       intro.appendChild(sf);
     }
 
+    // 3. Mờ dần lớp intro đưa thẳng người dùng vào giao diện chính
     setTimeout(() => {
       intro.classList.add("hide");
       setTimeout(() => {
         intro.style.display = "none";
-      }, 800);
-    }, 700);
+      }, 750);
+    }, 600);
   }
 }
 window.enterDream = enterDream; // Khai báo toàn cục đảm bảo nút bấm HTML luôn gọi được
