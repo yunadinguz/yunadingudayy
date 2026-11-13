@@ -20,14 +20,17 @@
 #dream-intro {
   position: fixed;
   inset: 0;
-  z-index: 99999;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Nền loang màu xanh biển thẫm huyền bí (giống 100% ảnh 1) */
-  background: radial-gradient(ellipse at 50% 35%, #182e66 0%, #0d193d 50%, #050a1c 100%);
+  /* Nền xanh đêm huyền bí nguyên bản, che phủ 100% nội dung bên dưới */
+  background-color: #050a1c !important;
+  background: radial-gradient(ellipse at 50% 40%, #1a326d 0%, #0d1a3e 55%, #050a1c 100%) !important;
   overflow: hidden;
-  transition: opacity .8s ease, visibility .8s ease;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.8s ease;
 }
 #dream-intro.hide { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
 
@@ -1374,6 +1377,7 @@ body.modal-open #snow-container { display: none !important; }
 </style>
 </head>
 <body>
+   <div id="dream-intro">
 <!-- SAO BĂNG LỚN QUÉT TỪ PHẢI QUA TRÁI -->
   <div class="hero-meteor"></div>
 
@@ -2698,9 +2702,10 @@ function playWindChimeSound() {
 }
 
 function enterDream(){
-  // 1. Kích hoạt tiếng chuông gió ngân vang
+  // 1. Kêu tiếng chuông gió leng keng
   playWindChimeSound();
 
+  // 2. Bật nhạc nền
   try {
     sessionStorage.setItem("dream_entered", "true");
     if (typeof MUSIC_LIBRARY !== "undefined" && MUSIC_LIBRARY["Mùa Đông"]) {
@@ -2715,36 +2720,36 @@ function enterDream(){
   const intro = document.getElementById("dream-intro");
   const introBox = document.querySelector(".intro-box");
 
-  if (intro && introBox) {
-    introBox.classList.add("melt-away");
+  if (intro) {
+    if (introBox) introBox.classList.add("melt-away");
 
-    // 2. Bắn các bông tuyết phát sáng trắng muốt bay tỏa ra rồi chuyển mượt vào web
-    for(let i = 0; i < 45; i++) {
+    // 3. Bắn các bông tuyết trắng phát sáng tỏa ra xung quanh
+    for(let i = 0; i < 40; i++) {
       let sf = document.createElement("div");
-      sf.innerHTML = ["❄","❅","❆"][Math.floor(Math.random()*3)];
+      sf.innerHTML = ["❄","❅","✧"][Math.floor(Math.random()*3)];
       sf.className = "burst-snow";
       
       let angle = Math.random() * Math.PI * 2;
-      let distance = 90 + Math.random() * 320;
+      let distance = 80 + Math.random() * 280;
       let tx = Math.cos(angle) * distance;
       let ty = Math.sin(angle) * distance;
       
       sf.style.left = "50%";
       sf.style.top = "50%";
-      sf.style.fontSize = (12 + Math.random() * 18) + "px";
+      sf.style.fontSize = (12 + Math.random() * 16) + "px";
       sf.style.setProperty('--tx', `${tx}px`);
       sf.style.setProperty('--ty', `${ty}px`);
-      sf.style.animationDuration = (0.75 + Math.random() * 0.45) + "s";
+      sf.style.animationDuration = (0.7 + Math.random() * 0.4) + "s";
       
       intro.appendChild(sf);
     }
 
-    // 3. Mờ dần lớp intro đưa thẳng người dùng vào giao diện chính
+    // 4. Mờ dần toàn bộ màn intro để lộ ra giao diện web bên dưới
     setTimeout(() => {
       intro.classList.add("hide");
       setTimeout(() => {
         intro.style.display = "none";
-      }, 750);
+      }, 800);
     }, 600);
   }
 }
