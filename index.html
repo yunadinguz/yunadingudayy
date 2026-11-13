@@ -1124,21 +1124,30 @@ body.modal-open #snow-container { display: none !important; }
    1. CSS CHO BANNER THEO DẤU TUYẾT RƠI (NEW)
    ========================================= */
 .destiny-banner {
+  position: relative;
   display: flex;
   align-items: center;
-  margin-top: 18px; 
-  /* Nền trong suốt sáng hơn, ít xanh hơn */
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  /* Viền mỏng 1px, màu xanh cực nhạt */
-  border: 1px solid rgba(121, 172, 217, 0.3);
+  margin-top: 20px; 
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(179, 213, 242, 0.75);
   border-radius: 24px;
-  padding: 10px;
-  box-shadow: 0 8px 24px rgba(3, 62, 140, 0.08);
-  margin-bottom: 15px;
-  gap: 12px;
+  padding: 12px;
+  margin-bottom: 20px;
+  gap: 14px;
   width: 100%;
+  /* Hiệu ứng hào quang tỏa sáng màu xanh pastel dịu mắt (tối ưu mượt mà không gây lag) */
+  box-shadow: 0 0 20px rgba(179, 213, 242, 0.7),
+              0 0 45px rgba(121, 172, 217, 0.35),
+              0 8px 24px rgba(3, 62, 140, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.destiny-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 26px rgba(179, 213, 242, 0.85),
+              0 0 55px rgba(121, 172, 217, 0.45),
+              0 12px 28px rgba(3, 62, 140, 0.12);
 }
 .destiny-banner-img {
   width: 90px;
@@ -1158,13 +1167,18 @@ body.modal-open #snow-container { display: none !important; }
 }
 .destiny-banner-title {
   font-family: var(--serif);
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   font-weight: 800;
-  color: var(--blue);
   margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Chuyển màu chữ thành gradient xanh băng huyền ảo đồng bộ với chủ đề web */
+  background: linear-gradient(135deg, #022e6b 0%, #033E8C 45%, #589fdf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  letter-spacing: 0.3px;
 }
 .destiny-banner-desc {
   font-size: 0.75rem;
@@ -1259,8 +1273,8 @@ body.modal-open #snow-container { display: none !important; }
 /* THẺ BÀI ĐỊNH MỆNH TAROT (CARD FLIP) */
 .destiny-card-container {
   position: relative;
-  width: 128px;
-  height: 210px;
+  width: 140px;
+  height: 228px;
   perspective: 1000px;
   cursor: pointer;
   animation: modalPop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -1283,11 +1297,11 @@ body.modal-open #snow-container { display: none !important; }
   position: absolute;
   width: 100%; height: 100%;
   backface-visibility: hidden;
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(5, 12, 30, 0.35);
+  box-shadow: 0 12px 30px rgba(3, 62, 140, 0.18);
 }
-/* Mặt úp (Mặt lưng Tarot tông đen xanh) */
+/* Mặt úp: Lưng Tarot huyền bí */
 .card-front {
   background: #040e24;
   border: 1.5px solid #0f2e54;
@@ -1301,51 +1315,73 @@ body.modal-open #snow-container { display: none !important; }
   height: 100%;
   display: block;
 }
-/* Mặt ngửa (Bố cục thẻ bài Tarot: ảnh chữ nhật + tên căn giữa bên dưới) */
+/* Mặt ngửa: Thiết kế Card thu nhỏ giống hệt mục "Những người bạn có thể thích" */
 .card-back {
-  background: #040e24;
-  border: 1.5px solid #79ACD9;
+  background: #ffffff;
+  border: 1.5px solid #dbeaf5;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 7px;
-  box-shadow: inset 0 0 15px rgba(121, 172, 217, 0.25);
+  padding: 8px;
   box-sizing: border-box;
+  text-align: left;
 }
-.card-back-img-frame {
+.destiny-card-img {
   width: 100%;
-  height: 155px; /* Giữ ảnh vừa vặn, nhường chỗ thoáng cho tên */
-  border: 1.5px solid #0f2e54;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #020813;
-  flex-shrink: 0;
-}
-.card-back img {
-  width: 100%;
-  height: 100%;
+  height: 108px;
+  border-radius: 12px;
   object-fit: cover;
   display: block;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
-.card-back-name {
+.destiny-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+.destiny-card-name {
   font-family: var(--serif);
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: #EAF5FF;
-  letter-spacing: 0.5px;
-  text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
-  /* Căn tên nhân vật nằm chính giữa khoảng trống bên dưới ảnh */
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
+  display: block;
 }
+.destiny-card-tagline {
+  font-size: 0.68rem;
+  color: #7d8998;
+  font-style: italic;
+  line-height: 1.3;
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.destiny-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 5px;
+}
+.tag-mini {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid #d0e4f5;
+  background: #f0f7ff;
+  color: #3b6d9a;
+  font-size: 0.62rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+   
   /* Đổi font chữ riêng cho chữ Winter Serenade */
 .intro-title, .x-name {
     font-family: 'Cinzel Decorative', serif !important;
@@ -3852,12 +3888,16 @@ function rollDestiny() {
                 </g>
               </svg>
             </div>
-            <!-- Mặt ngửa dạng thẻ Tarot -->
+            <!-- Mặt ngửa dạng Card Nhân Vật Đầy Đủ -->
             <div class="card-face card-back">
-              <div class="card-back-img-frame">
-                <img src="${c.img}" alt="${escapeHtml(c.name)}">
+              <img class="destiny-card-img" src="${c.img}" alt="${escapeHtml(c.name)}">
+              <div class="destiny-card-body">
+                <b class="destiny-card-name">${escapeHtml(c.name.split(" (")[0])}</b>
+                <div class="destiny-card-tagline">"${escapeHtml(short(c.tagline, 45))}"</div>
+                <div class="destiny-card-tags">
+                  ${c.tags.slice(0, 2).map(t => `<span class="tag-mini">${escapeHtml(t)}</span>`).join("")}
+                </div>
               </div>
-              <div class="card-back-name">${escapeHtml(c.name.split(" (")[0])}</div>
             </div>
           </div>
         </div>
