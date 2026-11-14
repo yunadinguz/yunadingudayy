@@ -30,13 +30,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Nền trở về màu tối đêm sâu thẳm nguyên bản, phối thêm quầng tím đêm và lam sương mờ ảo */
+  /* Hiệu ứng màu loang huyền ảo giống hệt ảnh mẫu: đỉnh và 2 góc trên tối thẳm, tâm và đáy tỏa quầng sáng sapphire lung linh */
   background: 
-    radial-gradient(circle at 75% 25%, rgba(95, 160, 255, 0.26) 0%, transparent 45%),
-    radial-gradient(circle at 25% 70%, rgba(70, 110, 210, 0.22) 0%, transparent 48%),
-    radial-gradient(circle at 65% 80%, rgba(68, 45, 130, 0.20) 0%, transparent 45%),
-    radial-gradient(circle at 50% 35%, rgba(121, 172, 217, 0.16) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 45%, #182f68 0%, #0d1b42 45%, #070e26 75%, #030612 100%) !important;
+    radial-gradient(ellipse 95% 48% at 50% 98%, rgba(28, 74, 195, 0.68) 0%, rgba(18, 46, 135, 0.38) 55%, transparent 100%),
+    radial-gradient(ellipse 70% 55% at 86% 62%, rgba(24, 76, 204, 0.45) 0%, rgba(12, 36, 110, 0.2) 60%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 14% 52%, rgba(19, 56, 158, 0.35) 0%, transparent 70%),
+    radial-gradient(circle at 50% 46%, rgba(38, 98, 230, 0.28) 0%, transparent 55%),
+    linear-gradient(180deg, #020612 0%, #050f28 32%, #08173d 68%, #03081a 100%) !important;
   overflow: hidden !important;
   touch-action: none;
   overscroll-behavior: none;
@@ -1555,14 +1555,12 @@ body.modal-open #snow-container { display: none !important; }
     <button class="begin-btn" onclick="enterDream()">
       <svg class="btn-billet-svg" viewBox="0 0 270 48" preserveAspectRatio="none">
         <defs>
-          <!-- Gradient ngang: Trái qua Phải (x1=0%, x2=100%, y1=y2=0%) cùng tone màu nền -->
+          <!-- Gradient trái đậm sang phải nhạt, lấy đúng mã màu quầng sáng trong ảnh mẫu -->
           <linearGradient id="billetBgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <!-- Bên trái: Màu đêm tối thẫm chìm vào nền -->
-            <stop offset="0%" stop-color="#070e24"/>
-            <stop offset="35%" stop-color="#0e1f4d"/>
-            <stop offset="70%" stop-color="#173477"/>
-            <!-- Bên phải: Sáng dần thành màu xanh đêm ánh sao -->
-            <stop offset="100%" stop-color="#234c9d"/>
+            <stop offset="0%" stop-color="#050e24"/>
+            <stop offset="40%" stop-color="#0a1d4a"/>
+            <stop offset="75%" stop-color="#14398e"/>
+            <stop offset="100%" stop-color="#1d50c7"/>
           </linearGradient>
         </defs>
         <!-- stroke-width giảm xuống 0.75 cực mảnh và thanh thoát -->
