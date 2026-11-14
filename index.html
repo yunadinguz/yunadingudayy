@@ -465,11 +465,27 @@
 }
 
 /* MAIN LAYOUT */
-.main-background{
+.main-background {
   min-height: 100vh;
-  background: url('images/nenchinh.jpg') no-repeat center center fixed;
-  background-size: cover;
   position: relative;
+}
+
+/* Lớp phủ ảnh nền: Vừa làm mờ nhẹ ảnh (blur), vừa phủ lớp sương băng mỏng trong suốt che lên */
+.main-background::before {
+  content: "";
+  position: fixed;
+  inset: -12px; /* Tràn ra 12px để khi làm mờ cạnh viền màn hình không bị hở trắng */
+  background: linear-gradient(rgba(240, 246, 255, 0.45), rgba(240, 246, 255, 0.45)), 
+              url('images/nenchinh.jpg') no-repeat center center / cover;
+  filter: blur(4px); /* Làm mờ nhẹ ảnh nền, không bị nét gắt */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Đảm bảo toàn bộ chữ, menu, card nhân vật luôn nổi rõ nét bên trên lớp nền mờ */
+.main-background > * {
+  position: relative;
+  z-index: 1;
 }
 #snow-container{position:fixed;inset:0;pointer-events:none;z-index:20}
 .snowflake{
