@@ -30,13 +30,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Hiệu ứng màu loang huyền ảo giống hệt ảnh mẫu: đỉnh và 2 góc trên tối thẳm, tâm và đáy tỏa quầng sáng sapphire lung linh */
+  /* Hiệu ứng loang màu */
   background: 
-    radial-gradient(ellipse 95% 48% at 50% 98%, rgba(28, 74, 195, 0.68) 0%, rgba(18, 46, 135, 0.38) 55%, transparent 100%),
-    radial-gradient(ellipse 70% 55% at 86% 62%, rgba(24, 76, 204, 0.45) 0%, rgba(12, 36, 110, 0.2) 60%, transparent 100%),
-    radial-gradient(ellipse 60% 50% at 14% 52%, rgba(19, 56, 158, 0.35) 0%, transparent 70%),
-    radial-gradient(circle at 50% 46%, rgba(38, 98, 230, 0.28) 0%, transparent 55%),
-    linear-gradient(180deg, #020612 0%, #050f28 32%, #08173d 68%, #03081a 100%) !important;
+    radial-gradient(circle 260px at 50% 50%, rgba(94, 210, 255, 0.45) 0%, rgba(24, 119, 242, 0.32) 42%, transparent 75%),
+    radial-gradient(ellipse 85% 65% at 50% 52%, rgba(14, 88, 205, 0.65) 0%, rgba(7, 44, 120, 0.45) 55%, transparent 100%),
+    radial-gradient(ellipse 90% 45% at 50% 92%, rgba(12, 52, 145, 0.4) 0%, transparent 70%),
+    linear-gradient(180deg, #020714 0%, #051433 26%, #092557 50%, #051536 76%, #01040d 100%) !important;
   overflow: hidden !important;
   touch-action: none;
   overscroll-behavior: none;
@@ -44,26 +43,73 @@
 }
 #dream-intro.hide { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
 
-/* KHUNG VIỀN NGOÀI & BÔNG TUYẾT (Fix theo tỉ lệ web) */
-.intro-outer-frame {
+/* KHUNG VIỀN TỐI GIẢN CHUẨN ẢNH MẪU (ZERO-LAG) */
+.intro-minimal-frame {
   position: absolute;
-  inset: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 0 20px rgba(135, 190, 255, 0.2), 0 0 15px rgba(135, 190, 255, 0.2);
+  inset: 14px;
   pointer-events: none;
   z-index: 3;
 }
-.intro-corner-decor {
+.frame-bar {
   position: absolute;
-  width: 95px;
-  height: 95px;
-  pointer-events: none;
-  z-index: 4;
+  left: 60px;
+  right: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
-.intro-corner-decor.top-left { top: 12px; left: 12px; }
-.intro-corner-decor.top-right { top: 12px; right: 12px; transform: scaleX(-1); }
-.intro-corner-decor.bottom-left { bottom: 12px; left: 12px; transform: scaleY(-1); }
-.intro-corner-decor.bottom-right { bottom: 12px; right: 12px; transform: scale(-1); }
+.frame-bar.frame-top { top: 12px; }
+.frame-bar.frame-bottom { bottom: 12px; }
+.frame-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.2), rgba(255,255,255,0.85), rgba(255,255,255,0.2));
+  box-shadow: 0 0 4px rgba(160, 215, 255, 0.5);
+}
+.frame-diamond-motif {
+  width: 52px;
+  height: 22px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 5px rgba(160, 220, 255, 0.7));
+}
+.frame-side-diamonds {
+  position: absolute;
+  top: 72px;
+  bottom: 72px;
+  width: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.frame-side-diamonds.left { left: 14px; }
+.frame-side-diamonds.right { right: 14px; }
+.side-diamond {
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
+  transform: rotate(45deg);
+  opacity: 0.85;
+  box-shadow: 0 0 4px rgba(160, 220, 255, 0.6);
+  flex-shrink: 0;
+}
+.side-diamond.mid {
+  width: 6.5px;
+  height: 6.5px;
+  opacity: 0.95;
+}
+.frame-star-corner {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(160, 220, 255, 0.75));
+}
+.frame-star-corner.top-left { top: 8px; left: 8px; }
+.frame-star-corner.top-right { top: 8px; right: 8px; }
+.frame-star-corner.bottom-left { bottom: 8px; left: 8px; }
+.frame-star-corner.bottom-right { bottom: 8px; right: 8px; }
 
 /* DÂY TREO NGÔI SAO PHÁT SÁNG Ở TRÊN ĐỈNH (Tự co giãn thông minh) */
 .hanging-garlands {
@@ -1535,51 +1581,74 @@ body.modal-open #snow-container { display: none !important; }
   <div class="static-dust-speck small" style="top: 89%; right: 25%;"></div>
   <div class="static-dust-speck large" style="top: 92%; right: 38%;"></div>
 
-  <!-- KHUNG VIỀN NGOÀI -->
-  <div class="intro-outer-frame"></div>
-  
-  <!-- 4 GÓC HOA VĂN UỐN LƯỢN CỔ ĐIỂN VÀ BÔNG TUYẾT -->
-  <svg class="intro-corner-decor top-left" viewBox="0 0 100 100" fill="none">
-    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
-    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
-    <!-- Nhánh hoa văn uốn lượn cổ điển tròn xòe (Victorian Filigree) -->
-    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <!-- Chùm bông tuyết viền góc -->
-    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
-    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-  </svg>
+  <!-- KHUNG VIỀN TỐI GIẢN CHUẨN MẪU (BAO GỒM ĐƯỜNG THẲNG, HỌA TIẾT KIM CƯƠNG VÀ SAO 4 CÁNH) -->
+  <div class="intro-minimal-frame">
+    <!-- Cạnh trên: đường thẳng + cụm kim cương giữa -->
+    <div class="frame-bar frame-top">
+      <span class="frame-line"></span>
+      <svg class="frame-diamond-motif" viewBox="0 0 60 24" fill="none">
+        <rect x="18" y="12" width="7" height="7" transform="rotate(45 18 12)" stroke="#ffffff" stroke-width="1.1" fill="none"/>
+        <rect x="42" y="12" width="7" height="7" transform="rotate(45 42 12)" stroke="#ffffff" stroke-width="1.1" fill="none"/>
+        <rect x="30" y="12" width="9.5" height="9.5" transform="rotate(45 30 12)" stroke="#ffffff" stroke-width="1.2" fill="none"/>
+        <rect x="30" y="12" width="3" height="3" transform="rotate(45 30 12)" fill="#ffffff"/>
+      </svg>
+      <span class="frame-line"></span>
+    </div>
 
-  <svg class="intro-corner-decor top-right" viewBox="0 0 100 100" fill="none">
-    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
-    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
-    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
-    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-  </svg>
+    <!-- Cạnh dưới: đường thẳng + cụm kim cương giữa -->
+    <div class="frame-bar frame-bottom">
+      <span class="frame-line"></span>
+      <svg class="frame-diamond-motif" viewBox="0 0 60 24" fill="none">
+        <rect x="18" y="12" width="7" height="7" transform="rotate(45 18 12)" stroke="#ffffff" stroke-width="1.1" fill="none"/>
+        <rect x="42" y="12" width="7" height="7" transform="rotate(45 42 12)" stroke="#ffffff" stroke-width="1.1" fill="none"/>
+        <rect x="30" y="12" width="9.5" height="9.5" transform="rotate(45 30 12)" stroke="#ffffff" stroke-width="1.2" fill="none"/>
+        <rect x="30" y="12" width="3" height="3" transform="rotate(45 30 12)" fill="#ffffff"/>
+      </svg>
+      <span class="frame-line"></span>
+    </div>
 
-  <svg class="intro-corner-decor bottom-left" viewBox="0 0 100 100" fill="none">
-    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
-    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
-    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
-    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-  </svg>
+    <!-- Cạnh trái: dải hạt kim cương xếp dọc -->
+    <div class="frame-side-diamonds left">
+      <span class="side-diamond"></span><span class="side-diamond"></span><span class="side-diamond"></span>
+      <span class="side-diamond"></span><span class="side-diamond mid"></span><span class="side-diamond mid"></span>
+      <span class="side-diamond mid"></span><span class="side-diamond mid"></span><span class="side-diamond mid"></span>
+      <span class="side-diamond mid"></span><span class="side-diamond mid"></span><span class="side-diamond"></span>
+      <span class="side-diamond"></span><span class="side-diamond"></span><span class="side-diamond"></span>
+    </div>
 
-  <svg class="intro-corner-decor bottom-right" viewBox="0 0 100 100" fill="none">
-    <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
-    <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
-    <path d="M 10 10 C 25 10, 38 22, 38 36 C 38 46, 28 50, 22 44 C 16 38, 22 28, 30 30 C 34 31, 35 36, 32 38" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <path d="M 10 10 C 10 25, 22 38, 36 38 C 46 38, 50 28, 44 22 C 38 16, 28 22, 30 30" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" filter="drop-shadow(0 0 5px #90caf9)"/>
-    <text x="46" y="52" fill="#ffffff" font-size="24" opacity="0.95" filter="drop-shadow(0 0 8px #90caf9)">❄</text>
-    <text x="64" y="28" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-    <text x="26" y="68" fill="#ffffff" font-size="16" opacity="0.8">❅</text>
-  </svg>
+    <!-- Cạnh phải: dải hạt kim cương xếp dọc -->
+    <div class="frame-side-diamonds right">
+      <span class="side-diamond"></span><span class="side-diamond"></span><span class="side-diamond"></span>
+      <span class="side-diamond"></span><span class="side-diamond mid"></span><span class="side-diamond mid"></span>
+      <span class="side-diamond mid"></span><span class="side-diamond mid"></span><span class="side-diamond mid"></span>
+      <span class="side-diamond mid"></span><span class="side-diamond mid"></span><span class="side-diamond"></span>
+      <span class="side-diamond"></span><span class="side-diamond"></span><span class="side-diamond"></span>
+    </div>
+
+    <!-- Góc trên - trái: Cụm sao lấp lánh (1 lớn + 2 nhỏ) -->
+    <svg class="frame-star-corner top-left" viewBox="0 0 70 70" fill="none">
+      <path d="M 36 12 Q 36 36 12 36 Q 36 36 36 60 Q 36 36 60 36 Q 36 36 36 12 Z" fill="#ffffff"/>
+      <path d="M 52 10 Q 52 18 44 18 Q 52 18 52 26 Q 52 18 60 18 Q 52 18 52 10 Z" fill="#ffffff" opacity="0.9"/>
+      <path d="M 20 44 Q 20 52 12 52 Q 20 52 20 60 Q 20 52 28 52 Q 20 52 20 44 Z" fill="#ffffff" opacity="0.9"/>
+    </svg>
+
+    <!-- Góc trên - phải: Ngôi sao tia dài thanh mảnh -->
+    <svg class="frame-star-corner top-right" viewBox="0 0 70 70" fill="none">
+      <path d="M 44 6 Q 44 36 36 36 Q 44 36 44 66 Q 44 36 52 36 Q 44 36 44 6 Z" fill="#ffffff"/>
+    </svg>
+
+    <!-- Góc dưới - trái: Ngôi sao tia dài thanh mảnh -->
+    <svg class="frame-star-corner bottom-left" viewBox="0 0 70 70" fill="none">
+      <path d="M 26 4 Q 26 34 18 34 Q 26 34 26 64 Q 26 34 34 34 Q 26 34 26 4 Z" fill="#ffffff"/>
+    </svg>
+
+    <!-- Góc dưới - phải: Cụm sao lấp lánh (1 lớn + 2 nhỏ) -->
+    <svg class="frame-star-corner bottom-right" viewBox="0 0 70 70" fill="none">
+      <path d="M 36 12 Q 36 36 12 36 Q 36 36 36 60 Q 36 36 60 36 Q 36 36 36 12 Z" fill="#ffffff"/>
+      <path d="M 52 10 Q 52 18 44 18 Q 52 18 52 26 Q 52 18 60 18 Q 52 18 52 10 Z" fill="#ffffff" opacity="0.9"/>
+      <path d="M 20 44 Q 20 52 12 52 Q 20 52 20 60 Q 20 52 28 52 Q 20 52 20 44 Z" fill="#ffffff" opacity="0.9"/>
+    </svg>
+  </div>
 
   <!-- DÂY TREO CÁC NGÔI SAO SÁNG Ở TRÊN ĐỈNH -->
   <div class="hanging-garlands">
