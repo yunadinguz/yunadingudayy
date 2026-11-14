@@ -258,26 +258,45 @@
   to { opacity: 0; transform: scale(1.1) translateY(-20px); filter: blur(10px); }
 }
 
-/* NỐT NHẠC VÀ TIÊU ĐỀ: MÀU XANH BĂNG PHÁT SÁNG GIỐNG ẢNH 1 */
+/* NỐT NHẠC: Tự co nhỏ lại trên điện thoại để thanh thoát, vừa vặn */
 .intro-moon {
-  font-size: 26px;
-  color: #d8ecff;
+  font-size: clamp(16px, 4vw, 21px);
+  color: #e3f2fd;
   margin-bottom: 2px;
-  filter: drop-shadow(0 0 10px rgba(186, 222, 255, 0.8));
+  filter: drop-shadow(0 0 8px rgba(186, 222, 255, 0.85));
   display: inline-block;
 }
+
+/* KHUNG CHỨA TIÊU ĐỀ */
 .intro-title {
   font-family: 'Cinzel Decorative', serif !important;
   font-weight: 700 !important;
-  /* Đã tăng kích thước chữ to nổi bật hơn hẳn */
-  font-size: clamp(2.35rem, 8.5vw, 3.4rem);
-  background: linear-gradient(180deg, #ffffff 0%, #eaf4ff 35%, #b4d5ff 70%, #68aaff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
+  margin: 0;
+  line-height: 1.08;
+}
+
+/* CHỮ WINTER: Nhỏ hơn Serenade một chút, gradient nhẹ nhàng từ trắng sang xanh băng phấn */
+.intro-winter {
+  font-size: clamp(2.3rem, 8vw, 3.2rem);
+  letter-spacing: 5px;
+  background: linear-gradient(180deg, #ffffff 25%, #e6f1fe 65%, #a8cbfa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 4px;
-  margin: 0;
-  line-height: 1.12;
-  filter: drop-shadow(0 0 20px rgba(120, 185, 255, 0.75));
+  filter: drop-shadow(0 0 16px rgba(147, 197, 253, 0.7));
+}
+
+/* CHỮ SERENADE: To và nổi bật hơn hẳn, gradient sâu hơn (từ trắng xuống xanh lam đậm) */
+.intro-serenade {
+  font-size: clamp(2.7rem, 9.6vw, 3.9rem);
+  letter-spacing: 3px;
+  background: linear-gradient(180deg, #ffffff 0%, #d8ebff 30%, #8ec3ff 65%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 24px rgba(96, 165, 250, 0.85));
 }
 
 .intro-divider {
@@ -317,7 +336,11 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
 }
 .intro-body-text p { margin: 4px 0; }
-.intro-body-text b { color: #aadcff; font-weight: 700; text-shadow: 0 0 8px rgba(170, 220, 255, 0.6); }
+.intro-body-text b { 
+  color: #ffffff; 
+  font-weight: 800; 
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 12px #38bdf8, 0 0 20px #0284c7; 
+}
 
 /* NÚT TIẾN VÀO GIẤC MỘNG DẠNG BILLETS (VẾT KHẮC GÓC, MÀU NỀN LOANG, VIỀN TRẮNG MẢNH) */
 .begin-btn {
@@ -442,9 +465,23 @@
 }
 
 /* MAIN LAYOUT */
-.main-background{min-height:100vh;background:linear-gradient(135deg,#d7eaf9,#edf6ff 36%,#c4def5 72%,#b6d4ee);background-size:200% 200%;animation:bgMove 12s ease infinite;position:relative}@keyframes bgMove{50%{background-position:100% 50%}}
-#snow-container{position:fixed;inset:0;pointer-events:none;z-index:20}.snowflake{position:absolute;color:#fff;opacity:.5;animation:fall linear infinite}@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(360deg);opacity:0}}
-.top-bar-solid{height:36px;display:flex;align-items:center;overflow:hidden;background:#6ea9d5;color:#fff;white-space:nowrap}.marquee-text{display:inline-block;padding-left:100%;animation:marquee 20s linear infinite}@keyframes marquee{to{transform:translateX(-100%)}}
+.main-background{
+  min-height: 100vh;
+  background: url('images/nenchinh.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+#snow-container{position:fixed;inset:0;pointer-events:none;z-index:20}
+.snowflake{
+  position:absolute;
+  background: linear-gradient(180deg, #ffffff 15%, #b3d5f2 55%, #6aa5d7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: .8;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+  animation: fall linear infinite;
+}
+@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(360deg);opacity:0}}.top-bar-solid{height:36px;display:flex;align-items:center;overflow:hidden;background:#6ea9d5;color:#fff;white-space:nowrap}.marquee-text{display:inline-block;padding-left:100%;animation:marquee 20s linear infinite}@keyframes marquee{to{transform:translateX(-100%)}}
 
 /* HEADER STYLE */
 .x-header-container{max-width:100%;background:transparent;margin:auto;position:relative;overflow:visible;z-index:800;pointer-events:none}
@@ -480,7 +517,17 @@
 /* VIEWS & CONTENT BOX */
 .view{display:none}.view.active{display:block;animation:fadeInView .45s cubic-bezier(.25,.8,.25,1) forwards}
 @keyframes fadeInView{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.content-box{position:relative;z-index:10;width:min(580px, calc(100% - 16px));margin:14px auto 40px;padding:16px;border-radius:28px;background:rgba(255,255,255,.85);backdrop-filter:blur(9px);box-shadow:var(--shadow)}
+.content-box{
+  position: relative;
+  z-index: 10;
+  width: min(580px, calc(100% - 16px));
+  margin: 14px auto 40px;
+  padding: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
 
 /* SEARCH BAR */
 .search-wrap{position:relative;margin-bottom:20px}
@@ -958,7 +1005,7 @@
 .dream-footer{text-align:center;padding:10px 20px 100px;color:#315978}.dream-footer p{max-width:700px;margin:auto;font-size:.82rem;line-height:1.8;font-style:italic}.copyright-text{margin-top:10px;font-weight:700}
 
 @media(max-width:600px){
-.content-box{padding:12px;border-radius:24px}
+.content-box{padding:0;background:transparent;box-shadow:none}
 .char-card{padding:12px;border-radius:24px}
 .char-name{font-size:1.25rem}
 .char-img{aspect-ratio:16/10}
@@ -1203,33 +1250,29 @@ body.modal-open .main-background { animation: none !important; }
 body.modal-open #snow-container { display: none !important; }
 
 /* =========================================
-   1. CSS CHO BANNER THEO DẤU TUYẾT RƠI (NEW)
+   1. CSS CHO BANNER THEO DẤU TUYẾT RƠI
    ========================================= */
 .destiny-banner {
   position: relative;
   display: flex;
   align-items: center;
   margin-top: 20px; 
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(179, 213, 242, 0.75);
+  border: 1.5px solid rgba(179, 213, 242, 0.85);
   border-radius: 24px;
   padding: 12px;
   margin-bottom: 20px;
   gap: 14px;
   width: 100%;
-  /* Hiệu ứng hào quang tỏa sáng màu xanh pastel dịu mắt (tối ưu mượt mà không gây lag) */
-  box-shadow: 0 0 20px rgba(179, 213, 242, 0.7),
-              0 0 45px rgba(121, 172, 217, 0.35),
-              0 8px 24px rgba(3, 62, 140, 0.08);
+  /* Vùng sáng được thu nhỏ gọn gàng, ôm sát viền ô, không bị loang đè lên chữ và thanh tìm kiếm */
+  box-shadow: 0 4px 14px rgba(121, 172, 217, 0.25), 0 2px 6px rgba(3, 62, 140, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .destiny-banner:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 26px rgba(179, 213, 242, 0.85),
-              0 0 55px rgba(121, 172, 217, 0.45),
-              0 12px 28px rgba(3, 62, 140, 0.12);
+  box-shadow: 0 6px 18px rgba(121, 172, 217, 0.35), 0 3px 8px rgba(3, 62, 140, 0.08);
 }
 .destiny-banner-img {
   width: 90px;
@@ -1688,7 +1731,10 @@ body.modal-open #snow-container { display: none !important; }
   <!-- NỘI DUNG CHỮ INTRO -->
   <div class="intro-box">
     <div class="intro-moon">𝄞</div>
-    <div class="intro-title">WINTER SERENADE</div>
+    <div class="intro-title">
+      <span class="intro-winter">WINTER</span>
+      <span class="intro-serenade">SERENADE</span>
+    </div>
     <div class="intro-divider"><span>✦</span></div>
     <div class="intro-sub">Những giấc mộng vùi mình trong gió tuyết, chờ một người viết tiếp đoạn dang dở.</div>
     
@@ -1701,19 +1747,20 @@ body.modal-open #snow-container { display: none !important; }
     <button class="begin-btn" onclick="enterDream()">
       <svg class="btn-billet-svg" viewBox="0 0 270 48" preserveAspectRatio="none">
         <defs>
-          <!-- Gradient nền nút -->
+          <!-- Gradient nền nút: Phía bên phải pha nhẹ ánh tím hồng (như hào quang ngôi sao) -->
           <linearGradient id="billetBgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#050e24"/>
-            <stop offset="40%" stop-color="#0a1d4a"/>
-            <stop offset="75%" stop-color="#14398e"/>
-            <stop offset="100%" stop-color="#1d50c7"/>
+            <stop offset="38%" stop-color="#0a1d4a"/>
+            <stop offset="70%" stop-color="#15368a"/>
+            <stop offset="86%" stop-color="#244ab8"/>
+            <stop offset="100%" stop-color="#49387a"/> <!-- Ánh tím hồng nhẹ nhàng ở cuối -->
           </linearGradient>
-          <!-- Gradient viền nút: Hòa trộn giữa xanh nhạt ánh băng và trắng mờ ảo -->
+          <!-- Gradient viền nút: Pha ánh trắng, xanh ngọc và viền tím hồng phấn nhạt -->
           <linearGradient id="billetBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#90caf9" stop-opacity="0.95"/>
-            <stop offset="35%" stop-color="#ffffff" stop-opacity="0.9"/>
-            <stop offset="65%" stop-color="#b3d5f2" stop-opacity="0.85"/>
-            <stop offset="100%" stop-color="#e0f2fe" stop-opacity="0.6"/>
+            <stop offset="35%" stop-color="#ffffff" stop-opacity="0.95"/>
+            <stop offset="70%" stop-color="#b9c6fa" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#e5bdf2" stop-opacity="0.85"/> <!-- Viền tím hồng nhẹ -->
           </linearGradient>
         </defs>
         <path d="M 13 1 L 257 1 A 11 11 0 0 0 269 13 L 269 35 A 11 11 0 0 0 257 47 L 13 47 A 11 11 0 0 0 1 35 L 1 13 A 11 11 0 0 0 13 1 Z"
