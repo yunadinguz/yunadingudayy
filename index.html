@@ -313,10 +313,38 @@
   z-index: 2;
   color: #ffffff;
   font-family: var(--serif) !important;
-  font-size: 0.96rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 16px rgba(121, 172, 217, 0.6);
+  white-space: nowrap;
+}
+
+/* CÁC HẠT BỤI TĨNH TO NHỎ CÓ SẴN TRÊN NỀN INTRO */
+.static-dust-speck {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: #ffffff;
+  z-index: 3;
+}
+.static-dust-speck.small {
+  width: 1.5px;
+  height: 1.5px;
+  opacity: 0.75;
+  box-shadow: 0 0 4px #90caf9;
+}
+.static-dust-speck.medium {
+  width: 2.5px;
+  height: 2.5px;
+  opacity: 0.85;
+  box-shadow: 0 0 6px #ffffff, 0 0 10px #64b5f6;
+}
+.static-dust-speck.large {
+  width: 3.5px;
+  height: 3.5px;
+  opacity: 0.95;
+  box-shadow: 0 0 8px #ffffff, 0 0 14px #90caf9;
 }
 /* Hiệu ứng hạt bụi sáng li ti bên trong nút */
 .btn-dust-particle {
@@ -1480,10 +1508,37 @@ body.modal-open #snow-container { display: none !important; }
   <div class="rising-dust" style="left: 89%; animation-duration: 8.8s; animation-delay: 4.7s; --drift-x: -20px;"></div>
   <div class="rising-dust" style="left: 95%; animation-duration: 7.4s; animation-delay: 1.5s; --drift-x: 12px;"></div>
 
+  <!-- CÁC HẠT BỤI TĨNH TO NHỎ PHỦ KHẮP NỀN -->
+  <div class="static-dust-speck small" style="top: 11%; left: 20%;"></div>
+  <div class="static-dust-speck medium" style="top: 16%; left: 33%;"></div>
+  <div class="static-dust-speck small" style="top: 13%; right: 22%;"></div>
+  <div class="static-dust-speck large" style="top: 19%; right: 12%;"></div>
+  <div class="static-dust-speck small" style="top: 25%; left: 14%;"></div>
+  <div class="static-dust-speck medium" style="top: 29%; left: 27%;"></div>
+  <div class="static-dust-speck small" style="top: 31%; right: 32%;"></div>
+  <div class="static-dust-speck medium" style="top: 35%; right: 15%;"></div>
+  
+  <div class="static-dust-speck small" style="top: 45%; left: 12%;"></div>
+  <div class="static-dust-speck large" style="top: 48%; left: 25%;"></div>
+  <div class="static-dust-speck small" style="top: 43%; right: 19%;"></div>
+  <div class="static-dust-speck medium" style="top: 52%; right: 28%;"></div>
+  <div class="static-dust-speck small" style="top: 58%; left: 18%;"></div>
+  <div class="static-dust-speck small" style="top: 64%; right: 14%;"></div>
+  <div class="static-dust-speck medium" style="top: 61%; right: 24%;"></div>
+
+  <div class="static-dust-speck large" style="top: 71%; left: 11%;"></div>
+  <div class="static-dust-speck small" style="top: 76%; left: 29%;"></div>
+  <div class="static-dust-speck medium" style="top: 73%; right: 21%;"></div>
+  <div class="static-dust-speck small" style="top: 79%; right: 11%;"></div>
+  <div class="static-dust-speck small" style="top: 84%; left: 22%;"></div>
+  <div class="static-dust-speck medium" style="top: 87%; left: 35%;"></div>
+  <div class="static-dust-speck small" style="top: 89%; right: 25%;"></div>
+  <div class="static-dust-speck large" style="top: 92%; right: 38%;"></div>
+
   <!-- KHUNG VIỀN NGOÀI -->
   <div class="intro-outer-frame"></div>
   
-  <!-- 4 GÓC HOA VĂN UỐN LƯỢN CỔ ĐIỂN VÀ BÔNG TUYẾT (ĐÃ XÓA HÌNH CON MẮT - GIỐNG ẢNH 1) -->
+  <!-- 4 GÓC HOA VĂN UỐN LƯỢN CỔ ĐIỂN VÀ BÔNG TUYẾT -->
   <svg class="intro-corner-decor top-left" viewBox="0 0 100 100" fill="none">
     <path d="M 10 90 V 26 C 10 16 16 10 26 10 H 90" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" fill="none"/>
     <path d="M 18 85 V 30 C 18 22 22 18 30 18 H 85" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
@@ -1551,21 +1606,27 @@ body.modal-open #snow-container { display: none !important; }
       <p>Mỗi linh hồn nơi đây đều đã luôn chờ đợi sự xuất hiện của bạn.</p>
     </div>
     
-    <!-- NÚT BÀN VÉ BILLETS VỚI ĐƯỜNG VIỀN SIÊU MẢNH 0.75PX (THỨ 4) -->
+    <!-- NÚT BÀN VÉ BILLETS VỚI ĐƯỜNG VIỀN MIX XANH NHẠT VÀ TRẮNG MỜ -->
     <button class="begin-btn" onclick="enterDream()">
       <svg class="btn-billet-svg" viewBox="0 0 270 48" preserveAspectRatio="none">
         <defs>
-          <!-- Gradient trái đậm sang phải nhạt, lấy đúng mã màu quầng sáng trong ảnh mẫu -->
+          <!-- Gradient nền nút -->
           <linearGradient id="billetBgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#050e24"/>
             <stop offset="40%" stop-color="#0a1d4a"/>
             <stop offset="75%" stop-color="#14398e"/>
             <stop offset="100%" stop-color="#1d50c7"/>
           </linearGradient>
+          <!-- Gradient viền nút: Hòa trộn giữa xanh nhạt ánh băng và trắng mờ ảo -->
+          <linearGradient id="billetBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#90caf9" stop-opacity="0.95"/>
+            <stop offset="35%" stop-color="#ffffff" stop-opacity="0.9"/>
+            <stop offset="65%" stop-color="#b3d5f2" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#e0f2fe" stop-opacity="0.6"/>
+          </linearGradient>
         </defs>
-        <!-- stroke-width giảm xuống 0.75 cực mảnh và thanh thoát -->
         <path d="M 13 1 L 257 1 A 11 11 0 0 0 269 13 L 269 35 A 11 11 0 0 0 257 47 L 13 47 A 11 11 0 0 0 1 35 L 1 13 A 11 11 0 0 0 13 1 Z"
-              fill="url(#billetBgGrad)" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.85" stroke-linecap="round"/>
+              fill="url(#billetBgGrad)" stroke="url(#billetBorderGrad)" stroke-width="1.2" stroke-linecap="round"/>
       </svg>
       <span class="btn-dust-particle" style="top:25%; left:18%; animation-delay:0s;"></span>
       <span class="btn-dust-particle" style="top:60%; left:30%; animation-delay:0.8s;"></span>
