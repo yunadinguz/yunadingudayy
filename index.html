@@ -43,7 +43,7 @@
   overscroll-behavior: none;
   transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.8s ease;
 }
-#dream-intro.hide { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+#dream-intro.hide { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; display: none !important; }
 
 /* KHUNG VIỀN TỐI GIẢN CHUẨN 100% THEO MẪU - ĐẨY SÁT VIỀN NGOÀI & CHỐNG LAG */
 .intro-minimal-frame {
@@ -145,7 +145,7 @@
   100% { transform: rotate(2deg); }
 }
 
-/* BÔNG TUYẾT TĨNH PHÁT SÁNG THAY CHO CÁC NGÔI SAO TĨNH */
+/* BÔNG TUYẾT TĨNH PHÁT SÁNG */
 .glowing-flake {
   position: absolute;
   color: rgba(255, 255, 255, 0.85);
@@ -153,10 +153,11 @@
   pointer-events: none;
   animation: flakeGlow 3s ease-in-out infinite alternate;
   user-select: none;
+  will-change: transform, opacity;
 }
 @keyframes flakeGlow {
-  0% { opacity: 0.35; transform: scale(0.85); }
-  100% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 6px #fff); }
+  0% { opacity: 0.35; transform: scale(0.85) translateZ(0); }
+  100% { opacity: 1; transform: scale(1.15) translateZ(0); }
 }
 
 /* HẠT BỤI SÁNG BAY TỪ DƯỚI LÊN VÀ LẤP LÁNH */
@@ -476,16 +477,18 @@
   position: relative;
 }
 
-/* Lớp phủ ảnh nền: Vừa làm mờ nhẹ ảnh (blur), vừa phủ lớp sương băng mỏng trong suốt che lên */
+/* Lớp phủ ảnh nền */
 .main-background::before {
   content: "";
   position: fixed;
   inset: -12px; /* Tràn ra 12px để khi làm mờ cạnh viền màn hình không bị hở trắng */
   background: linear-gradient(rgba(240, 246, 255, 0.45), rgba(240, 246, 255, 0.45)), 
               url('images/nenchinh.jpg') no-repeat center center / cover;
-  filter: blur(4px); /* Làm mờ nhẹ ảnh nền, không bị nét gắt */
+  filter: blur(4px);
   pointer-events: none;
   z-index: 0;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 /* Đảm bảo toàn bộ chữ, menu, card nhân vật luôn nổi rõ nét bên trên lớp nền mờ */
@@ -672,12 +675,12 @@
 .char-img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;cursor:pointer;transition:transform .35s ease}
 .char-img:hover{transform:scale(1.02)}
 
-.char-like, .app-like{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.8);box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:5;cursor:pointer;user-select:none;transition:transform .2s, background .2s}
-.char-like:hover, .app-like:hover{transform:scale(1.05);background:rgba(255,255,255,.9)}
+.char-like, .app-like{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.92);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.9);box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:5;cursor:pointer;user-select:none;transition:transform .2s, background .2s}
+.char-like:hover, .app-like:hover{transform:scale(1.05);background:#ffffff}
 .like-btn{border:0;background:transparent;font-size:17px;line-height:1;color:#78889b;padding:0;cursor:pointer;pointer-events:none;}
 .like-btn.liked{color:#2563eb;}
 .like-count{font-size:.82rem;font-weight:700;color:#1e3a8a;pointer-events:none}
-.char-copy-link { position:absolute; top:46px; right:12px; display:flex; align-items:center; justify-content:center; width:34px; height:34px; background:rgba(255,255,255,.75); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-radius:50%; border:1px solid rgba(255,255,255,.8); box-shadow:0 4px 12px rgba(0,0,0,.08); z-index:5; cursor:pointer; transition:transform .2s, background .2s; font-size: 14px; color: #2563eb; }
+.char-copy-link { position:absolute; top:46px; right:12px; display:flex; align-items:center; justify-content:center; width:34px; height:34px; background:rgba(255,255,255,.92); border-radius:50%; border:1px solid rgba(255,255,255,.9); box-shadow:0 4px 12px rgba(0,0,0,.08); z-index:5; cursor:pointer; transition:transform .2s, background .2s; font-size: 14px; color: #2563eb; }
 .char-copy-link:hover { transform:scale(1.05); background:rgba(255,255,255,.9); }
 
 .char-info{display:flex;flex-direction:column;gap:8px}
@@ -864,14 +867,9 @@
 @keyframes fadeInResult{from{opacity:0;transform:translateY(15px) scale(.95)}to{opacity:1;transform:none}}
 
 .floating-left{position:fixed;left:14px;top:90px;z-index:11000}
-.notif-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:1px solid rgba(255,255,255,.8);outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
-.notif-btn:hover{transform:scale(1.1)}
-.notif-badge{position:absolute;top:-2px;right:-2px;background:#e0245e;color:#fff;font-size:9px;font-weight:700;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.notif-btn.ring{animation:ringBell .8s ease infinite}
-@keyframes ringBell{0%{transform:rotate(0)}15%{transform:rotate(18deg)}30%{transform:rotate(-18deg)}45%{transform:rotate(12deg)}60%{transform:rotate(-12deg)}75%{transform:rotate(6deg)}100%{transform:rotate(0)}}
-
+.notif-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:1px solid rgba(255,255,255,.9);outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
 .floating-right{position:fixed;right:14px;bottom:115px;z-index:11000;display:flex;flex-direction:column;gap:8px}
-.float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.4);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);color:var(--mid);box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid rgba(255,255,255,0.6);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
+.float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.92);color:var(--mid);box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid rgba(255,255,255,0.8);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
 
 .float-btn:hover, .notif-btn:hover{background:rgba(255,255,255,0.8);transform:scale(1.1)}
 .music-playing { color: #033E8C !important; background: rgba(121, 172, 217, 0.28) !important; }
@@ -1970,11 +1968,11 @@ body.modal-open #snow-container { display: none !important; }
 
 <!-- 1. THEO DẤU TUYẾT RƠI LÊN ĐẦU -->
 <div class="destiny-banner">
-  <img src="images/theodautuyetroi.jpg" class="destiny-banner-img" alt="Theo dấu tuyết rơi">
+  <img src="images/theodautuyetroi.png" class="destiny-banner-img" alt="Theo dấu tuyết rơi">
   <div class="destiny-banner-info">
     <div class="destiny-banner-title">Theo Dấu Tuyết Rơi</div>
     <div class="destiny-banner-desc">Giữa bão tuyết mịt mù, vũ trụ sẽ dẫn lối bạn đến với hơi ấm của ai đêm nay?</div>
-    <button class="destiny-banner-btn" onclick="openDestiny()">✮ Bắt lấy định mệnh ✮</button>
+    <button class="destiny-banner-btn" onclick="openDestiny()">★ Bắt lấy định mệnh ★</button>
   </div>
 </div>
 
@@ -2027,7 +2025,7 @@ body.modal-open #snow-container { display: none !important; }
 
 <section id="journal" class="view"><div class="journal-page">
 <button class="back-library" onclick="showView('library')">‹ Về Thư viện giấc mơ</button>
-<h2 class="page-title gradient-title" style="display:block;text-align:center">⊹ Lưu bút &amp; Góp Ideas ⊹</h2>
+<h2 class="page-title gradient-title" style="display:block;text-align:center">⊹ Winter Love Letter ⊹</h2>
 <p class="page-sub">Để lại đây một mảnh linh hồn, hóa thân thành hoa tuyết bay mãi giữa trời không.</p>
 <div class="journal-form" id="journalFormBox"></div>
 <div id="journalComments" class="journal-comments"></div></div></section>
@@ -3479,26 +3477,30 @@ document.getElementById("list-top-anchor")?.scrollIntoView({behavior:"smooth",bl
 }
 
 async function loadPublicStats(){
-  // ĐÃ SỬA: Chuyển sang tải tuần tự để không làm nghẽn cổ chai trình duyệt
-  for (const c of CHARS) {
+  const fetchSingleStat = async (c) => {
     try {
-      let lRes = await fetch(`${STATS_API}/get/${LIKE_NS}/${c.id}`);
-      let lData = await lRes.json();
-      if(lData.value !== undefined) charLikesMap[c.id] = lData.value;
-      let lEl = document.getElementById("like-" + c.id);
-      if (lEl) lEl.textContent = charLikesMap[c.id] || 0;
+      const [lRes, jRes] = await Promise.all([
+        fetch(`${STATS_API}/get/${LIKE_NS}/${c.id}`).then(r => r.json()).catch(() => ({})),
+        fetch(`${STATS_API}/get/${CLICK_NS}/${c.id}`).then(r => r.json()).catch(() => ({}))
+      ]);
+      if(lRes.value !== undefined) {
+        charLikesMap[c.id] = lRes.value;
+        const lEl = document.getElementById("like-" + c.id);
+        if (lEl) lEl.textContent = lRes.value;
+      }
+      if(jRes.value !== undefined) {
+        charJourneyMap[c.id] = jRes.value;
+        const jEl = document.getElementById("journey-" + c.id);
+        if (jEl) jEl.textContent = `${jRes.value} lượt đồng hành`;
+      }
     } catch (e) {}
+  };
 
-    try {
-      let jRes = await fetch(`${STATS_API}/get/${CLICK_NS}/${c.id}`);
-      let jData = await jRes.json();
-      if(jData.value !== undefined) charJourneyMap[c.id] = jData.value;
-      let jEl = document.getElementById("journey-" + c.id);
-      if (jEl) jEl.textContent = `${charJourneyMap[c.id] || 0} lượt đồng hành`;
-    } catch (e) {}
-    
-    // Nghỉ 50ms giữa mỗi nhân vật
-    await new Promise(r => setTimeout(r, 50));
+  // Chia thành các nhóm nhỏ tải song song để không nghẽn mạng và hoàn thành trong chớp mắt
+  const batchSize = 4;
+  for (let i = 0; i < CHARS.length; i += batchSize) {
+    const batch = CHARS.slice(i, i + batchSize);
+    await Promise.all(batch.map(fetchSingleStat));
   }
   
   localStorage.setItem("cache_char_likes", JSON.stringify(charLikesMap));
@@ -4986,7 +4988,11 @@ async function setup(){
   }
 
   if (sessionStorage.getItem("dream_entered") === "true") {
-    document.getElementById("dream-intro").classList.add("hide");
+    const introEl = document.getElementById("dream-intro");
+    if (introEl) {
+      introEl.classList.add("hide");
+      introEl.style.display = "none";
+    }
   }
 
   // TỰ ĐỘNG MỞ THẺ TỪ LINK COPY
