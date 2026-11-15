@@ -868,6 +868,45 @@
 
 .floating-left{position:fixed;left:14px;top:90px;z-index:11000}
 .notif-btn{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);color:#0c4f86;box-shadow:0 3px 12px rgba(3,62,140,.18);border:1px solid rgba(255,255,255,.9);outline:0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s}
+
+/* Chấm đỏ hiển thị số thông báo (Hòm Thư & Điện Thoại) */
+.notif-badge{
+  position:absolute;
+  top:4px;
+  right:6px;
+  background:#e0245e;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  min-width:16px;
+  height:16px;
+  padding:0 4px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1.5px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  pointer-events:none;
+  z-index:10;
+}
+
+/* Hiệu ứng rung chuông */
+.glass-btn.ring, .notif-btn.ring{
+  animation:ringBell .8s ease infinite;
+  will-change:transform;
+}
+
+@keyframes ringBell{
+  0%{transform:rotate(0) translateZ(0)}
+  15%{transform:rotate(14deg) translateZ(0)}
+  30%{transform:rotate(-14deg) translateZ(0)}
+  45%{transform:rotate(10deg) translateZ(0)}
+  60%{transform:rotate(-10deg) translateZ(0)}
+  75%{transform:rotate(4deg) translateZ(0)}
+  100%{transform:rotate(0) translateZ(0)}
+}
+
 .floating-right{position:fixed;right:14px;bottom:115px;z-index:11000;display:flex;flex-direction:column;gap:8px}
 .float-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.92);color:var(--mid);box-shadow:0 4px 15px rgba(0,0,0,0.05);border:1px solid rgba(255,255,255,0.8);outline:0;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .25s,background .25s}
 
