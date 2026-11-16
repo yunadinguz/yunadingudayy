@@ -1602,21 +1602,34 @@ body.modal-open #snow-container { display: none !important; }
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(3, 62, 140, 0.18);
 }
-/* Mặt úp: Lưng Tarot huyền bí */
+/* Mặt úp */
 .card-front {
   background: #040e24;
-  border: 1.5px solid #0f2e54;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1.5px solid #79ACD9;
+  display: block;
   padding: 0;
+  overflow: hidden;
 }
-.card-front svg {
+.destiny-card-front-img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   display: block;
+  border-radius: 16px;
+  pointer-events: none;
 }
-/* Mặt ngửa: Thiết kế Card thu nhỏ giống hệt mục "Những người bạn có thể thích" */
+/* Dòng chữ gợi ý: Thu hẹp khoảng cách và phát sáng xanh tĩnh (Zero Lag) */
+.destiny-hint-text {
+  font-size: 0.8rem;
+  color: #e0f2fe;
+  text-shadow: 0 0 6px #38bdf8, 0 0 12px rgba(56, 189, 248, 0.7);
+  margin-top: 10px;
+  margin-bottom: 2px;
+  text-align: center;
+  letter-spacing: 0.4px;
+  user-select: none;
+}
+/* Mặt ngửa */
 .card-back {
   background: #ffffff;
   border: 1.5px solid #dbeaf5;
@@ -2178,7 +2191,7 @@ body.modal-open #snow-container { display: none !important; }
 
 <!-- Modal Định Mệnh Mới -->
 <div id="destinyModal" class="custom-modal">
-  <div class="modal-box" style="width: min(400px, 94%); min-height: 350px; display: flex; flex-direction: column; justify-content: center;">
+  <div class="modal-box" style="width: min(400px, 94%); min-height: auto; padding: 22px 16px 14px; display: flex; flex-direction: column; justify-content: center;">
     <button class="close-modal" onclick="closeModal('destinyModal')">×</button>
     <h2 class="gradient-title" style="margin-bottom: 5px;">⊹ Giao Phó Định Mệnh ⊹</h2>
     <div id="destinyContent" style="width: 100%;">
@@ -4300,66 +4313,9 @@ function rollDestiny() {
       <div class="anim-stage-container">
         <div class="destiny-card-container" id="destinyCard" onclick="flipDestinyCard('${c.id}')">
           <div class="destiny-card">
-            <!-- Mặt úp -->
+           <!-- Mặt úp -->
             <div class="card-face card-front">
-              <svg viewBox="0 0 200 330" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="8" y="8" width="184" height="314" rx="10" stroke="#79ACD9" stroke-width="2.2" opacity="0.9"/>
-                <path d="M 24 16 L 176 16 M 184 24 L 184 306 M 176 314 L 24 314 M 16 306 L 16 24" stroke="#79ACD9" stroke-width="1.2" opacity="0.6"/>
-                <path d="M 16 24 C 16 16, 24 16, 24 16 M 176 16 C 184 16, 184 24, 184 24 M 184 306 C 184 314, 176 314, 176 314 M 24 314 C 16 314, 16 306, 16 306" stroke="#79ACD9" stroke-width="1.2" fill="none" opacity="0.6"/>
-                <g fill="#B3D5F2">
-                  <path d="M 22 22 Q 22 17 22 15 Q 22 17 22 22 Q 27 22 29 22 Q 27 22 22 22 Q 22 27 22 29 Q 22 27 22 22 Q 17 22 15 22 Q 17 22 22 22 Z"/>
-                  <path d="M 178 22 Q 178 17 178 15 Q 178 17 178 22 Q 183 22 185 22 Q 183 22 178 22 Q 178 27 178 29 Q 178 27 178 22 Q 173 22 171 22 Q 173 22 178 22 Z"/>
-                  <path d="M 22 308 Q 22 303 22 301 Q 22 303 22 308 Q 27 308 29 308 Q 27 308 22 308 Q 22 313 22 315 Q 22 313 22 308 Q 17 308 15 308 Q 17 308 22 308 Z"/>
-                  <path d="M 178 308 Q 178 303 178 301 Q 178 303 178 308 Q 183 308 185 308 Q 183 308 178 308 Q 178 313 178 315 Q 178 313 178 308 Q 173 308 171 308 Q 173 308 178 308 Z"/>
-                </g>
-                <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
-                  <circle cx="100" cy="33" r="5"/>
-                  <path d="M 85 33 A 5 5 0 0 0 91 37 A 5 5 0 0 1 91 29 A 5 5 0 0 0 85 33 Z"/>
-                  <path d="M 72 33 A 5 5 0 0 0 76 37 A 5 5 0 0 1 76 29 A 5 5 0 0 0 72 33 Z"/>
-                  <path d="M 115 33 A 5 5 0 0 1 109 37 A 5 5 0 0 0 109 29 A 5 5 0 0 1 115 33 Z"/>
-                  <path d="M 128 33 A 5 5 0 0 1 124 37 A 5 5 0 0 0 124 29 A 5 5 0 0 1 128 33 Z"/>
-                  <line x1="65" y1="33" x2="69" y2="33" stroke-width="1.2"/>
-                  <line x1="131" y1="33" x2="135" y2="33" stroke-width="1.2"/>
-                </g>
-                <g fill="#B3D5F2" stroke="#B3D5F2" stroke-width="0.5">
-                  <circle cx="100" cy="297" r="5"/>
-                  <path d="M 85 297 A 5 5 0 0 0 91 301 A 5 5 0 0 1 91 293 A 5 5 0 0 0 85 297 Z"/>
-                  <path d="M 72 297 A 5 5 0 0 0 76 301 A 5 5 0 0 1 76 293 A 5 5 0 0 0 72 297 Z"/>
-                  <path d="M 115 297 A 5 5 0 0 1 109 301 A 5 5 0 0 0 109 293 A 5 5 0 0 1 115 297 Z"/>
-                  <path d="M 128 297 A 5 5 0 0 1 124 301 A 5 5 0 0 0 124 293 A 5 5 0 0 1 128 297 Z"/>
-                  <line x1="65" y1="297" x2="69" y2="297" stroke-width="1.2"/>
-                  <line x1="131" y1="297" x2="135" y2="297" stroke-width="1.2"/>
-                </g>
-                <line x1="164" y1="65" x2="164" y2="265" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-                <line x1="80" y1="165" x2="164" y2="165" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-                <line x1="80" y1="165" x2="164" y2="70" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-                <line x1="80" y1="165" x2="164" y2="250" stroke="#79ACD9" stroke-width="1.8" opacity="0.85"/>
-                <path d="M 52 120 A 55 55 0 0 1 135 165 A 55 55 0 0 1 52 210" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
-                <path d="M 60 128 A 45 45 0 0 1 125 165 A 45 45 0 0 1 60 202" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
-                <path d="M 68 136 A 35 35 0 0 1 115 165 A 35 35 0 0 1 68 194" stroke="#79ACD9" stroke-width="1.6" opacity="0.75" fill="none"/>
-                <path d="M 50 115 C 80 115 110 135 110 165 C 110 195 80 215 50 215 C 85 200 95 180 95 165 C 95 150 85 130 50 115 Z" fill="#B3D5F2" opacity="0.95"/>
-                <g transform="translate(80, 165)">
-                  <polygon points="0,-16 13,8 -13,8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
-                  <polygon points="0,16 13,-8 -13,-8" stroke="#EAF5FF" stroke-width="1.8" fill="#040e24"/>
-                  <circle cx="0" cy="0" r="5" fill="#EAF5FF"/>
-                  <circle cx="0" cy="0" r="2.5" fill="#040e24"/>
-                </g>
-                <g fill="#EAF5FF">
-                  <path d="M 95 72 Q 95 62 95 58 Q 95 62 95 72 Q 100 72 104 72 Q 100 72 95 72 Q 95 82 95 86 Q 95 82 95 72 Q 90 72 86 72 Q 90 72 95 72 Z"/>
-                  <path d="M 95 258 Q 95 248 95 244 Q 95 248 95 258 Q 100 258 104 258 Q 100 258 95 258 Q 95 268 95 272 Q 95 268 95 258 Q 90 258 86 258 Q 90 258 95 258 Z"/>
-                  <path d="M 46 118 Q 46 110 46 106 Q 46 110 46 118 Q 50 118 54 118 Q 50 118 46 118 Q 46 126 46 130 Q 46 126 46 118 Q 42 118 38 118 Q 42 118 46 118 Z"/>
-                  <path d="M 46 212 Q 46 204 46 200 Q 46 204 46 212 Q 50 212 54 212 Q 50 212 46 212 Q 46 220 46 224 Q 46 220 46 212 Q 42 212 38 212 Q 42 212 46 212 Z"/>
-                  <path d="M 142 118 Q 142 110 142 106 Q 142 110 142 118 Q 146 118 150 118 Q 146 118 142 118 Q 142 126 142 130 Q 142 126 142 118 Q 138 118 134 118 Q 138 118 142 118 Z"/>
-                  <path d="M 142 212 Q 142 204 142 200 Q 142 204 142 212 Q 146 212 150 212 Q 146 212 142 212 Q 142 220 142 224 Q 142 220 142 212 Q 138 212 134 212 Q 138 212 142 212 Z"/>
-                </g>
-                <g fill="#79ACD9" opacity="0.65">
-                  <circle cx="40" cy="70" r="1"/>
-                  <circle cx="160" cy="180" r="1.2"/>
-                  <circle cx="120" cy="240" r="1"/>
-                  <circle cx="70" cy="270" r="1.2"/>
-                  <circle cx="150" cy="285" r="1"/>
-                </g>
-              </svg>
+              <img src="images/thebai.jpg" alt="Lá bài định mệnh" class="destiny-card-front-img">
             </div>
             <!-- Mặt ngửa dạng Card Nhân Vật Đầy Đủ -->
             <div class="card-face card-back">
@@ -4375,7 +4331,7 @@ function rollDestiny() {
           </div>
         </div>
       </div>
-      <div style="font-size:0.78rem; color:#8797a9; margin-top: 18px; margin-bottom: 8px; text-align: center; letter-spacing: 0.3px;">(Nhấn vào thẻ bài để lật mở)</div>
+      <div class="destiny-hint-text">(Nhấn vào thẻ bài để lật mở)</div>
     `;
   }, 5500);
   currentDestinyTimeout.push(t1, t2);
