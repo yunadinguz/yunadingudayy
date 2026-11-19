@@ -171,6 +171,7 @@
   pointer-events: none;
   will-change: transform, opacity;
   animation: dustRise linear infinite;
+  z-index: 15;
 }
 @keyframes dustRise {
   0% { transform: translate3d(0, 100vh, 0) scale(0.6); opacity: 0; }
@@ -288,24 +289,23 @@
   line-height: 1.08;
 }
 
-/* CHỮ WINTER */
+/* CHỮ WINTER & SERENADE */
 .intro-winter {
   font-size: clamp(2.3rem, 8vw, 3.2rem);
   letter-spacing: 5px;
-  background: linear-gradient(180deg, #ffffff 25%, #e6f1fe 65%, #a8cbfa 100%);
+  background: linear-gradient(180deg, #3d7fd1 0%, #2a66b5 40%, #19488a 75%, #0e2a56 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 16px rgba(147, 197, 253, 0.7));
+  filter: drop-shadow(0 2px 6px rgba(14, 42, 86, 0.25));
 }
 
-/* CHỮ SERENADE */
 .intro-serenade {
   font-size: clamp(2.7rem, 9.6vw, 3.9rem);
   letter-spacing: 3px;
-  background: linear-gradient(180deg, #ffffff 0%, #d8ebff 30%, #8ec3ff 65%, #3b82f6 100%);
+  background: linear-gradient(180deg, #3d7fd1 0%, #2a66b5 35%, #19488a 70%, #0e2a56 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 24px rgba(96, 165, 250, 0.85));
+  filter: drop-shadow(0 2px 8px rgba(14, 42, 86, 0.3));
 }
 
 .intro-divider {
@@ -398,7 +398,7 @@
   border-radius: 50%;
   pointer-events: none;
   background: #ffffff;
-  z-index: 3;
+  z-index: 15;
 }
 .static-dust-speck.small {
   width: 1.5px;
@@ -466,11 +466,12 @@
 
 .intro-tip {
   font-size: 0.74rem;
-  color: #b5d5f5;
+  color: #081d38;
   margin-top: 14px;
   letter-spacing: 0.5px;
   font-style: italic;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 
 /* MAIN LAYOUT */
@@ -1705,7 +1706,7 @@ body.modal-open #snow-container { display: none !important; }
     letter-spacing: 2px; /* Tạo khoảng cách chữ */
 }
 
-  /* Tách chữ Winter Serenade làm 2 dòng giống mẫu */
+  /* Tách chữ Winter Serenade làm 2 dòng */
 .x-name {
     display: flex !important;
     flex-direction: column;
