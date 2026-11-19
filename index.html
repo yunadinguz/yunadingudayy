@@ -237,23 +237,24 @@
   100% { opacity: 0; transform: translate3d(-125vw, 92vh, 0) rotate(150deg) scaleX(0.2); }
 }
 
-/* NỘI DUNG INTRO: KHUNG GLASS BO TRÒN TRONG SUỐT VỪA PHẢI, NỔI BẬT CHỮ */
+   /* NỘI DUNG INTRO: KHUNG GLASS TRẮNG TRONG SUỐT, BO TRÒN TINH TẾ */
 .intro-box {
   position: relative;
   z-index: 10;
   text-align: center;
   width: min(440px, 90vw);
   padding: 26px 20px;
-  background: rgba(8, 24, 52, 0.52);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 26px;
-  box-shadow: 0 16px 40px rgba(0, 10, 30, 0.35), inset 0 0 20px rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.16); /* Kính màu trắng trong trẻo, nhìn xuyên qua thấy rõ cảnh nền */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.38); /* Viền kính ánh sáng trắng sắc nét */
+  border-radius: 26px; /* Bo tròn góc */
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.45);
   opacity: 0;
   transform: translateY(20px) scale(0.96);
   animation: revealContent 1s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
 }
+
 @keyframes revealContent {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
