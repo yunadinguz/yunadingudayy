@@ -10,7 +10,7 @@
 <link rel="shortcut icon" type="image/jpeg" href="images/avatar.jpg">
 <link rel="apple-touch-icon" href="images/avatar.jpg">
 <!-- TẢI TRƯỚC ẢNH NỀN INTRO ĐỂ CHỐNG LỘ THÔNG TIN BÊN TRONG -->
-<link rel="preload" as="image" href="images/anhnen.png">
+<link rel="preload" as="image" href="images/anhnen.jpg">
 <title>Bản tình ca ngày đông - Winter Serenade</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,7 @@
   align-items: center;
   justify-content: center;
   /* Ảnh nền thay thế */
-  background: url('images/anhnen.png') no-repeat center center / cover !important;
+  background: url('images/anhnen.jpg') no-repeat center center / cover !important;
   overflow: hidden !important;
   touch-action: none;
   overscroll-behavior: none;
@@ -237,18 +237,19 @@
   100% { opacity: 0; transform: translate3d(-125vw, 92vh, 0) rotate(150deg) scaleX(0.2); }
 }
 
-/* NỘI DUNG INTRO (BỎ KHUNG GLASS, CHỮ HIỆN RA KHI SAO BĂNG QUÉT QUA) */
+/* NỘI DUNG INTRO: KHUNG GLASS BO TRÒN TRONG SUỐT VỪA PHẢI, NỔI BẬT CHỮ */
 .intro-box {
   position: relative;
   z-index: 10;
   text-align: center;
-  width: min(450px, 90vw);
-  padding: 20px 15px;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: none;
-  box-shadow: none;
+  width: min(440px, 90vw);
+  padding: 26px 20px;
+  background: rgba(8, 24, 52, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 26px;
+  box-shadow: 0 16px 40px rgba(0, 10, 30, 0.35), inset 0 0 20px rgba(255, 255, 255, 0.06);
   opacity: 0;
   transform: translateY(20px) scale(0.96);
   animation: revealContent 1s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
@@ -286,24 +287,24 @@
   line-height: 1.08;
 }
 
-/* CHỮ WINTER: Nhỏ hơn Serenade một chút, gradient nhẹ nhàng từ trắng sang xanh băng phấn */
+/* CHỮ WINTER */
 .intro-winter {
   font-size: clamp(2.3rem, 8vw, 3.2rem);
   letter-spacing: 5px;
-  background: linear-gradient(180deg, #ffffff 25%, #e6f1fe 65%, #a8cbfa 100%);
+  background: linear-gradient(180deg, #e3f2fd 0%, #79acd9 45%, #195ea3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 16px rgba(147, 197, 253, 0.7));
+  filter: drop-shadow(0 2px 10px rgba(3, 62, 140, 0.5));
 }
 
-/* CHỮ SERENADE: To và nổi bật hơn hẳn, gradient sâu hơn (từ trắng xuống xanh lam đậm) */
+/* CHỮ SERENADE */
 .intro-serenade {
   font-size: clamp(2.7rem, 9.6vw, 3.9rem);
   letter-spacing: 3px;
-  background: linear-gradient(180deg, #ffffff 0%, #d8ebff 30%, #8ec3ff 65%, #3b82f6 100%);
+  background: linear-gradient(180deg, #cde7ff 0%, #2f7bcc 40%, #033e8c 85%, #011b47 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 24px rgba(96, 165, 250, 0.85));
+  filter: drop-shadow(0 2px 14px rgba(3, 62, 140, 0.65));
 }
 
 .intro-divider {
@@ -1807,7 +1808,7 @@ body.modal-open #snow-container { display: none !important; }
   <div class="static-dust-speck small" style="top: 89%; right: 25%;"></div>
   <div class="static-dust-speck large" style="top: 92%; right: 38%;"></div>
 
-<!-- KHUNG VIỀN TỐI GIẢN CHUẨN 100% THEO ẢNH MẪU -->
+<!-- KHUNG VIỀN TỐI GIẢN (CHỈ GIỮ LẠI ĐƯỜNG THẲNG TRÊN & DƯỚI) -->
   <div class="intro-minimal-frame">
     <!-- Cạnh trên: đường thẳng + cụm 3 kim cương lồng nhau -->
     <div class="frame-bar frame-top">
@@ -1832,76 +1833,6 @@ body.modal-open #snow-container { display: none !important; }
       </svg>
       <span class="frame-line"></span>
     </div>
-
-    <!-- Dải kim cương bên trái: Thu nhỏ ở 2 đầu, to ở giữa (17 hạt chuẩn mẫu) -->
-    <div class="frame-side-diamonds left">
-      <span class="side-diamond d-t1"></span>
-      <span class="side-diamond d-t2"></span>
-      <span class="side-diamond d-t3"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-t3"></span>
-      <span class="side-diamond d-t2"></span>
-      <span class="side-diamond d-t1"></span>
-    </div>
-
-    <!-- Dải kim cương bên phải: Thu nhỏ ở 2 đầu, to ở giữa (17 hạt chuẩn mẫu) -->
-    <div class="frame-side-diamonds right">
-      <span class="side-diamond d-t1"></span>
-      <span class="side-diamond d-t2"></span>
-      <span class="side-diamond d-t3"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-mid"></span>
-      <span class="side-diamond d-t3"></span>
-      <span class="side-diamond d-t2"></span>
-      <span class="side-diamond d-t1"></span>
-    </div>
-
-    <!-- Góc trên - trái: Ngôi sao xoay nghiêng nghệ thuật + 2 sao vệ tinh -->
-    <svg class="frame-star-corner top-left" viewBox="0 0 70 70" fill="none">
-      <!-- Sao lớn xoay nghiêng góc -->
-      <path d="M 34 10 Q 34 34 10 34 Q 34 34 34 58 Q 34 34 58 34 Q 34 34 34 10 Z" fill="#ffffff" transform="rotate(-12 34 34)"/>
-      <!-- Sao vệ tinh phía trên -->
-      <path d="M 54 8 Q 54 15 47 15 Q 54 15 54 22 Q 54 15 61 15 Q 54 15 54 8 Z" fill="#ffffff" opacity="0.9"/>
-      <!-- Sao vệ tinh phía dưới -->
-      <path d="M 22 48 Q 22 54 16 54 Q 22 54 22 60 Q 22 54 28 54 Q 22 54 22 48 Z" fill="#ffffff" opacity="0.85"/>
-    </svg>
-
-    <!-- Góc trên - phải: Ngôi sao mũi kim nhọn hoắt kéo đuôi dài xuống dưới -->
-    <svg class="frame-star-corner top-right" viewBox="0 0 30 110" fill="none">
-      <path d="M 15 4 Q 16 20 25 22 Q 16 24 15 106 Q 14 24 5 22 Q 14 20 15 4 Z" fill="#ffffff"/>
-    </svg>
-
-    <!-- Góc dưới - trái: Ngôi sao mũi kim nhọn hoắt kéo đuôi dài ngược lên trên -->
-    <svg class="frame-star-corner bottom-left" viewBox="0 0 30 110" fill="none">
-      <path d="M 15 4 Q 16 86 25 88 Q 16 90 15 106 Q 14 90 5 88 Q 14 86 15 4 Z" fill="#ffffff"/>
-    </svg>
-
-    <!-- Góc dưới - phải: Ngôi sao xoay nghiêng nghệ thuật + 2 sao vệ tinh -->
-    <svg class="frame-star-corner bottom-right" viewBox="0 0 70 70" fill="none">
-      <!-- Sao lớn xoay nghiêng góc -->
-      <path d="M 36 12 Q 36 36 12 36 Q 36 36 36 60 Q 36 36 60 36 Q 36 36 36 12 Z" fill="#ffffff" transform="rotate(-15 36 36)"/>
-      <!-- Sao vệ tinh phía trên bên phải -->
-      <path d="M 52 8 Q 52 15 45 15 Q 52 15 52 22 Q 52 15 59 15 Q 52 15 52 8 Z" fill="#ffffff" opacity="0.9"/>
-      <!-- Sao vệ tinh nhỏ phía dưới bên trái -->
-      <path d="M 18 50 Q 18 55 13 55 Q 18 55 18 60 Q 18 55 23 55 Q 18 55 18 50 Z" fill="#ffffff" opacity="0.85"/>
-    </svg>
   </div>
 
   <!-- DÂY TREO CÁC NGÔI SAO SÁNG Ở TRÊN ĐỈNH -->
@@ -1936,20 +1867,19 @@ body.modal-open #snow-container { display: none !important; }
     <button class="begin-btn" onclick="enterDream()">
       <svg class="btn-billet-svg" viewBox="0 0 270 48" preserveAspectRatio="none">
         <defs>
-          <!-- Gradient nền nút: Phía bên phải pha nhẹ ánh tím hồng (như hào quang ngôi sao) -->
+          <!-- Gradient nền nút: Tông xanh biển sáng hơn, hoàn toàn loại bỏ sắc tím hồng -->
           <linearGradient id="billetBgGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#050e24"/>
-            <stop offset="38%" stop-color="#0a1d4a"/>
-            <stop offset="70%" stop-color="#15368a"/>
-            <stop offset="86%" stop-color="#244ab8"/>
-            <stop offset="100%" stop-color="#49387a"/> <!-- Ánh tím hồng nhẹ nhàng ở cuối -->
+            <stop offset="0%" stop-color="#0e2a56"/>
+            <stop offset="45%" stop-color="#19488a"/>
+            <stop offset="80%" stop-color="#2a66b5"/>
+            <stop offset="100%" stop-color="#3d7fd1"/>
           </linearGradient>
-          <!-- Gradient viền nút: Pha ánh trắng, xanh ngọc và viền tím hồng phấn nhạt -->
+          <!-- Gradient viền nút -->
           <linearGradient id="billetBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#90caf9" stop-opacity="0.95"/>
-            <stop offset="35%" stop-color="#ffffff" stop-opacity="0.95"/>
-            <stop offset="70%" stop-color="#b9c6fa" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#e5bdf2" stop-opacity="0.85"/> <!-- Viền tím hồng nhẹ -->
+            <stop offset="0%" stop-color="#a4d1f7" stop-opacity="0.95"/>
+            <stop offset="40%" stop-color="#ffffff" stop-opacity="0.95"/>
+            <stop offset="80%" stop-color="#7eb6e8" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#b6dcfb" stop-opacity="0.85"/>
           </linearGradient>
         </defs>
         <path d="M 13 1 L 257 1 A 11 11 0 0 0 269 13 L 269 35 A 11 11 0 0 0 257 47 L 13 47 A 11 11 0 0 0 1 35 L 1 13 A 11 11 0 0 0 13 1 Z"
