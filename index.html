@@ -20,6 +20,27 @@
 :root{--navy:#060E26;--blue:#033E8C;--mid:#023E73;--light:#79ACD9;--pale:#B3D5F2;--ice:#EAF5FF;--text:#68778C;--line:#E1EDF7;--white:#fff;--shadow:0 8px 28px rgba(3,62,140,.10);--serif:"Lora", serif;--sans:"Mulish", sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef7ff;color:var(--navy);font-family:var(--sans);overflow-x:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
 
+/* ĐỒNG BỘ TẤT CẢ THANH CUỘN SANG MÀU XANH */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue) rgba(121, 172, 217, 0.2);
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(121, 172, 217, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #022e6b;
+}
+
 /* ========================================================
    1. DREAM INTRO MỚI: BẦU TRỜI ĐÊM HUYỀN ẢO & ZERO-LAG (FIX VỪA VẶN MÀN HÌNH)
    ======================================================== */
@@ -295,7 +316,31 @@
   pointer-events: none;
 }
 @keyframes meltBox {
-  to { opacity: 0; transform: scale(1.08) translateY(-20px); filter: blur(10px); }
+  to { opacity: 0; transform: scale(0.96) translateY(25px); filter: blur(8px); }
+}
+
+/* Hiệu ứng mảnh tuyết vỡ vụn và rơi ào xuống */
+.shatter-flake {
+  position: absolute;
+  color: #ffffff;
+  pointer-events: none;
+  z-index: 9999999;
+  text-shadow: 0 0 6px #79acd9, 0 0 12px #ffffff;
+  will-change: transform, opacity;
+  animation: shatterFall cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes shatterFall {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  20% {
+    transform: translate3d(var(--sx), calc(var(--sy) * 0.3), 0) rotate(var(--rot-mid)) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--sx) * 1.5), 110vh, 0) rotate(var(--rot-end)) scale(0.4);
+  }
 }
 
 .intro-moon {
@@ -607,15 +652,15 @@
   margin-left: 5px;
 }
 
-/* MENU THẢ TẤT CẢ TAG CỦA NHÂN VẬT (NỔI TUYỆT ĐỐI ĐÈ LÊN TRÊN, KHÔNG ĐẨY Ô XUNG QUANH) */
+/* MENU THẢ TẤT CẢ TAG CỦA NHÂN VẬT (TỰ DÀN ĐỀU VÀ LẤP ĐẦY DÒNG) */
 .tag-dropdown-content {
   position: absolute !important;
   top: calc(100% + 8px) !important;
   right: 0 !important;
   left: auto !important;
   transform: none !important;
-  width: min(320px, 85vw) !important;
-  max-height: 260px;
+  width: min(340px, 88vw) !important;
+  max-height: 270px;
   overflow-y: auto;
   padding: 12px;
   display: none;
@@ -629,6 +674,15 @@
 }
 .tag-dropdown-content.show {
   display: flex !important;
+}
+/* Các hashtag tự giãn nở vừa khít từng dòng, không để lại khoảng trống thừa */
+.tag-dropdown-content .tag {
+  flex: 1 0 auto;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
 }
 
 /* CHAR CARDS */
@@ -645,8 +699,34 @@
 .like-btn{border:0;background:transparent;font-size:17px;line-height:1;color:#78889b;padding:0;cursor:pointer;pointer-events:none;}
 .like-btn.liked{color:#2563eb;}
 .like-count{font-size:.82rem;font-weight:700;color:#1e3a8a;pointer-events:none}
-.char-copy-link { position:absolute; top:46px; right:12px; display:flex; align-items:center; justify-content:center; width:34px; height:34px; background:rgba(255,255,255,.92); border-radius:50%; border:1px solid rgba(255,255,255,.9); box-shadow:0 4px 12px rgba(0,0,0,.08); z-index:5; cursor:pointer; transition:transform .2s, background .2s; font-size: 14px; color: #2563eb; }
-.char-copy-link:hover { transform:scale(1.05); background:rgba(255,255,255,.9); }
+.char-copy-link {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, .92);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+  z-index: 5;
+  cursor: pointer;
+  user-select: none;
+  transition: transform .2s, background .2s;
+  color: #1e3a8a;
+  font-size: .82rem;
+  font-weight: 700;
+}
+.char-copy-link:hover {
+  transform: scale(1.05);
+  background: #ffffff;
+}
+.char-copy-link svg {
+  color: #2563eb;
+  flex-shrink: 0;
+}
 
 .char-info{display:flex;flex-direction:column;gap:8px}
 .char-name{font:700 1.4rem var(--serif);line-height:1.35;margin:2px 0 0;color:var(--navy);cursor:pointer;word-break:break-word}
@@ -1585,9 +1665,10 @@ body.modal-open #snow-container { display: none !important; }
 }
 /* Dòng chữ gợi ý */
 .destiny-hint-text {
-  font-size: 0.8rem;
-  color: #e0f2fe;
-  text-shadow: 0 0 6px #38bdf8, 0 0 12px rgba(56, 189, 248, 0.7);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #023E73;
+  text-shadow: 0 1px 2px #ffffff, 0 0 8px rgba(3, 62, 140, 0.35);
   margin-top: 10px;
   margin-bottom: 2px;
   text-align: center;
@@ -3117,23 +3198,27 @@ function enterDream(){
   if (intro) {
     if (introBox) introBox.classList.add("melt-away");
 
-    // 3. Bắn các bông tuyết trắng phát sáng tỏa ra xung quanh
-    for(let i = 0; i < 40; i++) {
+    // 3. Tuyết vỡ vụn và rơi ào xuống mượt mà
+    for(let i = 0; i < 35; i++) {
       let sf = document.createElement("div");
-      sf.innerHTML = ["❄","❅","✧"][Math.floor(Math.random()*3)];
-      sf.className = "burst-snow";
+      sf.innerHTML = ["❄", "❅", "❆", "•"][Math.floor(Math.random() * 4)];
+      sf.className = "shatter-flake";
       
-      let angle = Math.random() * Math.PI * 2;
-      let distance = 80 + Math.random() * 280;
-      let tx = Math.cos(angle) * distance;
-      let ty = Math.sin(angle) * distance;
+      // Tán đều từ khu vực khung trung tâm
+      sf.style.left = (25 + Math.random() * 50) + "vw";
+      sf.style.top = (25 + Math.random() * 45) + "vh";
+      sf.style.fontSize = (10 + Math.random() * 16) + "px";
       
-      sf.style.left = "50%";
-      sf.style.top = "50%";
-      sf.style.fontSize = (12 + Math.random() * 16) + "px";
-      sf.style.setProperty('--tx', `${tx}px`);
-      sf.style.setProperty('--ty', `${ty}px`);
-      sf.style.animationDuration = (0.7 + Math.random() * 0.4) + "s";
+      const sx = (Math.random() * 160 - 80) + "px";
+      const sy = (-30 - Math.random() * 50) + "px";
+      const rotMid = (Math.random() * 180 - 90) + "deg";
+      const rotEnd = (Math.random() * 720 - 360) + "deg";
+      
+      sf.style.setProperty('--sx', sx);
+      sf.style.setProperty('--sy', sy);
+      sf.style.setProperty('--rot-mid', rotMid);
+      sf.style.setProperty('--rot-end', rotEnd);
+      sf.style.animationDuration = (0.85 + Math.random() * 0.5) + "s";
       
       intro.appendChild(sf);
     }
@@ -3359,7 +3444,8 @@ return `<article class="char-card" data-id="${c.id}">
     <span class="like-count" id="like-${c.id}">${charLikesMap[c.id]||0}</span>
   </div>
 <div class="char-copy-link" onclick="copyCharLink(event, '${c.id}')" title="Sao chép liên kết">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+  <span>Share</span>
 </div>
 </div>
 <div class="char-info">
