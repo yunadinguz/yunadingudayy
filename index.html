@@ -4308,10 +4308,10 @@ async function verifyR21() {
 
   if (!inputVal) return;
 
-  btn.textContent = "Đang kiểm tra...";
+  btn.textContent = "Lắng nghe thần chú...";
   btn.disabled = true;
 
-  // Thử dùng mật khẩu người dùng nhập để giải mã link bí mật
+  // mật khẩu lấy link
   const secretUrl = await decryptLink(c.encGg, inputVal);
 
   btn.textContent = "Phá băng";
@@ -4319,12 +4319,20 @@ async function verifyR21() {
 
   if (secretUrl) {
     closeModal("r21Modal");
-    window.open(secretUrl, "_blank"); // Giải mã thành công -> Mở link
+    
+    // 1. mở sang tab mới (Android/Máy tính)
+    const newTab = window.open(secretUrl, "_blank");
+
+    // 2. SAFARI / IPHONE (khi bị tính năng chặn Pop-up chặn tab mới):
+    // Hệ thống sẽ lập tức chuyển hướng thẳng tới link trên tab hiện tại mà không bị chặn
+    if (!newTab || newTab.closed || typeof newTab.closed === "undefined") {
+      window.location.href = secretUrl;
+    }
   } else {
     err.style.display = "block";
     box.classList.remove("shake");
     void box.offsetWidth;
-    box.classList.add("shake"); // Giải mã thất bại -> Báo lỗi
+    box.classList.add("shake");
   }
 }
 
