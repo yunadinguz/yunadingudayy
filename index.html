@@ -1842,6 +1842,16 @@ body.modal-open #snow-container { display: none !important; }
   transition:transform .15s;
 }
 .glass-close:active{ transform:scale(.88); }
+
+  /* ===== GIẢM LAG ===== */
+.search-box, .filter-btn-glass { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.glass-action-bar { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.destiny-banner, .sort-btn-pill, .tea-btn-pill { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.custom-modal  { backdrop-filter: blur(3px); background: rgba(5,18,35,.52); }
+.app-view      { backdrop-filter: blur(3px); background: rgba(7,22,43,.55); }
+.spotify-modal { backdrop-filter: blur(4px); background: rgba(5,18,35,.6); }
+.snowflake { filter: none; opacity: .9; will-change: transform; }
+.char-card { content-visibility: auto; contain-intrinsic-size: auto 540px; }
 </style>
 </head>
 <body>
@@ -3567,7 +3577,7 @@ const nickField=!currentUser?`<input id="nick-mini-${c.id}" class="nickname-inpu
 
 return `<article class="char-card" data-id="${c.id}">
 <div class="char-media-wrap">
-  <img class="char-img" src="${c.img}" alt="${escapeHtml(c.name)}" onclick="${clickAction}">
+  <img class="char-img" loading="lazy" decoding="async" src="${c.img}" alt="${escapeHtml(c.name)}" onclick="${clickAction}">
   <div class="char-like" onclick="likeChar('${c.id}', this)">
     <button class="like-btn ${isLiked?'liked':''}">${isLiked?'♥':'♡'}</button>
     <span class="like-count" id="like-${c.id}">${charLikesMap[c.id]||0}</span>
